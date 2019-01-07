@@ -177,6 +177,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * 多模块开发插件 nwidart/laravel-modules
+         */
+        Nwidart\Modules\LaravelModulesServiceProvider::class,
+
     ],
 
     /*
@@ -225,7 +230,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        /*
+         * 多模块开发插件 nwidart/laravel-modules
+         */
+        'Module' => Nwidart\Modules\Facades\Module::class,
     ],
 
 ];
