@@ -11,10 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::prefix('ec')->group(function() {
+    Route::get('/', 'EcController@index');
 });
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+//无路由前缀也支持
+Route::get('/test', function () {
+    return view('ec::index');
+});
