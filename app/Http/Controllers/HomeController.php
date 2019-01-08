@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MailRecored;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        dd(MailRecored::where('id',3)->first());
+        dd(User::find(2)->emailRecored);
     }
 }

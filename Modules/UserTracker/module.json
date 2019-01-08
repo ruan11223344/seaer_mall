@@ -1,0 +1,14 @@
+{
+    "name": "UserTracker",
+    "alias": "usertracker",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\UserTracker\\Providers\\UserTrackerServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'zh-CN',
 
     /*
     |--------------------------------------------------------------------------
@@ -125,6 +125,7 @@ return [
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
+    'log_max_files' => env('APP_LOG_MAX_FILES', 30),
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -182,6 +183,26 @@ return [
          */
         Nwidart\Modules\LaravelModulesServiceProvider::class,
 
+        /*
+        * 用户追踪插件
+        */
+        PragmaRX\Tracker\Vendor\Laravel\ServiceProvider::class,
+
+        /*
+        * debug工具
+        */
+        Barryvdh\Debugbar\ServiceProvider::class,
+
+        /*
+        * oss云储存扩展
+        */
+        Iidestiny\LaravelFilesystemOss\OssStorageServiceProvider::class,
+
+        /*
+        * 验证码包
+        */
+        Mews\Captcha\CaptchaServiceProvider::class,
+
     ],
 
     /*
@@ -234,6 +255,19 @@ return [
          * 多模块开发插件 nwidart/laravel-modules
          */
         'Module' => Nwidart\Modules\Facades\Module::class,
+
+        /*
+         * 用户追踪插件
+         */
+        'Tracker' => PragmaRX\Tracker\Vendor\Laravel\Facade::class,
+        /*
+         * debug工具
+         */
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        /*
+         * 验证码包
+         */
+        'Captcha' => Mews\Captcha\Facades\Captcha::class,
     ],
 
 ];

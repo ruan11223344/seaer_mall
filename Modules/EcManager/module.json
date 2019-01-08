@@ -1,0 +1,14 @@
+{
+    "name": "EcManager",
+    "alias": "ecmanager",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\EcManager\\Providers\\EcManagerServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
