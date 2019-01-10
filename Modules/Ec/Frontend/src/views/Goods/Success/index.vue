@@ -48,21 +48,21 @@
         height: 749px;
 
         &-title {
+            .color(blackLight);
             font-size: 28px;
             line-height: 1;
-            color: #666666;
             margin-top: 32px;
             margin-bottom: 17px;
         }
 
         &-content {
             .flex(flex-start, center, column);
+            .color(gray);
             font-size: 19px;
             font-weight: normal;
             font-stretch: normal;
             line-height: 1;
             letter-spacing: 0px;
-            color: #999999;
 
             & > span:first-child {
                 margin-bottom: 10px;

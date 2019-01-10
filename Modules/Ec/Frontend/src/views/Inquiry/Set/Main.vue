@@ -39,10 +39,10 @@
             margin-top: 110px;
 
             & > h1 {
+                .color(blackDark);
                 font-size: 20px;
                 line-height: 1;
                 letter-spacing: 0px;
-                color: #333333;
                 margin-bottom: 35px;
             }
 
@@ -52,10 +52,10 @@
                 }
 
                 & > span {
+                    .color(blackLight);
                     font-size: 16px;
                     line-height: 1;
                     letter-spacing: 0px;
-                    color: #666666;
                 }
             }
         }

@@ -110,6 +110,19 @@ const newRouter = new Router({
           component: () => import("./views/Inquiry/Set/index.vue")        
         } 
       ]
+    },
+    {
+      // 公司首页
+      path: "/company",
+      name: "company ",
+      component: () => import("./views/Company/index.vue"),
+      children: [
+        {
+          // 首页
+          path: "home",
+          component: () => import("./views/Company/Home/index.vue")
+        }
+      ]
     }
   ]
 })
