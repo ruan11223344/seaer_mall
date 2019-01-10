@@ -9,7 +9,7 @@
         <div class="inquire-aside-list">Flay Inquiry</div>
         <div class="inquire-aside-list">Deleted Inquiry</div>
         <div class="inquire-aside-list">Span Reported Inquiry</div>
-        <div class="inquire-aside-list">Inquiry Rules</div>
+        <router-link class="inquire-aside-list" to="/inquiryList/set" tag="div">Inquiry Rules</router-link>
     </aside>
 </template>
 

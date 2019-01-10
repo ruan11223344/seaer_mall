@@ -104,7 +104,11 @@ const newRouter = new Router({
           path: "inbox",
           component: () => import("./views/Inquiry/Inbox/index.vue")
         },
-          // 设置 
+          // 设置
+        {
+          path: 'set',
+          component: () => import("./views/Inquiry/Set/index.vue")        
+        } 
       ]
     }
   ]
