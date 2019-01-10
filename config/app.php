@@ -203,6 +203,11 @@ return [
         */
         Mews\Captcha\CaptchaServiceProvider::class,
 
+        /*
+        * 国家地区查询包
+        */
+        Khsing\World\WorldServiceProvider::class,
+
     ],
 
     /*

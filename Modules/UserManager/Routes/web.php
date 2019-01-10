@@ -11,9 +11,9 @@
 |
 */
 
-Route::prefix('usermanager')->group(function() {
+/*Route::prefix('usermanager')->group(function() {
     Route::get('/', 'UserManagerController@index');
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('auth.login');
     Route::post('login', 'Auth\LoginController@login')->name('auth.login');
     Route::post('logout', 'Auth\LoginController@logout')->name('auth.logout');
-});
+});*/

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Utils;
 
 use App\Models\MailRecored;
 use Illuminate\Support\Facades\Auth;
@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Exception;
 
-class MailController extends Controller
+class EMail
 {
     const REGISTER = 'register';
     const PASSWORD_RESET = 'password_reset';

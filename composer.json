@@ -12,6 +12,7 @@
         "geoip2/geoip2": "~2.0",
         "guzzlehttp/guzzle": "^6.3",
         "iidestiny/laravel-filesystem-oss": "^1.0",
+        "khsing/world": "^0.7.0",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "mews/captcha": "^2.2",

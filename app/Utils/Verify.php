@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+
+namespace App\Utils;
 
 use App\Models\Captcha;
 use Illuminate\Http\Request;
 
-class verifyController extends Controller
+class verify
 {
     const VERIFY_SUCCESS = 0;
     const VERIFYING = 1;
     const VERIFY_TIMEOUT = 2;
 
-    public function verify(Request $request,$type,$verify_from,$captcha){
+    public function verify($type,$verify_from,$captcha){
         $captcha = Captcha::where('verify_from',$verify_from)->first();
         $response_type = null;
         $response_message = null;

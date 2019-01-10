@@ -9,7 +9,7 @@ class Captcha extends Model
     protected $table = 'captcha';
 
     protected $fillable = [
-        'id','user_id','type','captcha','status','timeout_second','verifiy_from'
+        'id','user_id','type','captcha','status','timeout_second','verify_from'
     ];
 
     public function user()

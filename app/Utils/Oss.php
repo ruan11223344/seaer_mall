@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Utils;
 use Illuminate\Support\Facades\Storage;
 
-class OssController extends Controller
+class Oss
 {
-
     private static $_oss;
 
     protected function __construct(){
@@ -16,7 +15,7 @@ class OssController extends Controller
 
     public static function getInstance(){
         if (empty(self::$_oss)) {
-            self::$_oss = new OssController();
+            self::$_oss = new Oss();
         }
         return self::$_oss;
     }

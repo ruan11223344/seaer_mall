@@ -35,5 +35,10 @@ class User extends Authenticatable
     public function captcha(){
         return $this->hasMany('App\Models\Captcha','user_id','id');
     }
+
+    public function usersExtends(){
+        return $this->hasOne('App\Models\UsersExtends','user_id','id');
+    }
+
 }
 

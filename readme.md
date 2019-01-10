@@ -18,6 +18,8 @@
 
 5.验证码包: https://packagist.org/packages/mews/captcha
 
+6.世界城市列表包: https://github.com/khsing/laravel-world
+
 ##前端脚手架:
 
 
@@ -32,6 +34,7 @@
 5.执行迁移 修改完迁移文件中的up 与 down方法后方可执行 php artisan migrate --env=local
 6.第三方包发布配置:php artisan vendor:publish
 7.回滚迁移 php artisan migrate:rollback  --env=local
+
 
 
 ##模块中命令:

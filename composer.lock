@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "04360c4b7bee46891f292f05cb7d0a5c",
+    "content-hash": "cea3a053402aa527a72a76d189f5b773",
     "packages": [
         {
             "name": "aliyuncs/oss-sdk-php",
@@ -1533,6 +1533,59 @@
                 "useragent"
             ],
             "time": "2019-01-04T13:02:53+00:00"
+        },
+        {
+            "name": "khsing/world",
+            "version": "v0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/khsing/laravel-world.git",
+                "reference": "785e88def931aa697b77f5226f6db15b08bdebf1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/khsing/laravel-world/zipball/785e88def931aa697b77f5226f6db15b08bdebf1",
+                "reference": "785e88def931aa697b77f5226f6db15b08bdebf1",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "laravel/framework": ">=5.3.0",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Khsing\\World\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guixing Bai",
+                    "email": "khsing.cn@gmail.com"
+                }
+            ],
+            "description": "Provide countries, states, and cities relations database.",
+            "keywords": [
+                "city",
+                "country",
+                "region",
+                "world"
+            ],
+            "time": "2018-10-31T08:44:08+00:00"
         },
         {
             "name": "laravel/framework",
