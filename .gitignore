@@ -1,7 +1,7 @@
 /node_modules
 /public/hot
 /public/storage
-/Modules/Ec/Frontend/public/*
+/Modules/Ec/public/*
 /Modules/Ec/Resources/views/index.blade.php
 /storage/*.key
 /vendor
