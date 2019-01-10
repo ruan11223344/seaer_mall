@@ -36,7 +36,6 @@
 7.回滚迁移 php artisan migrate:rollback  --env=local
 
 
-
 ##模块中命令:
 1.模块中创建模型 php artisan module:make-model Name ModuleName
 2.模块中创建控制器 hpp artisan module:make-controller Name ModuleName

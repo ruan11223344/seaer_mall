@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -65,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'PRC',
 
     /*
     |--------------------------------------------------------------------------
@@ -207,6 +206,14 @@ return [
         * 国家地区查询包
         */
         Khsing\World\WorldServiceProvider::class,
+        /*
+        * 图片处理
+        */
+        Intervention\Image\ImageServiceProvider::class,
+        /*
+        * 权限管理
+        */
+        Zizaco\Entrust\EntrustServiceProvider::class,
 
     ],
 
@@ -273,6 +280,18 @@ return [
          * 验证码包
          */
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
+        /*
+         * 图片处理
+         */
+        'Image' => Intervention\Image\Facades\Image::class,
+        /*
+         * uuid生成
+         */
+        'UUID' => Webpatser\Uuid\Uuid::class,
+        /*
+         * 权限管理
+         */
+        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
     ],
 
 ];
