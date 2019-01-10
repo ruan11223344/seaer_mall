@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+const MODULE_DOMAIN = 'www.seaer.com';
 
 Route::get('/{any}', 'HomeController@index')->where('any', '.*');
 //Route::get('/', 'HomeController@index')->name('home');
