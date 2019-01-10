@@ -21,7 +21,7 @@
 6.世界城市列表包: https://github.com/khsing/laravel-world
 
 ##前端脚手架:
-
+参考:https://github.com/yyx990803/laravel-vue-cli-3
 
 ##注意事项:
 1.使用artisan如果出错 命令时需要在末尾指定对应env 例如：命令行 --env=local
