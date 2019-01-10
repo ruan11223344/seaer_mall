@@ -80,6 +80,11 @@ const newRouter = new Router({
         {
           path: 'consulting',
           component: () => import('./views/Goods/Consulting/index.vue')
+        },
+        // 询盘成功
+        {
+          path: 'success',
+          component: () => import('./views/Goods/Success/index.vue')
         }
       ]
     },
@@ -98,7 +103,8 @@ const newRouter = new Router({
           // 收件箱
           path: "inbox",
           component: () => import("./views/Inquiry/Inbox/index.vue")
-        }
+        },
+          // 设置 
       ]
     }
   ]
