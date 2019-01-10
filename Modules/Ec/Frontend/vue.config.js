@@ -3,7 +3,7 @@ module.exports = {
   devServer: {
     proxy: 'http://laracon.test'
   },
-  baseUrl: '/',
+  baseUrl: process.env.NODE_ENV === 'production' ? '/ec' : '/',
   // output built static files to Laravel's public dir.
   // note the "build" script in package.json needs to be modified as well.
   outputDir: '../public',
