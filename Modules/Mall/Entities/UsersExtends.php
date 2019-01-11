@@ -6,11 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class UsersExtends extends Model
 {
-    protected $table = 'user_extends';
+    protected $table = 'users_extends';
+
+    const ACCOUNT_TYPE_COMPANY_CHINA = 0; //中国卖家
+    const ACCOUNT_TYPE_COMPANY_KENYA = 1; //肯尼亚卖家
+    const ACCOUNT_TYPE_BUYER_KENYA = 2;  //肯尼亚买家
 
     protected $fillable = [
         'user_id',
-        'member_id',
         'af_id',
         'company_id',
         'account_type',
@@ -22,6 +25,10 @@ class UsersExtends extends Model
         'sex',
         'contact_full_name',
         'chinese_name',
+        'id_card_name',
+        'id_card_num',
+        'id_card_positive_pic_url',
+        'id_card_negative_pic_url',
     ];
 
     public function user()

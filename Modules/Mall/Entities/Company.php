@@ -9,6 +9,7 @@ class Company extends Model
     protected $table = 'company';
 
     protected $fillable = [
+        'user_id',
         'company_name', //公司名称
         'company_country_id', //公司国家id
         'company_region_id', //公司地区id
@@ -30,9 +31,10 @@ class Company extends Model
         'company_sales_platform', //销售平台
         'company_main_products',  //主营产品
         'company_logo_url', //公司logo url
-        'company_id_card_name', //身份证姓名
-        'company_id_card', //身份证号
-        'company_id_positive_pic_url', //身份证图片url
-        'company_id_negative_pic_url', //身份证图片url
     ];
+
+    public function user()
+    {
+        return $this->belongsTo('Modules\Mall\Entities\User','user_id','id');
+    }
 }

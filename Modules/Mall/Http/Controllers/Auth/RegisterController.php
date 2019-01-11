@@ -51,9 +51,30 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|between:6,20|alpha_dash|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' =>  [
+                'required',
+                'confirmed',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,20}$/',
+                'between:6,20'
+            ],
+            'account_type' =>'in:0,1,2,3|required',
+            'company_name' => 'required_if:account_type,0|required_if:account_type,1|string|between:2,30|alpha_dash',
+            'company_name_in_china'=>[
+                'required_if:account_type,0',
+                'regex:/[\u4e00-\u9fa5]{2,25}/',
+            ],
+            'company_detailed_address'=>'required|string|between:5,30',
+            'business_type'=>'exists:business_type,name',
+            'business_range'=>'exists:business_range,name',
+            'business_license'=>'alpha_num|between:5,1024',
+            'china_business_license'=>[
+                'required_if:account_type,0',
+                'regex:/(^(?:(?![IOZSV])[\dA-Z]){2}\d{6}(?:(?![IOZSV])[\dA-Z]){10}$)|(^\d{15}$)/',
+            ],
+            'kenya_business_license'=>'alpha_num|between:9,12',
+            'business_license_img'=>'image|between:5,1024',
         ]);
     }
 
@@ -61,7 +82,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\Models\User
+     *
      */
     protected function create(array $data)
     {
@@ -69,6 +90,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'account_type' => $data['account_type']
         ]);
     }
 
@@ -76,8 +98,7 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         if(Auth::check()){
-            $auth = new AuthorizationsController();
-            return $auth->getUserInfo();
+            return $this->echoJson('您已经登录无法进行注册!',400);
         }
 
         $this->validator($request->all())->validate();
