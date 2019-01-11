@@ -1,0 +1,14 @@
+{
+    "name": "Ec",
+    "alias": "ec",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Mall\\Providers\\MallServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

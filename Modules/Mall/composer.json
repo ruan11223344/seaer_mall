@@ -1,0 +1,28 @@
+{
+    "name": "nwidart/ec",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Mall\\Providers\\MallServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Ec\\": ""
+        }
+    },
+    "require": {
+        "zizaco/entrust": "^1.9"
+    }
+}
