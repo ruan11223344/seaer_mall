@@ -27,9 +27,7 @@
 
 
     .company-head {
-        width: 100%;
-        min-width: 1220px;
-        height: 150px;
+        .layout(150px);
         background-color: #fcfcfc;
         border: solid 1px #dddddd;
 
