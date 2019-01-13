@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "axios-response-logger": "^0.1.0",
     "iview": "^3.2.1",
     "nprogress": "^0.2.0",
     "vue": "^2.5.21",
