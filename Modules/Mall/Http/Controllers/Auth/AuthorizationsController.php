@@ -30,6 +30,6 @@ class AuthorizationsController extends Controller
     public function getUserInfo()
     {
         $user = Auth::user();
-        return $this->echoSuccessJson('成功！',$user->toArray());
+        return $this->echoSuccessJson('获取用户信息成功！',$user->toArray());
     }
 }

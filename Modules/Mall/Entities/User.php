@@ -42,5 +42,9 @@ class User extends Authenticatable
         return $this->hasOne('Modules\Mall\Entities\UsersExtends','user_id','id');
     }
 
+    public function company(){
+        return $this->hasOne('Modules\Mall\Entities\Company','user_id','id');
+    }
+
 }
 
