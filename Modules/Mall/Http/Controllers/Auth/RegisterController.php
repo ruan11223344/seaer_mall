@@ -3,11 +3,21 @@
 namespace Modules\Mall\Http\Controllers\Auth;
 
 
-use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Utils\EMail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use App\Utils\EchoJson;
+use Modules\Mall\Entities\Company;
+use Modules\Mall\Entities\RegisterTemp;
+use Modules\Mall\Entities\UsersExtends;
+use Modules\Mall\Entities\User;
+use Modules\Mall\Http\Controllers\CaptchaController;
+use Webpatser\Uuid\Uuid;
+use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
@@ -23,7 +33,6 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
 
     /**
      * Where to redirect users after registration.
@@ -90,7 +99,6 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'account_type' => $data['account_type']
         ]);
     }
 
@@ -98,7 +106,7 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         if(Auth::check()){
-            return $this->echoJson('您已经登录无法进行注册!',400);
+            return $this->echoJson('您已经登录,无法进行注册!',400);
         }
 
         $this->validator($request->all())->validate();
@@ -107,29 +115,139 @@ class RegisterController extends Controller
             DB::beginTransaction();
             event(new Registered($user = $this->create($request->all())));
 
-            $wx_open_id  =  $request->input('wx_open_id',null);
-            $wx_nick_name  =  $request->input('wx_nick_name',null);
-            $random_str  =  $request->input('random_str',null);
+            if((integer)in_array($request->input('account_type'),
+                [
+                    UsersExtends::ACCOUNT_TYPE_COMPANY_CHINA,
+                    UsersExtends::ACCOUNT_TYPE_COMPANY_KENYA
+                ]
+            //is company users
+            )){
+              $company = Company::create(
+                  [
+                        'user_id'=>$user->id,
+                        'company_name'=>$request->input(''),
+                        'company_country_id'=>$request->input(''),
+                        'company_region_id'=>$request->input(''),
+                        'company_name_in_china'=>$request->input('china_username',null),
+                        'company_business_type_id'=>$request->input('business_type'),
+                        'company_business_range_id'=>$request->input('business_range'), //input array
+                        'company_business_license'=>$request->input('business_license'),
+                        'company_business_license_pic_url'=>$request->input('business_license_img'),
+                    ]
+                );
 
+              $user_extends = UsersExtends::create(
+                  [
+                        'user_id'=>$user->id,
+                        'af_id'=>'',
+                        'company_id'=>$company->id,
+                        'account_type'=>'',
+                        'country_id'=>'',
+                        'region_id'=>'',
+                        'calling_code'=>'',
+                        'mobile'=>'',
+                        'sex'=>'',
+                        'contact_full_name'=>'',
+                        'chinese_name'=>'',
+                    ]
+                );
 
-            AnchorVerifyModel::create([
-                'wx_open_id' => $wx_open_id,
-                'wx_nick_name' => $wx_nick_name,
-                'random_str' => $random_str,
-                'user_id'=>$user->id,
-                'verify_status'=>0
-            ]);
-
+            }
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
             return $this->echoErrorJson('注册失败',[$e->getMessage()]);
         }
-
         $this->guard()->login($user);
 
         $token = $user->createToken(null)->accessToken;
 
-        return $this->echoSuccessJson('注册成功!',['access_token'=>$token,'user_info'=>$user]);
+        return $this->echoSuccessJson('注册成功!',['access_token'=>$token,'user_info'=>[
+            'user'=>$user,
+            'user_extends'=>$user_extends,
+            'company'=>$company
+        ]]);
+
+    }
+
+    public function sendRegisterEmail(Request $request){
+        $data = $request->all();
+        $messages = [
+            'member_id.required'=>'please input member_id',
+            'captcha.required' => 'please input captcha',
+            'captcha.captcha_api' => 'captcha error,please retry!',
+            'i_agree' => 'you must be agree agreenment!'
+        ];
+
+        $validator = Validator::make($data, [
+            'member_id'=>'required|string|between:6,20|alpha_dash|unique:users,name|unique:register_temp,name',
+            'member_id'=>[
+                'required',
+                'string',
+                'between:6,20',
+                'alpha_dash',
+                'unique:users,name',
+                Rule::unique('register_temp','name')->where(function ($query) {
+                $query->where('created_at','>',Carbon::now()->parse("24 hours ago")->toDateTimeString());
+                }),
+            ],
+            'key' => 'required',
+            'captcha' => 'required|captcha_api:' . $request->input('key'),
+            'email' => 'email|required|unique:users,email',
+            'account_type' =>'in:0,1,2|required',
+            'i_agree'=>'required|accepted'
+        ],$messages);
+
+        if ($validator->fails()) {
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+        }
+
+        $register_uuid = Uuid::generate();
+        $email = $data['email'];
+        try{
+            DB::beginTransaction();
+            RegisterTemp::create([
+                'email'=>$data['email'],
+                'name'=>$data['member_id'],
+                'account_type'=>$data['account_type'],
+                'status'=>RegisterTemp::STATUS_WAITING,
+                'register_uuid'=>$register_uuid,
+            ]);
+            $email_obj = new EMail();
+            $subject = 'Please verify your email address to finish your account registration';
+            if($email_obj->send($email,$subject,[
+                'register_url'=>$this->getRegisterUrl($data['account_type'],$register_uuid)],$email_obj::TEMPLATE_REGISTER)){
+                DB::commit();
+                return $this->echoSuccessJson('邮件发送成功!',['redirect_to'=>EMail::foundEmailUrl($email)]);
+            }else{
+                DB::rollback();
+                return $this->echoErrorJson('注册邮件发送失败!请联系管理员!');
+            }
+        }catch (Exception $e){
+            DB::rollback();
+            return $this->echoErrorJson('提交失败',[$e->getMessage()]);
+        }
+    }
+
+    public function getRegisterUrl($account_type,$register_uuid){
+        $str = 'https://'.env('MALL_DOMAIN').'/auth/register?';
+        if(in_array($account_type,[UsersExtends::ACCOUNT_TYPE_COMPANY_KENYA,UsersExtends::ACCOUNT_TYPE_COMPANY_CHINA])){
+            $u_type = 'company';
+        }else{
+            $u_type = 'buyer';
+        }
+
+        $str .= 'u_type='.$u_type;
+
+        if($account_type == UsersExtends::ACCOUNT_TYPE_COMPANY_KENYA){
+            $u_from = 'KE';
+        }else{
+            $u_from = 'CN';
+        }
+
+        $str .= '&u_from='.$u_from.'&rg_id='.$register_uuid;
+
+        return $str;
+
     }
 }
