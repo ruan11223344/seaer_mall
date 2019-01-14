@@ -1,9 +1,8 @@
 import axios from 'axios'
 
 // 创建axios实例
-
 const service = axios.create({
-  baseURL: 'http://yapi.demo.qunar.com/mock/32239', // api 的 base_url
+  baseURL: 'htttp://www.seaer.local/api', // api 的 base_url
   timeout: 15000 // 请求超时时间
 })
 

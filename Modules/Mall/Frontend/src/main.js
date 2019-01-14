@@ -10,18 +10,20 @@ import iView from 'iview'
 import locale from 'iview/dist/locale/en-US';
 import 'iview/dist/styles/iview.css'
 
-// ajax
-import request from '@/utils/request.js'
+
 import VueLazyLoad from 'vue-lazyload'
 // 引入验证插件
 import verify from "vue-verify-plugin"
 // 自定义验证规则
 import myRules from '@/utils/verify.js'
+
 // 注册自定义验证
 Vue.use(verify, {
   rules: myRules,
   blur: true  // 失去焦点进行判断
 })
+// ajax
+import request from '@/utils/request.js'
 
 // 挂载axios
 Vue.prototype.$request = request

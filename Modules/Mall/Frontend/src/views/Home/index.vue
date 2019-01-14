@@ -223,7 +223,7 @@
         },
         mounted() {
             this.$request({
-                url: '/home'
+                url: '/tags'
             }).then(res => {
                 console.log(res)
             }).catch(err => {

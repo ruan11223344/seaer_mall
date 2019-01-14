@@ -1,7 +1,7 @@
 module.exports = {
   // proxy API requests to Valet during development
   devServer: {
-    proxy: 'http://laracon.test'
+    // proxy: 'http://laracon.test'
   },
   baseUrl: process.env.NODE_ENV === 'production' ? '/mall' : '/',
   // output built static files to Laravel's public dir.
