@@ -81,9 +81,9 @@
             return {
                 formItem: {
                     id: 'wjcharles',
-                    password: '',
-                    passwdCheck: '',
-                    company: '',
+                    password: '', // 密码
+                    passwdCheck: '', // 确认密码
+                    company: '', // 公司
                     gender: 'Mr.', // 性别
                     userName: '', // 姓名
                     Address1: '',
