@@ -24,7 +24,6 @@ class Company extends Model
         'company_profile', //公司简介
         'company_business_type_id', //业务类型
         'company_business_range_id', //业务范围
-        'company_calling_code', //国家号码
         'company_mobile_phone', //联系手机
         'company_department', //公司部门
         'company_position',  //公司职位

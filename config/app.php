@@ -217,7 +217,11 @@ return [
         /*
          * 阿里云对象储存
          */
-        Jacobcyl\AliOSS\AliOssServiceProvider::class
+        Jacobcyl\AliOSS\AliOssServiceProvider::class,
+        /*
+         * 手机号验证
+         */
+        Propaganistas\LaravelPhone\PhoneServiceProvider::class,
     ],
 
     /*

@@ -20,6 +20,8 @@
 
 6.世界城市列表包: https://github.com/khsing/laravel-world
 
+7.号码验证 : https://github.com/Propaganistas/Laravel-Phone
+
 ##前端脚手架:
 参考:https://github.com/yyx990803/laravel-vue-cli-3
 

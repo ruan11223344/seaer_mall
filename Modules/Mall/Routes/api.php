@@ -12,30 +12,27 @@
 |
 */
 
-/*Route::middleware('auth:api')->get('/ec', function (Request $request) {
-    return $request->user();
-});*/
 
 Route::group(['domain'=>env('MALL_DOMAIN')],function () {
-    Route::get('get_captcha','CaptchaController@getCaptcha')->name('get_captcha');
-    Route::post('check_captcha_url','CaptchaController@checkCaptchaUrl')->name('get_captcha');
-
     Route::prefix('auth')->group(function() {
         Route::group(['middleware' => ['client.credentials','auth:api']], function(){
+            //需要认证的组
             Route::post('get_user_info', 'Auth\AuthorizationsController@getUserInfo');
-        }); //需要认证的组
-
-
+        });
 
         Route::post('get_access_token', 'Auth\AuthorizationsController@getAccessToken');
-
         Route::post('/register', 'Auth\RegisterController@register')->name('register');
         Route::post('/login', 'Auth\LoginController@login')->name('login');
         Route::post('/reset_password', 'Auth\PasswordController@resetPassword')->name('reset');
         Route::post('/forget_password', 'Auth\PasswordController@forgetPassword')->name('forget');
-
         Route::post('send_register_email','Auth\RegisterController@sendRegisterEmail')->name('send_register_email');
+    });
 
-
+    Route::group(['prefix' => 'utils'],function() {
+            Route::get('get_captcha','UtilsController@getCaptcha')->name('get_captcha');
+            Route::post('check_captcha_url','UtilsController@checkCaptchaUrl')->name('check_captcha');
+            Route::get('get_provinces_list','UtilsController@getProvincesList')->name('get_provinces_list');
+            Route::get('get_city_list','UtilsController@getCityList')->name('get_city_list');
     });
 });
+
