@@ -5,14 +5,17 @@
 
         <div class="Registered-one-main">
             <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" label-position="right" :label-width="120">
+                <!-- id -->
                 <FormItem prop="id">
                     <label for="" slot="label" class="Registered-one-main-label">Menber ID</label>
-                    <Input type="password" v-model="formCustom.passwd" placeholder="Member ID is the username,created by yourself." />
+                    <Input type="text" v-model="formCustom.id" placeholder="Member ID is the username,created by yourself." />
                 </FormItem>
+                <!-- 邮箱 -->
                 <FormItem prop="email">
                     <label for="" slot="label" class="Registered-one-main-label">Email Address</label>
-                    <Input type="password" v-model="formCustom.passwdCheck" />
+                    <Input v-model="formCustom.email" placeholder="Please enter your Email Address." />
                 </FormItem>
+                <!-- 验证码 -->
                 <FormItem prop="code">
                     <label for="" slot="label" class="Registered-one-main-label">Verification</label>
                     <Row>
@@ -31,7 +34,7 @@
                 </FormItem>
                 <FormItem>
                     <div>
-                        <Checkbox v-model="single">
+                        <Checkbox v-model="formCustom.single">
                             I have read and agree <router-link to="" class="Registered-one-main-single">service agreement</router-link>
                         </Checkbox>
                     </div>
@@ -50,73 +53,63 @@
 
     export default {
         data () {
-            const validatePass = (rule, value, callback) => {
+            const validatorMenberId = (rule, value, callback) => {
+                const Rex = /^[\da-zA-Z]{6,20}$/g
+                let bool = Rex.test(value)
+
                 if (value === '') {
-                    callback(new Error('Please enter your password'));
-                } else {
-                    if (this.formCustom.passwdCheck !== '') {
-                        // 对第二个密码框单独验证
-                        this.$refs.formCustom.validateField('passwdCheck');
-                    }
-                    callback();
+                    callback(new Error('MenberId is required'));
+                } else if(!(value.length >= 6 && value.length <= 20)) {
+                    callback(new Error('MenberId must be between 6 and 20 characters'))
+                } else if(!bool){
+                    callback(new Error('MenberId is (A-Z,a-z,0-9)'));
+                }else {
+                    callback()
                 }
             };
-            const validatePassCheck = (rule, value, callback) => {
+
+            const validatorEmail = (rule, value, callback) => {
+                const Rex = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/gi
+                let bool = Rex.test(value)
                 if (value === '') {
-                    callback(new Error('Please enter your password again'));
-                } else if (value !== this.formCustom.passwd) {
-                    callback(new Error('The two input passwords do not match!'));
-                } else {
-                    callback();
+                    callback(new Error('Email is required'));
+                }else if(!bool){
+                    callback(new Error('email is not a valid email'));
+                }else {
+                    callback()
                 }
-            };
-            const validateAge = (rule, value, callback) => {
-                if (!value) {
-                    return callback(new Error('Age cannot be empty'));
-                }
-                // 模拟异步验证效果
-                setTimeout(() => {
-                    if (!Number.isInteger(value)) {
-                        callback(new Error('Please enter a numeric value'));
-                    } else {
-                        if (value < 18) {
-                            callback(new Error('Must be over 18 years of age'));
-                        } else {
-                            callback();
-                        }
-                    }
-                }, 1000);
             };
             
             return {
-                single: false,
                 formCustom: {
                     id: '',
                     email: '',
-                    code: ''
+                    code: '',
+                    single: false,
                 },
                 ruleCustom: {
                     id: [
-                        { validator: validatePass, trigger: 'blur' }
+                        { validator: validatorMenberId, trigger: 'blur' }
                     ],
-                    email: [
-                        { validator: validatePassCheck, trigger: 'blur' }
-                    ],
-                    code: [
-                        { validator: validateAge, trigger: 'blur' }
+                    email: [ // 邮箱验证
+                        {  validator: validatorEmail, trigger: 'blur' }
                     ]
                 }
             }
         },
         methods: {
             handleSubmit (name) {
-                this.$refs[name].validate((valid) => {
-                    if (valid) {
-                        this.$Message.success('Success!');
-                    } else {
-                        this.$Message.error('Fail!');
-                    }
-                })
+                if(this.formCustom.single) {
+                    this.$refs[name].validate((valid) => {
+                        if (valid) {
+                            this.$Message.success('Success!');
+                        } else {
+                            this.$Message.error('Fail!');
+                        }
+                    })
+                }else {
+                    this.$Message.error('code!');
+                }
             },
         },
         components: {
