@@ -223,7 +223,7 @@
         },
         mounted() {
             this.$request({
-                url: '/tags'
+                url: '/utils/get_captcha'
             }).then(res => {
                 console.log(res)
             }).catch(err => {

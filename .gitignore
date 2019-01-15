@@ -1,8 +1,8 @@
 /node_modules
 /public/hot
 /public/storage
-/Modules/Ec/public/*
-/Modules/Ec/Resources/views/index.blade.php
+/Modules/Mall/public/*
+/Modules/Mall/Resources/views/index.blade.php
 /storage/*.key
 /vendor
 /.idea

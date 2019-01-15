@@ -191,8 +191,3 @@ url:http://域名/api/auth/send_register_email
 
 注意:只有请求头参数,无其他参数。
 ```
-
-
-  
- 
-

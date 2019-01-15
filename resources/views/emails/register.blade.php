@@ -23,7 +23,7 @@
             background-color: azure;
         }
 
-        .main {
+        #main {
             width: 765px;
             height: 447px;
             background-color: #ffffff;
@@ -98,27 +98,25 @@
             <img src="{{ $message->embed($logo_url) }}" alt="">
         </div>
     </header>
-    <main class="main">
-        <section>
-                <hgroup class="main-hgroup">
-                    <h1 class="main-title">Please verify your email address to finish your account registration</h1>
-                    <h3>(Valid for 24 hours)</h3>
-                </hgroup>
-                <a href="{{ $register_url }}">
-                    <button type="button" class="main-btn">
-                            Complete
-                    </button>
-                </a>
-                <article class="main-article">
-                    <p class="">You can click the button above or click the link below to complete the registration or copy the following linkin to the address bar of your browser to complete the registration.</p>
-                    <a href="{{ $register_url }}">{{ $register_url }}</a>
-                    <p>This is system email,please don't reply to it.</p>
-                </article>
-                <footer>
-                    <div>Best regards</div>
-                    <div>Afriby.com</div>
-                </footer>
-        </section>
-    </main>
+    <section id="main">
+            <hgroup class="main-hgroup">
+                <h1 class="main-title">Please verify your email address to finish your account registration</h1>
+                <h3>(Valid for 24 hours)</h3>
+            </hgroup>
+            <a href="{{ $register_url }}">
+                <button type="button" class="main-btn">
+                        Complete
+                </button>
+            </a>
+            <article class="main-article">
+                <p class="">You can click the button above or click the link below to complete the registration or copy the following linkin to the address bar of your browser to complete the registration.</p>
+                <a href="{{ $register_url }}">{{ $register_url }}</a>
+                <p>This is system email,please don't reply to it.</p>
+            </article>
+            <footer>
+                <div>Best regards</div>
+                <div>Afriby.com</div>
+            </footer>
+    </section>
 </body>
 </html>

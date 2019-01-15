@@ -2,9 +2,12 @@ import axios from 'axios'
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: 'htttp://www.seaer.local/api', // api 的 base_url
-  timeout: 15000 // 请求超时时间
+  baseURL: 'http://www.seaer.local/api', // api 的 base_url
+  timeout: 15000, // 请求超时时间
+  headers: { 'Content-Type': 'application/json' }
 })
+
+
 
 // request拦截器
 service.interceptors.request.use(

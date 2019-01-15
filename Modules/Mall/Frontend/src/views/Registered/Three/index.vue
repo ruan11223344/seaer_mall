@@ -78,6 +78,31 @@
 
     export default {
         data() {
+            const validatorPassword = (rule, value, callback) => {
+                const Rex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/g
+                let bool = Rex.test(value)
+
+                if (value === '') {
+                    callback(new Error('password is required'));
+                } else if(!(value.length >= 6 && value.length <= 20)) {
+                    callback(new Error('password must be between 6 and 20 characters'))
+                } else if(!bool){
+                    callback(new Error('password is (A-Z,a-z,0-9)'));
+                }else {
+                    callback()
+                }
+            };
+
+            const validatorPasswords = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('password is required'));
+                }else if(!(this.formItem.password === value)) {
+                    callback(new Error("The two passwords don't match"))
+                }else {
+                    callback()
+                }
+            }
+            
             return {
                 formItem: {
                     id: 'wjcharles',
@@ -90,11 +115,11 @@
                     Address2: '',
                 },
                 RulesItem: { // 校验
-                    password: [
-                        {}
+                    password: [ // 密码验证
+                        { trigger: 'blur', validator: validatorPassword }
                     ],
-                    passwdCheck: [
-                        {}
+                    passwdCheck: [ // 确认密码
+                        { trigger: 'blur', validator: validatorPasswords }
                     ],
                 }
             }
