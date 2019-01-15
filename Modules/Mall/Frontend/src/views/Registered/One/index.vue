@@ -1,187 +1,127 @@
 <template>
-    <div class="registered-main">
-        <h1 class="registered-main-title">Create your Afriby.com account</h1>
-        <div class="registered-main-info">Enter your account Information</div>
-        
-        <Form :model="formItem" label-position="left" :rules="ruleCustom" ref="ruleCustom" class="registered-main-form">
-            <!-- 地区 -->
-            <FormItem>
-                <label for="" slot="label" class="label">Country/Region:</label>
-                <Row>
-                    <Col span="22">
-                        <Select v-model="formItem.select" size="large">
-                            <Option value="kenya">Kenya</Option>
-                            <Option value="china">China</Option>
-                        </Select>
-                    </Col>
-                    <!-- 国旗 -->
-                    <Col span="2" style="text-align: center;">
-                        <v-img width="47" height="34" :imgSrc="require('@/assets/img/china.png')" v-show="formItem.select == 'china'" style="float:right"></v-img>
-                        <v-img width="47" height="34" :imgSrc="require('@/assets/img/kenya.png')" v-show="formItem.select == 'kenya'" style="float:right"></v-img>
-                    </Col>
-                </Row>
-            </FormItem>
-            <!-- 单选 -->
-            <FormItem>
-                <label for="" slot="label" class="label">Account Type:</label>
-                <RadioGroup v-model="formItem.radio">
-                    <Radio label="Supplier">Supplier</Radio>
-                    <Radio label="Buyer" v-show="formItem.select == 'kenya'">Buyer</Radio>
-                </RadioGroup>
-            </FormItem>
-            <!-- 账户 -->
-            <FormItem prop="email">
-                <label for="" slot="label" class="label">Email Address:</label>
-                <Input v-model="formItem.email" placeholder="Please enter your Email Address." />
-            </FormItem>
-            <!-- 会员身份 -->
-            <FormItem prop="MenberId">
-                <label for="" slot="label" class="label">Menber ID:</label>
-                <Input v-model="formItem.MenberId" placeholder="Member ID is the username,created by yourself.6-20 characters(A-Z,a-z,0-9,no spaces)." />
-            </FormItem>
-            <!-- 创建密码 -->
-            <FormItem prop="password">
-                <label for="" slot="label" class="label">Create Password：</label>
-                <Input type="password" v-model="formItem.password" placeholder="6-20 characters(Case Sensitive A-Z,a-z,0-9,only)." />
-            </FormItem>
-            <!-- 确认密码 -->
-            <FormItem prop="passwords">
-                <label for="" slot="label" class="label">Confirm password:</label>
-                <Input type="password" v-model="formItem.passwords" placeholder="Please enter your Password again." />
-            </FormItem>
-            <!-- 验证码 -->
-            <FormItem>
-                <label for="" slot="label" class="label">Verification code:</label>
-                <Row>
-                    <Col span="24">
-                        <Col span="18">
-                            <Input v-model="formItem.code" placeholder="Please enter verification code." />
+    <section class="container Registered-one">
+
+        <v-head-template :img="require('@/assets/img/login/bg1.png')" />
+
+        <div class="Registered-one-main">
+            <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" label-position="right" :label-width="120">
+                <FormItem prop="id">
+                    <label for="" slot="label" class="Registered-one-main-label">Menber ID</label>
+                    <Input type="password" v-model="formCustom.passwd" placeholder="Member ID is the username,created by yourself." />
+                </FormItem>
+                <FormItem prop="email">
+                    <label for="" slot="label" class="Registered-one-main-label">Email Address</label>
+                    <Input type="password" v-model="formCustom.passwdCheck" />
+                </FormItem>
+                <FormItem prop="code">
+                    <label for="" slot="label" class="Registered-one-main-label">Verification</label>
+                    <Row>
+                        <Col span="16">
+                            <Input type="text" v-model="formCustom.age" number />
                         </Col>
-                        <!-- 国旗 -->
-                        <Col span="6">
-                            <div class="box-code-rex">
+                        <Col span="8">
+                            <div class="Registered-one-main-code">
+                                <div></div>
                                 <div>
-                                <img src="" alt="">
+                                    <Icon type="md-sync" size="26"/>
                                 </div>
-                                <Icon type="md-refresh" size="30"/>
                             </div>
                         </Col>
-                    </Col>
-                </Row>
-            </FormItem>
-            <!-- 邮箱验证码 -->
-            <FormItem style="marginBottom:0px">
-                <label for="" slot="label" class="label">Mailbox Verification code:</label>
-                <Row>
-                    <Col span="24">
-                        <Col span="18">
-                            <Input v-model="formItem.emailCode" placeholder="Please enter the email verification code." />
-                        </Col>
-                        <Col span="6">
-                            <div class="registered-main-form-btn">Send</div>
-                        </Col>
-                    </Col>
-                </Row>
-            </FormItem>
-            <!-- 协议 -->
-            <FormItem>
-                <Checkbox v-model="formItem.checkRadio"></Checkbox>
-                <span>I have read and agree <router-link to="" id="registered-main-form-link">service agreement</router-link></span>
-            </FormItem>
-            <!-- 提交 -->
-            <FormItem style="marginTop:46px;">
-                <Button type="primary" @click="onSubmit('ruleCustom')" class="subBtn">Create My Account</Button>
-            </FormItem>
-        </Form>
-    </div>
+                    </Row>
+                </FormItem>
+                <FormItem>
+                    <div>
+                        <Checkbox v-model="single">
+                            I have read and agree <router-link to="" class="Registered-one-main-single">service agreement</router-link>
+                        </Checkbox>
+                    </div>
+                </FormItem>
+                <FormItem>
+                    <button class="Registered-one-main-btn" type="button" @click="handleSubmit('formCustom')">Create My Account</button>
+                </FormItem>
+            </Form>
+        </div>
+    </section>
 </template>
 
 <script>
     import Img from "@/components/Img"
+    import HeadTemplate from "../components/Head/index"
 
     export default {
-        data() {
-            const validatorMenberId = (rule, value, callback) => {
-                const Rex = /^[\da-zA-Z]{6,20}$/g
-                let bool = Rex.test(value)
-
+        data () {
+            const validatePass = (rule, value, callback) => {
                 if (value === '') {
-                    callback(new Error('MenberId is required'));
-                } else if(!(value.length >= 6 && value.length <= 20)) {
-                    callback(new Error('MenberId must be between 6 and 20 characters'))
-                } else if(!bool){
-                    callback(new Error('MenberId is (A-Z,a-z,0-9)'));
-                }else {
-                    callback()
+                    callback(new Error('Please enter your password'));
+                } else {
+                    if (this.formCustom.passwdCheck !== '') {
+                        // 对第二个密码框单独验证
+                        this.$refs.formCustom.validateField('passwdCheck');
+                    }
+                    callback();
                 }
             };
-
-            const validatorPassword = (rule, value, callback) => {
-                const Rex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/g
-                let bool = Rex.test(value)
-
+            const validatePassCheck = (rule, value, callback) => {
                 if (value === '') {
-                    callback(new Error('password is required'));
-                } else if(!(value.length >= 6 && value.length <= 20)) {
-                    callback(new Error('password must be between 6 and 20 characters'))
-                } else if(!bool){
-                    callback(new Error('password is (A-Z,a-z,0-9)'));
-                }else {
-                    callback()
+                    callback(new Error('Please enter your password again'));
+                } else if (value !== this.formCustom.passwd) {
+                    callback(new Error('The two input passwords do not match!'));
+                } else {
+                    callback();
                 }
             };
-
-            const validatorPasswords = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('password is required'));
-                }else if(!(this.formItem.password === value)) {
-                    callback(new Error("The two passwords don't match"))
-                }else {
-                    callback()
+            const validateAge = (rule, value, callback) => {
+                if (!value) {
+                    return callback(new Error('Age cannot be empty'));
                 }
-            }
+                // 模拟异步验证效果
+                setTimeout(() => {
+                    if (!Number.isInteger(value)) {
+                        callback(new Error('Please enter a numeric value'));
+                    } else {
+                        if (value < 18) {
+                            callback(new Error('Must be over 18 years of age'));
+                        } else {
+                            callback();
+                        }
+                    }
+                }, 1000);
+            };
+            
             return {
-                formItem: {
-                    select: 'kenya', // 地区
-                    radio: 'Supplier', // 单选
-                    email: '', // 账户
-                    MenberId: '', // 会员身份
-                    password: '', // 创建密码
-                    passwords: '', // 确认密码
-                    code: '', // 验证码
-                    emailCode: '', // 邮箱验证码
-                    checkRadio: false, // 协议
+                single: false,
+                formCustom: {
+                    id: '',
+                    email: '',
+                    code: ''
                 },
-
                 ruleCustom: {
-                    email: [ // 邮箱验证
-                        { trigger: 'blur', type: "email" }
+                    id: [
+                        { validator: validatePass, trigger: 'blur' }
                     ],
-                    MenberId: [ // Id验证
-                        { trigger: 'blur', validator: validatorMenberId }
+                    email: [
+                        { validator: validatePassCheck, trigger: 'blur' }
                     ],
-                    password: [ // 密码验证
-                        { trigger: 'blur', validator: validatorPassword }
-                    ],
-                    passwords: [ // 确认密码
-                        { trigger: 'blur', validator: validatorPasswords }
-                    ],
+                    code: [
+                        { validator: validateAge, trigger: 'blur' }
+                    ]
                 }
             }
         },
         methods: {
-            onSubmit(name) { // 下一步
-                if(this.formItem.checkRadio) {
-                    this.$refs[name].validate((valid) => {
-                        this.$router.push('/registered/two')
-                    })
-                }else {
-                    this.$Message.warning('请阅读协议')
-                }
-            }
+            handleSubmit (name) {
+                this.$refs[name].validate((valid) => {
+                    if (valid) {
+                        this.$Message.success('Success!');
+                    } else {
+                        this.$Message.error('Fail!');
+                    }
+                })
+            },
         },
         components: {
-            'v-img': Img
+            'v-img': Img,
+            'v-head-template': HeadTemplate
         }
     }
 </script>
@@ -189,72 +129,53 @@
 <style lang="less" scoped>
     @import url('../../../assets/css/index');
 
-    .registered-main {
-        .width(768px, auto);
-        .bg-color(white);
-        padding: 0px 54px 44px 54px;
+    .Registered-one {
 
-        &-title {
-            .color(blackDark);
-            height: 24px;
-            font-size: 24px;
-            line-height: 1;
-            margin-top: 50px;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        &-info {
-            .color(blackDark);
-            height: 17px;
-            font-size: 18px;
-            line-height: 1;
-            margin-top: 37px;
-            margin-bottom: 24px;
-        }
-
-        .registered-main-form-item {
-            .flex(flex-start, flex-start, column);
-        }
-
-        & > &-form {
-            .label {
-                .color(blackDark);
-                width: 660px;
-                height: 15px;
+        &-main {
+            width: 900px;
+            height: 510px;
+            background-color: #ffffff;
+            border-radius: 4px;
+            border: solid 1px #eeeeee;
+            margin: 0px auto;
+            margin-top: 20px;
+            padding: 100px 150px;
+            
+            &-label {
                 font-size: 16px;
                 line-height: 1;
+                letter-spacing: 0px;
+                color: #333333;
             }
-            #registered-main-form-link {
-                .color(Orange);
+
+            &-code {
+                .flex(space-between);
+                cursor: pointer;
+                width: 100%;
+                height: 36px;
+                background-color: #eeeeee;
+                padding: 0px 15px;
+            }
+
+            &-single {
                 text-decoration: underline;
-            }
-            .subBtn {
-                .color(white);
-                .bg-color(Orange);
-                .width(100%, 61px);
-                font-size: 21px;
-                border-color: transparent;
+                font-size: 16px;
+                letter-spacing: 0px;
+                color: #f0883a;
             }
 
-            
+            &-btn {
+                width: 198px;
+                height: 50px;
+                background-color: #f0883a;
+                border: none;
+                margin-left: 80px;
+                font-size: 18px;
+                line-height: 1;
+                letter-spacing: 0px;
+                color: #ffffff;
+            }
+        }
         
-        }
-        .box-code-rex {
-            .width(100%, 36px);
-            .flex(space-between, center);
-            .bg-color(whiteLight);
-            padding: 0px 15px;
-        }
-
-        .registered-main-form-btn {
-            .width(100%, 36px);
-            .color(white);
-            .bg-color(Orange);
-            line-height: 36px;
-            text-align: center;
-            font-size: 21px;
-            cursor: pointer;
-        }
     }
 </style>

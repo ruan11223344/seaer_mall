@@ -1,9 +1,13 @@
 <template>
     <div class="resetPass">
-        <header>
+        <header class="container resetPass-header">
             <router-link to="/home" tag="div" class="resetPass-head">
                 <img :src="require('@/assets/img/home/logo.png')" alt="">
             </router-link>
+            <div class="resetPass-link">
+                <div class="resetPass-link-login">Sign In</div>
+                <div class="resetPass-link-region">Chinese Supplier please check here</div>
+            </div>
         </header>
         <main class="main">
             <router-view></router-view>
@@ -35,10 +39,48 @@
 
     .resetPass {
         .bg-color(white);
+
+        &-header {
+            .flex(space-between, center);
+
+            .resetPass-link {
+                height: 100%;
+                .flex();
+
+                &-login {
+                    font-size: 16px;
+                    line-height: 1;
+                    letter-spacing: 0px;
+                    color: #666666;
+                    margin-right: 39px;
+                    cursor: pointer;
+                    position: relative;
+                }
+
+                &-login::before {
+                    content: '';
+                    width: 1px;
+                    height: 13px;
+                    background-color: #cccccc;
+                    position: absolute;
+                    right: -39px / 2;
+                    top: 1px;
+                    cursor: initial;
+                }
+
+                &-region {
+                    font-size: 16px;
+                    line-height: 1;
+                    letter-spacing: 0px;
+                    color: #666666;
+                    cursor: pointer;
+                }
+            }
+        }
+
         &-head {
             .flex(flex-start, center);
             height: 88px;
-            margin-left: 18.2%;
 
             & > img {
                 .width(181px, 53px);

@@ -10,7 +10,6 @@ import iView from 'iview'
 import locale from 'iview/dist/locale/en-US';
 import 'iview/dist/styles/iview.css'
 
-
 import VueLazyLoad from 'vue-lazyload'
 // 引入验证插件
 import verify from "vue-verify-plugin"

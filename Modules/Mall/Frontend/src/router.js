@@ -37,6 +37,10 @@ const newRouter = new Router({
           path: 'two', // 第二步
           component: () => import('./views/Registered/Two')
         },
+        {
+          path: 'three',
+          component: () => import('./views/Registered/Three')
+        }
       ]      
     },
     {
