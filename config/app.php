@@ -214,7 +214,10 @@ return [
         * 权限管理
         */
         Zizaco\Entrust\EntrustServiceProvider::class,
-
+        /*
+         * 阿里云对象储存
+         */
+        Jacobcyl\AliOSS\AliOssServiceProvider::class
     ],
 
     /*

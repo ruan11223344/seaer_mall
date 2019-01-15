@@ -12,7 +12,8 @@
 */
 
 
-Route::group(['domain'=>env('HOME_DOMAIN')],function () {
+Route::group(['domain'=>env('MALL_DOMAIN')],function () {
+    Route::get('/test', 'HomeController@test');
     Route::get('/{any}', 'HomeController@index')->where('any', '.*');
 });
 

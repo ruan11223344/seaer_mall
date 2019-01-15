@@ -41,7 +41,7 @@ trait EchoJson
      */
     public function echoSuccessJson(string $message,array $data = [])
     {
-        return $this->echoJson($message,0,$data);
+        return $this->echoJson($message,200,$data);
     }
 
     /**
@@ -52,6 +52,6 @@ trait EchoJson
      */
     public function echoErrorJson(string $message,array $data = [])
     {
-        return $this->echoJson($message,100,$data);
+        return $this->echoJson($message,400,$data);
     }
 }

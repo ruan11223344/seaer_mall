@@ -14,7 +14,7 @@
 
 3.用户追踪插件:https://github.com/antonioribeiro/tracker
 
-4.oss储存 :https://github.com/iiDestiny/laravel-filesystem-oss
+4.阿里云oss对象储存 :https://github.com/jacobcyl/Aliyun-oss-storage
 
 5.验证码包: https://packagist.org/packages/mews/captcha
 
@@ -39,4 +39,5 @@
 ##模块中命令:
 1.模块中创建模型 php artisan module:make-model Name ModuleName
 2.模块中创建控制器 hpp artisan module:make-controller Name ModuleName
-php artisan module:make-migration create_company_table Mall
+3.创建迁移 php artisan module:make-migration create_company_table Mall
+4.执行迁移 php artisan module:migrate Mall --env=mall.local

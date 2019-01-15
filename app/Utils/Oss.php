@@ -8,14 +8,13 @@ class Oss
     private static $_oss;
 
     protected function __construct(){
-        self::$_oss = Storage::disk('oss');
     }
 
     protected function __clone(){}
 
     public static function getInstance(){
         if (empty(self::$_oss)) {
-            self::$_oss = new Oss();
+            self::$_oss = Storage::disk('oss');
         }
         return self::$_oss;
     }
