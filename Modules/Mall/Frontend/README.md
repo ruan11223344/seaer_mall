@@ -189,5 +189,144 @@ url:http://域名/api/auth/send_register_email
 参数:"account_type",值:"0 或者 1"   //账户类型  0中国卖家 1肯尼亚卖家 必填
 参数:"i_agree",值:"true"   //同意协议  1 或者 "1" 或者 true 必填
 
-注意:只有请求头参数,无其他参数。
+返回:
+{
+    "code": 200,
+    "message": "邮件发送成功!",
+    "data": {
+        "redirect_to": null  //如果没有找到邮箱地址 则返回null
+    }
+}
 ```
+
+6.省份列表获取
+```
+url:http://域名/api/utils/get_provinces_list
+请求方法:get
+参数:"country_code",值:"cn"    //国家代码 cn 或者 ke 必填
+
+返回:
+
+{
+    "code": 200,
+    "message": "成功!",
+    "data": [
+        {
+            "province_id": 127,
+            "name": "Central"
+        },
+        {
+            "province_id": 124,
+            "name": "Coast"
+        },
+        {
+            "province_id": 126,
+            "name": "Eastern"
+        },
+        {
+            "province_id": 131,
+            "name": "Nairobi"
+        },
+        {
+            "province_id": 125,
+            "name": "North Eastem"
+        },
+        {
+            "province_id": 130,
+            "name": "Nyanza"
+        },
+        {
+            "province_id": 128,
+            "name": "Rift Valley"
+        },
+        {
+            "province_id": 129,
+            "name": "Westerm"
+        }
+    ]
+}
+
+```
+
+7.城市列表获取
+```
+url:http://域名/api/utils/get_city_list
+请求方法:get
+参数:"province_id",值:"129"    //省份id 必填
+
+返回:
+{
+    "code": 200,
+    "message": "成功!",
+    "data": [
+        {
+            "city_id": 3775,
+            "name": "Nyandarua"
+        },
+        {
+            "city_id": 3776,
+            "name": "Nyeri"
+        },
+        {
+            "city_id": 3777,
+            "name": "Kirinyaga"
+        },
+        {
+            "city_id": 3778,
+            "name": "Muranga"
+        },
+        {
+            "city_id": 3779,
+            "name": "Kiambu"
+        }
+    ]
+}
+```
+
+7.注册请求前置接口 
+```
+说明:此接口为了判断注册页面是否为第一次被访问该接口,如果接口提示过期，页面也要展示过期提醒。
+
+url:http://域名/api/auth/check_register_status
+请求方法:post
+参数:"uuid",值:"08b7b510-18a3-11e9-bc7a-db13b186ec35"    //点开邮件发送的注册链接时url参数中的uuid 必填
+
+返回正确:
+{
+"code":200,
+"message":"you can continue to register!",
+"data":{"account_type":1,"member_id":null,"email":"bbs888@vip.qq.com"}
+}
+
+返回错误:
+{
+"code":400,"message":"this page is expired!{\"uuid\":[\"The selected uuid is invalid.\"]}","data":[]
+}
+
+重要！！！！！！！ 错误返回提示过期时 要跳转到过期提醒页面！
+```
+
+8.注册接口 
+```
+url:http://域名/api/auth/register
+请求方法:post
+参数:"password",值:"Qq42158888"     //密码 必填
+参数:"password_confirmation",值:"Qq42158888"  //重复密码 必填
+参数:"account_type",值:"0 或者 1"     //注意！如果用户切换身份 则account_type 也随之切换而并非 邮件发送的注册链接时url参数中的u_from 其中 u_from=cn 时account_type 为 0  为ke时 account_type 为 1 切换后随之变动 必填
+参数:"sex",值:"Miss,Mr,Mrs 其中一个"     //性别 必填
+参数:"company_name",值:"XX company"     //公司名称  必填
+参数:"company_name_in_china",值:"飞翔有限公司"     //公司中文名 非必填 中国卖家时传
+参数:"china_business_license",值:"中国"     //重复密码 必填
+参数:"business_license_img",值:"文件上传"     // file格式上传  非必填 中国卖家时传
+参数:"contact_full_name",值:"Jason Ruan"     //全名 必填
+参数:"mobile",值:"+8613672009476"     //手机号 必填
+参数:"uuid",值:"08b7b510-18a3-11e9-bc7a-db13b186ec35"     //邮件发送的注册链接时url参数中的uuid 必填
+
+返回:
+
+```
+
+
+
+
+

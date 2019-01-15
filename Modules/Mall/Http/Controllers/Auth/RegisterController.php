@@ -82,8 +82,6 @@ class RegisterController extends Controller
         }
 
         $validator = Validator::make($data, [
-            'member_id' => 'required|string|between:6,20|alpha_dash|unique:users,name',
-            'email' => 'required|string|email|max:255|unique:users',
             'password' =>  [
                 'required',
                 'confirmed',  //password_confirmation 字段必须存在
@@ -97,18 +95,16 @@ class RegisterController extends Controller
                 'required_if:account_type,0',
                 'regex:/[\u4e00-\u9fa5]{2,25}/',
             ],
-            'company_detailed_address'=>'string|between:5,30',
-            'business_license'=>'alpha_num|between:5,1024',
+//            'business_license'=>'alpha_num|between:5,1024',
             'china_business_license'=>[
                 'required_if:account_type,0',
                 'regex:/(^(?:(?![IOZSV])[\dA-Z]){2}\d{6}(?:(?![IOZSV])[\dA-Z]){10}$)|(^\d{15}$)/',
             ],
-            'kenya_business_license'=>'alpha_num|between:9,12',
             'business_license_img'=>'image|between:5,1024|required_if:account_type,0',
             'contact_full_name'=>'string|required|between:2,30',
             'mobile'=>'phone:CN,KE',
             'uuid'=>[
-                Rule::exists('register_temp','uuid')->where(function ($query) {
+                Rule::exists('register_temp','register_uuid')->where(function ($query) {
                     $query->where(
                         [
                             ['created_at','>',Carbon::now()->parse("24 hours ago")->toDateTimeString()],
@@ -190,7 +186,7 @@ class RegisterController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, [
             'uuid'=>[
-                Rule::exists('register_temp','uuid')->where(function ($query) {
+                Rule::exists('register_temp','register_uuid')->where(function ($query) {
                     $query->where(
                         [
                             ['created_at','>',Carbon::now()->parse("24 hours ago")->toDateTimeString()],
@@ -204,11 +200,11 @@ class RegisterController extends Controller
         if ($validator->fails()) {
             return $this->echoErrorJson('this page is expired!'.$validator->messages());
         }else{
-            $reg_tmp = RegisterTemp::where('uuid',$data['uuid']);
+            $reg_tmp = RegisterTemp::where('register_uuid',$data['uuid'])->first();
             $reg_tmp->update(['status' => RegisterTemp::STATUS_VISITED]);
             return $this->echoSuccessJson('you can continue to register!',[
                 'account_type'=>$reg_tmp->account_type,
-                'member_id'=>$reg_tmp->name,
+                'member_id'=>$reg_tmp->member_id,
                 'email'=>$reg_tmp->email,
             ]);
         }
