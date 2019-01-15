@@ -104,14 +104,14 @@
                     <h1 class="main-title">Please verify your email address to finish your account registration</h1>
                     <h3>(Valid for 24 hours)</h3>
                 </hgroup>
-                <a href="">
+                <a href="{{ $register_url }}">
                     <button type="button" class="main-btn">
                             Complete
                     </button>
                 </a>
                 <article class="main-article">
                     <p class="">You can click the button above or click the link below to complete the registration or copy the following linkin to the address bar of your browser to complete the registration.</p>
-                    <a href="">https://passport.afriby.com/member/us/request_dispatcher.htm?from=AFSFA_FADFA_FADADFAADFAadfadfaADFADADFasdfadfadADFADFadfadfaSDFADFA</a>
+                    <a href="{{ $register_url }}">{{ $register_url }}</a>
                     <p>This is system email,please don't reply to it.</p>
                 </article>
                 <footer>

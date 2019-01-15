@@ -117,7 +117,7 @@ yarn build # OR npm run build
     }
     ```
     
- # 认证相关说明
+ # 接口文档
  
 1.获取token
 ```
@@ -150,34 +150,48 @@ url:http://域名/api/auth/get_access_token
 url:http://域名/api/auth/get_user_info
 请求方法:post
 请求头参数说明:  //注意是请求头 
-参数:"Accept",值:"application/json"    //必填 否则拿不到
-参数:"Authorization",值:"Bearer空格+token"
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token"
 
 注意:只有请求头参数,无其他参数。
 ```
  
  
-4.注册
+4.获取验证码
 ```
-url:http://域名/api/auth/get_user_info
+url:http://域名/api/utils/get_captcha
+请求方法:get
+参数:无
+返回的数据:
+{
+          "code": 200,
+          "message": "获取验证码成功!",
+          "data": {
+              "sensitive": false,
+              "key": "$2y$10$N9pB3ZK4/aWaLhJyQwc62.SsbkBA1ao7gbSZEBsiDpHtOBbnJGjAK",
+              "img": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAAkCAYAAABCKP5eAAAVZklEQVR4nI2ceZAkWV3HP3lWVVd1dfXdMz332cPuzLCHsOyOK4cCuyGrEKBAEAEGgrugghKsBIuyYKAcIRIgp6FAiBKIgoRyGBDAsiMLe19z99wzPX1MX3VmVuXhH9Uv65evqod9ERlVlfnyvd/7fX/3e93G0aNHY9d1cRwH27YxDAPTNDFNE8dxcBwHy7IAiKKIMAwJgoBWq0Wz2SQMQ+I4Tt4zDAPLspKxAAzDwLbt5F4URckcYRjSaDTwPI8gCJIriqJkLNXXMIzk...........
+          }
+      }
+      
+请使用base64解码图片
+```
+
+ 
+ 
+5.注册邮件发送
+```
+url:http://域名/api/auth/send_register_email
 请求方法:post
-请求头参数说明:  //注意是请求头 
-参数:"Accept",值:"application/json"    //必填 否则拿不到
-参数:"Authorization",值:"Bearer空格+token"
+参数:"member_id",值:"useradmin"    //用户名 必填
+参数:"captcha",值:"2dswkds"   //验证码 必填
+参数:"key",值:"$2y$10$N9pB3ZK4/aWaLhJyQwc62.SsbkBA1ao7gbSZEBsiDpHtOBbnJGjAK"     //验证码接口中的key 必填
+参数:"email",值:"ruan4215@gmail.com"   //邮箱 必填
+参数:"account_type",值:"0 或者 1"   //账户类型  0中国卖家 1肯尼亚卖家 必填
+参数:"i_agree",值:"true"   //同意协议  1 或者 "1" 或者 true 必填
 
 注意:只有请求头参数,无其他参数。
 ```
 
-5.登出
-```
-url:http://域名/api/auth/get_user_info
-请求方法:post
-请求头参数说明:  //注意是请求头 
-参数:"Accept",值:"application/json"    //必填 否则拿不到
-参数:"Authorization",值:"Bearer空格+token"
-
-注意:只有请求头参数,无其他参数。
-```
 
   
  
