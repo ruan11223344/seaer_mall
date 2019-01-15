@@ -20,7 +20,6 @@ class UsersExtends extends Model
         'country_id',
         'region_id',
         'zip_code',
-        'calling_code',
         'mobile',
         'sex',
         'contact_full_name',
