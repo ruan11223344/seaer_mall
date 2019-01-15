@@ -263,8 +263,12 @@ class RegisterController extends Controller
             ]);
             $email_obj = new EMail();
             $subject = 'Please verify your email address to finish your account registration';
-            if($email_obj->send($email,$subject,[
-                'register_url'=>$this->getRegisterUrl($data['account_type'],$register_uuid)],$email_obj::TEMPLATE_REGISTER)){
+            if($email_obj->send(
+                $email,$subject,[
+                    'register_url'=>$this->getRegisterUrl($data['account_type'],$register_uuid),
+                    'logo_url'=>asset('/img/logo.png'),
+                ],$email_obj::TEMPLATE_REGISTER)
+            ){
                 DB::commit();
                 return $this->echoSuccessJson('邮件发送成功!',['redirect_to'=>EMail::foundEmailUrl($email)]);
             }else{

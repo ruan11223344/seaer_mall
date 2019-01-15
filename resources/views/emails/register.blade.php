@@ -23,7 +23,7 @@
             background-color: azure;
         }
 
-        main {
+        .main {
             width: 765px;
             height: 447px;
             background-color: #ffffff;
@@ -95,10 +95,10 @@
 <body>
     <header>
         <div class="header-logo">
-            <img src="" alt="">
+            <img src="{{ $message->embed($logo_url) }}" alt="">
         </div>
     </header>
-    <main>
+    <main class="main">
         <section>
                 <hgroup class="main-hgroup">
                     <h1 class="main-title">Please verify your email address to finish your account registration</h1>
