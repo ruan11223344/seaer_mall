@@ -1,9 +1,11 @@
 <template>
-    <div class="resetPass-modal">
-        <v-img width="99" height="101" :imgSrc="require('@/assets/img/success.png')"></v-img>
-        <div class="resetPass-modal-title">Password Sussfully Rest.</div>
-        <div class="resetPass-modal-text">Please remember your new password and keep it safe.</div>
-        <button type="button" class="resetPass-modal-btn">Sign In Now</button>
+    <div class="shade">
+        <div class="resetPass-modal">
+            <v-img width="99" height="101" :imgSrc="require('@/assets/img/success.png')"></v-img>
+            <div class="resetPass-modal-title">Password Sussfully Rest.</div>
+            <div class="resetPass-modal-text">Please remember your new password and keep it safe.</div>
+            <button type="button" class="resetPass-modal-btn">Sign In Now</button>
+        </div>
     </div>
 </template>
 
@@ -20,6 +22,15 @@
 <style lang="less" scoped>
     @import url('../../../assets/css/index.less');
 
+    .shade {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        z-index: 10000;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.15);
+    }
     .resetPass-modal {
         .width(627px, 418px);
         .bg-color(white);

@@ -55,18 +55,10 @@ const newRouter = new Router({
           path: 'pass',
           component: () => import('./views/ResetPass/Pass')
         },
-        // {
-        //   path: 'two', // 第二步
-        //   component: () => import('./views/ResetPass/Two')
-        // },
-        // {
-        //   path:'three', // 第三步
-        //   component: () => import('./views/ResetPass/Three')
-        // },
-        // {
-        //   path: 'four', // 第四步
-        //   component: () => import('./views/ResetPass/Four')
-        // }
+        {
+          path: 'find',
+          component: () => import('./views/ResetPass/Find')
+        }
       ]
     },
     {
