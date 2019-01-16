@@ -27,7 +27,6 @@
                         </div>
                         <span>Add to Favorites</span>
                     </div>
-
                     <!-- 模态框 -->
                 </div>
 
@@ -91,27 +90,6 @@
                 ],
                 // 收藏
                 isCollection: false,
-                images: {
-                    'normal_size': [
-                        {
-                        'id': 1,
-                        'url': require('@/assets/img/details/demo1.jpg'),
-                        },
-                        {
-                        'id': 2,
-                        'url': require('@/assets/img/details/demo1.jpg'),
-                        }
-                    ]
-                },
-                zoomerOptions: {
-                    'zoomFactor': 4,
-                    'pane': 'pane',
-                    'hoverDelay': 100,
-                    'namespace': 'container-zoomer',
-                    'move_by_click':true,
-                    'scroll_items': 4,
-                    'choosed_thumb_border_color': "#ff3d00"
-                }
             }
         },
         methods: {
