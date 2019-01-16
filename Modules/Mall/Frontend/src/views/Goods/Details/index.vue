@@ -1,14 +1,13 @@
 <template>
     <div>
-        <div style="backgroundColor: #f5f5f9">
-            <section class="container main-title">
-                <Breadcrumb separator='<b style="color:#666666">></b>'>
-                    <BreadcrumbItem to="/">Home</BreadcrumbItem>
-                    <BreadcrumbItem style="color:#666666">{{ '$route.query.name' }}</BreadcrumbItem>
-                </Breadcrumb>
-            </section>
-        </div>
+        <v-head-template></v-head-template>
+        
+        <section class="details-banner">
+            <img src="" alt="">
+        </section>
 
+        <v-goods-nav></v-goods-nav>
+        
         <main class="main">
             <!-- 商品 -->
             <section class="container main-goods">
@@ -23,8 +22,6 @@
                         </li>
                     </ul>
                     <div class="main-goods-left-pictureBottom">
-                        <!-- <Icon :type="isCollection ? 'ios-star' : 'ios-star-outline'" color="#f39e5f" size="18" class="main-goods-left-pictureBottom-icon" @click="onCollection"/>
-                        -->
                         <div class="main-goods-left-pictureBottom-icon" @click="onCollection">
                             <img :src="isCollection ? require('@/assets/img/details/sc2.png') : require('@/assets/img/details/sc1.png')" alt="">
                         </div>
@@ -54,7 +51,9 @@
     import Right from './components/Right-template'
     import Content from './components/Content-template'
     import footerTemplateVue from './components/footer-template.vue';
+    import headTemplateVue from './components/head-template.vue';
 
+    import Nav from '../../Goods/components/Nav'
 
     export default {
         data() {
@@ -91,7 +90,28 @@
                     }
                 ],
                 // 收藏
-                isCollection: false
+                isCollection: false,
+                images: {
+                    'normal_size': [
+                        {
+                        'id': 1,
+                        'url': require('@/assets/img/details/demo1.jpg'),
+                        },
+                        {
+                        'id': 2,
+                        'url': require('@/assets/img/details/demo1.jpg'),
+                        }
+                    ]
+                },
+                zoomerOptions: {
+                    'zoomFactor': 4,
+                    'pane': 'pane',
+                    'hoverDelay': 100,
+                    'namespace': 'container-zoomer',
+                    'move_by_click':true,
+                    'scroll_items': 4,
+                    'choosed_thumb_border_color': "#ff3d00"
+                }
             }
         },
         methods: {
@@ -109,7 +129,9 @@
             'v-img': Img,
             'v-right': Right,
             'v-content': Content,
-            'v-footer-template': footerTemplateVue
+            'v-footer-template': footerTemplateVue,
+            'v-head-template': headTemplateVue,
+            'v-goods-nav': Nav
         }
     }
 </script>
@@ -117,11 +139,12 @@
 <style lang="less" scoped>
     @import url('../../../assets/css/index.less');
     
-    .pic-box {
-        .width(200px, 500px);
-        position: relative;
-        z-index: 10000;
+    .details-banner {
+        width: 100%;
+        height: 150px;
+	    background-color: #f6eded;
     }
+
     // 头部
     .main-title {
         .lineHeight(45px);

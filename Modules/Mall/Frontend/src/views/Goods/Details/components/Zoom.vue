@@ -1,6 +1,9 @@
 <template>
     <div class="box">
-        <img-zoom :src="imgSrc.imgSrc" width="348" height="348" :bigsrc="imgSrc.imgSrcAmplification" :configs="configs"></img-zoom>
+        <!-- <ProductZoomer
+            :base-images="images"
+            :base-zoomer-options="zoomerOptions"
+        /> -->
     </div>
 </template>
 
@@ -14,15 +17,27 @@
             }
         },
         data() {
-
             return {
-                configs: {
-                    width:350,
-                    height:350,
-                    maskWidth:150,
-                    maskHeight:150,
-                    maskColor:'black',
-                    maskOpacity:0.3
+                images: {
+                    'normal_size': [
+                        {
+                        'id': 1,
+                        'url': require('@/assets/img/details/demo1.jpg'),
+                        },
+                        {
+                        'id': 2,
+                        'url': require('@/assets/img/details/demo.jpg'),
+                        }
+                    ]
+                },
+                zoomerOptions: {
+                    'zoomFactor': 2,
+                    'pane': 'pane',
+                    'hoverDelay': 100,
+                    'namespace': 'container-zoomer',
+                    'move_by_click':true,
+                    'scroll_items': 2,
+                    'choosed_thumb_border_color': "#ff3d00"
                 }
             }
         },

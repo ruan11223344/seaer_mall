@@ -14,9 +14,7 @@
             <!-- 分页 -->
             <section class="container main-page">
                 <template>
-                    <Page :total="1000" :page-size="20" next-text="Next"  prev-text="Up" show-elevator />
-                    <div class="main-page-pg">page</div>
-                    <div class="main-page-bt">Go</div>
+                    <Page :total="100" />
                 </template>
             </section>
         </main>

@@ -301,7 +301,7 @@
 
         &-item {
             width: 1220px;
-            height: 319px;
+            height: 340px;
             .flex(space-between, center);
             overflow: hidden;
             position: relative;

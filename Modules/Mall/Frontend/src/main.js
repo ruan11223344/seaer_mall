@@ -34,6 +34,10 @@ Vue.use(iView, {
   locale
 }).use(VueLazyLoad)
 
+import ProductZoomer from 'vue-product-zoomer'
+
+Vue.use(ProductZoomer)
+
 Vue.config.productionTip = false
 
 //认证组件 详细参考 https://laravelacademy.org/post/8298.html

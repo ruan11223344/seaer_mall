@@ -4,8 +4,8 @@
         <header class="header">
             <v-nav></v-nav>
         </header>
-        
-        <div style="backgroundColor:#ffffff">
+        <!-- {{ $route.path }} -->
+        <div style="backgroundColor:#ffffff" v-show="!($route.path.includes('details'))">
             <!-- 搜索 -->
             <section class="container search">
                 <v-search></v-search>

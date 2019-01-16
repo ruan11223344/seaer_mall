@@ -5,6 +5,7 @@
         <article class="content">
             <div :title="title" class="title">{{ title }}</div>
             <div class="price">KSh {{ price }}</div>
+            <div class="Pieces">MOQ: 10 Pieces</div>
         </article>
     <!-- </div> -->
     </router-link>
@@ -36,19 +37,28 @@
     .content {
         .flex(space-around, center, column);
         .bg-color(white);
-        .width(228px, 91px);
+        .width(228px, 112px);
     }
 
     .title  {
         .color(black);
         .textHiddens(2);
-        width: 228px - 20px - 20px;
-        // height: 32.8px;
+        width: 208px;
         padding: 0px 20px;
         text-align: center;
+        font-size: 16px;
+        line-height: 1.2;
+        margin-top: 10px;
     }
 
     .price {
-        .color(red2)
+        .color(red2);
+        font-size: 16px;
+    }
+
+    .Pieces {
+        .color(gray);
+        font-size: 12px;
+        margin-bottom: 10px;
     }
 </style>
