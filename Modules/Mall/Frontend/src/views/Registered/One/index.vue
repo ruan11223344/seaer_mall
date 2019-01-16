@@ -112,6 +112,8 @@
                 }
             },
         },
+        mounted() {
+        },
         components: {
             'v-img': Img,
             'v-head-template': HeadTemplate

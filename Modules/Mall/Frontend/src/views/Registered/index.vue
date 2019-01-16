@@ -21,7 +21,7 @@
         name: 'app',
         data() {
             return {
-               
+                bool: false
             }
         },
         methods: {

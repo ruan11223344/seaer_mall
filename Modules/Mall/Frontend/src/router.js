@@ -40,6 +40,10 @@ const newRouter = new Router({
         {
           path: 'three',
           component: () => import('./views/Registered/Three')
+        },
+        { // 注册完成
+          path: 'complete',
+          component: () => import('./views/Registered/Complete')
         }
       ]      
     },
