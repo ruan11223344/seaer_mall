@@ -90,10 +90,10 @@ class RegisterController extends Controller
             ],
             'account_type' =>'in:0,1,2|required',
             'sex'=>'in:Miss,Mr,Mrs|required',
-            'company_name' => 'required_if:account_type,0|required_if:account_type,1|string|between:2,30|alpha_dash',
+            'company_name' => 'required_if:account_type,0|required_if:account_type,1|string|between:2,50|alpha_dash',
             'company_name_in_china'=>[
                 'required_if:account_type,0',
-                'regex:/[\u4e00-\u9fa5]{2,25}/',
+                'regex:/[\u4e00-\u9fa5]{2,50}/',
             ],
 //            'business_license'=>'alpha_num|between:5,1024',
             'china_business_license'=>[
@@ -102,7 +102,9 @@ class RegisterController extends Controller
             ],
             'business_license_img'=>'image|between:5,1024|required_if:account_type,0',
             'contact_full_name'=>'string|required|between:2,30',
-            'mobile'=>'phone:CN,KE',
+            'mobile_phone'=>'required|phone:CN,KE',
+            'province_id'=>'required|exists:world_divisions,id',
+            'city_id'=>'required|exists:cities,id',
             'uuid'=>[
                 Rule::exists('register_temp','register_uuid')->where(function ($query) {
                     $query->where(
@@ -142,11 +144,13 @@ class RegisterController extends Controller
                   [
                       'user_id'=>$user->id,
                       'company_name'=>$request->input('company_name'),
-                      'company_name_in_china'=>$request->input('china_username',null),
-                      'company_business_license'=>$request->input('business_license'),
+                      'company_name_in_china'=>$request->input('company_name_in_china',null),
+                      'company_business_license'=>$request->input('china_business_license'),
                       'company_business_license_pic_url'=>$company_business_license_pic_url,
                   ]
                 );
+
+              $country_id = $account_type == UsersExtends::ACCOUNT_TYPE_COMPANY_CHINA ? Country::getByCode('cn')->id : Country::getByCode('ke')->id;
 
               $user_extends = UsersExtends::create(
                   [
@@ -154,10 +158,10 @@ class RegisterController extends Controller
                         'af_id'=>$this->getAfId($uuid,$account_type),
                         'company_id'=>$company->id,
                         'account_type'=>$account_type,
-                        'country_id'=>$request->input('country_id'),
+                        'country_id'=>$country_id,
                         'province_id'=>$request->input('province_id'),
                         'city_id'=>$request->input('city_id'),
-                        'mobile'=>$request->input('mobile'),
+                        'mobile_phone'=>$request->input('mobile_phone'),
                         'sex'=>$request->input('sex'),
                         'contact_full_name'=>$request->input('contact_full_name'),
                         'chinese_name'=>$request->input('chinese_name',null),

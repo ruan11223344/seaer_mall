@@ -316,10 +316,13 @@ url:http://域名/api/auth/register
 参数:"sex",值:"Miss,Mr,Mrs 其中一个"     //性别 必填
 参数:"company_name",值:"XX company"     //公司名称  必填
 参数:"company_name_in_china",值:"飞翔有限公司"     //公司中文名 非必填 中国卖家时传
-参数:"china_business_license",值:"中国"     //重复密码 必填
+参数:"china_business_license",值:"中国"     //中国营业执照 非必填 中国卖家时传
 参数:"business_license_img",值:"文件上传"     // file格式上传  非必填 中国卖家时传
 参数:"contact_full_name",值:"Jason Ruan"     //全名 必填
-参数:"mobile",值:"+8613672009476"     //手机号 必填
+参数:"mobile_phone",值:"+8613672009476"     //手机号 必填
+参数:"chinese_name",值:"阮俊森"     //中文名 非必填
+参数:"city_id",值:158    //城市id  从接口获取的城市id 非必填
+参数:"province_id",值:56     //省份id 从接口获取的省份id 非必填
 参数:"uuid",值:"08b7b510-18a3-11e9-bc7a-db13b186ec35"     //邮件发送的注册链接时url参数中的uuid 必填
 
 返回:

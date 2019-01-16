@@ -12,7 +12,8 @@ class Company extends Model
         'user_id',
         'company_name', //公司名称
         'company_country_id', //公司国家id
-        'company_region_id', //公司地区id
+        'company_province_id', //公司省份id
+        'company_city_id', //公司城市id
         'company_detailed_address', //公司纤详细地址
         'company_owner', //公司负责人
         'company_name_in_china', //公司中文名
