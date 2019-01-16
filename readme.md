@@ -20,7 +20,11 @@
 
 6.世界城市列表包: https://github.com/khsing/laravel-world
 
-7.号码验证 : https://github.com/Propaganistas/Laravel-Phone
+7.号码验证: https://github.com/Propaganistas/Laravel-Phone
+
+8.商品分类使用的包: https://github.com/lazychaser/laravel-nestedset
+
+9.询盘消息使用的包: https://github.com/cmgmyr/laravel-messenger
 
 ##前端脚手架:
 参考:https://github.com/yyx990803/laravel-vue-cli-3
@@ -35,7 +39,7 @@
 4.自动加载文件 composer dump-autoload
 5.执行迁移 修改完迁移文件中的up 与 down方法后方可执行 php artisan migrate --env=local
 6.第三方包发布配置:php artisan vendor:publish
-7.回滚迁移 php artisan migrate:rollback  --env=local
+7.回滚迁移 php artisan migrate:rollback  --env=mall.local
 
 
 ##模块中命令:

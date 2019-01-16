@@ -20,7 +20,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('ec::index');
+        return view('  ec::index');
     }
 
     public function test(Request $request){

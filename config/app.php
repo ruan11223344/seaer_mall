@@ -222,6 +222,10 @@ return [
          * 手机号验证
          */
         Propaganistas\LaravelPhone\PhoneServiceProvider::class,
+        /*
+         * 消息系统
+         */
+        Cmgmyr\Messenger\MessengerServiceProvider::class,
     ],
 
     /*
