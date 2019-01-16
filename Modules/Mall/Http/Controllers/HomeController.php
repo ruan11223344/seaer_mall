@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Mews\Captcha\Facades\Captcha;
 use Khsing\World\Models\Country;
+use Modules\Mall\Entities\ProductsCategories;
 
 
 class HomeController extends Controller
@@ -23,8 +24,8 @@ class HomeController extends Controller
     }
 
     public function test(Request $request){
-        $s = Country::getByCode('ke');
-        dd($s->id);
+        $root = ProductsCategories::descendantsAndSelf(1)->toTree()->first()->toArray();
+        dd($root);
         return $this->echoSuccessJson('',(array)City::getCityList(125));
     }
 
