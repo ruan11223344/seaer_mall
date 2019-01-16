@@ -12,14 +12,14 @@
                         </dd>
                         <dd class="resetPass-box-block-item-list">
                             <div>New Password</div>
-                            <input type="text" placeholder="Enter 6-20 characters（Case Sensitive A-Z，a-z，0-9 only）" />
+                            <input type="password" placeholder="Enter 6-20 characters（Case Sensitive A-Z，a-z，0-9 only）" v-model="rulesFrom.password" v-verify="rulesFrom.password" />
                         </dd>
                         <dd class="resetPass-box-block-item-list">
                             <div>Confirm New Password</div>
-                            <input type="text" placeholder="Enter 6-20 characters（Case Sensitive A-Z，a-z，0-9 only）" />
+                            <input type="password" placeholder="Enter 6-20 characters（Case Sensitive A-Z，a-z，0-9 only）" v-model="rulesFrom.passwordCheck" v-verify="rulesFrom.passwordCheck" />
                         </dd>
                     </dl>
-                    <button type="button" class="resetPass-box-block-btn">Submit</button>
+                    <button type="button" class="resetPass-box-block-btn" @click="onSubmit">Submit</button>
                 </section>
             </div>
         </main>
@@ -32,6 +32,65 @@
     import Modal from '../components/Modal'
 
     export default {
+        data() {
+            return {
+                rulesFrom: {
+                    password: '',
+                    passwordCheck: ''
+                },
+            }
+        },
+        verify: {
+            // 验证
+            rulesFrom: {
+                password: [
+                    {
+                        test: function (value) { // 自定义正则
+                            const Rex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/g
+                            let bool = Rex.test(value)
+
+                            if (value === '') {
+                                return false
+                            } else if(!(value.length >= 6 && value.length <= 20)) {
+                                return false
+                            } else if(!bool){
+                                return false
+                            }else {
+                                return true
+                            }
+                        },
+                        message: 'Please enter your Email Address or Member ID.',
+                    }
+                ],
+                passwordCheck: [
+                    {
+                        test: function (value) { // 自定义正则
+                            if (value === '') {
+                                return false
+                            }else if(!(this.rulesFrom.password === value)) {
+                                return false
+                            }else {
+                                return true
+                            }
+                        },
+                        message: 'Please enter your Email Address or Member ID.',
+                    }
+                ]
+            }
+        },
+        methods: {
+            onSubmit() {
+                if(this.$verify.check()) {
+                    this.$Message.info('true')
+
+                    // setTimeout(() => {
+                    //     this.$router.push('/')
+                    // }, 3000)
+                }else {
+                    this.$Message.info('false')
+                }
+            },
+        },
         components: {
             'v-modal': Modal
         }

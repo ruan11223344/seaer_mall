@@ -43,8 +43,6 @@
 </template>
 
 <script>
-    import Verify from 'vue2-verify'
-
     export default {
         name: 'app',
         data() {
@@ -52,9 +50,7 @@
                 rulesFrom: {
                     userId: '',
                     password: ''
-                },
-                identifyCodes: "1234567890",
-                identifyCode: ""
+                }
             }
         },
         verify: {
@@ -82,7 +78,6 @@
         mounted() {
         },
         components: {
-            Verify,
         }
     }
 </script>
