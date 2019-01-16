@@ -45,14 +45,14 @@ const newRouter = new Router({
           path: 'complete',
           component: () => import('./views/Registered/Complete')
         }
-      ]      
+      ]
     },
     {
       path: '/reset', // 重置密码
       component: () => import('./views/ResetPass'),
       children: [
         {
-          path: 'pass', // 第一步
+          path: 'pass',
           component: () => import('./views/ResetPass/Pass')
         },
         // {

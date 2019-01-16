@@ -19,17 +19,22 @@
                             <input type="text" placeholder="Enter 6-20 characters（Case Sensitive A-Z，a-z，0-9 only）" />
                         </dd>
                     </dl>
-
                     <button type="button" class="resetPass-box-block-btn">Submit</button>
                 </section>
             </div>
-        </main> 
+        </main>
+        <!-- 模态框 -->
+        <v-modal v-show="false"></v-modal>
     </div>
 </template>
 
 <script>
+    import Modal from '../components/Modal'
+
     export default {
-        
+        components: {
+            'v-modal': Modal
+        }
     }
 </script>
 
