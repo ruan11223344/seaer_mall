@@ -8,12 +8,12 @@
                 <!-- id -->
                 <FormItem prop="id">
                     <label for="" slot="label" class="Registered-one-main-label">Menber ID</label>
-                    <Input type="text" v-model="formCustom.id" placeholder="Member ID is the username,created by yourself." />
+                    <Input type="text" v-model="formCustom.id" :placeholder="Countries ? '请输入您的ID' : 'Member ID is the username,created by yourself.'" />
                 </FormItem>
                 <!-- 邮箱 -->
                 <FormItem prop="email">
                     <label for="" slot="label" class="Registered-one-main-label">Email Address</label>
-                    <Input v-model="formCustom.email" placeholder="Please enter your Email Address." />
+                    <Input v-model="formCustom.email" :placeholder="Countries ? '请输入您的邮箱地址' : 'Please enter your Email Address.'" />
                 </FormItem>
                 <!-- 验证码 -->
                 <FormItem prop="code">
@@ -48,6 +48,7 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
     import Img from "@/components/Img"
     import HeadTemplate from "../components/Head/index"
 
@@ -97,7 +98,11 @@
                 }
             }
         },
+        computed: {
+            ...mapState([ 'Countries' ])
+        },
         methods: {
+            // 下一步
             handleSubmit (name) {
                 if(this.formCustom.single) {
                     this.$refs[name].validate((valid) => {
@@ -111,6 +116,8 @@
                     this.$Message.error('code!');
                 }
             },
+        },
+        mounted() {
         },
         components: {
             'v-img': Img,

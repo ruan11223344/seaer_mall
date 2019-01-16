@@ -2,6 +2,7 @@
 /public/hot
 /public/storage
 /Modules/Mall/public/*
+/Modules/Mall/public/img/*
 /Modules/Mall/Resources/views/index.blade.php
 /storage/*.key
 /vendor

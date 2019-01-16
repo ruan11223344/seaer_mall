@@ -6,7 +6,7 @@
             </router-link>
             <div class="resetPass-link">
                 <div class="resetPass-link-login">Sign In</div>
-                <div class="resetPass-link-region">Chinese Supplier please check here</div>
+                <div class="resetPass-link-region" @click="onClick">{{ Countries ? 'Kenya Supplier please check here' : 'Chinese Supplier please check here'}}</div>
             </div>
         </header>
         <main class="main">
@@ -17,15 +17,23 @@
 </template>
 
 <script>
+    import { mapState, mapMutations } from 'vuex'
+
     export default {
         name: 'app',
         data() {
             return {
-               
             }
         },
+        computed: {
+            ...mapState([ 'Countries' ])
+        },
         methods: {
-            
+            ...mapMutations([ 'SET_COUNTRIES' ]),
+            onClick() {
+                this.SET_COUNTRIES()
+                console.log(this.Countries)
+            }
         },
         mounted() {
         },

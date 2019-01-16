@@ -40,28 +40,24 @@ const newRouter = new Router({
         {
           path: 'three',
           component: () => import('./views/Registered/Three')
+        },
+        { // 注册完成
+          path: 'complete',
+          component: () => import('./views/Registered/Complete')
         }
-      ]      
+      ]
     },
     {
       path: '/reset', // 重置密码
       component: () => import('./views/ResetPass'),
       children: [
         {
-          path: 'one', // 第一步
-          component: () => import('./views/ResetPass/One')
+          path: 'pass',
+          component: () => import('./views/ResetPass/Pass')
         },
         {
-          path: 'two', // 第二步
-          component: () => import('./views/ResetPass/Two')
-        },
-        {
-          path:'three', // 第三步
-          component: () => import('./views/ResetPass/Three')
-        },
-        {
-          path: 'four', // 第四步
-          component: () => import('./views/ResetPass/Four')
+          path: 'find',
+          component: () => import('./views/ResetPass/Find')
         }
       ]
     },
