@@ -7,7 +7,7 @@
         </header>
         <main class="login-main">
             <div class="box">
-                <div class="box-title">Email Address or Member ID:</div>
+                <div class="box-title">Account</div>
                 <!-- 用户id -->
                 <section class="box-useId">
                     <input type="text" placeholder="Please enter your Email Address or Member ID." v-model="rulesFrom.userId" v-verify="rulesFrom.userId">
@@ -35,7 +35,7 @@
                     </div>
                 </section>
                 <div class="box-btn" @click="onSubmit" id="Login-btn">Sign In</div>
-                <router-link to="/" tag="div" class="box-registered">New user?Join Free</router-link>
+                <router-link to="/" tag="div" class="box-registered">New User ？Join In</router-link>
             </div>
         </main>
         <footer>Copyright © 2018-2019  Afriby.com  All Rights Reserved.</footer>

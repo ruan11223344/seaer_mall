@@ -52,21 +52,21 @@ const newRouter = new Router({
       component: () => import('./views/ResetPass'),
       children: [
         {
-          path: 'one', // 第一步
-          component: () => import('./views/ResetPass/One')
+          path: 'pass', // 第一步
+          component: () => import('./views/ResetPass/Pass')
         },
-        {
-          path: 'two', // 第二步
-          component: () => import('./views/ResetPass/Two')
-        },
-        {
-          path:'three', // 第三步
-          component: () => import('./views/ResetPass/Three')
-        },
-        {
-          path: 'four', // 第四步
-          component: () => import('./views/ResetPass/Four')
-        }
+        // {
+        //   path: 'two', // 第二步
+        //   component: () => import('./views/ResetPass/Two')
+        // },
+        // {
+        //   path:'three', // 第三步
+        //   component: () => import('./views/ResetPass/Three')
+        // },
+        // {
+        //   path: 'four', // 第四步
+        //   component: () => import('./views/ResetPass/Four')
+        // }
       ]
     },
     {
