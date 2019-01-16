@@ -6,6 +6,7 @@ use App\Utils\EchoJson;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Mews\Captcha\Facades\Captcha;
+use Khsing\World\Models\Country;
 
 
 class HomeController extends Controller
@@ -22,7 +23,8 @@ class HomeController extends Controller
     }
 
     public function test(Request $request){
-        dd(substr('3c339550-17e0-11e9-aaf7-373fe9a5c52b',0,8));
+        $s = Country::getByCode('ke');
+        dd($s->id);
         return $this->echoSuccessJson('',(array)City::getCityList(125));
     }
 
