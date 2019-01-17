@@ -2,6 +2,7 @@
 
 namespace Modules\Mall\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Modules\Mall\Entities\User;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
@@ -20,6 +21,32 @@ class MessagesController extends Controller
      *
      * @return mixed
      */
+    public function createMessage(Request $request){
+
+    }
+
+    public function replyMessage(Request $request){
+
+    }
+
+    public function deleteMessage(Request $request){
+
+    }
+
+    public function emptyMessage(Request $request){
+
+    }
+
+    public function getIndexList(Request $request){
+
+    }
+
+    public function getSpamList(Request $request){
+
+    }
+
+
+
     public function index()
     {
         // All threads, ignore deleted/archived participants

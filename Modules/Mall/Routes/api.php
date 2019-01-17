@@ -30,6 +30,19 @@ Route::group(['domain'=>env('MALL_DOMAIN')],function () {
 
     });
 
+    //消息系统
+    Route::prefix('message')->group(function() {
+        Route::group(['middleware' => ['client.credentials','auth:api']], function(){
+            //需要认证的组
+            Route::post('create_message', 'MessagesController@createMessage');
+            Route::get('create_message', 'MessagesController@replyMessage');
+            Route::get('create_message', 'MessagesController@deleteMessage');
+            Route::get('create_message', 'MessagesController@emptyMessage');
+            Route::get('create_message', 'MessagesController@getIndexList');
+            Route::get('create_message', 'MessagesController@getOutboxList');
+        });
+    });
+
     Route::group(['prefix' => 'utils'],function() {
             Route::get('get_captcha','UtilsController@getCaptcha')->name('get_captcha');
             Route::post('check_captcha_url','UtilsController@checkCaptchaUrl')->name('check_captcha');
