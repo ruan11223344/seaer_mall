@@ -29,7 +29,10 @@ class AuthorizationsController extends Controller
 
     public function getUserInfo()
     {
-        $user = Auth::user();
-        return $this->echoSuccessJson('获取用户信息成功！',$user->toArray());
+        $user_obj = Auth::user();
+        $user = $user_obj->toArray();
+        $company = $user_obj->company->toArray();
+        $user_extends = $user_obj->usersExtends->toArray();
+        return $this->echoSuccessJson('获取用户信息成功！',compact('user','company','user_extends'));
     }
 }

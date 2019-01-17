@@ -39,7 +39,7 @@ Route::group(['domain'=>env('MALL_DOMAIN')],function () {
             Route::get('create_message', 'MessagesController@deleteMessage');
             Route::get('create_message', 'MessagesController@emptyMessage');
             Route::get('create_message', 'MessagesController@getIndexList');
-            Route::get('create_message', 'MessagesController@getOutboxList');
+            Route::get('get_index_list', 'MessagesController@getIndexList');
         });
     });
 

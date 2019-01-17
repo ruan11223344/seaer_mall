@@ -17,6 +17,8 @@ use Modules\Mall\Entities\UsersExtends;
 use Modules\Mall\Entities\User;
 use Webpatser\Uuid\Uuid;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+
 
 class RegisterController extends Controller
 {
