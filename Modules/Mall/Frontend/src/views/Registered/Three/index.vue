@@ -3,7 +3,7 @@
         <v-head-template :img="require('@/assets/img/login/bg2.png')" />
 
         <div class="Registered-three-main" style="padding:50px 140px 50px 50px">
-            <Form ref="" :model="formItem" :rules="RulesItem" label-position="right" :label-width="240">
+            <Form ref="RulesItem" :model="formItem" :rules="RulesItem" label-position="right" :label-width="240">
                 <!-- id -->
                 <FormItem>
                     <label for="" slot="label" class="Registered-three-main-label">Member ID</label>
@@ -27,7 +27,7 @@
                 <!-- 可选中国公司名称 -->
                 <FormItem v-show="Countries == false">
                     <label for="" slot="label" class="Registered-three-main-label">Company Name In China</label>
-                    <Input type="text" v-model="formItem.company" placeholder="Must be a legally registered company" />
+                    <Input type="text" v-model="formItem.companyChina" placeholder="Must be a legally registered company" />
                 </FormItem>
                 <!-- 联系人名称 -->
                 <FormItem>
@@ -35,8 +35,9 @@
                     <Row>
                         <Col span="6">
                             <Select v-model="formItem.gender">
-                                <Option value="Mr.">Mr.</Option>
-                                <Option value="shenzhen">Sydney</Option>
+                                <Option value="Mr">Mr.</Option>
+                                <Option value="Miss">Miss.</Option>
+                                <Option value="Mrs">Mrs.</Option>
                             </Select>
                         </Col>
                         <Col span="16" offset="2">
@@ -55,17 +56,17 @@
                 <FormItem>
                     <label for="" slot="label" class="Registered-three-main-label">Company Address</label>
                     <Row>
+                        <!-- 省份地址 -->
                         <Col span="14" class="Registered-three-main-address">
                             <div style="width:80px;fontSize: 18px;color: #333333;">{{ Countries == false ? 'China' : 'Kenya'}}</div>
-                            <Select v-model="formItem.Address1" style="width: 187px">
-                                <Option value="beijing">New York</Option>
-                                <Option value="shanghai">London</Option>
-                                <Option value="shenzhen">Sydney</Option>
+                            <Select v-model="formItem.Address1" style="width: 187px" @on-change="changeProvince">
+                                <Option :value="province_id" v-for="({ province_id, name }, index) in Province" :key="index">{{ name }}</Option>
                             </Select>
                         </Col>
-                        <Col span="9" offset="1">
-                            <Select v-model="formItem.Address2" disabled style="width: 187px;float:right">
-                                <!-- <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option> -->
+                        <!-- 城市地址 -->
+                        <Col span="9" offset="1"> 
+                            <Select v-model="formItem.Address2" style="width: 187px;float:right">
+                                <Option v-for="({city_id, name}, index) in City" :value="city_id" :key="index">{{ name }}</Option>
                             </Select>
                         </Col>
                     </Row>
@@ -73,9 +74,9 @@
                  <!-- 营业执照编码 -->
                 <FormItem v-show="Countries == false">
                     <label for="" slot="label" class="Registered-three-main-label">Business License</label>
-                    <Input type="text" v-model="formItem.company" placeholder="填写营业执照上的统一社会信用代码" />
+                    <Input type="text" v-model="formItem.coding" placeholder="填写营业执照上的统一社会信用代码" />
                 </FormItem>
-                <!-- 营业执照编码 -->
+                <!-- 营业执照文件 -->
                 <FormItem v-show="Countries == false">
                     <label for="" slot="label" class="Registered-three-main-label">Business License Scan Upload</label>
                     <Row>
@@ -106,18 +107,22 @@
                 </FormItem>
             </Form>
             <!-- 提交 -->
-            <button type="button" class="Registered-three-main-btn">Confirm</button>
+            <button type="button" class="Registered-three-main-btn" @click="onSubmit('RulesItem')">Confirm</button>
         </div>
     </section>
 </template>
 
 <script>
-    import { mapState } from 'vuex'
+    import { mapState, mapMutations } from 'vuex'
     import Img from "@/components/Img"
     import HeadTemplate from "../components/Head/index"
     // 图片预览插件
     import LightBox from 'vue-image-lightbox'
     import 'vue-image-lightbox/dist/vue-image-lightbox.min.css'
+    // 公共方法
+    // import { getProvinceAddress } from '@/utils/getData'
+    import md5 from 'md5'
+
 
     export default {
         data() {
@@ -152,11 +157,16 @@
                     password: '', // 密码
                     passwdCheck: '', // 确认密码
                     company: '', // 公司
-                    gender: 'Mr.', // 性别
+                    companyChina: '', // 中国公司
+                    gender: 'Mr', // 性别
                     userName: '', // 姓名
+                    phone: '', // 手机号
                     Address1: '',
                     Address2: '',
+                    coding: '', // 营业执照编码
                 },
+                Province: '',
+                City: '',
                 RulesItem: { // 校验
                     password: [ // 密码验证
                         { trigger: 'blur', validator: validatorPassword }
@@ -178,6 +188,7 @@
             ...mapState([ 'Countries' ])
         },
         methods: {
+            ...mapMutations(['SET_COUNTRIES']),
             getObjectURL(file) {  // 获取图片本地地址
                 let url = null;  
                 if (window.createObjcectURL != undefined) {  
@@ -189,6 +200,7 @@
                 }  
                 return url;  
             },
+            
             checkAllGroupChange(value) {
                 
             },
@@ -206,13 +218,117 @@
                 // 阻止默认上传
                 return false;
             },
+
             // 图片预览
             openGallery(index) {
                 this.$refs.lightbox.showImage(index)
             },
-            onSubmit(name) {
 
+            changeProvince(value) {
+                const City = this.getCityAddress(value)
+
+                City.then(res => {
+                    const { code, data } = res
+                    if(code == 200) {
+                        this.City = data
+                    }
+                })
+            },
+
+            onSubmit(name) { // 提交
+                this.$refs[name].validate((valid) => {
+                    if(valid) {
+                        this.upFrom()
+                    }else {
+                        console.log(false)
+                    }
+                })
+            },
+
+            upFrom() {
+                this.$request({
+                    url: '/auth/register',
+                    method: 'post',
+                    data: {
+                        password: md5(this.formItem.password),
+                        password_confirmation: md5(this.formItem.passwdCheck),//重复密码 必填
+                        account_type: this.Countries,//注意！如果用户切换身份 则account_type 也随之切换而并非 邮件发送的注册链接时url参数中的u_from 其中 u_from=cn 时account_type 为 0  为ke时 account_type 为 1 切换后随之变动 必填
+                        sex: this.formItem.gender, //性别 必填
+                        company_name: this.formItem.company, //公司名称  必填
+                        company_name_in_china: this.formItem.companyChina,//公司中文名 非必填 中国卖家时传
+                        china_business_license: this.formItem.coding,//中国营业执照 非必填 中国卖家时传
+                        business_license_img: '',// file格式上传  非必填 中国卖家时传
+                        contact_full_name: this.formItem.userName, //全名 必填
+                        mobile_phone: this.Countries ? `+254${this.formItem.phone}` : `+86${this.formItem.phone}`,//手机号 必填
+                        city_id: this.formItem.Address2,//城市id  从接口获取的城市id 非必填
+                        province_id: this.formItem.Address1,//省份id 从接口获取的省份id 非必填
+                        uuid: this.$route.query.rg_id  //邮件发送的注册链接时url参数中的uuid 必填
+                    }
+                }).then(res => {
+                    console.log(res)
+                }).catch(err => {
+                    return false
+                })
+            },
+
+            async getCityAddress(code) { // 城市地址
+                return await new Promise((resolve, reject) => {
+                    this.$request({
+                        url: '/utils/get_city_list',
+                        params: {
+                            province_id: code // 国家代码
+                        }
+                    }).then(res => {
+                        resolve(res)
+                    }).catch(err => {
+                        reject(err)
+                    })
+                })
+            },
+
+            async getProvinceAddress(code) { // 省份地址
+                return await new Promise((resolve, reject) => {
+                    this.$request({
+                        url: '/utils/get_provinces_list',
+                        params: {
+                            country_code: code // 国家代码
+                        }
+                    }).then(res => {
+                        resolve(res)
+                    }).catch(err => {
+                        reject(err)
+                    })
+                })
+            },
+
+
+            getId() { // 获取参数
+                this.$request({
+                    url: '/auth/check_register_status',
+                    method: 'post',
+                    params: {
+                        uuid: this.$route.query.rg_id
+                    }
+                }).then(res => {
+                    const { code, data } = res
+                    if(code == 200) {
+                        this.SET_COUNTRIES(data.account_type)
+                        this.$set(this.formItem, 'id', data.member_id)
+                    }else {
+                        // 此处 跳转过期提醒页面！
+                    }
+                }).catch(err => {
+                    return false
+                })
             }
+        },
+        mounted() {
+            const Province = this.getProvinceAddress(this.$route.query.u_from)
+            Province.then(res => { // 省份地址
+                this.Province = res.data
+            })
+            
+            this.getId()
         },
         components: {
             'v-img': Img,
