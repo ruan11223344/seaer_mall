@@ -13,7 +13,7 @@
 
 
 Route::group(['domain'=>env('MALL_DOMAIN')],function () {
-    Route::get('/login','MessagesController@index');
+
     Route::group(['prefix' => 'messages'], function () {
         Route::get('/', ['as' => 'messages', 'uses' => 'MessagesController@index']);
         Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
@@ -24,7 +24,7 @@ Route::group(['domain'=>env('MALL_DOMAIN')],function () {
 
 
     Route::get('/test', 'HomeController@test');
-    Route::get('/{any}', 'HomeController@index')->where('any', '.*');
+//    Route::get('/{any}', 'HomeController@index')->where('any', '.*');
 });
 
 //Route::get('/', 'HomeController@index')->name('home');

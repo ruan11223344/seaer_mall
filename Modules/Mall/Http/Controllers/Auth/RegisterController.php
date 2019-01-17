@@ -67,7 +67,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['member_id'],
+            'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
@@ -130,10 +130,13 @@ class RegisterController extends Controller
                 $company_business_license_pic_url = !$res ?  null : $res;
             }
 
+            $member_id = RegisterTemp::where('register_uuid',$uuid)->first()->name;
+            $request->merge(['name' => $member_id]);
+
             DB::beginTransaction();
             event(new Registered($user = $this->create($request->all())));
 
-            if((integer)in_array($request->input('account_type'),
+            if(in_array((integer)$request->input('account_type'),
                 [
                     UsersExtends::ACCOUNT_TYPE_COMPANY_CHINA,
                     UsersExtends::ACCOUNT_TYPE_COMPANY_KENYA
@@ -168,7 +171,7 @@ class RegisterController extends Controller
                     ]
                 );
             }
-            RegisterTemp::where('uuid',$uuid)->update(['status'=>RegisterTemp::STATUS_SUCCESS]);
+            RegisterTemp::where('register_uuid',$uuid)->update(['status'=>RegisterTemp::STATUS_SUCCESS]);
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
@@ -282,7 +285,7 @@ class RegisterController extends Controller
     }
 
     public function getRegisterUrl($account_type,$register_uuid){
-        $str = 'https://'.env('MALL_DOMAIN').'/auth/register?';
+        $str = 'https://'.env('MALL_DOMAIN').'/registered/three?';
         if(in_array($account_type,[UsersExtends::ACCOUNT_TYPE_COMPANY_KENYA,UsersExtends::ACCOUNT_TYPE_COMPANY_CHINA])){
             $u_type = 'company';
         }else{
@@ -304,8 +307,8 @@ class RegisterController extends Controller
     }
 
     public function getAfId($uuid,$account_type){
-        $reg_tmp = RegisterTemp::where('uuid',$uuid)->first();
-        $tmp_id = substr($reg_tmp->uuid,0,8).$reg_tmp->id;
+        $reg_tmp = RegisterTemp::where('register_uuid',$uuid)->first();
+        $tmp_id = substr($reg_tmp->register_uuid,0,8).$reg_tmp->id;
         if($account_type == UsersExtends::ACCOUNT_TYPE_COMPANY_CHINA){
             $region = 'CN';
         }elseif ($account_type == UsersExtends::ACCOUNT_TYPE_COMPANY_KENYA){

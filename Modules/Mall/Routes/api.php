@@ -21,12 +21,12 @@ Route::group(['domain'=>env('MALL_DOMAIN')],function () {
         });
 
         Route::post('get_access_token', 'Auth\AuthorizationsController@getAccessToken');
-        Route::post('login', 'Auth\LoginController@login')->name('login');
-        Route::post('reset_password', 'Auth\PasswordController@resetPassword')->name('reset');
-        Route::post('forget_password', 'Auth\PasswordController@forgetPassword')->name('forget');
+        Route::post('login', 'Auth\LoginController@login');
+        Route::post('reset_password', 'Auth\PasswordController@resetPassword');
+        Route::post('forget_password', 'Auth\PasswordController@forgetPassword');
         Route::post('send_register_email','Auth\RegisterController@sendRegisterEmail')->name('send_register_email');
         Route::post('check_register_status','Auth\RegisterController@checkRegisterStatus')->name('check_register_status');
-        Route::post('register', 'Auth\RegisterController@register')->name('register');
+        Route::post('register', 'Auth\RegisterController@register');
 
     });
 
