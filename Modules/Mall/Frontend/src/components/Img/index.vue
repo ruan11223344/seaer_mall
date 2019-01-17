@@ -27,7 +27,7 @@
                 this.$set(this.imgObj, 'src', this.imgSrc)
                 return this.imgObj
             }
-        },
+        }
     }
 </script>
 

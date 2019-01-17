@@ -6,10 +6,10 @@
             <v-img width="110" height="108" :imgSrc="require('@/assets/img/login/chengg.png')" class="Registered-two-success"></v-img>
             <div class="Registered-two-content">
                 A confirmation email has been sent your mailbox 
-                <router-link to="" tag="a">{{ 'wjcharles@163.com' }}</router-link>
+                <router-link to="" tag="a">{{ RegEmail.Email }}</router-link>
             </div>
             <p class="Registered-two-prompt">Please check your email box and continue your registration whin 24 hours.</p>
-            <button type="button" class="Registered-two-btn">Go Check Email</button>
+            <a :href="RegEmail.redirect_to"><button type="button" class="Registered-two-btn">Go Check Email</button></a>
         </div>
     </section>
 </template>
@@ -17,8 +17,12 @@
 <script>
     import Img from "@/components/Img"
     import HeadTemplate from "../components/Head/index"
+    import { mapState, mapMutations } from 'vuex'
 
     export default {
+        computed: {
+            ...mapState([ 'RegEmail' ])
+        },
         components: {
             'v-img': Img,
             'v-head-template': HeadTemplate

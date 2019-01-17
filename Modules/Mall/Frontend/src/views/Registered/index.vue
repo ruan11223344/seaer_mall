@@ -6,7 +6,7 @@
             </router-link>
             <div class="resetPass-link">
                 <div class="resetPass-link-login">Sign In</div>
-                <div class="resetPass-link-region" @click="onClick">{{ Countries ? 'Kenya Supplier please check here' : 'Chinese Supplier please check here'}}</div>
+                <div class="resetPass-link-region" @click="onClick">{{ Countries ? 'Chinese Supplier please check here'  : 'Kenya Supplier please check here'}}</div>
             </div>
         </header>
         <main class="main">
