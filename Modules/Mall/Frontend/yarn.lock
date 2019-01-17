@@ -4238,8 +4238,8 @@ image-size@~0.5.0:
 
 img-magnifier@^0.1.1, img-magnifier@^0.1.2:
   version "0.1.2"
-  resolved "https://registry.yarnpkg.com/img-magnifier/-/img-magnifier-0.1.2.tgz#f4a17650b2ccf8a4f4fb50741de78546243e18ac"
-  integrity sha512-jSsPW5QUN1rhJYhWwBz6/JA6WFowlO/s3IXTmerya22VybTttu8MdP/wM2TRDapVF6PVjgCf4C+5cw78YSyTag==
+  resolved "http://registry.npm.taobao.org/img-magnifier/download/img-magnifier-0.1.2.tgz#f4a17650b2ccf8a4f4fb50741de78546243e18ac"
+  integrity sha1-9KF2ULLM+KT0+1B0HeeFRiQ+GKw=
   dependencies:
     img-magnifier "^0.1.1"
     vue "^2.5.17"

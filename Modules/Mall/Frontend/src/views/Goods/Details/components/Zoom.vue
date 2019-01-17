@@ -30,7 +30,7 @@
                     width: '150px',
                     height: '150px',
                     background: '#000000',
-                    opacity: 0.8,
+                    opacity: 0.4,
                     // 如果有多个过渡效果，可以设置 transition: 'opacity 2s,background 2s' ，请勿设置为：transition: 'all .8s' ，这将会影响组件的实现。
                     transition: 'opacity 1s'
                 },
