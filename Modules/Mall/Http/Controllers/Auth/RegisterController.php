@@ -106,7 +106,7 @@ class RegisterController extends Controller
             'contact_full_name'=>'string|required|between:2,30',
             'mobile_phone'=>'required|phone:CN,KE',
             'province_id'=>'required|exists:world_divisions,id',
-            'city_id'=>'required|exists:cities,id',
+            'city_id'=>'required|exists:world_cities,id',
             'uuid'=>[
                 Rule::exists('register_temp','register_uuid')->where(function ($query) {
                     $query->where(
