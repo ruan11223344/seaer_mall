@@ -178,7 +178,7 @@
             ...mapState([ 'Countries' ])
         },
         methods: {
-            getObjectURL(file) {  
+            getObjectURL(file) {  // 获取图片本地地址
                 let url = null;  
                 if (window.createObjcectURL != undefined) {  
                 url = window.createOjcectURL(file);  
@@ -191,13 +191,6 @@
             },
             checkAllGroupChange(value) {
                 
-            },
-            businessChange(value) {
-                if(value.length < 4) {
-                    this.formItem.business = value
-                }else {
-                    this.$delete(this.formItem.business, 3)
-                }
             },
             onBeforeUpload(files) {
                 const type = (files.type.split('/'))[1]
