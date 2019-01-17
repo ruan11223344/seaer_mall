@@ -1,50 +1,42 @@
 <template>
     <div class="main-goods-content">
         <header class="main-goods-content-title">tachograph Time-limited spike tachograph Time-limited spike tac tachograph Time-limited spike tac</header>
-        <div class="main-goods-content-block">
-            <div>Quantity</div>
-            <div>Price</div>
-        </div>
-        <!-- 商品价格 -->
         <dl class="main-goods-content-dl">
-            <dt class="main-goods-content-dt">
-                <div>5-8 Piece</div>
-                <div>
-                    <strong>KSh 503.22</strong>
-                </div>
-            </dt>
-            <dt class="main-goods-content-dt">
-                <div>2-4 Piece</div>
-                <div>
-                    <strong>KSh 500.22</strong>
-                </div>
-            </dt>
-            <dt class="main-goods-content-dt">
-                <div>>= 9</div>
-                <div>
-                    <strong>KSh 500.22</strong>
-                </div>
-            </dt>
+            <dd class="main-goods-content-dl-dd">
+                <div>MOQ:5-8 Piece</div>
+                <div>KSh {{ 500.22 }}</div>
+            </dd>
+            <dd class="main-goods-content-dl-dd">
+                <div>MOQ:2-4 Piece</div>
+                <div>KSh {{ 500.22 }}</div>
+            </dd>
+            <dd class="main-goods-content-dl-dd">
+                <div>MOQ:2-4 Piece</div>
+                <div>KSh {{ 500.22 }}</div>
+            </dd>
+            <dd class="main-goods-content-dl-dd">
+                <div>MOQ:2-4 Piece</div>
+                <div>KSh {{ 500.22 }}</div>
+            </dd>
         </dl>
-        <div class="main-goods-content-block">
-            <div>Attribute Name</div>
-            <div>Attribute Value</div>
-        </div>
-        <!-- 商品参数 -->
-        <div :style="{position: 'relative'}">
-            <!-- 下拉判断 -->
-            <ul class="main-goods-content-ul" :style="dataAttribute.lenth <= 3 ? 'height:' + dataAttribute.length * 40 + 'px' : (isBool ? 'height:' + dataAttribute.length * 40 + 'px' : 'height:' + 3 * 40 + 'px')">
-                <li class="main-goods-content-list" v-for="(item, index) in dataAttribute" :key="index">
-                    <div v-text="item.name"></div>
-                    <div v-text="item.value"></div>
-                </li>
-            </ul>
-            <div class="main-goods-content-ul-btn" @click="onSubmit" v-if="!(dataAttribute.length <= 3)">
-                <Icon :type="isBool ? 'md-arrow-dropup' : 'md-arrow-dropdown'" size="24" color="#dddddd"/>
-            </div>
-        </div>
+        <ul class="main-goods-content-item">
+            <li class="main-goods-content-item-list">
+                <div>Color:</div>
+                <div>
 
-        <div class="main-goods-content-btn" @click="onSend">Send Squirly</div>
+                </div>
+            </li>
+            <li class="main-goods-content-item-list">
+                <div>Model Number:</div>
+                <div>ISO9001</div>
+            </li>
+            <li class="main-goods-content-item-list">
+                <div>Specification:</div>
+                <div>Bulb E12/E14</div>
+            </li>
+        </ul>
+
+        <button type="button" class="main-goods-content-btn">Send Squirly</button>
     </div>
 </template>
 
@@ -52,42 +44,11 @@
     export default {
         data() {
             return {
-                dataAttribute: [
-                    {
-                        name: 'Color Temperature2321321321321321321313',
-                        value: 'Color Temperature'
-                    },
-                    {
-                        name: 'Color Temperature2321321321321321321313',
-                        value: 'Color Temperature'
-                    },
-                    {
-                        name: 'Color Temperature2321321321321321321313',
-                        value: 'Color Temperature'
-                    },
-                    {
-                        name: 'Color Temperature2321321321321321321313',
-                        value: 'Color Temperature'
-                    },
-                    {
-                        name: 'Color Temperature2321321321321321321313',
-                        value: 'Color Temperature'
-                    },
-                    {
-                        name: 'Color Temperature2321321321321321321313',
-                        value: 'Color Temperature'
-                    }
-                ],
-                isBool: false
+                
             }
         },
         methods: {
-            onSubmit() {
-                this.isBool = !this.isBool
-            },
-            onSend() { // Send
-                this.$Message.success('去购物车?')
-            }
+            
         },
         mounted() {
 
@@ -99,7 +60,6 @@
     @import url('../../../../assets/css/index.less');
 
     .main-goods-content {
-
         &-title {
             .color(blackDark);
             width: 566px;
@@ -112,101 +72,68 @@
             font-weight: bold;
         }
 
-        &-block {
-            .width(566px, 40px);
-            .flex(flex-start, center);
-            .bg-color(light);
-
-            & > div {
-                .color(blackLight);
-                width: 163px;
-                font-size: 14px;
-                letter-spacing: 0px;
-            }
-
-            & > div:first-child {
-                margin-left: 17px;
-                margin-right: 20px;
-            }
-        }
-
         &-dl {
-            width: 100%;
-            padding: 5px 0px;
-            padding-left: 17px;
-        }
+            .flex(space-between, center);
+            .width(566px, 84px);
+            background-color: #f5f5f8;
+            padding: 10px 20px;
 
-        &-dt {
-            .flex();	
-            .color(blackLight);
-            line-height: 37px;
-            letter-spacing: 0px;
+            &-dd {
+                .flex(space-around, center, column);
+                height: 100%;
 
-            & > div:first-child {
-                width: 70px;
-                font-size: 14px;
-                margin-right: 112px;
-            }
+                & > div:first-of-type {
+                    font-size: 14px;
+                    line-height: 1;
+                    color: #666666;
+                }
 
-            & > div:last-child {
-                .textHidden();
-                .color(redDark);
-                width: 340px;
-                letter-spacing: 0;
-                font-weight: bold;
-                
-                & > strong {
-                    .color(redDark);
-                    font-size: 22px;
-                    text-shadow: 0 1px 0 #6C0900;
+                & > div:last-of-type {
+                    font-size: 16px;
+                    line-height: 1;
+                    color: #cd2525;
                 }
             }
         }
 
-        &-ul {
-            width: 100%;
-            overflow: hidden;
-            transition: all 1s;
-            &-btn {
-                .flex(center, center);
-                .width(47px, 20px);
-                .bg-color(white);
-                border: solid 1px #dddddd;
-                border-top: none;
-                position: absolute;
-                left: 30px;
-                bottom: -19px;
-                cursor: pointer;
-            }
-        }
+        &-item {
+            .flex(space-around, flex-start, column);
+            width: 566px;
+            height: 142px;
+            background-color: #f5f5f8;
+            margin-top: 10px;
+            padding: 0px 20px;
 
-        &-list {
-            .flex();
-            .color(blackLight);
-            height: 40px;
-            padding-left: 17px;
-            line-height: 37px;
-            letter-spacing: 0px;
-            border-bottom: 1px solid #eeeeee;
+            &-list {
+                .flex();
 
-            & > div:first-child {
-                .textHidden();
-                width: 162px;
-                font-size: 14px;
-                margin-right: 20px;
+                & > div:first-of-type {
+                    width: 170px;
+                }
+                & > div:last-of-type {
+                    width: 566px - 40px - 170px;
+                }
+                & > div:first-of-type, & > div:last-of-type {
+                    .textHidden();
+                    font-size: 14px;
+                    line-height: 1;
+                    color: #666666;
+                }
             }
         }
 
         &-btn {
-            .lineHeight(50px);
-            .color(white);
-            .bg-color(orange2);
-            width: 368px;
-            margin-top: 34px;
+            border: none;
+            width: 179px;
+            height: 46px;
+            background-color: #ef873a;
             font-size: 20px;
-            letter-spacing: 0px;
-            text-align: center;
+            line-height: 1;
+            color: #ffffff;
+            margin: 0px auto;
+            margin-top: 81px;
             cursor: pointer;
+            display: block;
         }
     }
 </style>

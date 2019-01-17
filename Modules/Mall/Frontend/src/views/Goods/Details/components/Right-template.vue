@@ -12,12 +12,18 @@
             </p>
 
             <div class="main-goods-right-content-Country">
-                <div>Country/Region:</div>
+                <div>Country:</div>
                 <div>
                     <img :src="require('@/assets/img/chinese.png')" alt="">
                 </div>
                 <span>china</span>
             </div>
+
+            <div class="main-goods-right-content-business">
+                <div>Business Type:</div>
+                <div>Trading Company</div>
+            </div>
+
         </article>
         <div class="main-goods-right-footer" @click="onSubmitEmail">
             <Icon type="ios-mail" size="24"/>
@@ -42,7 +48,7 @@
     @import url('../../../../assets/css/index.less');
 
     .main-goods-right {
-        .width(273px, 313px);
+        .width(273px, 349px);
         .bg-color(light);
         border: solid 1px #eeeeee;
 
@@ -89,9 +95,11 @@
                 .flex(flex-start, center);
 
                 div:first-child {
+                    width: 110px;
                     .color(blackDark);
                     font-size: 16px;
                     line-height: 1;
+                    text-align: right;
                 }
                 div:nth-child(2) {
                     width: 28px;
@@ -110,6 +118,26 @@
                     .color(blackLight);
                     font-size: 11.8px;
                     letter-spacing: 0px;
+                }
+            }
+
+            &-business {
+                margin-top: 16px;
+                .flex(flex-start, center);
+                div:first-child {
+                    text-align: right;
+                    width: 110px;
+                    .color(blackDark);
+                    font-size: 16px;
+                    line-height: 1;
+                    margin-right: 8px;
+                }
+
+                div:last-child {
+                    font-size: 11.8px;
+                    line-height: 1;
+                    letter-spacing: 0px;
+                    color: #666666;
                 }
             }
         }

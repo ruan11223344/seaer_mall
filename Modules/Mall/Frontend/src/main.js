@@ -34,9 +34,11 @@ Vue.use(iView, {
   locale
 }).use(VueLazyLoad)
 
-import ProductZoomer from 'vue-product-zoomer'
+// 放大镜插件
+import imgMagnifier from 'img-magnifier'
+import 'img-magnifier/lib/img-magnifier.css'
 
-Vue.use(ProductZoomer)
+Vue.use(imgMagnifier)
 
 Vue.config.productionTip = false
 
