@@ -25,7 +25,7 @@
                     <Input type="text" v-model="formItem.company" placeholder="Must be a legally registered company" />
                 </FormItem>
                 <!-- 可选中国公司名称 -->
-                <FormItem v-show="Countries">
+                <FormItem v-show="Countries == false">
                     <label for="" slot="label" class="Registered-three-main-label">Company Name In China</label>
                     <Input type="text" v-model="formItem.company" placeholder="Must be a legally registered company" />
                 </FormItem>
@@ -48,7 +48,7 @@
                 <FormItem>
                     <label for="" slot="label" class="Registered-three-main-label">Mobilephone</label>
                     <Input v-model="formItem.phone">
-                        <div slot="prepend" style="width:65px;fontSize: 18px;color: #333333;">+{{Countries ? 86 : 254}}</div>
+                        <div slot="prepend" style="width:65px;fontSize: 18px;color: #333333;">+{{Countries == false ? 86 : 254}}</div>
                     </Input>
                 </FormItem>
                 <!-- 公司地址 -->
@@ -56,7 +56,7 @@
                     <label for="" slot="label" class="Registered-three-main-label">Company Address</label>
                     <Row>
                         <Col span="14" class="Registered-three-main-address">
-                            <div style="width:80px;fontSize: 18px;color: #333333;">{{ Countries ? 'China' : 'Kenya'}}</div>
+                            <div style="width:80px;fontSize: 18px;color: #333333;">{{ Countries == false ? 'China' : 'Kenya'}}</div>
                             <Select v-model="formItem.Address1" style="width: 187px">
                                 <Option value="beijing">New York</Option>
                                 <Option value="shanghai">London</Option>
@@ -71,12 +71,12 @@
                     </Row>
                 </FormItem>
                  <!-- 营业执照编码 -->
-                <FormItem v-show="Countries">
+                <FormItem v-show="Countries == false">
                     <label for="" slot="label" class="Registered-three-main-label">Business License</label>
                     <Input type="text" v-model="formItem.company" placeholder="填写营业执照上的统一社会信用代码" />
                 </FormItem>
                 <!-- 营业执照编码 -->
-                <FormItem v-show="Countries">
+                <FormItem v-show="Countries == false">
                     <label for="" slot="label" class="Registered-three-main-label">Business License Scan Upload</label>
                     <Row>
                         <Col span="24" class="registered-main-form-content">

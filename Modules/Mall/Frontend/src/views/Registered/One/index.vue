@@ -8,23 +8,26 @@
                 <!-- id -->
                 <FormItem prop="id">
                     <label for="" slot="label" class="Registered-one-main-label">Menber ID</label>
-                    <Input type="text" v-model="formCustom.id" :placeholder="Countries ? '请输入您的ID' : 'Member ID is the username,created by yourself.'" />
+                    <Input type="text" v-model="formCustom.id" :placeholder="Countries ? 'Member ID is the username,created by yourself.'  : '请输入您的ID'" />
                 </FormItem>
                 <!-- 邮箱 -->
                 <FormItem prop="email">
                     <label for="" slot="label" class="Registered-one-main-label">Email Address</label>
-                    <Input v-model="formCustom.email" :placeholder="Countries ? '请输入您的邮箱地址' : 'Please enter your Email Address.'" />
+                    <Input v-model="formCustom.email" :placeholder="Countries ? 'Please enter your Email Address.' : '请输入您的邮箱地址'" />
                 </FormItem>
                 <!-- 验证码 -->
                 <FormItem prop="code">
                     <label for="" slot="label" class="Registered-one-main-label">Verification</label>
                     <Row>
                         <Col span="16">
-                            <Input type="text" v-model="formCustom.age" number />
+                            <Input type="text" v-model="formCustom.code" />
                         </Col>
                         <Col span="8">
-                            <div class="Registered-one-main-code">
-                                <div></div>
+                            <!-- 验证码 -->
+                            <div class="Registered-one-main-code" @click="getCode">
+                                <div>
+                                    <img :src="imgCode" />
+                                </div>
                                 <div>
                                     <Icon type="md-sync" size="26"/>
                                 </div>
@@ -48,7 +51,7 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
+    import { mapState, mapMutations } from 'vuex'
     import Img from "@/components/Img"
     import HeadTemplate from "../components/Head/index"
 
@@ -80,13 +83,15 @@
                     callback()
                 }
             };
-            
+
             return {
+                imgCode: '',
                 formCustom: {
                     id: '',
                     email: '',
                     code: '',
                     single: false,
+                    key: ''
                 },
                 ruleCustom: {
                     id: [
@@ -102,22 +107,64 @@
             ...mapState([ 'Countries' ])
         },
         methods: {
+            ...mapMutations(['SET_REGEMAIL']),
             // 下一步
             handleSubmit (name) {
                 if(this.formCustom.single) {
                     this.$refs[name].validate((valid) => {
                         if (valid) {
-                            this.$Message.success('Success!');
+                            this.updateFrom()
                         } else {
                             this.$Message.error('Fail!');
                         }
                     })
                 }else {
-                    this.$Message.error('code!');
+                    this.$Message.error('Read the Service Agreement!');
                 }
             },
+            getCode() {  // 获取验证码
+                this.$request({
+                    url: '/utils/get_captcha'
+                }).then( ({ code, data }) => {
+                    if(code == 200) {
+                        this.imgCode = data.img
+                        this.formCustom.key = data.key
+                    }else {
+                        this.$Message.warning('error: 400')
+                    }
+                }).catch(err => {
+                    return false
+                })
+            },
+            updateFrom() { // 发送表单
+                this.$request({
+                    url: '/auth/send_register_email',
+                    method: 'post',
+                    data: {
+                        member_id: this.formCustom.id, // 用户名
+                        captcha: this.formCustom.code, // 验证码
+                        key: this.formCustom.key,
+                        email: this.formCustom.email,
+                        account_type: this.Countries, // 账户类型
+                        i_agree: this.formCustom.single // 同意协议
+                    }
+                }).then( res => {
+                    this.getCode()
+                    const { code, data} = res
+                    if(code == 200) {
+                        // 把注册的邮箱存入vuex
+                        this.SET_REGEMAIL({ Email: this.formCustom.email, redirect_to: data.redirect_to})
+                        this.$router.push('/registered/two')
+                    }else {
+                        this.$Message.warning('Verification code error, please input the correct verification code')
+                    }
+                }).catch(err => {
+                    return false
+                })
+            }
         },
         mounted() {
+            this.getCode()
         },
         components: {
             'v-img': Img,
@@ -149,12 +196,23 @@
             }
 
             &-code {
-                .flex(space-between);
+                .flex(flex-start, center, row);
                 cursor: pointer;
                 width: 100%;
                 height: 36px;
                 background-color: #eeeeee;
-                padding: 0px 15px;
+
+                & > div:first-child {
+                    width: 120px;
+                    height: 36px;
+                    margin-right: 5px;
+
+                    & > img {
+                        width: 100%;
+                        height: 100%;
+                        display: block;
+                    }
+                }
             }
 
             &-single {

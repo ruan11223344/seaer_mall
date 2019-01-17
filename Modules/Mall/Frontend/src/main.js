@@ -10,12 +10,13 @@ import iView from 'iview'
 import locale from 'iview/dist/locale/en-US';
 import 'iview/dist/styles/iview.css'
 
+// 懒加载
 import VueLazyLoad from 'vue-lazyload'
+Vue.use(VueLazyLoad)
 // 引入验证插件
 import verify from "vue-verify-plugin"
 // 自定义验证规则
 import myRules from '@/utils/verify.js'
-
 // 注册自定义验证
 Vue.use(verify, {
   rules: myRules,
@@ -32,7 +33,7 @@ Vue.use(iView, {
   transfer: true,
   size: 'large',
   locale
-}).use(VueLazyLoad)
+})
 
 // 放大镜插件
 import imgMagnifier from 'img-magnifier'

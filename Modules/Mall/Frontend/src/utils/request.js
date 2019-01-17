@@ -33,7 +33,7 @@ service.interceptors.response.use(
     //   store.commit('SET_TOKEN', '')
     //   location.reload()
     // } else {
-      return response
+      return response.data
     // }
   },
   error => {
