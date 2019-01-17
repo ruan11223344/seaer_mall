@@ -46,10 +46,10 @@ class MallServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('ec.php'),
+            __DIR__.'/../Config/config.php' => config_path('mall.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php', 'ec'
+            __DIR__.'/../Config/config.php', 'mall'
         );
     }
 
@@ -60,7 +60,7 @@ class MallServiceProvider extends ServiceProvider
      */
     public function registerViews()
     {
-        $viewPath = resource_path('views/modules/ec');
+        $viewPath = resource_path('views/modules/mall');
 
         $sourcePath = __DIR__.'/../Resources/views';
 
@@ -69,8 +69,8 @@ class MallServiceProvider extends ServiceProvider
         ],'views');
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/ec';
-        }, \Config::get('view.paths')), [$sourcePath]), 'ec');
+            return $path . '/modules/mall';
+        }, \Config::get('view.paths')), [$sourcePath]), 'mall');
     }
 
     /**
@@ -80,12 +80,12 @@ class MallServiceProvider extends ServiceProvider
      */
     public function registerTranslations()
     {
-        $langPath = resource_path('lang/modules/ec');
+        $langPath = resource_path('lang/modules/mall');
 
         if (is_dir($langPath)) {
-            $this->loadTranslationsFrom($langPath, 'ec');
+            $this->loadTranslationsFrom($langPath, 'mall');
         } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'ec');
+            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'mall');
         }
     }
 

@@ -22,8 +22,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $name = Auth::user()->name;
-        return view('home',['name'=>$name]);
+        return view('mall::index');
     }
 
     public function test(Request $request){
