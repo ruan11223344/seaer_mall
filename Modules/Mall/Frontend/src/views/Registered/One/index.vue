@@ -20,11 +20,13 @@
                     <label for="" slot="label" class="Registered-one-main-label">Verification</label>
                     <Row>
                         <Col span="16">
-                            <Input type="text" v-model="formCustom.age" number />
+                            <Input type="text" v-model="formCustom.code" />
                         </Col>
                         <Col span="8">
-                            <div class="Registered-one-main-code">
-                                <div></div>
+                            <div class="Registered-one-main-code" @click="getCode">
+                                <div>
+                                    <v-img width="120" height="36" :imgSrc="imgSrc"></v-img>
+                                </div>
                                 <div>
                                     <Icon type="md-sync" size="26"/>
                                 </div>
@@ -82,11 +84,13 @@
             };
             
             return {
+                imgSrc: '',
                 formCustom: {
                     id: '',
                     email: '',
                     code: '',
                     single: false,
+                    key: ''
                 },
                 ruleCustom: {
                     id: [
@@ -113,11 +117,27 @@
                         }
                     })
                 }else {
-                    this.$Message.error('code!');
+                    this.$Message.error('Read the Service Agreement!');
                 }
             },
+            getCode() {  // 获取验证码
+                this.$request({
+                    url: '/utils/get_captcha'
+                }).then( ({ code, data }) => {
+                    if(code == 200) {
+                        this.imgSrc = data.img
+                        this.formCustom.key = data.key
+                    }else {
+                        this.$Message.warning('error: 400')
+                    }
+                }).catch(err => {
+                    console.log(err)
+                    return false
+                })
+            }
         },
         mounted() {
+            this.getCode()
         },
         components: {
             'v-img': Img,
@@ -149,12 +169,15 @@
             }
 
             &-code {
-                .flex(space-between);
+                .flex(flex-start, center, row);
                 cursor: pointer;
                 width: 100%;
                 height: 36px;
                 background-color: #eeeeee;
-                padding: 0px 15px;
+
+                & > div:first-child {
+                    margin-right: 5px;
+                }
             }
 
             &-single {
