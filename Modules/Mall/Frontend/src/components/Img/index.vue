@@ -1,6 +1,6 @@
 <template>
     <div :style="{width: width + 'px', height: height + 'px'}" class="imgBox">
-        <img v-lazy="filterImgs" lazy="loading"/>
+        <img class="img" v-lazy="filterImgs" lazy="loading"/>
     </div>
 </template>
 

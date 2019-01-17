@@ -9,7 +9,7 @@
                 <router-link to="" tag="a">{{ RegEmail.Email }}</router-link>
             </div>
             <p class="Registered-two-prompt">Please check your email box and continue your registration whin 24 hours.</p>
-            <a :href="RegEmail.redirect_to"><button type="button" class="Registered-two-btn">Go Check Email</button></a>
+            <a :href="RegEmail.redirect_to" target="view_window"><button type="button" class="Registered-two-btn">Go Check Email</button></a>
         </div>
     </section>
 </template>

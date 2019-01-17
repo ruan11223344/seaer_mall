@@ -145,7 +145,7 @@
                         captcha: this.formCustom.code, // 验证码
                         key: this.formCustom.key,
                         email: this.formCustom.email,
-                        account_type: this.Countries, // 账户类型
+                        account_type: this.Countries ? 1 : 0, // 账户类型
                         i_agree: this.formCustom.single // 同意协议
                     }
                 }).then( res => {
