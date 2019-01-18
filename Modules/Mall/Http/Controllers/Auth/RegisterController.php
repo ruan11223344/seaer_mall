@@ -125,7 +125,7 @@ class RegisterController extends Controller
                 'required_if:account_type,0',
                 'check_china'
             ],
-            'business_license_img'=>'image|between:5,1024|required_if:account_type,0',
+            'business_license_img'=>'image|between:5,1024',
             'contact_full_name'=>'string|required|between:2,30',
             'mobile_phone'=>'required|phone:CN,KE',
             'province_id'=>'required|exists:world_divisions,id',

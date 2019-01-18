@@ -13,7 +13,7 @@
 */
 
 
-Route::group(['domain'=>env('MALL_DOMAIN')],function () {
+Route::group(['domain'=>env('MALL_DOMAIN'),['middleware' =>'cors']],function () {
     Route::prefix('auth')->group(function() {
         Route::group(['middleware' => ['client.credentials','auth:api']], function(){
             //需要认证的组
@@ -27,7 +27,6 @@ Route::group(['domain'=>env('MALL_DOMAIN')],function () {
         Route::post('send_register_email','Auth\RegisterController@sendRegisterEmail')->name('send_register_email');
         Route::post('check_register_status','Auth\RegisterController@checkRegisterStatus')->name('check_register_status');
         Route::post('register', 'Auth\RegisterController@register');
-
     });
 
     //消息系统

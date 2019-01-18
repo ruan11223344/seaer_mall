@@ -226,6 +226,10 @@ return [
          * 消息系统
          */
         Cmgmyr\Messenger\MessengerServiceProvider::class,
+        /*
+         * 跨域支持
+         */
+        Barryvdh\Cors\ServiceProvider::class,
     ],
 
     /*

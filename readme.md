@@ -26,6 +26,8 @@
 
 9.询盘消息使用的包: https://github.com/cmgmyr/laravel-messenger
 
+10.跨域包: https://github.com/barryvdh/laravel-cors
+
 ##前端脚手架:
 参考:https://github.com/yyx990803/laravel-vue-cli-3
 
