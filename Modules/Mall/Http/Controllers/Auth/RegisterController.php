@@ -123,7 +123,7 @@ class RegisterController extends Controller
             'china_business_license'=>[
                 'check_china'
             ],
-            'business_license_img'=>'image|between:5,1024|nullable',
+            'business_license_img'=>'image|max:1024|nullable',
             'contact_full_name'=>'string|required|between:2,30',
             'mobile_phone'=>'required|phone:CN,KE',
             'province_id'=>'required|exists:world_divisions,id',
