@@ -129,6 +129,8 @@ url:http://域名/api/auth/get_access_token
 参数:"client_secret",值::"LfmILOffY40xTlFbJT2Q0V8gWyyu99cwlElNPKrK"  //客户端秘钥（固定值)
 参数:"username",值:"ruan4215@gmail.com"   //用户名
 参数:"password",值:"seaer12345"           //密码
+参数:"captcha",值:"sdww2"           //验证码
+参数:"key",值:"$2y$10$9svXiMux2NGzd104cFYPFulbHViAw8r9G/s683Dxq8Xoq8x9iesGu"           //验证码接口中获取的key
 
 返回成功的示例：
 {
