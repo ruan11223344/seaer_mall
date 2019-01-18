@@ -7,10 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Utils\EMail;
 use App\Utils\Oss;
 use Carbon\Carbon;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Utils\EchoJson;
+use Khsing\World\Models\Country;
 use Modules\Mall\Entities\Company;
 use Modules\Mall\Entities\RegisterTemp;
 use Modules\Mall\Entities\UsersExtends;
@@ -18,12 +20,13 @@ use Modules\Mall\Entities\User;
 use Webpatser\Uuid\Uuid;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class RegisterController extends Controller
 {
+    const SEND_EMAIL_MAX = 6;  //相同邮箱24内最多发送6封注册邮件
 
-    use EchoJson;
+    use EchoJson,AuthenticatesUsers;
     /*
     |--------------------------------------------------------------------------
     | Register Controller
@@ -92,10 +95,10 @@ class RegisterController extends Controller
             ],
             'account_type' =>'in:0,1,2|required',
             'sex'=>'in:Miss,Mr,Mrs|required',
-            'company_name' => 'required_if:account_type,0|required_if:account_type,1|string|between:2,50|alpha_dash',
+            'company_name' => 'required_if:account_type,0|required_if:account_type,1|string|between:2,50',
             'company_name_in_china'=>[
                 'required_if:account_type,0',
-                'regex:/[\u4e00-\u9fa5]{2,50}/',
+//                'regex:/[\u4e00-\u9fa5]{2,50}/',
             ],
 //            'business_license'=>'alpha_num|between:5,1024',
             'china_business_license'=>[
@@ -120,7 +123,7 @@ class RegisterController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$this->validator->messages());
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
         }
 
         try{
@@ -132,8 +135,9 @@ class RegisterController extends Controller
                 $company_business_license_pic_url = !$res ?  null : $res;
             }
 
-            $member_id = RegisterTemp::where('register_uuid',$uuid)->first()->name;
-            $request->merge(['name' => $member_id]);
+            $reg_temp = RegisterTemp::where('register_uuid',$uuid)->first();
+            $request->merge(['name' => $reg_temp->name]);
+            $request->merge(['email' => $reg_temp->email]);
 
             DB::beginTransaction();
             event(new Registered($user = $this->create($request->all())));
@@ -225,8 +229,21 @@ class RegisterController extends Controller
             'member_id.required'=>'please input member_id',
             'captcha.required' => 'please input captcha',
             'captcha.captcha_api' => 'captcha error,please retry!',
-            'i_agree' => 'you must be agree agreenment!'
+            'i_agree' => 'you must be agree agreenment!',
+            'email.check_day_email'=>'Only '.self::SEND_EMAIL_MAX.' emails can be sent within 24 hours.'
         ];
+
+        Validator::extend('check_day_email', function($attribute, $value){
+            $count = RegisterTemp::where([
+                ['created_at','>',Carbon::now()->parse("24 hours ago")->toDateTimeString()],
+                ['email','=',$value],
+            ])->count();
+            if($count >= self::SEND_EMAIL_MAX){
+                return false;
+            }else{
+                return true;
+            }
+        }); //检测
 
         $validator = Validator::make($data, [
             'member_id'=>[
@@ -244,9 +261,9 @@ class RegisterController extends Controller
                 );
                 }),
             ],
-            'key' => 'required',
-            'captcha' => 'required|captcha_api:' . $request->input('key'),
-            'email' => 'email|required|unique:users,email',
+//            'key' => 'required',
+//            'captcha' => 'required|captcha_api:' . $request->input('key'),
+            'email' => 'email|required|unique:users,email|check_day_email',
             'account_type' =>'in:0,1,2|required',
             'i_agree'=>'required|accepted'
         ],$messages);
@@ -335,7 +352,7 @@ class RegisterController extends Controller
                 $key = time() . rand(10000, 99999999) . '.'.$titles;
                 //阿里 OSS 图片上传
                 $oss = Oss::getInstance();
-                $result = $oss->upload('business_license/'.$key, $pic_path);
+                $result = $oss->put('business_license/'.$key, file_get_contents($pic_path));
 
                 if (!$result) return false;
                 return $oss->url('business_license/'.$key);

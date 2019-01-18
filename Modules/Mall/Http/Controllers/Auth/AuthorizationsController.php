@@ -21,7 +21,14 @@ class AuthorizationsController extends Controller
     public function getAccessToken(AuthorizationServer $server, ServerRequestInterface $serverRequest)
     {
         try {
-            return $server->respondToAccessTokenRequest($serverRequest, new Psr7Response)->withStatus(201);
+            $token_data = json_decode((string)$server->respondToAccessTokenRequest($serverRequest, new Psr7Response)->withStatus(201)->getBody());
+            $data = [
+                'token_type'=>$token_data->token_type,
+                'expires_in'=>$token_data->expires_in,
+                'access_token'=>$token_data->access_token,
+                'refresh_token'=>$token_data->refresh_token,
+            ];
+            return $this->echoSuccessJson('成功!',$data);
         } catch (OAuthServerException $e) {
             return $this->echoErrorJson($e->getMessage());
         }

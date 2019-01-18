@@ -37,7 +37,7 @@
 2.创建表 php artisan make:migration create_TableName_table
 3.创建模型 php artisan make:model path/TableName
 4.自动加载文件 composer dump-autoload
-5.执行迁移 修改完迁移文件中的up 与 down方法后方可执行 php artisan migrate --env=local
+5.执行迁移 修改完迁移文件中的up 与 down方法后方可执行 php artisan migrate --env=mall.local
 6.第三方包发布配置:php artisan vendor:publish
 7.回滚迁移 php artisan migrate:rollback  --env=mall.local
 
