@@ -5,7 +5,9 @@
             <v-nav></v-nav>
         </header>
         <!-- {{ $route.path }} -->
-        <div style="backgroundColor:#ffffff" v-show="!($route.path.includes('details'))">
+        <div style="backgroundColor:#ffffff" v-show="headBool">
+        <!-- <div style="backgroundColor:#ffffff" v-show="!($route.path.includes('details')) || !($route.path.includes('consulting'))"> -->
+
             <!-- 搜索 -->
             <section class="container search">
                 <v-search></v-search>
@@ -35,6 +37,17 @@
         data() {
             return {
 
+            }
+        },
+        computed: {
+            headBool() {
+                const path = this.$route.path
+                const arr = path.split('/')
+                if(arr.includes('details') || arr.includes('consulting')) {
+                    return false
+                }else {
+                    return true
+                }
             }
         },
         components: {
