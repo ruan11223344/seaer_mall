@@ -1,4 +1,3 @@
-// import request from './request'
 
 // class getData {
 //     async getProvinceAddress(code) { // 获取省份地址
@@ -24,3 +23,20 @@
 // }
 
 // export default getData
+import request from './request'
+
+const getData = {
+   async getCode() {  // 获取验证码
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/utils/get_captcha'
+            }).then( (res) => {
+                resolve(res)
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    },
+}
+
+export default getData

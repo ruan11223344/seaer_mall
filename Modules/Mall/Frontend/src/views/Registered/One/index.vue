@@ -157,7 +157,6 @@
                     }else {
                         this.$Message.warning('Verification code error, please input the correct verification code')
                     }
-                    console.log('go')
                     this.getCode()
                 }).catch(err => {
                     this.getCode()
