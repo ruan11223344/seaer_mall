@@ -20,17 +20,17 @@
                     <Input type="password" v-model="formItem.passwdCheck" placeholder="Please retype your password" />
                 </FormItem>
                 <!-- 公司名称 -->
-                <FormItem>
+                <FormItem prop="company">
                     <label for="" slot="label" class="Registered-three-main-label">Company Name</label>
                     <Input type="text" v-model="formItem.company" placeholder="Must be a legally registered company" />
                 </FormItem>
                 <!-- 可选中国公司名称 -->
-                <FormItem v-show="Countries == false">
+                <FormItem prop="companyChina" v-show="Countries == false">
                     <label for="" slot="label" class="Registered-three-main-label">Company Name In China</label>
                     <Input type="text" v-model="formItem.companyChina" placeholder="Must be a legally registered company" />
                 </FormItem>
                 <!-- 联系人名称 -->
-                <FormItem>
+                <FormItem prop="userName">
                     <label for="" slot="label" class="Registered-three-main-label">Contact Full Name</label>
                     <Row>
                         <Col span="6">
@@ -46,14 +46,14 @@
                     </Row>
                 </FormItem>
                 <!-- 手机号 -->
-                <FormItem>
+                <FormItem prop="phone">
                     <label for="" slot="label" class="Registered-three-main-label">Mobilephone</label>
                     <Input v-model="formItem.phone">
                         <div slot="prepend" style="width:65px;fontSize: 18px;color: #333333;">+{{Countries == false ? 86 : 254}}</div>
                     </Input>
                 </FormItem>
                 <!-- 公司地址 -->
-                <FormItem>
+                <FormItem prop="Address1">
                     <label for="" slot="label" class="Registered-three-main-label">Company Address</label>
                     <Row>
                         <!-- 省份地址 -->
@@ -72,12 +72,12 @@
                     </Row>
                 </FormItem>
                  <!-- 营业执照编码 -->
-                <FormItem v-show="Countries == false">
+                <FormItem  prop="coding" v-show="Countries == false">
                     <label for="" slot="label" class="Registered-three-main-label">Business License</label>
                     <Input type="text" v-model="formItem.coding" placeholder="填写营业执照上的统一社会信用代码" />
                 </FormItem>
                 <!-- 营业执照文件 -->
-                <FormItem v-show="Countries == false">
+                <FormItem prop="file" v-show="Countries == false">
                     <label for="" slot="label" class="Registered-three-main-label">Business License Scan Upload</label>
                     <Row>
                         <Col span="24" class="registered-main-form-content">
@@ -151,6 +151,55 @@
                 }
             }
             
+            // 手机号
+            const validatorPhone = (rule, value, callback) => {
+                var Rex = null
+                if(this.Countries) {
+                    Rex = /^(07)\d{8}$/
+                }else {
+                    Rex = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/
+                }
+                let bool = Rex.test(value)
+
+                if (value === '') {
+                    callback(new Error('Phone is required'));
+                } else if(!bool){
+                    callback(new Error('Please fill in the correct phone number'));
+                }else {
+                    callback()
+                }
+            }
+
+            // 营业执照
+            const validatorCoding = (rule, value, callback) => {
+                var Rex = /(^(?:(?![IOZSV])[\dA-Z]){2}\d{6}(?:(?![IOZSV])[\dA-Z]){10}$)|(^\d{15}$)/
+
+                let bool = Rex.test(value)
+
+                if (value === '') {
+                    callback(new Error('The business license is required'));
+                } else if(!bool){
+                    callback(new Error('Please fill in the right business license'));
+                }else {
+                    callback()
+                }
+            }
+
+            // 必填
+            const validatorCheck = (rule, value, callback) => {
+                if(!this.Countries) {
+                    if (value === '') {
+                        callback(new Error("Can't be empty"))
+                    }else {
+                        callback()
+                    }
+                }else {
+                    callback()
+                }
+            }
+
+            
+            
             return {
                 formItem: {
                     id: 'wjcharles',
@@ -164,6 +213,7 @@
                     Address1: '',
                     Address2: '',
                     coding: '', // 营业执照编码
+                    file: ''
                 },
                 Province: '',
                 City: '',
@@ -173,6 +223,27 @@
                     ],
                     passwdCheck: [ // 确认密码
                         { trigger: 'blur', validator: validatorPasswords }
+                    ],
+                    company: [
+                        { trigger: 'blur', validator: validatorCheck }
+                    ],
+                    companyChina: [
+                        { trigger: 'blur', validator: validatorCheck }
+                    ],
+                    userName: [
+                        { trigger: 'blur', validator: validatorCheck }
+                    ],
+                    phone: [
+                        { trigger: 'blur', validator: validatorPhone }
+                    ],
+                    Address1: [
+                        { trigger: 'blur', validator: validatorCheck }
+                    ],
+                    coding: [
+                        { trigger: 'blur', validator: validatorCheck }
+                    ],
+                    file: [
+                        { trigger: 'blur', validator: validatorCheck }
                     ],
                 },
                 imgSrc: [],
@@ -214,6 +285,9 @@
                     this.$set(this.imgSrc, 0, this.getObjectURL(files))
                     this.$set(this.imgSrc1[0], 'thumb', this.getObjectURL(files))
                     this.$set(this.imgSrc1[0], 'src', this.getObjectURL(files))
+
+                    this.$set(this.formItem, 'file', files)
+                    console.log(this.formItem.file)
                 }
                 // 阻止默认上传
                 return false;
@@ -240,7 +314,7 @@
                     if(valid) {
                         this.upFrom()
                     }else {
-                        console.log(false)
+                        this.$Message.warning('请全部填写')
                     }
                 })
             },
@@ -257,7 +331,7 @@
                         company_name: this.formItem.company, //公司名称  必填
                         company_name_in_china: this.formItem.companyChina,//公司中文名 非必填 中国卖家时传
                         china_business_license: this.formItem.coding,//中国营业执照 非必填 中国卖家时传
-                        business_license_img: '',// file格式上传  非必填 中国卖家时传
+                        business_license_img: this.formItem.file,// file格式上传  非必填 中国卖家时传
                         contact_full_name: this.formItem.userName, //全名 必填
                         mobile_phone: this.Countries ? `+254${this.formItem.phone}` : `+86${this.formItem.phone}`,//手机号 必填
                         city_id: this.formItem.Address2,//城市id  从接口获取的城市id 非必填
@@ -316,6 +390,7 @@
                         this.$set(this.formItem, 'id', data.member_id)
                     }else {
                         // 此处 跳转过期提醒页面！
+                        
                     }
                 }).catch(err => {
                     return false
@@ -323,6 +398,11 @@
             }
         },
         mounted() {
+            if(this.$route.query.u_from == 'KE') {
+                this.SET_COUNTRIES(true)
+            }else {
+                this.SET_COUNTRIES(false)
+            }
             const Province = this.getProvinceAddress(this.$route.query.u_from)
             Province.then(res => { // 省份地址
                 this.Province = res.data
@@ -334,7 +414,15 @@
             'v-img': Img,
             'v-head-template': HeadTemplate,
             LightBox
-        }
+        },
+        watch: {
+            Countries(val) {
+                const Province = this.getProvinceAddress(val ? 'ke' : 'cn')
+                Province.then(res => { // 省份地址
+                    this.Province = res.data
+                })
+            }
+        },
     }
 </script>
 

@@ -32,7 +32,6 @@
             ...mapMutations([ 'SET_COUNTRIES' ]),
             onClick() {
                 this.SET_COUNTRIES()
-                console.log(this.Countries)
             }
         },
         mounted() {
