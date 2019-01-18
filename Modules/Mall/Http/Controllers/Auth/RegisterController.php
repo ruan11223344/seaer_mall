@@ -118,11 +118,9 @@ class RegisterController extends Controller
             'sex'=>'in:Miss,Mr,Mrs|required',
             'company_name' => 'required_if:account_type,0|required_if:account_type,1|string|between:2,50',
             'company_name_in_china'=>[
-                'required_if:account_type,0',
                 'check_china'
             ],
             'china_business_license'=>[
-                'required_if:account_type,0',
                 'check_china'
             ],
             'business_license_img'=>'image|between:5,1024|nullable',
