@@ -149,7 +149,6 @@
                         i_agree: this.formCustom.single // 同意协议
                     }
                 }).then( res => {
-                    this.getCode()
                     const { code, data} = res
                     if(code == 200) {
                         // 把注册的邮箱存入vuex
@@ -158,7 +157,10 @@
                     }else {
                         this.$Message.warning('Verification code error, please input the correct verification code')
                     }
+                    console.log('go')
+                    this.getCode()
                 }).catch(err => {
+                    this.getCode()
                     return false
                 })
             }
