@@ -6,6 +6,7 @@
                 <BreadcrumbItem style="color:#666666">{{ '$route.query.name' }}</BreadcrumbItem>
             </Breadcrumb>
         </section>
+
         <main class="container consulting-main">
             <div class="consulting-main-body">
                 <div class="consulting-main-body-title">From "524155445@qq.com" <span>Edit</span></div>
@@ -81,6 +82,7 @@
                 <button class="consulting-main-body-content-btn" @click="onRouter">Send Inquiry</button>
             </div>
         </main>
+        
     </div>
 </template>
 

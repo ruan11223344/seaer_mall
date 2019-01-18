@@ -37,6 +37,36 @@ const getData = {
             })
         })
     },
+
+    async getCityAddress(code) { // 城市地址
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/utils/get_city_list',
+                params: {
+                    province_id: code // 国家代码
+                }
+            }).then(res => {
+                resolve(res)
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    },
+
+    async getProvinceAddress(code) { // 省份地址
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/utils/get_provinces_list',
+                params: {
+                    country_code: code // 国家代码
+                }
+            }).then(res => {
+                resolve(res)
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    },
 }
 
 export default getData

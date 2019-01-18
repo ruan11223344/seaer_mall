@@ -82,7 +82,9 @@
                     <Row>
                         <Col span="24" class="registered-main-form-content">
                             <div @click="openGallery(0)" style="cursor:zoom-in;">
-                                <v-img width="157" height="157" :imgSrc="`${imgSrc[0]}`" v-show="imgSrc[0]"></v-img>
+                                <!-- <v-img width="157" height="157" :imgSrc="`${imgSrc[0]}`" v-show="imgSrc[0]"></v-img> -->
+                                <!-- <v-img width="157" height="157" :imgSrc="imgSrc" v-show="imgSrc"></v-img> -->
+                                <img style="width: 157px; height: 157px; display: block" :src="imgSrc" v-show="imgSrc" alt="">
                             </div>
                             <!-- 图片预览 -->
                             <LightBox 
@@ -120,9 +122,8 @@
     import LightBox from 'vue-image-lightbox'
     import 'vue-image-lightbox/dist/vue-image-lightbox.min.css'
     // 公共方法
-    // import { getProvinceAddress } from '@/utils/getData'
+    import getData from '@/utils/getData'
     import md5 from 'md5'
-
 
     export default {
         data() {
@@ -198,9 +199,8 @@
                 }
             }
 
-            
-            
             return {
+                // 421002600458688
                 formItem: {
                     id: 'wjcharles',
                     password: '', // 密码
@@ -246,7 +246,7 @@
                         { trigger: 'blur', validator: validatorCheck }
                     ],
                 },
-                imgSrc: [],
+                imgSrc: '',
                 imgSrc1: [
                     {
                         thumb: '',
@@ -260,6 +260,10 @@
         },
         methods: {
             ...mapMutations(['SET_COUNTRIES']),
+            // 地址
+            getCityAddress: getData.getCityAddress,
+            // 地址
+            getProvinceAddress: getData.getProvinceAddress,
             getObjectURL(file) {  // 获取图片本地地址
                 let url = null;  
                 if (window.createObjcectURL != undefined) {  
@@ -282,12 +286,13 @@
                     this.$Message.warning('Upload png, jpg,jpeg within 1M')
                 }else {
                     // 获取图片路径
-                    this.$set(this.imgSrc, 0, this.getObjectURL(files))
+                    // this.$set(this.imgSrc, 0, this.getObjectURL(files))
+                    // this.$set(this.imgSrc, 0, this.getObjectURL(files))
+                    this.imgSrc = this.getObjectURL(files)
                     this.$set(this.imgSrc1[0], 'thumb', this.getObjectURL(files))
                     this.$set(this.imgSrc1[0], 'src', this.getObjectURL(files))
 
                     this.$set(this.formItem, 'file', files)
-                    console.log(this.formItem.file)
                 }
                 // 阻止默认上传
                 return false;
@@ -298,7 +303,7 @@
                 this.$refs.lightbox.showImage(index)
             },
 
-            changeProvince(value) {
+            changeProvince(value) { // 地址
                 const City = this.getCityAddress(value)
 
                 City.then(res => {
@@ -320,61 +325,54 @@
             },
 
             upFrom() {
+                // data: {
+                //     password: this.formItem.password,
+                //     password_confirmation: this.formItem.passwdCheck,//重复密码 必填
+                //     account_type: this.Countries ? 1 : 0,//注意！如果用户切换身份 则account_type 也随之切换而并非 邮件发送的注册链接时url参数中的u_from 其中 u_from=cn 时account_type 为 0  为ke时 account_type 为 1 切换后随之变动 必填
+                //     sex: this.formItem.gender, //性别 必填
+                //     company_name: this.formItem.company, //公司名称  必填
+                //     company_name_in_china: this.formItem.companyChina,//公司中文名 非必填 中国卖家时传
+                //     china_business_license: this.formItem.coding,//中国营业执照 非必填 中国卖家时传
+                //     business_license_img: this.formItem.file,// file格式上传  非必填 中国卖家时传
+                //     contact_full_name: this.formItem.userName, //全名 必填
+                //     mobile_phone: this.Countries ? `+254${this.formItem.phone}` : `+86${this.formItem.phone}`,//手机号 必填
+                //     city_id: this.formItem.Address2,//城市id  从接口获取的城市id 非必填
+                //     province_id: this.formItem.Address1,//省份id 从接口获取的省份id 非必填
+                //     uuid: this.$route.query.rg_id  //邮件发送的注册链接时url参数中的uuid 必填
+                // },
+
+                let formData = new FormData();
+                formData.append('password', this.formItem.password);
+                formData.append('password_confirmation', this.formItem.passwdCheck);
+                formData.append('account_type', this.Countries ? 1 : 0)
+                formData.append('sex', this.formItem.gender)
+                formData.append('company_name', this.formItem.company)
+                formData.append('company_name_in_china', this.formItem.companyChina)
+                formData.append('china_business_license', this.formItem.coding)
+                formData.append('business_license_img', this.formItem.file)
+                formData.append('contact_full_name', this.formItem.userName)
+                formData.append('mobile_phone',  this.Countries ? `+254${this.formItem.phone}` : `+86${this.formItem.phone}`)
+                formData.append('city_id', this.formItem.Address2)
+                formData.append('province_id', this.formItem.Address1)
+                formData.append('uuid', this.$route.query.rg_id)
+
+                // 注册
                 this.$request({
                     url: '/auth/register',
                     method: 'post',
-                    data: {
-                        password: md5(this.formItem.password),
-                        password_confirmation: md5(this.formItem.passwdCheck),//重复密码 必填
-                        account_type: this.Countries,//注意！如果用户切换身份 则account_type 也随之切换而并非 邮件发送的注册链接时url参数中的u_from 其中 u_from=cn 时account_type 为 0  为ke时 account_type 为 1 切换后随之变动 必填
-                        sex: this.formItem.gender, //性别 必填
-                        company_name: this.formItem.company, //公司名称  必填
-                        company_name_in_china: this.formItem.companyChina,//公司中文名 非必填 中国卖家时传
-                        china_business_license: this.formItem.coding,//中国营业执照 非必填 中国卖家时传
-                        business_license_img: this.formItem.file,// file格式上传  非必填 中国卖家时传
-                        contact_full_name: this.formItem.userName, //全名 必填
-                        mobile_phone: this.Countries ? `+254${this.formItem.phone}` : `+86${this.formItem.phone}`,//手机号 必填
-                        city_id: this.formItem.Address2,//城市id  从接口获取的城市id 非必填
-                        province_id: this.formItem.Address1,//省份id 从接口获取的省份id 非必填
-                        uuid: this.$route.query.rg_id  //邮件发送的注册链接时url参数中的uuid 必填
-                    }
+                    data: formData,
+                    headers:{'Content-Type':'multipart/form-data'}
                 }).then(res => {
-                    console.log(res)
+                    const { code, data } = res
+                    if(code == 200) {
+                        this.$router.push('/registered/complete')
+                    }else {
+                        this.$Message.warning('Verify through please register')
+                    }
                 }).catch(err => {
                     return false
                 })
             },
-
-            async getCityAddress(code) { // 城市地址
-                return await new Promise((resolve, reject) => {
-                    this.$request({
-                        url: '/utils/get_city_list',
-                        params: {
-                            province_id: code // 国家代码
-                        }
-                    }).then(res => {
-                        resolve(res)
-                    }).catch(err => {
-                        reject(err)
-                    })
-                })
-            },
-
-            async getProvinceAddress(code) { // 省份地址
-                return await new Promise((resolve, reject) => {
-                    this.$request({
-                        url: '/utils/get_provinces_list',
-                        params: {
-                            country_code: code // 国家代码
-                        }
-                    }).then(res => {
-                        resolve(res)
-                    }).catch(err => {
-                        reject(err)
-                    })
-                })
-            },
-
 
             getId() { // 获取参数
                 this.$request({
@@ -390,7 +388,7 @@
                         this.$set(this.formItem, 'id', data.member_id)
                     }else {
                         // 此处 跳转过期提醒页面！
-                        
+                        this.$router.push('/registered/one')
                     }
                 }).catch(err => {
                     return false
@@ -398,17 +396,22 @@
             }
         },
         mounted() {
-            if(this.$route.query.u_from == 'KE') {
-                this.SET_COUNTRIES(true)
+            if(this.$route.query.u_from) {
+                if(this.$route.query.u_from == 'KE') {
+                    this.SET_COUNTRIES(true)
+                }else {
+                    this.SET_COUNTRIES(false)
+                }
+
+                const Province = this.getProvinceAddress(this.$route.query.u_from)
+                Province.then(res => { // 省份地址
+                    this.Province = res.data
+                })
+
+                this.getId()
             }else {
-                this.SET_COUNTRIES(false)
+                this.$router.push('/registered/one')
             }
-            const Province = this.getProvinceAddress(this.$route.query.u_from)
-            Province.then(res => { // 省份地址
-                this.Province = res.data
-            })
-            
-            this.getId()
         },
         components: {
             'v-img': Img,
