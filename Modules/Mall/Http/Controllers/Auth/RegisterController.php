@@ -86,6 +86,27 @@ class RegisterController extends Controller
             return $this->echoJson('您已经登录,无法进行注册!',400);
         }
 
+        Validator::extend('check_china', function($attribute, $value){
+            if($attribute == 'china_business_license'){
+                if($value !== null){
+                    if(preg_match("/(^(?:(?![IOZSV])[\dA-Z]){2}\d{6}(?:(?![IOZSV])[\dA-Z]){10}$)|(^\d{15}$)/", $value)){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }
+            }elseif ($attribute == 'company_name_in_china'){
+                if($value !== null){
+                    if(preg_match("/[\x{4e00}-\x{9fa5}]{2,50}/u", $value)){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }); //检测
+
         $validator = Validator::make($data, [
             'password' =>  [
                 'required',
@@ -98,12 +119,11 @@ class RegisterController extends Controller
             'company_name' => 'required_if:account_type,0|required_if:account_type,1|string|between:2,50',
             'company_name_in_china'=>[
                 'required_if:account_type,0',
-//                'regex:/[\u4e00-\u9fa5]{2,50}/',
+                'check_china'
             ],
-//            'business_license'=>'alpha_num|between:5,1024',
             'china_business_license'=>[
                 'required_if:account_type,0',
-                'regex:/(^(?:(?![IOZSV])[\dA-Z]){2}\d{6}(?:(?![IOZSV])[\dA-Z]){10}$)|(^\d{15}$)/',
+                'check_china'
             ],
             'business_license_img'=>'image|between:5,1024|required_if:account_type,0',
             'contact_full_name'=>'string|required|between:2,30',
@@ -129,6 +149,8 @@ class RegisterController extends Controller
         try{
             $account_type = $request->input('account_type');
             $uuid = $request->input('uuid');
+
+            $company_business_license_pic_url = null;
             if($account_type == UsersExtends::ACCOUNT_TYPE_COMPANY_CHINA){
                 $pic = $request->file('business_license_img');
                 $res = $this->updateBusinessLicenseImage($pic);
