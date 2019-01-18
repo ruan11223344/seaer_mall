@@ -13,7 +13,7 @@
 */
 
 
-Route::group(['domain'=>env('MALL_DOMAIN')],function () {
+Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
     Route::prefix('auth')->group(function() {
         Route::group(['middleware' => ['client.credentials','auth:api']], function(){
             //需要认证的组
