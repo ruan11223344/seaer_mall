@@ -51,6 +51,8 @@
 </template>
 
 <script>
+    // 引入公共获取数据方法
+    import getData from '@/utils/getData'
     import { mapState, mapMutations } from 'vuex'
     import Img from "@/components/Img"
     import HeadTemplate from "../components/Head/index"
@@ -107,6 +109,7 @@
             ...mapState([ 'Countries' ])
         },
         methods: {
+            getCodes: getData.getCode,
             ...mapMutations(['SET_REGEMAIL']),
             // 下一步
             handleSubmit (name) {
@@ -123,18 +126,15 @@
                 }
             },
             getCode() {  // 获取验证码
-                this.$request({
-                    url: '/utils/get_captcha'
-                }).then( ({ code, data }) => {
+                const getCode = this.getCodes()
+                getCode.then(({ code, data }) => {
                     if(code == 200) {
                         this.imgCode = data.img
                         this.formCustom.key = data.key
                     }else {
                         this.$Message.warning('error: 400')
                     }
-                }).catch(err => {
-                    return false
-                })
+                }).catch(err => console.log(err))
             },
             updateFrom() { // 发送表单
                 this.$request({

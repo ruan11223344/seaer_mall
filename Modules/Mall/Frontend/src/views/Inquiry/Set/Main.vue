@@ -1,6 +1,6 @@
 <template>
     <div class="Send-main">
-        <v-title title="Inquiry Rules"></v-title>
+        <v-title title="Inquiry Receive And Sent Rules"></v-title>
         <section class="set-main">
             <h1>Email notificatiom rules</h1>
             <div>
@@ -30,7 +30,7 @@
     @import url('../../../assets/css/index.less');
 
     .Send-main {
-        .width(945px, 700px);
+        .width(945px, 772px);
         .bg-color(white);
         padding: 24px 30px;
 

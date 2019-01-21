@@ -26,8 +26,8 @@
                 </section>
                 <!-- 验证码 -->
                 <section class="box-useId box-code" style="marginTop: 40px;" v-show="num >= 2">
-                    <input type="text" placeholder="Please enter verification code.">
-                    <div class="box-useId-prompt">Incorrect captcha.please enter the text in the image.</div>
+                    <input type="text" v-model="rulesFrom.code" placeholder="Please enter verification code." @focus="boolCode = false">
+                    <div class="box-useId-prompt" v-show="bool || boolCode">Incorrect captcha.please enter the text in the image.</div>
                     <div class="box-code-rex" @click="getCodes">
                         <div>
                             <!-- 验证码图片 -->
@@ -54,13 +54,16 @@
         data() {
             return {
                 rulesFrom: {
+                    // 421566927@qq.com
                     userId: '',
                     password: '',
+                    code: '',
                     key: ''
                 },
                 imgCode: '',
                 num: 0,
-                bool: false
+                bool: false,
+                boolCode: false
             }
         },
         verify: {
@@ -88,8 +91,16 @@
                 }).catch(err => console.log(err))
             },
             onSubmit() { // 提交
-                if(this.$verify.check()) {
-                    this.upFrom()
+                if(this.num > 2) {
+                    if(this.$verify.check() && this.rulesFrom.code !== '') {
+                        this.upFrom()
+                    }else {
+                        this.boolCode = true
+                    }
+                }else {
+                     if(this.$verify.check()) {
+                        this.upFrom()
+                    }
                 }
             },
             upFrom() {
@@ -101,16 +112,19 @@
                         client_id: 2,
                         client_secret: 'LfmILOffY40xTlFbJT2Q0V8gWyyu99cwlElNPKrK',
                         username: this.rulesFrom.userId,
-                        password: this.rulesFrom.password
+                        password: this.rulesFrom.password,
+                        captcha: this.rulesFrom.code,
+                        key: this.rulesFrom.key
                     }
-                }).then((code, data) => {
+                }).then(({code, data}) => {
                     if(code == 200) {
                         this.setCookies(data.access_token)
                         this.refreshCookies(data.refresh_token)
-                        this.$route.push('/')
+                        this.$router.push('/')
                     }else {
                         this.num++
                         this.bool = true
+                        this.getCodes()
                     }
                 }).catch(err => {
                     return false

@@ -19,7 +19,7 @@
         .color(blackLight);
         font-size: 18px;
         line-height: 1;
-        padding-bottom: 12px;
+        padding-bottom: 10px;
         border-bottom: 1px solid #eeeeee;
     }
 </style>

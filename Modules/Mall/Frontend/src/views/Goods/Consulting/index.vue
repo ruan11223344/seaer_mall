@@ -6,6 +6,7 @@
                 <BreadcrumbItem style="color:#666666">{{ '$route.query.name' }}</BreadcrumbItem>
             </Breadcrumb>
         </section>
+
         <main class="container consulting-main">
             <div class="consulting-main-body">
                 <div class="consulting-main-body-title">From "524155445@qq.com" <span>Edit</span></div>
@@ -21,7 +22,7 @@
                 </div>
                 <!-- 主题 -->
                 <div class="consulting-main-body-content" style="marginTop: 24px;marginBottom: 32px;">
-                    <div class="consulting-main-body-content-label">Subject</div>
+                    <div class="consulting-main-body-content-label" style="marginTop: 12px;">Subject</div>
                     <div class="consulting-main-body-content-subject">Inquiry about”Beidou GPS dual mode  vehicle navigation ”</div>
                 </div>
                 <!-- 采购 -->
@@ -29,7 +30,7 @@
                     <div class="consulting-main-body-content-label" style="lineHeight: 34px;">Purchase Quantity</div>
                     <div class="consulting-main-body-content-purchase">
                         <input type="text">
-                         <Select v-model="model1" style="width:183px;">
+                         <Select v-model="model1" style="width:183px;" >
                             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
                     </div>
@@ -61,26 +62,32 @@
                 <div class="consulting-main-body-content" style="marginTop: 34px;">
                     <div class="consulting-main-body-content-label"></div>
                     <div class="consulting-main-body-content-upload">
-                        <Upload action="//jsonplaceholder.typicode.com/posts/" style="width:85px">
+                        <Upload
+                            action="//jsonplaceholder.typicode.com/posts/"
+                            :before-upload="onbeforeUpload"
+                            style="width:85px">
                             <label class="label">Attach Files</label>
                         </Upload> 
                         <span>
                             <!-- 文件类型 -->
-                            (ZIP/RAR/Word/Excel,Within20M)
+                            &nbsp;- Supports jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt, rar and zip
+                            <br>
+                            &nbsp;- Max upload 3 files;Max. total size: 3MB
                         </span>
                     </div>
                 </div>
                 <div class="consulting-main-body-content">
                     <div class="consulting-main-body-content-label"></div>
-                    <div class="consulting-main-body-content-fileName">
+                    <div class="consulting-main-body-content-fileName" v-show="fromItem.file">
                         <v-img width="13" height="13" :imgSrc="require('@/assets/img/fj.png')"></v-img>
-                        <span>Pre-order document.rar</span>
-                        <v-img width="16" height="16" :imgSrc="require('@/assets/img/qx.png')"></v-img>
+                        <span>{{ fromItem.file.name }}</span>
+                        <v-img width="16" style="cursor: pointer" height="16" :imgSrc="require('@/assets/img/qx.png')"></v-img>
                     </div>
                 </div>
                 <button class="consulting-main-body-content-btn" @click="onRouter">Send Inquiry</button>
             </div>
         </main>
+
     </div>
 </template>
 
@@ -118,12 +125,26 @@
                 ],
                 model1: '',
                 social: ['facebook', 'github'],
-                fruit: ['苹果']
+                fromItem: {
+                    file: ''
+                }
             }
         },
         methods: {
             onRouter() {
                 this.$router.push("/goods/success")
+            },
+            onbeforeUpload(files) {
+                const type = (files.name.split('.'))[1]
+                
+                if(files.size > 1048576 * 3 || !(['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'rar', 'and', 'zip'].includes(type))) { // 图片大于3M
+                    this.$Notice.error({
+                        desc: '- Supports jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt, rar and zip \n- Max upload 3 files;Max. total size: 3MB'
+                    });
+                }else {
+                    this.$set(this.fromItem, 'file', files)
+                }
+                return false
             }
         },
         components: {
@@ -141,12 +162,13 @@
     }
 
     .consulting-main {
-        .width(1220px, 762px);
+        // .width(1220px, 762px);
+        .width(1220px, auto);
         .bg-color(white);
         padding: 46px 0px;
 
         &-body {
-            .width(611px, 668px);
+            .width(611px, auto);
             margin: 0px auto;
 
             &-title {

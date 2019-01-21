@@ -7,9 +7,9 @@
             <div class="registered-components-good">Congratulations! </div>
             <div class="registered-components-title">Registered Successfully.</div>
             <div  class="registered-components-time">
-                <time>5s</time> Automatic Jump
+                <time>{{ num }}s</time> Automatic Jump
             </div>
-            <button class="registered-components-btn">Home Page</button>
+            <router-link to="/home"  class="registered-components-btn" tag="button">Home Page</router-link>
         </section>
     </div>
 </template>
@@ -19,6 +19,20 @@
     import HeadTemplate from "../components/Head/index"
 
     export default {
+        data() {
+            return {
+                num: 5
+            }
+        },
+        mounted() {
+            let clear = setInterval(() => {
+                this.num--
+                if(this.num <= 0) {
+                    clearInterval(clear)
+                    this.$router.push('/home')
+                }
+            },1000)
+        },
         components: {
             'v-img': Img,
             'v-head-template': HeadTemplate,
