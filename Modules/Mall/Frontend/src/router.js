@@ -104,6 +104,24 @@ const newRouter = new Router({
           path: "inbox",
           component: () => import("./views/Inquiry/Inbox/index.vue")
         },
+        {
+          // 国旗
+          path: "flag",
+          component: () => import("./views/Inquiry/Flag/index.vue")
+        },
+        { // 读
+          path: "read",
+          component: () => import("./views/Inquiry/Read/index.vue")
+        },
+        {
+          // 垃圾邮件
+          path: "spam",
+          component: () => import("./views/Inquiry/Spam/index.vue")
+        },
+        { // 删除
+          path: 'del',
+          component: () => import("./views/Inquiry/Delete/index.vue")
+        },
           // 设置
         {
           path: 'set',

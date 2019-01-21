@@ -85,12 +85,15 @@
                             },
                             {
                                 name:'Flag Inquiry',
+                                path: '/inquiryList/flag'
                             },
                             {
-                                name:'Delete Inquiry'
+                                name:'Delete Inquiry',
+                                path: '/inquiryList/del'
                             },
                             {
-                                name:'Spam Report Inquiry'
+                                name:'Spam Report Inquiry',
+                                path: '/inquiryList/spam'
                             },
                             {
                                 name:'Inquiry Rules',
