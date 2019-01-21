@@ -14,7 +14,21 @@
 
         <!-- 子页面渲染 -->
         <main class="inquiry">
-            <router-view></router-view>
+            <div class="container inquiry-main">
+                <section class="inquiry-main-title">
+                    <Breadcrumb separator='<b style="color:#666666">></b>'>
+                        <BreadcrumbItem to="/">Home</BreadcrumbItem>
+                        <BreadcrumbItem style="color:#666666">{{" $route.query.name" }}</BreadcrumbItem>
+                    </Breadcrumb>
+                </section>
+                <section class="inquiry-main-main">
+                    <!-- 侧边栏 -->
+                    <v-inquiry-aside></v-inquiry-aside>
+
+                    <!-- <v-inquiry-main></v-inquiry-main> -->
+                    <router-view></router-view>
+                </section>
+            </div>
         </main>
         
         <v-aside></v-aside>
@@ -31,6 +45,7 @@
     import Footer from "@/components/Footer"
     import Search from "@/components/Search"
     import Aside from "@/components/Aside"
+    import inquiryAside from "./components/Aside/index"
 
     export default {
         data() {
@@ -44,6 +59,7 @@
             'v-footer-nav': FooterNav,
             'v-footer': Footer,
             "v-aside": Aside,
+            "v-inquiry-aside": inquiryAside
         }
     }
 </script>
@@ -66,6 +82,17 @@
         background-color: #f0f1f5;
         padding-top: 20px;
         padding-bottom: 20px;
+
+        &-main {
+
+            &-title {
+                margin-bottom: 8px;
+            }
+
+            &-main {
+                .flex(space-between, center);
+            }
+        }
     }
 
 </style>

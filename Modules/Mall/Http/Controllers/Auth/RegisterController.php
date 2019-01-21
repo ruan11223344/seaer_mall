@@ -24,7 +24,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class RegisterController extends Controller
 {
-    const SEND_EMAIL_MAX = 6;  //相同邮箱24内最多发送6封注册邮件
+    const SEND_EMAIL_MAX = 20;  //相同邮箱24内最多发送6封注册邮件
 
     use EchoJson,AuthenticatesUsers;
     /*
@@ -197,7 +197,7 @@ class RegisterController extends Controller
                     ]
                 );
             }
-            RegisterTemp::where('register_uuid',$uuid)->update(['status'=>RegisterTemp::STATUS_SUCCESS]);
+            // RegisterTemp::where('register_uuid',$uuid)->update(['status'=>RegisterTemp::STATUS_SUCCESS]);
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();

@@ -1,25 +1,154 @@
 <template>
-    <aside class="inquire-aside" :style="{ 'height': height }">
-        <h1 class="inquire-aside-title">
-            <img :src="require('@/assets/img/home/weidu.png')" alt="" class="inquire-aside-title-logo">
-            Inquiries
-        </h1>
-        <router-link class="inquire-aside-list" to="/inquiryList/inbox" tag="div">Inbox</router-link>
-        <router-link class="inquire-aside-list" to="/inquiryList/send" tag="div">Sent</router-link>
-        <div class="inquire-aside-list">Flay Inquiry</div>
-        <div class="inquire-aside-list">Deleted Inquiry</div>
-        <div class="inquire-aside-list">Span Reported Inquiry</div>
-        <router-link class="inquire-aside-list" to="/inquiryList/set" tag="div">Inquiry Rules</router-link>
+    <aside class="inquire-aside">
+        <ul>
+            <li v-for="(item, index) in menuList" :key="index">
+                <div ref="menuList" class="inquire-aside-title" @click="onClick(item,index)">
+                    <span>
+                        {{ item.name }}
+                    </span>
+                    <Icon type="ios-arrow-forward" style="transition: all 0.2s;" :style="{transform: item.isSubShow ? 'rotate(90deg)' : 'rotate(0deg)' }"/>
+                </div>
+                <ul class="inquire-aside-items" :style="{ height: item.isSubShow ? item.subItems.length * 35 + 'px' : ''  }">
+                    <router-link :style="{ color: $route.path == path ? '#f0883a' : ''}" v-for="({name, path}, i) in item.subItems" :key="i" :to="path ? path : ''" tag="li">{{ name }}</router-link>
+                </ul>
+            </li>
+        </ul>
     </aside>
 </template>
 
 <script>
     export default {
-        props: {
-            height: {
-                default: '700px'
+        data() {
+            return {
+                menuList: [
+                    {
+                        name:'Account Center',
+                        isSubShow:false,
+                        subItems:[
+                            {
+                                name:'Account Info'
+                            },
+                            {
+                                name:'Company Info'
+                            },
+                            {
+                                name:'Change Password'
+                            },
+                            {
+                                name:'Edit My Photo'
+                            }
+                        ]
+                    },
+                    {
+                        name:'Shop Management',
+                        isSubShow:false,
+                        subItems:[
+                            {
+                                // name:'Shop Settings'
+                                name:'Shop Settings'
+                            },
+                            {
+                                name:'Store Dynamics'
+                            }
+                        ]
+                    },
+                    {
+                        name:'Products',
+                        isSubShow:false,
+                        subItems:[
+                            {
+                                name:'Upload Product'
+                            },
+                            {
+                                name:'Manage Products'
+                            },
+                            {
+                                name:'Manage Photos'
+                            },
+                            {
+                                name:'Group & Sort Products'
+                            }
+                        ]
+                    },
+                    {
+                        name:'Inquiries',
+                        isSubShow:false,
+                        subItems:[
+                            {
+                                name:'Inbox',
+                                path: '/inquiryList/inbox'
+                            },
+                            {
+                                name:'Sent',
+                                path: '/inquiryList/send'
+
+                            },
+                            {
+                                name:'Flag Inquiry',
+                            },
+                            {
+                                name:'Delete Inquiry'
+                            },
+                            {
+                                name:'Spam Report Inquiry'
+                            },
+                            {
+                                name:'Inquiry Rules'
+                            }
+                        ]
+                    },
+                    {
+                        name:'Favorite',
+                        isSubShow:false,
+                        subItems:[
+                            {
+                                name:'Shop Settings'
+                            },
+                            {
+                                name:'Store Dynamics'
+                            }
+                        ]
+                    },
+                    {
+                        name:'Service Center',
+                        isSubShow:false,
+                        subItems:[
+                            {
+                                name:'Shop Settings'
+                            },
+                            {
+                                name:'Store Dynamics'
+                            }
+                        ]
+                    },
+                ]
             }
-        }
+        },
+        props: {
+
+        },
+        methods: {
+            onClick(item, index) {
+                this.menuList.forEach((i,inx) => {
+                    if (inx !== index) {
+                        i.isSubShow = false;
+                    }else {
+                        i.isSubShow = true;
+                    }
+                });
+            },
+        },
+        mounted() {
+            const path = this.$route.path
+            this.menuList.forEach(value => {
+                value.subItems.forEach(v => {
+                    if(v.path == path) {
+                        value.isSubShow = true
+                    }
+                })
+            })
+        },
+
     }
 </script>
 
@@ -27,38 +156,40 @@
     @import url('../../../../assets/css/index.less');
 
     .inquire-aside {
-        .width(255px, 700px);
+        .width(255px, 772px);
         .bg-color(white);
-        padding: 34px 18px;
+        padding: 6px 18px;
+        overflow: hidden;
 
         &-title {
-            .color(orange2);
-            line-height: 1;
-            font-weight: bold;
             font-size: 16px;
+            line-height: 1;
+            color: #333333;
+            .flex();
+            cursor: pointer;
+            margin-top: 21px;
+        }
 
-            &-logo {
-                position: relative;
-                top: 2px;
-                margin-right: 12px;
+        &-items {
+            overflow: hidden;
+            height: 0px;
+            transition: height 0.2s;
+            cursor: pointer;
+            
+            & > li {
+                font-size: 14px;
+                line-height: 1;
+                color: #999999;
+                margin-top: 21px;
+            }
+
+            & > li:hover {
+                color: #f0883a;
             }
         }
-
-        &-list {
-            .color(blackLight);
-            .textHidden();
-            width: 100%;
-            font-size: 16px;
-            line-height: 1;
-            margin-top: 30px;
-            cursor: pointer;
-        }
-        &-list:hover {
-            .color(orange2);
-        }
+        
     }
-
-    .router-link-active {
-        .color(Orange);
-    }
+    
+    
+   
 </style>
