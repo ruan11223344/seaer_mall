@@ -85,6 +85,7 @@
                             },
                             {
                                 name:'Flag Inquiry',
+                                path: '/inquiryList/flag'
                             },
                             {
                                 name:'Delete Inquiry',
