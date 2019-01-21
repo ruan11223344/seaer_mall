@@ -93,7 +93,8 @@
                                 name:'Spam Report Inquiry'
                             },
                             {
-                                name:'Inquiry Rules'
+                                name:'Inquiry Rules',
+                                path: '/inquiryList/set'
                             }
                         ]
                     },
