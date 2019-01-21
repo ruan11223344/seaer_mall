@@ -343,6 +343,30 @@ url:http://域名/api/auth/register
 
 ```
 
+9.获取商品分类
+```
+url:http://域名/api/shop/get_category
+
+请求方法:get
+参数:"无"    
+返回:
+{
+"code": 200,
+"message": "成功!",
+"data": [
+{
+"id": 1,
+"name": "Auto & Transportation",
+"_lft": 1,
+"_rgt": 252,
+"parent_id": null,
+"created_at": "2019-01-21 13:46:51",
+"updated_at": "2019-01-21 13:46:55",
+"sort": 0,
+"children": []
+},..............
+```
+
 
 
 
