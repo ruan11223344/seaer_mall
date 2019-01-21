@@ -32,12 +32,6 @@ class HomeController extends Controller
     public function test(Request $request)
     {
 
-
-        $data = ProductsCategories::rebuildTree($data);
-
-        $data = ProductsCategories::get()->toTree()->toArray();
-        dd($data);
-
     }
 
 }

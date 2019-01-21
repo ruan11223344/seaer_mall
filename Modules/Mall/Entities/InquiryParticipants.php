@@ -7,4 +7,5 @@ use Cmgmyr\Messenger\Models\Participant;
 class InquiryParticipants extends Participant
 {
     protected $fillable = ['thread_id', 'user_id', 'last_read','extends'];
+    protected $casts = ['extends' => 'array'];
 }

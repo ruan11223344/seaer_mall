@@ -9,12 +9,18 @@
 namespace Modules\Mall\Http\Controllers;
 use App\Utils\City;
 use App\Utils\EchoJson;
+use App\Utils\Oss;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class UtilsController extends Controller
 {
+    const OSS_FILE_PATH = 'Shop';
+
     use EchoJson;
     public function getCaptcha(){
         return $this->echoSuccessJson('获取验证码成功!',app('captcha')->create('default', true));
@@ -73,6 +79,62 @@ class UtilsController extends Controller
             array_push($data,['city_id'=>$id,'name'=>$name]);
         }
         return $this->echoSuccessJson('成功!',$data);
+    }
+
+    public static function uploadMultipleFile($files,$to_path){
+            $file_url_list = [];
+            $oss = Oss::getInstance();
+            foreach ($files  as $value){
+                if (!$value->isValid()) {
+                    continue;
+                }
+                $titles = $value->getClientOriginalExtension();
+                // 获取图片在临时文件中的地址
+                $pic_path = $value->getRealPath();
+                // 制作文件名
+                $key = time() . rand(10000, 99999999) . '.'.$titles;
+                //阿里 OSS 图片上传
+                $result = $oss->put($to_path.$key, file_get_contents($pic_path));
+
+                if (!$result) continue;
+                array_push($file_url_list,$oss->url($to_path.$key));
+            }
+            return $file_url_list;
+        }
+
+    public static function uploadFile($file,$to_path){
+            if (!$file->isValid()) {
+                return false;
+            }
+            $titles = $file->getClientOriginalExtension();
+            // 获取图片在临时文件中的地址
+            $pic_path = $file->getRealPath();
+            // 制作文件名
+            $key = time() . rand(10000, 99999999) . '.'.$titles;
+            //阿里 OSS 图片上传
+            $oss = Oss::getInstance();
+            $result = $oss->put($to_path.$key, file_get_contents($pic_path));
+
+            if (!$result) return false;
+            return $oss->url($to_path.$key);
+    }
+
+    public static function getAfId(){
+        return Auth::user()->usersExtends->af_id;
+    }
+
+    public static function getUserAttachmentDirectory(){
+        $af_id = self::getAfId();
+        return self::OSS_FILE_PATH.'/users/'.$af_id.'/attachment';
+    }
+
+    public static function getUserProductDirectory(){
+        $af_id = self::getAfId();
+        return self::OSS_FILE_PATH.'/users/'.$af_id.'/product';
+    }
+
+    public static function getUserPrivateDirectory($af_id){
+        return self::OSS_FILE_PATH.'/users/'.$af_id.'/private';
     }
 
 }

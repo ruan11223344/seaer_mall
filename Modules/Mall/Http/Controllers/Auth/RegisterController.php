@@ -17,6 +17,7 @@ use Modules\Mall\Entities\Company;
 use Modules\Mall\Entities\RegisterTemp;
 use Modules\Mall\Entities\UsersExtends;
 use Modules\Mall\Entities\User;
+use Modules\Mall\Http\Controllers\UtilsController;
 use Webpatser\Uuid\Uuid;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -151,7 +152,8 @@ class RegisterController extends Controller
             $company_business_license_pic_url = null;
             if($account_type == UsersExtends::ACCOUNT_TYPE_COMPANY_CHINA){
                 $pic = $request->file('business_license_img');
-                $res = $this->updateBusinessLicenseImage($pic);
+                $af_id = $this->getAfId($uuid,$account_type);
+                $res = UtilsController::uploadFile($pic,UtilsController::getUserPrivateDirectory($af_id));
                 $company_business_license_pic_url = !$res ?  null : $res;
             }
 
@@ -184,7 +186,7 @@ class RegisterController extends Controller
               $user_extends = UsersExtends::create(
                   [
                         'user_id'=>$user->id,
-                        'af_id'=>$this->getAfId($uuid,$account_type),
+                        'af_id'=>$af_id,
                         'company_id'=>$company->id,
                         'account_type'=>$account_type,
                         'country_id'=>$country_id,

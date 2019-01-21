@@ -680,4 +680,8 @@ class ProductsCategories extends Model
         'id','name','_lft','_rgt','parent_id','sort'
     ];
 
+    protected $hidden = [
+        '_lft', '_rgt','parent_id',
+    ];
+
 }
