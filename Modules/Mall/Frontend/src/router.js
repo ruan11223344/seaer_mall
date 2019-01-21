@@ -109,6 +109,10 @@ const newRouter = new Router({
           path: "flag",
           component: () => import("./views/Inquiry/Flag/index.vue")
         },
+        { // 读
+          path: "read",
+          component: () => import("./views/Inquiry/Read/index.vue")
+        },
         {
           // 垃圾邮件
           path: "spam",
