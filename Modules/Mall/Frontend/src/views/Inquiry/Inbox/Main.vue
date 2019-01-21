@@ -20,7 +20,7 @@
             <!-- 已读 -->
             <template slot-scope="{ row }" slot="isRead">
                 <div>
-                    <v-img width="23" height="15" :imgSrc="require('@/assets/img/icon/yd.png')"></v-img>
+                    <v-img width="23" height="15" :imgSrc="require('@/assets/img/icon/youjian.png')"></v-img>
                 </div>
             </template>
             <!-- 地区 -->
