@@ -105,6 +105,11 @@ const newRouter = new Router({
           component: () => import("./views/Inquiry/Inbox/index.vue")
         },
         {
+          // 垃圾邮件
+          path: "spam",
+          component: () => import("./views/Inquiry/Spam/index.vue")
+        },
+        { // 删除
           path: 'del',
           component: () => import("./views/Inquiry/Delete/index.vue")
         },

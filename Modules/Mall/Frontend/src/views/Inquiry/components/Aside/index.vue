@@ -91,7 +91,8 @@
                                 path: '/inquiryList/del'
                             },
                             {
-                                name:'Spam Report Inquiry'
+                                name:'Spam Report Inquiry',
+                                path: '/inquiryList/spam'
                             },
                             {
                                 name:'Inquiry Rules',
