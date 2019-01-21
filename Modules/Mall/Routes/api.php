@@ -43,6 +43,12 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
         });
     });
 
+    //商品
+    Route::prefix('shop')->group(function() {
+            Route::get('get_category', 'Shop\ProductsCategoriesController@getProductsCategories')->name('shop.get.category');
+    });
+
+
     Route::group(['prefix' => 'utils'],function() {
             Route::get('get_captcha','UtilsController@getCaptcha')->name('get_captcha');
             Route::post('check_captcha_url','UtilsController@checkCaptchaUrl')->name('check_captcha');

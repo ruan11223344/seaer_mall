@@ -324,7 +324,7 @@ class RegisterController extends Controller
     }
 
     public function getRegisterUrl($account_type,$register_uuid){
-        $str = 'https://'.env('MALL_DOMAIN').'/registered/three?';
+        $str = 'http://'.env('MALL_DOMAIN').'/registered/three?';
         if(in_array($account_type,[UsersExtends::ACCOUNT_TYPE_COMPANY_KENYA,UsersExtends::ACCOUNT_TYPE_COMPANY_CHINA])){
             $u_type = 'company';
         }else{
