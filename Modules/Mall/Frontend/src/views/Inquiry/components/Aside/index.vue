@@ -87,7 +87,8 @@
                                 name:'Flag Inquiry',
                             },
                             {
-                                name:'Delete Inquiry'
+                                name:'Delete Inquiry',
+                                path: '/inquiryList/del'
                             },
                             {
                                 name:'Spam Report Inquiry'

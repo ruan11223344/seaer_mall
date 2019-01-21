@@ -104,6 +104,10 @@ const newRouter = new Router({
           path: "inbox",
           component: () => import("./views/Inquiry/Inbox/index.vue")
         },
+        {
+          path: 'del',
+          component: () => import("./views/Inquiry/Delete/index.vue")
+        },
           // 设置
         {
           path: 'set',
