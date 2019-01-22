@@ -3,10 +3,11 @@
 namespace Modules\Mall\Http\Controllers;
 
 use App\Utils\EchoJson;
-use App\Utils\EMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Modules\Mall\Entities\InquiryMessages;
 use Modules\Mall\Entities\InquiryParticipants;
+use Modules\Mall\Entities\InquiryThreads;
 use Modules\Mall\Entities\User;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Routing\Controller;
 use Modules\Mall\Entities\UsersExtends;
+use Illuminate\Support\Facades\Validator;
 
 class MessagesController extends Controller
 {
@@ -41,14 +43,19 @@ class MessagesController extends Controller
     }
 
     const MSG_EX = [
-        'purchase_quantity',
-        'unit',
-        'extra_request',
-        'from_email'
+
     ];
 
     const PARTICIPANTS_EX = [
 
+    ];
+
+    const THREAD_EX = [
+        'purchase_quantity',
+        'purchase_unit',
+        'extra_request',
+        'reply_to_email',
+        'attachment_list'
     ];
 
     use EchoJson;
@@ -63,32 +70,53 @@ class MessagesController extends Controller
     }
 
     public function createMessage(Request $request){
-        $input = $request->all();
-        $thread = Thread::create([
-            'subject' => $input['subject'],
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'to_af_id'=>'exists:users_extends,af_id',
+            'reply_to_email'=>'email|nullable'
         ]);
 
-        // Message
-        InquiryMessages::create([
-            'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
-            'body' => $input['message'],
-            'extends'=>$input['msg_extends'],
-        ]);
-
-        // Sender
-        InquiryParticipants::create([
-            'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
-            'last_read' => new Carbon,
-            'extends' =>$input['participants_extends'],
-        ]);
-
-        // Recipients
-        if (Input::has('recipients')) {
-            $thread->addParticipant($input['recipients']); //参与者是个数组可以有多个用户
+        if ($validator->fails()) {
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
         }
 
+        $reply_to_email = $request->input('reply_to_email',null) == null ? Auth::user()->email :  $request->input('reply_to_email');
+
+        $attachments = UtilsController::uploadMultipleFile($request->file('attachment_list'),UtilsController::getUserAttachmentDirectory());
+        try{
+            DB::beginTransaction();
+            $thread = InquiryThreads::create([
+                'subject' => $request->input('subject'),
+                'extends'=>[
+                    'reply_to_email'=>$reply_to_email,
+                    'extra_request'=>$request->input('extra_request',null),
+                    'purchase_quantity'=>$request->input('purchase_quantity',null),
+                    'purchase_unit'=>$request->input('purchase_unit',null),
+                    'attachment_list'=>$attachments,
+                ],
+            ]);
+            // Message
+            InquiryMessages::create([
+                'thread_id' => $thread->id,
+                'user_id' => Auth::id(),
+                'body' => $request->input('content'),
+            ]);
+            // Sender
+            $to_user_id = UsersExtends::where('af_id',$request->input('to_af_id'))->first()->user_id;
+
+            InquiryParticipants::create([
+                'thread_id' => $thread->id,
+                'user_id' => $to_user_id,
+                'last_read' => null,
+                'extends'=>[],
+            ]);
+
+            DB::commit();
+        }catch (Exception $e){
+            DB::rollback();
+            return $this->echoErrorJson('发布消息失败!',[$e->getMessage()]);
+        }
+        return $this->echoSuccessJson('发布消息成功',$thread->toArray());
     }
 
     public function replyMessage(Request $request){
@@ -104,10 +132,15 @@ class MessagesController extends Controller
     }
 
     public function getIndexList(Request $request){
-        $user_id = Auth::user()->id;
-        $message_list = Participant::where(['user_id'=>$user_id,'deleted_at'=>null])->get()->toArray();
-        return $this->echoSuccessJson('成功!',compact('message_list'));
+        $user = Auth::user();
+        $user_model = User::find($user->id);
+        $s = $user_model->messages;
 
+        $all = $message_list->get();
+        $unread = $message_list->where('last_read',null)->get();
+        $read = $message_list->where('last_read','!=',null)->get();
+
+        return $this->echoSuccessJson('成功!',compact('all','unread','read'));
     }
 
     public function getSpamList(Request $request){

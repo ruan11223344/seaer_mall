@@ -35,10 +35,9 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
         Route::group(['middleware' => ['client.credentials','auth:api']], function(){
             //需要认证的组
             Route::post('create_message', 'MessagesController@createMessage');
-            Route::get('create_message', 'MessagesController@replyMessage');
-            Route::get('create_message', 'MessagesController@deleteMessage');
-            Route::get('create_message', 'MessagesController@emptyMessage');
-            Route::get('create_message', 'MessagesController@getIndexList');
+            Route::post('reply_message', 'MessagesController@replyMessage');
+            Route::post('delete_message', 'MessagesController@deleteMessage');
+            Route::post('empty_message', 'MessagesController@emptyMessage');
             Route::get('get_index_list', 'MessagesController@getIndexList');
         });
     });
