@@ -131,6 +131,10 @@ const newRouter = new Router({
           path: 'del',
           component: () => import("./views/Inquiry/Delete/index.vue")
         },
+        { // 上传头像
+          path: 'picture',
+          component: () => import("./views/Inquiry/Picture/index.vue")
+        },
           // 设置
         {
           path: 'set',

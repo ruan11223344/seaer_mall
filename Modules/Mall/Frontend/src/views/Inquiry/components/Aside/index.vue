@@ -35,7 +35,8 @@
                                 name:'Change Password'
                             },
                             {
-                                name:'Edit My Photo'
+                                name:'Edit My Photo',
+                                path: '/inquiryList/picture'
                             }
                         ]
                     },
