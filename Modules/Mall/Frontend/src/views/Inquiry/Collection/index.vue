@@ -11,22 +11,14 @@
         <div class="Send-main-btn">
             <button>Delete</button>
             <span>Total 4</span>
+            <span style="color: #999999;">&nbsp;&nbsp;(Maximum:100)</span>
         </div>
 
         <Table :height="data6.length > 8 ? 530 : ''" :columns="columns12" :data="data6">
-            <!-- 地区 -->
-            <template slot-scope="{ row }" slot="Contact">
-                <div class="Send-main-name">
-                    <v-img width="27" height="19" :imgSrc="row.src"></v-img>
-                    <span>{{row.name}}</span>
-                </div>
-            </template>
             <!-- 内容 -->
             <template slot-scope="{ row }" slot="Content">
                 <div class="Send-main-content">
-                    <v-img width="11" height="22" :imgSrc="require('@/assets/img/icon/baoj.png')" style="marginRight: 9px;"></v-img>
                     <span>{{ 'Re:' + row.ask.re }}</span>
-                    <!-- <span>{{ 'Dear:' + row.ask.Dear }}</span> -->
                 </div>
             </template>
             <!-- 时间 -->
@@ -60,18 +52,13 @@
                         align: 'center',
                     },
                     {
-                        title: 'Contact',
-                        slot: 'Contact',
-                        align: 'center',
-                    },
-                    {
-                        title: 'Content',
+                        title: 'Products Name',
                         slot: 'Content',
-                        align: 'center'
-
+                        align: 'center',
+                        sortable: true
                     },
                     {
-                        title: 'Sent Time',
+                        title: 'Date',
                         slot: 'time',
                         key: 'time',
                         align: 'center',
