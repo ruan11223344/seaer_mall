@@ -104,6 +104,10 @@ const newRouter = new Router({
           path: "inbox",
           component: () => import("./views/Inquiry/Inbox/index.vue")
         },
+        { // 收藏
+          path: "collection",
+          component: () => import("./views/Inquiry/Collection/index.vue")
+        },
         {
           // 国旗
           path: "flag",

@@ -106,10 +106,11 @@
                         isSubShow:false,
                         subItems:[
                             {
-                                name:'Shop Settings'
+                                name:'Products',
+                                path: '/inquiryList/collection'
                             },
                             {
-                                name:'Store Dynamics'
+                                name:'Suppliers'
                             }
                         ]
                     },
