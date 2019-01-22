@@ -114,6 +114,11 @@ const newRouter = new Router({
           component: () => import("./views/Inquiry/Read/index.vue")
         },
         {
+          // 回复
+          path: "reply",
+          component: () => import("./views/Inquiry/Reply/index.vue")
+        },
+        {
           // 垃圾邮件
           path: "spam",
           component: () => import("./views/Inquiry/Spam/index.vue")
