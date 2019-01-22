@@ -135,6 +135,10 @@ const newRouter = new Router({
           path: 'picture',
           component: () => import("./views/Inquiry/Picture/index.vue")
         },
+        { // 公司信息
+          path: 'companyinfo',
+          component: () => import("./views/Inquiry/CompanyInfo/index.vue")
+        },
           // 设置
         {
           path: 'set',
