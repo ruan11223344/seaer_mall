@@ -13,6 +13,7 @@
         </section>
         <!-- 点击功能 -->
         <div class="Send-main-btn">
+            <button type="button" v-show="actives[3]">Resume</button> 
             <button type="button">Delete</button> 
             <button type="button" v-show="actives[0]">Pause</button>
             <span>Total 4</span>
