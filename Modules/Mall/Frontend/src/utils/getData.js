@@ -67,6 +67,18 @@ const getData = {
             })
         })
     },
+
+    getObjectURL(file) {  // 获取图片本地地址
+        let url = null;  
+        if (window.createObjcectURL != undefined) {  
+        url = window.createOjcectURL(file);  
+        } else if (window.URL != undefined) {  
+        url = window.URL.createObjectURL(file);  
+        } else if (window.webkitURL != undefined) {  
+        url = window.webkitURL.createObjectURL(file);  
+        }  
+        return url;  
+    }
 }
 
 export default getData

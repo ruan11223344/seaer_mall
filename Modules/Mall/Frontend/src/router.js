@@ -139,6 +139,10 @@ const newRouter = new Router({
           path: 'companyinfo',
           component: () => import("./views/Inquiry/CompanyInfo/index.vue")
         },
+        { // 公司信息
+          path: 'companyedit',
+          component: () => import("./views/Inquiry/CompanyEdit/index.vue")
+        },
           // 设置
         {
           path: 'set',
