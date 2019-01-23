@@ -143,6 +143,10 @@ const newRouter = new Router({
           path: 'companyedit',
           component: () => import("./views/Inquiry/CompanyEdit/index.vue")
         },
+        {
+          path: 'commodity',
+          component: () => import("./views/Inquiry/Commodity/index.vue")
+        },
           // 设置
         {
           path: 'set',
