@@ -3,18 +3,18 @@
         <v-title title="Manage Products"></v-title>
         <!-- 切换 -->
         <section class="Send-main-screening">
-            <div class="Send-main-screening-text Send-main-screening-text-active">Selling</div>
+            <div :class="actives[0] ? 'Send-main-screening-text Send-main-screening-text-active' : 'Send-main-screening-text'" @click="onClick(0)">Selling</div>
             <div class="Send-main-screening-hr"></div>
-            <div class="Send-main-screening-text">Check Pending</div>
+            <div :class="actives[1] ? 'Send-main-screening-text Send-main-screening-text-active' : 'Send-main-screening-text'" @click="onClick(1)">Check Pending</div>
             <div class="Send-main-screening-hr"></div>
-            <div class="Send-main-screening-text">Unapprove</div>
+            <div :class="actives[2] ? 'Send-main-screening-text Send-main-screening-text-active' : 'Send-main-screening-text'" @click="onClick(2)">Unapprove</div>
             <div class="Send-main-screening-hr"></div>
-            <div class="Send-main-screening-text">In the warehouse</div>
+            <div :class="actives[3] ? 'Send-main-screening-text Send-main-screening-text-active' : 'Send-main-screening-text'" @click="onClick(3)">In the warehouse</div>
         </section>
         <!-- 点击功能 -->
         <div class="Send-main-btn">
             <button type="button">Delete</button> 
-            <button type="button">Pause</button>
+            <button type="button" v-show="actives[0]">Pause</button>
             <span>Total 4</span>
         </div>
 
@@ -83,6 +83,7 @@
     export default {
         data() {
             return {
+                actives: [ true, false, false, false ],
                 cityList: [
                     {
                         value: 'New York',
@@ -111,6 +112,17 @@
                 ],
                 model1: '',
                 single: false
+            }
+        },
+        methods: {
+            onClick(i) {
+                for (let index = 0; index < this.actives.length; index++) {
+                    if(index == i) {
+                        this.$set(this.actives, index, true)
+                    }else {
+                        this.$set(this.actives, index, false)
+                    }
+                }
             }
         },
         components: {
