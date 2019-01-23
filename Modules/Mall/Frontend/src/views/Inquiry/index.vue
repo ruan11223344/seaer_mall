@@ -90,7 +90,7 @@
             }
 
             &-main {
-                .flex(space-between, center);
+                .flex(space-between, flex-start);
             }
         }
     }

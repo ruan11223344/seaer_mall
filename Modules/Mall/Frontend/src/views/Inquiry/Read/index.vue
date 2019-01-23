@@ -48,7 +48,18 @@
         <section class="read-main-up">
             <div class="read-main-up-title">
                 <v-img width="13" height="13" :imgSrc="require('@/assets/img/fj.png')"></v-img>
-                <div class="read-main-up-title-file">Attached  <span>({{ 2 }} pieces)</span></div>
+                <template>
+                    <!-- 上传文件 -->
+                    <Upload
+                        class="read-main-up-title-file"
+                        multiple
+                        :before-upload="onUpBefore"
+                        :show-upload-list="false"
+                        action="//jsonplaceholder.typicode.com/posts/">
+                        Attached
+                        <span class="read-main-up-title-file-num">({{ 2 }} pieces)</span>
+                    </Upload>
+                </template>
             </div>
             <ul class="read-main-up-item">
                 <li>
@@ -67,6 +78,28 @@
 <script>
     import Img from '@/components/Img'
     export default {
+        data() {
+            return {
+                upObjs: []
+            }
+        },
+        methods: {
+            onUpBefore(files) {
+                let name = files.name.split('.')
+                name = name[name.length - 1]
+                // console.log(name)
+
+                this.$set(this.upObjs, 0, {
+                    name: files.name,
+                    file: files,
+                })
+                console.log(this.upObjs)
+                return false
+            }
+        },
+        mounted() {
+            
+        },
         components: {
             'v-img': Img
         }
@@ -204,13 +237,21 @@
                 &-file {
                     cursor: pointer;
                     font-size: 16px;
-                    line-height: 1;
+                    line-height: 38px;
                     color: #666666;
+                    height: 38px;
+                    padding: 0px 8px 0px 3px;
+                    transition: all 0.2s;
 
-                    & > span {
+                    &-num {
                         color: #f0883a;
                     }
                 }
+
+                &-file:hover {
+                    color: #f0883a;
+                }
+                
             }
 
             &-item {

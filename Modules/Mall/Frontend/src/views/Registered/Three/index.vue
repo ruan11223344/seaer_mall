@@ -91,6 +91,7 @@
                                 :images="imgSrc1" 
                                 ref="lightbox"
                                 :show-light-box="false"
+                                :showThumbs="false"
                             ></LightBox>
                             <Upload
                                 class="registered-main-form-upload"
@@ -123,7 +124,7 @@
     import 'vue-image-lightbox/dist/vue-image-lightbox.min.css'
     // 公共方法
     import getData from '@/utils/getData'
-    import md5 from 'md5'
+    // import md5 from 'md5'
 
     export default {
         data() {
@@ -264,17 +265,19 @@
             getCityAddress: getData.getCityAddress,
             // 地址
             getProvinceAddress: getData.getProvinceAddress,
-            getObjectURL(file) {  // 获取图片本地地址
-                let url = null;  
-                if (window.createObjcectURL != undefined) {  
-                url = window.createOjcectURL(file);  
-                } else if (window.URL != undefined) {  
-                url = window.URL.createObjectURL(file);  
-                } else if (window.webkitURL != undefined) {  
-                url = window.webkitURL.createObjectURL(file);  
-                }  
-                return url;  
-            },
+             // 获取图片本地地址
+            getObjectURL: getData.getObjectURL,
+            // getObjectURL(file) {  // 获取图片本地地址
+            //     let url = null;  
+            //     if (window.createObjcectURL != undefined) {  
+            //     url = window.createOjcectURL(file);  
+            //     } else if (window.URL != undefined) {  
+            //     url = window.URL.createObjectURL(file);  
+            //     } else if (window.webkitURL != undefined) {  
+            //     url = window.webkitURL.createObjectURL(file);  
+            //     }  
+            //     return url;  
+            // },
             
             checkAllGroupChange(value) {
                 

@@ -104,6 +104,10 @@ const newRouter = new Router({
           path: "inbox",
           component: () => import("./views/Inquiry/Inbox/index.vue")
         },
+        { // 收藏
+          path: "collection",
+          component: () => import("./views/Inquiry/Collection/index.vue")
+        },
         {
           // 国旗
           path: "flag",
@@ -114,6 +118,11 @@ const newRouter = new Router({
           component: () => import("./views/Inquiry/Read/index.vue")
         },
         {
+          // 回复
+          path: "reply",
+          component: () => import("./views/Inquiry/Reply/index.vue")
+        },
+        {
           // 垃圾邮件
           path: "spam",
           component: () => import("./views/Inquiry/Spam/index.vue")
@@ -121,6 +130,22 @@ const newRouter = new Router({
         { // 删除
           path: 'del',
           component: () => import("./views/Inquiry/Delete/index.vue")
+        },
+        { // 上传头像
+          path: 'picture',
+          component: () => import("./views/Inquiry/Picture/index.vue")
+        },
+        { // 公司信息
+          path: 'companyinfo',
+          component: () => import("./views/Inquiry/CompanyInfo/index.vue")
+        },
+        { // 公司信息
+          path: 'companyedit',
+          component: () => import("./views/Inquiry/CompanyEdit/index.vue")
+        },
+        {
+          path: 'commodity',
+          component: () => import("./views/Inquiry/Commodity/index.vue")
         },
           // 设置
         {

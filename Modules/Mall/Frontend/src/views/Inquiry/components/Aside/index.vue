@@ -29,13 +29,15 @@
                                 name:'Account Info'
                             },
                             {
-                                name:'Company Info'
+                                name:'Company Info',
+                                path: '/inquiryList/companyinfo'
                             },
                             {
                                 name:'Change Password'
                             },
                             {
-                                name:'Edit My Photo'
+                                name:'Edit My Photo',
+                                path: '/inquiryList/picture'
                             }
                         ]
                     },
@@ -106,10 +108,11 @@
                         isSubShow:false,
                         subItems:[
                             {
-                                name:'Shop Settings'
+                                name:'Products',
+                                path: '/inquiryList/collection'
                             },
                             {
-                                name:'Store Dynamics'
+                                name:'Suppliers'
                             }
                         ]
                     },
@@ -160,6 +163,7 @@
     @import url('../../../../assets/css/index.less');
 
     .inquire-aside {
+        align-self: flex-start;
         .width(255px, 772px);
         .bg-color(white);
         padding: 6px 18px;
