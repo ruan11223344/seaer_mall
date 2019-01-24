@@ -375,30 +375,698 @@ url:http://域名/api/message/create_message
 请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
 请求头参数:"Authorization",值:"Bearer空格+token" //必填
 
+以下是普通参数 ↓
 参数:"to_af_id",值:"AF_CN_7a49b34079"   //必填  发送给用户的唯一识别id
 参数:"attachment_list",值:"多文件上传"   //必填   附件上传接口 以file格式上传 表单加 [] 否则不予通过 ,就算一个文件也是已数组形式传输 
 
 参数:"subject",值:"我需要大量的香蕉 可以聊一下嘛？"  //必填 询盘的主题 
-
-
+参数:"purchase_quantity",值:"24"  //必填 需要的数量
+参数:"purchase_unit",值:"斤"  //必填 需要的数量的单位
+参数:"content",值:"香蕉是个好东西 真好吃！"  //必填 发送的主体内容
 
 返回:
 {
-"code": 200,
-"message": "成功!",
-"data": [
-{
-"id": 1,
-"name": "Auto & Transportation",
-"_lft": 1,
-"_rgt": 252,
-"parent_id": null,
-"created_at": "2019-01-21 13:46:51",
-"updated_at": "2019-01-21 13:46:55",
-"sort": 0,
-"children": []
-},..............
+    "code": 200,
+    "message": "发布消息成功",
+    "data": {
+        "subject": "wawawwawa我需要一些肉肉肉肉肉肉肉",
+        "extends": {
+            "extra_request": [
+                {
+                    "Price": true
+                },
+                {
+                    "Specifications": true
+                },
+                {
+                    "Company Profile": true
+                }
+            ],
+            "purchase_quantity": "24",
+            "purchase_unit": "斤"
+        },
+        "updated_at": "2019-01-24 13:49:10",
+        "created_at": "2019-01-24 13:49:10",
+        "id": 28
+    }
+}
 ```
+
+11.清空已经删除的消息（清空回收站)
+
+```
+url:http://域名/api/message/empty_message
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+无普通参数~
+
+返回:
+{
+    "code": 200,
+    "message": "清空成功!",
+    "data": []
+}
+```
+
+12.获取已经删除过的消息
+```
+url:http://域名/api/message/delete_message
+
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+无普通参数~
+
+返回:
+{
+    "code": 200,
+    "message": "成功!",
+    "data": [
+        {
+            "subject": "wawawwawa我需要一些肉肉肉肉肉肉肉",
+            "content": "wawawwawa我是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是",
+            "message_id": 32,
+            "thread_id": 27,
+            "send_at": {
+                "date": "2019-01-24 13:48:37.000000",
+                "timezone_type": 3,
+                "timezone": "PRC"
+            },
+            "send_from_ip": "127.0.0.*",
+            "send_by_af_id": "AF_CN_c1dce03047",
+            "send_to_af_id": "AF_CN_c1dce03047",
+            "send_by_name": "wang ni ma",
+            "send_to_name": "wang ni ma",
+            "send_country": "cn",
+            "extra_request": [
+                {
+                    "Price": true
+                },
+                {
+                    "Specifications": true
+                },
+                {
+                    "Company Profile": true
+                }
+            ],
+            "purchase_quantity": "24 斤",
+            "attachment_list": [
+                {
+                    "下载.png": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/attachment/154830891665374900.png"
+                },
+                {
+                    "960 (1).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/attachment/154830891773900395.jpeg"
+                }
+            ],
+            "other_party_is_read": true,
+            "other_party_is_reply": false,
+            "type": "outbox"  //注意这里 outbox 是发件箱的消息噢~
+        }
+    ]
+}
+```
+
+12.回复消息
+```
+url:http://域名/api/message/reply_message
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+以下是普通参数 ↓
+参数:"message_id",值:"32"   //必填  要回复的消息id
+参数:"attachment_list",值:"多文件上传"   //必填   附件上传接口 以file格式上传 表单加 [] 否则不予通过 ,就算一个文件也是已数组形式传输 
+参数:"quote_message_id",值:"35"   //引用消息的id   非必填
+参数:"content",值:"非洲香蕉大 真好吃！！"  //必填 发送的主体内容
+
+返回:
+{
+    "code": 200,
+    "message": "成功!",
+    "data": []
+}
+```
+
+13.获取发件箱消息
+```
+url:http://域名/api/message/outbox_message
+
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+无普通参数
+
+返回:
+{
+    "code": 200,
+    "message": "成功!",
+    "data": {
+        "all": [
+            {
+                "subject": "wawawwawa我需要一些肉肉肉肉肉肉肉",
+                "content": "你要多少肉肉啊1111",
+                "message_id": 35,
+                "thread_id": 27,
+                "send_at": {
+                    "date": "2019-01-24 16:11:58.000000",
+                    "timezone_type": 3,
+                    "timezone": "PRC"
+                },
+                "send_from_ip": "127.0.0.*",
+                "send_by_af_id": "AF_CN_c1dce03047",
+                "send_to_af_id": "AF_CN_c1dce03043",
+                "send_by_name": "wang ni ma",
+                "send_to_name": "王尼玛",
+                "send_country": "cn",
+                "extra_request": [
+                    {
+                        "Price": true
+                    },
+                    {
+                        "Specifications": true
+                    },
+                    {
+                        "Company Profile": true
+                    }
+                ],
+                "purchase_quantity": "24 斤",
+                "attachment_list": [
+                    {
+                        "960 (1).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03047/attachment/154831751852539124.jpeg"
+                    }
+                ],
+                "other_party_is_read": false,
+                "other_party_is_reply": false,
+                "quote_message": [],
+                "type": "outbox"
+            },
+            {
+                "subject": "wawawwawa我需要一些肉肉肉肉肉肉肉",
+                "content": "你要多少肉肉啊2222",
+                "message_id": 36,
+                "thread_id": 27,
+                "send_at": {
+                    "date": "2019-01-24 16:14:59.000000",
+                    "timezone_type": 3,
+                    "timezone": "PRC"
+                },
+                "send_from_ip": "127.0.0.*",
+                "send_by_af_id": "AF_CN_c1dce03047",
+                "send_to_af_id": "AF_CN_c1dce03043",
+                "send_by_name": "wang ni ma",
+                "send_to_name": "王尼玛",
+                "send_country": "cn",
+                "extra_request": [
+                    {
+                        "Price": true
+                    },
+                    {
+                        "Specifications": true
+                    },
+                    {
+                        "Company Profile": true
+                    }
+                ],
+                "purchase_quantity": "24 斤",
+                "attachment_list": [
+                    {
+                        "960 (1).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03047/attachment/154831769846084917.jpeg"
+                    }
+                ],
+                "other_party_is_read": true,
+                "other_party_is_reply": false,
+                "quote_message": [
+                    {
+                        "subject": "wawawwawa我需要一些肉肉肉肉肉肉肉",
+                        "content": "wawawwawa我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是",
+                        "message_id": 32,
+                        "thread_id": 27,
+                        "send_at": {
+                            "date": "2019-01-24 13:48:37.000000",
+                            "timezone_type": 3,
+                            "timezone": "PRC"
+                        },
+                        "send_from_ip": "127.0.0.*",
+                        "send_by_af_id": "AF_CN_c1dce03043",
+                        "send_to_af_id": "AF_CN_c1dce03047",
+                        "send_by_name": "王尼玛",
+                        "send_to_name": "wang ni ma",
+                        "send_country": "cn",
+                        "extra_request": [
+                            {
+                                "Price": true
+                            },
+                            {
+                                "Specifications": true
+                            },
+                            {
+                                "Company Profile": true
+                            }
+                        ],
+                        "purchase_quantity": "24 斤",
+                        "attachment_list": [
+                            {
+                                "下载.png": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/attachment/154830891665374900.png"
+                            },
+                            {
+                                "960 (1).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/attachment/154830891773900395.jpeg"
+                            }
+                        ],
+                        "other_party_is_read": true,
+                        "other_party_is_reply": true,
+                        "quote_message": [
+                            {
+                                "subject": "wawawwawa我需要一些肉肉肉肉肉肉肉",
+                                "content": "你要多少肉肉啊1111",
+                                "message_id": 35,
+                                "thread_id": 27,
+                                "send_at": {
+                                    "date": "2019-01-24 16:11:58.000000",
+                                    "timezone_type": 3,
+                                    "timezone": "PRC"
+                                },
+                                "send_from_ip": "127.0.0.*",
+                                "send_by_af_id": "AF_CN_c1dce03047",
+                                "send_to_af_id": "AF_CN_c1dce03043",
+                                "send_by_name": "wang ni ma",
+                                "send_to_name": "王尼玛",
+                                "send_country": "cn",
+                                "extra_request": [
+                                    {
+                                        "Price": true
+                                    },
+                                    {
+                                        "Specifications": true
+                                    },
+                                    {
+                                        "Company Profile": true
+                                    }
+                                ],
+                                "purchase_quantity": "24 斤",
+                                "attachment_list": [
+                                    {
+                                        "960 (1).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03047/attachment/154831751852539124.jpeg"
+                                    }
+                                ],
+                                "other_party_is_read": false,
+                                "other_party_is_reply": false,
+                                "quote_message": [],
+                                "type": "outbox"
+                            }
+                        ],
+                        "type": "outbox"
+                    }
+                ],
+                "type": "outbox"
+            }
+        ],
+        "unread": [
+            {
+                "subject": "wawawwawa我需要一些肉肉肉肉肉肉肉",
+                "content": "你要多少肉肉啊1111",
+                "message_id": 35,
+                "thread_id": 27,
+                "send_at": {
+                    "date": "2019-01-24 16:11:58.000000",
+                    "timezone_type": 3,
+                    "timezone": "PRC"
+                },
+                "send_from_ip": "127.0.0.*",
+                "send_by_af_id": "AF_CN_c1dce03047",
+                "send_to_af_id": "AF_CN_c1dce03043",
+                "send_by_name": "wang ni ma",
+                "send_to_name": "王尼玛",
+                "send_country": "cn",
+                "extra_request": [
+                    {
+                        "Price": true
+                    },
+                    {
+                        "Specifications": true
+                    },
+                    {
+                        "Company Profile": true
+                    }
+                ],
+                "purchase_quantity": "24 斤",
+                "attachment_list": [
+                    {
+                        "960 (1).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03047/attachment/154831751852539124.jpeg"
+                    }
+                ],
+                "other_party_is_read": false,
+                "other_party_is_reply": false,
+                "quote_message": [],
+                "type": "outbox"
+            }
+        ],
+        "read": [
+            {
+                "subject": "wawawwawa我需要一些肉肉肉肉肉肉肉",
+                "content": "你要多少肉肉啊2222",
+                "message_id": 36,
+                "thread_id": 27,
+                "send_at": {
+                    "date": "2019-01-24 16:14:59.000000",
+                    "timezone_type": 3,
+                    "timezone": "PRC"
+                },
+                "send_from_ip": "127.0.0.*",
+                "send_by_af_id": "AF_CN_c1dce03047",
+                "send_to_af_id": "AF_CN_c1dce03043",
+                "send_by_name": "wang ni ma",
+                "send_to_name": "王尼玛",
+                "send_country": "cn",
+                "extra_request": [
+                    {
+                        "Price": true
+                    },
+                    {
+                        "Specifications": true
+                    },
+                    {
+                        "Company Profile": true
+                    }
+                ],
+                "purchase_quantity": "24 斤",
+                "attachment_list": [
+                    {
+                        "960 (1).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03047/attachment/154831769846084917.jpeg"
+                    }
+                ],
+                "other_party_is_read": true,
+                "other_party_is_reply": false,
+                "quote_message": [
+                    {
+                        "subject": "wawawwawa我需要一些肉肉肉肉肉肉肉",
+                        "content": "wawawwawa我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是",
+                        "message_id": 32,
+                        "thread_id": 27,
+                        "send_at": {
+                            "date": "2019-01-24 13:48:37.000000",
+                            "timezone_type": 3,
+                            "timezone": "PRC"
+                        },
+                        "send_from_ip": "127.0.0.*",
+                        "send_by_af_id": "AF_CN_c1dce03043",
+                        "send_to_af_id": "AF_CN_c1dce03047",
+                        "send_by_name": "王尼玛",
+                        "send_to_name": "wang ni ma",
+                        "send_country": "cn",
+                        "extra_request": [
+                            {
+                                "Price": true
+                            },
+                            {
+                                "Specifications": true
+                            },
+                            {
+                                "Company Profile": true
+                            }
+                        ],
+                        "purchase_quantity": "24 斤",
+                        "attachment_list": [
+                            {
+                                "下载.png": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/attachment/154830891665374900.png"
+                            },
+                            {
+                                "960 (1).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/attachment/154830891773900395.jpeg"
+                            }
+                        ],
+                        "other_party_is_read": true,
+                        "other_party_is_reply": true,
+                        "quote_message": [
+                            {
+                                "subject": "wawawwawa我需要一些肉肉肉肉肉肉肉",
+                                "content": "你要多少肉肉啊1111",
+                                "message_id": 35,
+                                "thread_id": 27,
+                                "send_at": {
+                                    "date": "2019-01-24 16:11:58.000000",
+                                    "timezone_type": 3,
+                                    "timezone": "PRC"
+                                },
+                                "send_from_ip": "127.0.0.*",
+                                "send_by_af_id": "AF_CN_c1dce03047",
+                                "send_to_af_id": "AF_CN_c1dce03043",
+                                "send_by_name": "wang ni ma",
+                                "send_to_name": "王尼玛",
+                                "send_country": "cn",
+                                "extra_request": [
+                                    {
+                                        "Price": true
+                                    },
+                                    {
+                                        "Specifications": true
+                                    },
+                                    {
+                                        "Company Profile": true
+                                    }
+                                ],
+                                "purchase_quantity": "24 斤",
+                                "attachment_list": [
+                                    {
+                                        "960 (1).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03047/attachment/154831751852539124.jpeg"
+                                    }
+                                ],
+                                "other_party_is_read": false,
+                                "other_party_is_reply": false,
+                                "quote_message": [],
+                                "type": "outbox"
+                            }
+                        ],
+                        "type": "outbox"
+                    }
+                ],
+                "type": "outbox"
+            }
+        ]
+    }
+}
+```
+
+
+14.获取收件箱消息
+```
+url:http://域名/api/message/inbox_message
+
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+无普通参数
+返回:
+{
+    "code": 200,
+    "message": "成功",
+    "data": {
+        "all": [
+            {
+                "subject": "wawawwawa我需要一些肉肉肉肉肉肉肉",
+                "content": "wawawwawa我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是",
+                "message_id": 32,
+                "participant_id": 29,
+                "thread_id": 27,
+                "send_at": {
+                    "date": "2019-01-24 13:48:37.000000",
+                    "timezone_type": 3,
+                    "timezone": "PRC"
+                },
+                "is_read": true,
+                "is_reply": false,
+                "send_from_ip": "127.0.0.*",
+                "send_by_af_id": "AF_CN_c1dce03043",
+                "send_by_name": "王尼玛",
+                "send_country": "cn",
+                "extra_request": [
+                    {
+                        "Price": true
+                    },
+                    {
+                        "Specifications": true
+                    },
+                    {
+                        "Company Profile": true
+                    }
+                ],
+                "purchase_quantity": "24 斤",
+                "attachment_list": [
+                    {
+                        "下载.png": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/attachment/154830891665374900.png"
+                    },
+                    {
+                        "960 (1).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/attachment/154830891773900395.jpeg"
+                    }
+                ],
+                "type": "inbox"
+            },
+            {
+                "subject": "wawawwawa我需要一些肉肉肉肉肉肉肉",
+                "content": "你要多少肉肉啊1111",
+                "message_id": 35,
+                "participant_id": 32,
+                "thread_id": 27,
+                "send_at": {
+                    "date": "2019-01-24 16:11:58.000000",
+                    "timezone_type": 3,
+                    "timezone": "PRC"
+                },
+                "is_read": false,
+                "is_reply": false,
+                "send_from_ip": "127.0.0.*",
+                "send_by_af_id": "AF_CN_c1dce03047",
+                "send_by_name": "wang ni ma",
+                "send_country": "cn",
+                "extra_request": [
+                    {
+                        "Price": true
+                    },
+                    {
+                        "Specifications": true
+                    },
+                    {
+                        "Company Profile": true
+                    }
+                ],
+                "purchase_quantity": "24 斤",
+                "attachment_list": [
+                    {
+                        "960 (1).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03047/attachment/154831751852539124.jpeg"
+                    }
+                ],
+                "type": "inbox"
+            }
+        ],
+        "unread": [
+            {
+                "subject": "wawawwawa我需要一些肉肉肉肉肉肉肉",
+                "content": "你要多少肉肉啊1111",
+                "message_id": 35,
+                "participant_id": 32,
+                "thread_id": 27,
+                "send_at": {
+                    "date": "2019-01-24 16:11:58.000000",
+                    "timezone_type": 3,
+                    "timezone": "PRC"
+                },
+                "is_read": false,
+                "is_reply": false,
+                "send_from_ip": "127.0.0.*",
+                "send_by_af_id": "AF_CN_c1dce03047",
+                "send_by_name": "wang ni ma",
+                "send_country": "cn",
+                "extra_request": [
+                    {
+                        "Price": true
+                    },
+                    {
+                        "Specifications": true
+                    },
+                    {
+                        "Company Profile": true
+                    }
+                ],
+                "purchase_quantity": "24 斤",
+                "attachment_list": [
+                    {
+                        "960 (1).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03047/attachment/154831751852539124.jpeg"
+                    }
+                ],
+                "type": "inbox"
+            }
+        ],
+        "pending_for_reply": [
+            {
+                "subject": "wawawwawa我需要一些肉肉肉肉肉肉肉",
+                "content": "wawawwawa我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是",
+                "message_id": 32,
+                "participant_id": 29,
+                "thread_id": 27,
+                "send_at": {
+                    "date": "2019-01-24 13:48:37.000000",
+                    "timezone_type": 3,
+                    "timezone": "PRC"
+                },
+                "is_read": true,
+                "is_reply": false,
+                "send_from_ip": "127.0.0.*",
+                "send_by_af_id": "AF_CN_c1dce03043",
+                "send_by_name": "王尼玛",
+                "send_country": "cn",
+                "extra_request": [
+                    {
+                        "Price": true
+                    },
+                    {
+                        "Specifications": true
+                    },
+                    {
+                        "Company Profile": true
+                    }
+                ],
+                "purchase_quantity": "24 斤",
+                "attachment_list": [
+                    {
+                        "下载.png": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/attachment/154830891665374900.png"
+                    },
+                    {
+                        "960 (1).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/attachment/154830891773900395.jpeg"
+                    }
+                ],
+                "type": "inbox"
+            },
+            {
+                "subject": "wawawwawa我需要一些肉肉肉肉肉肉肉",
+                "content": "你要多少肉肉啊1111",
+                "message_id": 35,
+                "participant_id": 32,
+                "thread_id": 27,
+                "send_at": {
+                    "date": "2019-01-24 16:11:58.000000",
+                    "timezone_type": 3,
+                    "timezone": "PRC"
+                },
+                "is_read": false,
+                "is_reply": false,
+                "send_from_ip": "127.0.0.*",
+                "send_by_af_id": "AF_CN_c1dce03047",
+                "send_by_name": "wang ni ma",
+                "send_country": "cn",
+                "extra_request": [
+                    {
+                        "Price": true
+                    },
+                    {
+                        "Specifications": true
+                    },
+                    {
+                        "Company Profile": true
+                    }
+                ],
+                "purchase_quantity": "24 斤",
+                "attachment_list": [
+                    {
+                        "960 (1).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03047/attachment/154831751852539124.jpeg"
+                    }
+                ],
+                "type": "inbox"
+            }
+        ]
+    }
+}
+
+```
+
+
+
+
+
 
 
 

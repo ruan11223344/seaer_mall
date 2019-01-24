@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Modules\Mall\Entities\UsersExtends;
 
 class UtilsController extends Controller
 {
@@ -99,8 +100,9 @@ class UtilsController extends Controller
                 if (!$result) continue;
                 if($return_name){
                     array_push($file_url_list,[$value->getClientOriginalName()=>$oss->url($to_path.$key)]);
+                }else{
+                    array_push($file_url_list,$oss->url($to_path.$key));
                 }
-                array_push($file_url_list,$oss->url($to_path.$key));
             }
             return $file_url_list;
         }

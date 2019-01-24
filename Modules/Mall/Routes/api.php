@@ -36,11 +36,16 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
             //需要认证的组
             Route::post('create_message', 'MessagesController@createMessage');
             Route::post('reply_message', 'MessagesController@replyMessage');
-            Route::post('delete_message', 'MessagesController@deleteMessage');
-            Route::post('empty_message', 'MessagesController@emptyMessage');
+            Route::get('delete_message', 'MessagesController@deleteMessage');
             Route::get('inbox_message', 'MessagesController@inboxMessage');
             Route::get('outbox_message', 'MessagesController@outboxMessage');
             Route::get('spam_message', 'MessagesController@spamMessage');
+
+            Route::post('mark_spam_message', 'MessagesController@spamMessage');
+            Route::post('mark_delete_message', 'MessagesController@deleteMessage');
+            Route::post('empty_message', 'MessagesController@emptyMessage'); //清空消息
+
+
         });
     });
 
