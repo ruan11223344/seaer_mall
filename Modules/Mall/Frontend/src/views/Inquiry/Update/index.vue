@@ -15,7 +15,7 @@
         </section>
 
         <!-- 地址 -->
-        <section class="product-category">
+        <!-- <section class="product-category">
             <div class="product-category-item">
                 <happy-scroll
                     size="6"
@@ -26,7 +26,7 @@
                    <Card shadow style="width: 260px;border:none;boxShadow: none;">
                         <CellGroup>
                             <Cell title="Construction" class="product-category-item-list product-category-item-active"/>
-                            <!-- <Cell title="Only show titles" class="product-category-item-list" v-for="(item, index) in [0,1,2,3,4,5,3,6,7,8,1,1,1,1,1,1,1,1,11,1,1]" :key="index"/> -->
+                            <Cell title="Only show titles" class="product-category-item-list" v-for="(item, index) in [0,1,2,3,4,5,3,6,7,8,1,1,1,1,1,1,1,1,11,1,1]" :key="index"/>
                         </CellGroup>
                     </Card>
                 </happy-scroll>
@@ -61,7 +61,29 @@
                     </Card>
                 </happy-scroll>
             </div>
+        </section> -->
+
+        <!-- 模糊搜索 -->
+        <section class="product-blurry">
+            <span class="product-blurry-title">All Categories</span>
+
+            <div class="product-blurry-item">
+                <happy-scroll
+                    size="6"
+                    :hide-horizontal="true"
+                    :min-length-v="10"
+                    color="#dddddd"
+                    >
+                    <Card shadow style="width: 863px;border:none;boxShadow: none;">
+                        <CellGroup>
+                            <Cell title="Construction" class="product-blurry-item-list product-blurry-item-active"/>
+                            <Cell title="Only show titles" class="product-blurry-item-list" v-for="(item, index) in [0,1,2,3,4,5,3,6,7,8,1,1,1,1,1,1,1,1,11,1,1]" :key="index"/>
+                        </CellGroup>
+                    </Card>
+                </happy-scroll>
+            </div>
         </section>
+
         <!-- 选择的地址 -->
         <section class="product-footer">
 
@@ -131,7 +153,40 @@
                 padding: 0px 10px;
 
                 &-list {
-                    // width: 240px;
+                    height: 36px;
+                    font-size: 14px;
+                }
+
+                &-list:hover {
+                    background-color: #f5f5f9 !important;
+                }
+
+                &-active {
+                    background-color: #f5f5f9;
+                    color: #f0883a;
+                }
+            }
+        }
+
+        &-blurry {
+            width: 885px;
+
+            &-title {
+                font-size: 16px;
+                color: #f0883a;
+                margin-left: 22px;
+                margin-bottom: 8px;
+                cursor: pointer;
+                display: inline-block;
+            }
+
+            &-item {
+                width: 885px;
+                height: 462px;
+                border: solid 1px #dddddd;
+                padding: 0px 10px;
+
+                &-list {
                     height: 36px;
                     font-size: 14px;
                 }
