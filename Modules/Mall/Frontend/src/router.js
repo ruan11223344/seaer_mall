@@ -143,9 +143,13 @@ const newRouter = new Router({
           path: 'companyedit',
           component: () => import("./views/Inquiry/CompanyEdit/index.vue")
         },
-        {
+        { // 商品管理
           path: 'commodity',
           component: () => import("./views/Inquiry/Commodity/index.vue")
+        },
+        { // 上传商品
+          path: 'uploadproduct',
+          component: () => import("./views/Inquiry/Update/index.vue")
         },
           // 设置
         {

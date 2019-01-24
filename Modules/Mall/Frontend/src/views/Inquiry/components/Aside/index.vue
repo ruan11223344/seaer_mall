@@ -46,7 +46,6 @@
                         isSubShow:false,
                         subItems:[
                             {
-                                // name:'Shop Settings'
                                 name:'Shop Settings'
                             },
                             {
@@ -59,10 +58,12 @@
                         isSubShow:false,
                         subItems:[
                             {
-                                name:'Upload Product'
+                                name:'Upload Product',
+                                path: '/inquiryList/uploadproduct'
                             },
                             {
-                                name:'Manage Products'
+                                name:'Manage Products',
+                                path: '/inquiryList/commodity'
                             },
                             {
                                 name:'Manage Photos'

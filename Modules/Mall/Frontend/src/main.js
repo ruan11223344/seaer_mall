@@ -13,6 +13,11 @@ import 'iview/dist/styles/iview.css'
 // 懒加载
 import VueLazyLoad from 'vue-lazyload'
 Vue.use(VueLazyLoad)
+// 滚动条
+//  import { HappyScroll } from 'vue-happy-scroll'
+ // 引入css，推荐将css放入main入口中引入一次即可。
+ import 'vue-happy-scroll/docs/happy-scroll.css'
+ 
 // 引入验证插件
 import verify from "vue-verify-plugin"
 // 自定义验证规则
