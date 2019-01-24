@@ -1,5 +1,5 @@
 <template>
-    <h3>{{ title }}</h3>
+    <h3>{{ title }} <span> {{ subtitle }}</span></h3>
 </template>
 
 <script>
@@ -7,7 +7,8 @@
         props: {
             title: {
                 required: true
-            }
+            },
+            subtitle: ''
         }
     }
 </script>
@@ -21,5 +22,10 @@
         line-height: 1;
         padding-bottom: 10px;
         border-bottom: 1px solid #eeeeee;
+
+        & > span {
+            font-size: 12px;
+            color: #999999;
+        }
     }
 </style>
