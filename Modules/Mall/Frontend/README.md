@@ -367,6 +367,39 @@ url:http://域名/api/shop/get_category
 },..............
 ```
 
+10.创建询盘消息
+```
+url:http://域名/api/message/create_message
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+参数:"to_af_id",值:"AF_CN_7a49b34079"   //必填  发送给用户的唯一识别id
+参数:"attachment_list",值:"多文件上传"   //必填   附件上传接口 以file格式上传 表单加 [] 否则不予通过 ,就算一个文件也是已数组形式传输 
+
+参数:"subject",值:"我需要大量的香蕉 可以聊一下嘛？"  //必填 询盘的主题 
+
+
+
+返回:
+{
+"code": 200,
+"message": "成功!",
+"data": [
+{
+"id": 1,
+"name": "Auto & Transportation",
+"_lft": 1,
+"_rgt": 252,
+"parent_id": null,
+"created_at": "2019-01-21 13:46:51",
+"updated_at": "2019-01-21 13:46:55",
+"sort": 0,
+"children": []
+},..............
+```
+
 
 
 

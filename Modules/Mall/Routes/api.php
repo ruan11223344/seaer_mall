@@ -38,7 +38,9 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
             Route::post('reply_message', 'MessagesController@replyMessage');
             Route::post('delete_message', 'MessagesController@deleteMessage');
             Route::post('empty_message', 'MessagesController@emptyMessage');
-            Route::get('get_index_list', 'MessagesController@getIndexList');
+            Route::get('inbox_message', 'MessagesController@inboxMessage');
+            Route::get('outbox_message', 'MessagesController@outboxMessage');
+            Route::get('spam_message', 'MessagesController@spamMessage');
         });
     });
 

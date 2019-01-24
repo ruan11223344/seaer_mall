@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Validator;
 
 class UtilsController extends Controller
 {
-    const OSS_FILE_PATH = 'Shop';
+    const OSS_FILE_PATH = 'mall';
 
     use EchoJson;
     public function getCaptcha(){
@@ -81,7 +81,7 @@ class UtilsController extends Controller
         return $this->echoSuccessJson('成功!',$data);
     }
 
-    public static function uploadMultipleFile($files,$to_path){
+    public static function uploadMultipleFile($files,$to_path,$return_name = false){
             $file_url_list = [];
             $oss = Oss::getInstance();
             foreach ($files  as $value){
@@ -97,6 +97,9 @@ class UtilsController extends Controller
                 $result = $oss->put($to_path.$key, file_get_contents($pic_path));
 
                 if (!$result) continue;
+                if($return_name){
+                    array_push($file_url_list,[$value->getClientOriginalName()=>$oss->url($to_path.$key)]);
+                }
                 array_push($file_url_list,$oss->url($to_path.$key));
             }
             return $file_url_list;
@@ -125,16 +128,24 @@ class UtilsController extends Controller
 
     public static function getUserAttachmentDirectory(){
         $af_id = self::getAfId();
-        return self::OSS_FILE_PATH.'/users/'.$af_id.'/attachment';
+        return self::OSS_FILE_PATH.'/users/'.$af_id.'/attachment/';
     }
 
     public static function getUserProductDirectory(){
         $af_id = self::getAfId();
-        return self::OSS_FILE_PATH.'/users/'.$af_id.'/product';
+        return self::OSS_FILE_PATH.'/users/'.$af_id.'/product/';
     }
 
     public static function getUserPrivateDirectory($af_id){
-        return self::OSS_FILE_PATH.'/users/'.$af_id.'/private';
+        return self::OSS_FILE_PATH.'/users/'.$af_id.'/private/';
+    }
+
+    public static function getUserIdFormAfId($af_id){
+        $user_ex = UsersExtends::where('af_id',$af_id)->first();
+        if($user_ex != null){
+            return $user_ex->user_id;
+        }
+        return null;
     }
 
 }
