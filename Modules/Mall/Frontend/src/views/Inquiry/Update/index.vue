@@ -3,13 +3,13 @@
         <v-head></v-head>
         <v-title title="Upload Product" subtitle="(1 added, maximum 200）"></v-title>
 
-        <section class="Send-main-screening">
-            <div class="Send-main-screening-text Send-main-screening-text-active">Search</div>
+        <section class="Send-main-screening" style="marginBottom: 20px;">
+            <div :class="bool ? 'Send-main-screening-text Send-main-screening-text-active' : 'Send-main-screening-text'" @click="bool = true">Search</div>
             <div class="Send-main-screening-hr"></div>
-            <div class="Send-main-screening-text">Latest Selected</div>
+            <div :class="bool == false ? 'Send-main-screening-text Send-main-screening-text-active' : 'Send-main-screening-text'" @click="bool = false">Latest Selected</div>
         </section>
 
-        <section class="product-search">
+        <section class="product-search" v-show="bool != false">
             <input type="text" class="product-search-input">
             <button type="button" class="product-search-btn">Search</button>
         </section>
@@ -65,7 +65,7 @@
 
         <!-- 模糊搜索 -->
         <section class="product-blurry">
-            <span class="product-blurry-title">All Categories</span>
+            <span class="product-blurry-title" v-show="bool != false">All Categories</span>
 
             <div class="product-blurry-item">
                 <happy-scroll
@@ -103,7 +103,8 @@
     export default {
         data() {
             return {
-                switchValue: true
+                switchValue: true,
+                bool: true
             }
         },
         components: {
@@ -124,7 +125,7 @@
         padding: 21px 30px;
 
         &-search {
-            margin: 20px 0px;
+            margin-bottom: 20px;
 
             &-input {
                 width: 527px - 114px;
