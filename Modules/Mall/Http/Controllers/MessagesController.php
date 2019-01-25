@@ -24,21 +24,9 @@ use Illuminate\Support\Facades\Validator;
 
 class MessagesController extends Controller
 {
-    protected $mail_notification_user_id = null;
-    protected $function_name = null;
-    protected $email_subject = null;
 
     const KE_COUNTRY_ID = 56;
     const CHINA_COUNTRY_ID = 101;
-
-    public function __destruct()
-    {
-        if($this->function_name == 'createMessage' || $this->function_name == 'replyMessage'){
-            if($this->mail_notification_user_id !== null){
-                $this->sendMailNotification();
-            }
-        }
-    }
 
 
     use EchoJson;
@@ -48,12 +36,12 @@ class MessagesController extends Controller
      * @return mixed
      */
 
-    public function sendMailNotification(){
-        $to_user = UsersExtends::where('user_id',$this->mail_notification_user_id)->first();
+    public function sendMailNotification($to_user_id,$message,$is_reply = false){
+        $to_user = UsersExtends::where('user_id',$to_user_id)->first();
         if($to_user->email_notification){
             $email_obj = new EMail();
-            $subject = '你有一条新的询盘消息!';
-            $email_obj->send(User::find($this->mail_notification_user_id)->first()->email,$subject,['message'=>$this->email_subject],$email_obj::TEMPLATE_MESSAGE);
+            $subject = $is_reply ?? 'RE: ' . '你有一条新的询盘消息!';
+            $email_obj->send(User::find($to_user_id)->email,$subject,['messages'=>$message],$email_obj::TEMPLATE_MESSAGE);
         }
     }
 
@@ -199,7 +187,6 @@ class MessagesController extends Controller
         return $res_data;
     }
 
-
     public function createMessage(Request $request){
         $this->function_name = 'createMessage';
         $user_id = Auth::id();
@@ -251,7 +238,6 @@ class MessagesController extends Controller
                 }
             }
 
-            $this->email_subject = $request->input('subject');
             $thread = InquiryThreads::create([
                 'subject' => $request->input('subject'),
                 'extends'=>[
@@ -282,8 +268,6 @@ class MessagesController extends Controller
 
             $to_user_id = UtilsController::getUserIdFormAfId($to_af_id);
 
-            $this->mail_notification_user_id = $to_af_id;
-
             InquiryParticipants::create([
                 'thread_id' => $thread->id,
                 'user_id' => $to_user_id,
@@ -297,6 +281,7 @@ class MessagesController extends Controller
                     'message_id'=> $message->id,
                 ],
             ]);
+            $this->sendMailNotification($to_user_id,$request->input('subject'));
 
             DB::commit();
         }catch (Exception $e){
@@ -364,12 +349,10 @@ class MessagesController extends Controller
             ]);
 
             $subject = $message->thread->subject;
-            $this->email_subject = $subject;
 
 
             $to_user_id = $from_message->user_id;
 
-            $this->mail_notification_user_id = $to_user_id;
 
             InquiryParticipants::create([
                 'thread_id' => $from_message->thread_id,
@@ -384,6 +367,8 @@ class MessagesController extends Controller
                     'message_id'=> $message->id,
                 ],
             ]);
+            $this->sendMailNotification($to_user_id,$subject,true);
+
             DB::commit();
         }catch (Exception $e){
             DB::rollback();
