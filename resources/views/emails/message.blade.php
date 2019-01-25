@@ -100,14 +100,12 @@
 <section id="main">
     <hgroup class="main-hgroup">
         <h1 class="main-title">You hava a message</h1>
-        <h3>(Valid for 24 hours)</h3>
     </hgroup>
     <article class="main-article">
         {{ $messages }}
     </article>
     <footer>
-        <div>Best regards</div>
-        <div>Afriby.com</div>
+    这是一封测试邮件！
     </footer>
 </section>
 </body>
