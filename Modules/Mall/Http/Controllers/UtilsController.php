@@ -107,7 +107,7 @@ class UtilsController extends Controller
             return $file_url_list;
         }
 
-    public static function uploadFile($file,$to_path){
+    public static function uploadFile($file,$to_path,$return_name = false){
             if (!$file->isValid()) {
                 return false;
             }
@@ -120,8 +120,14 @@ class UtilsController extends Controller
             $oss = Oss::getInstance();
             $result = $oss->put($to_path.$key, file_get_contents($pic_path));
 
-            if (!$result) return false;
-            return $oss->url($to_path.$key);
+            if (!$result){
+                return false;
+            }
+            if($return_name){
+               return [$file->getClientOriginalName()=>$oss->url($to_path.$key)]
+            }else{
+                return $oss->url($to_path.$key);
+            }
     }
 
     public static function getAfId(){
