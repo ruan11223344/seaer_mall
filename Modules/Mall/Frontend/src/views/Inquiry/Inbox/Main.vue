@@ -3,39 +3,38 @@
         <v-title title="Inbox"></v-title>
 
         <section class="Send-main-screening">
-            <div class="Send-main-screening-text Send-main-screening-text-active">All <span>10</span></div>
+            <div :class="bool == 0 ? 'Send-main-screening-text Send-main-screening-text-active' : 'Send-main-screening-text'" @click="filterAll(dataFrom.all), bool=0">All <span>{{ Info.All }}</span></div>
             <div class="Send-main-screening-hr"></div>
-            <div class="Send-main-screening-text">Unread <span>10</span></div>
+            <div :class="bool == 1 ? 'Send-main-screening-text Send-main-screening-text-active' : 'Send-main-screening-text'" @click="filterAll(dataFrom.unread), bool=1">Unread <span>{{ Info.Unread }}</span></div>
             <div class="Send-main-screening-hr"></div>
-            <div class="Send-main-screening-text">Pending for reply <span>10</span></div>
+            <div :class="bool == 2 ? 'Send-main-screening-text Send-main-screening-text-active' : 'Send-main-screening-text'" @click="filterAll(dataFrom.pending_for_reply), bool=2">Pending for reply <span>{{ Info.Reply }}</span></div>
         </section>
 
         <div class="Send-main-btn">
             <button>Delete</button>
             <button style="width:109px;">Report Spam</button>
-            <span>Total 4</span>
+            <span>Total {{ Info.Total }}</span>
         </div>
 
         <Table :height="data6.length > 8 ? 530 : ''" :columns="columns12" :data="data6">
             <!-- 已读 -->
             <template slot-scope="{ row }" slot="isRead">
                 <div>
-                    <v-img width="23" height="15" :imgSrc="require('@/assets/img/icon/youjian.png')"></v-img>
+                    <v-img width="23" :height="row.read ? '19' : '15'" :imgSrc="row.read ? require('@/assets/img/icon/wdyj.png') : require('@/assets/img/icon/youjian.png') "></v-img>
                 </div>
             </template>
             <!-- 地区 -->
             <template slot-scope="{ row }" slot="Contact">
                 <div class="Send-main-name">
-                    <v-img width="27" height="19" :imgSrc="row.src"></v-img>
+                    <v-img width="27" height="19" :imgSrc="row.address == 'cn' ? require('@/assets/img/china.png') : require('@/assets/img/kenya.png')"></v-img>
                     <span>{{row.name}}</span>
                 </div>
             </template>
             <!-- 内容 -->
             <template slot-scope="{ row }" slot="Content">
                 <div class="Send-main-content">
-                    <v-img width="11" height="22" :imgSrc="require('@/assets/img/icon/baoj.png')" style="marginRight: 9px;"></v-img>
-                    <span>{{ 'Re:' + row.ask.re }}</span>
-                    <!-- <span>{{ 'Dear:' + row.ask.Dear }}</span> -->
+                    <v-img width="11" height="22" :imgSrc="require('@/assets/img/icon/baoj.png')" style="marginRight: 9px;cursor: pointer;"></v-img>
+                    <router-link to="" tag="span" style="width:190px;overflow: hidden;textOverflow: ellipsis;whiteSpace: nowrap;cursor: pointer;">{{ 'Re:' + row.re }}</router-link>
                 </div>
             </template>
             <!-- 时间 -->
@@ -48,7 +47,7 @@
         
         <section style="marginTop:20px;">
             <template>
-                <Page :total="100" style="textAlign: center"/>
+                <Page :total="total.total" :page-size="8" style="textAlign: center" @on-change="onPages"/>
             </template>
         </section>
         
@@ -56,12 +55,28 @@
 </template>
 
 <script>
+    import { mapState, mapMutations } from 'vuex'
     import Title from "../components/Title"
     import Img from "@/components/Img"
+    import dayjs from 'dayjs'
+
 
     export default {
         data () {
             return {
+                bool: 0,
+                total: {
+                    size: 8,
+                    total: 100,
+                    num: 1
+                },
+                Info: {
+                    Total: 0,
+                    All: 0,
+                    Unread: 0,
+                    Reply: 0
+                },
+                dataFrom: null,
                 columns12: [
                     {
                         type: 'selection',
@@ -95,80 +110,78 @@
                     
                 ],
                 data6: [
-                    {
-                        name: 'John Brown',
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        src: require('@/assets/img/china.png'),
-                        time: 'Dec 28,2018  09:20',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:20',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:21',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:20',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:20',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:25',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:20',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:20',
-                    },
+                    // {
+                    //     name: 'John Brown',
+                    //     re: 'Inquiry about...',
+                    //     src: require('@/assets/img/china.png'),
+                    //     address: '',
+                    //     time: 'Dec 28,2018  09:20',
+                    //     read: ''
+                    // },
                 ]
             }
+        },
+        computed: {
+            ...mapState(['Inbox_From'])
+        },
+        methods: {
+            ...mapMutations(['SET_INBOX_FROM']),
+            // 处理获取的收件箱数据
+            filterInbox(data) {
+                this.SET_INBOX_FROM(data)
+                this.dataFrom = data
+                const Total = data.all.length + data.unread.length + data.pending_for_reply.length
+                this.$set(this.Info, 'All', data.all.length)
+                this.$set(this.Info, 'Unread', data.unread.length)
+                this.$set(this.Info, 'Reply', data.pending_for_reply.length)
+                this.$set(this.Info, 'Total', Total)
+                
+                this.filterAll(data.all)
+            },
+            // 显示对应的数据
+            filterAll(data) {
+                this.data6 = []
+
+                const { num, size } = this.total
+                const dataFrom = data.slice(num * size - 8, num * size + 1)
+                this.total.total = data.length
+                dataFrom.forEach((value, index) => {
+                    this.data6.push({ 
+                        re: value.subject,
+                        read: value.is_read,
+                        name: value.send_by_name,
+                        address: value.send_country,
+                        time: dayjs(value.send_at.date).format('MMM DD,YYYY HH:mm')
+                    })
+                })
+            },
+            // 分页
+            onPages(index) {
+                this.$set(this.total, 'num', index)
+
+                switch (this.bool) {
+                    case 0:
+                        this.filterAll(dataFrom.all)
+                        break;
+                    case 1:
+                        this.filterAll(dataFrom.unread)
+                        break;
+                    case 2:
+                        this.filterAll(dataFrom.pending_for_reply)
+                        break;
+                }
+            }
+        },
+        mounted() {
+            this.$request({
+                url: '/message/inbox_message'
+            }).then(({ code, data }) => {
+                if(code == 200) {
+                    this.filterInbox(data)
+                }
+            }).catch(err => {
+                console.log(err)
+            })
         },
         components: {
             "v-title": Title,

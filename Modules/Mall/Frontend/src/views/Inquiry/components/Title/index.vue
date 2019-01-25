@@ -1,5 +1,9 @@
 <template>
-    <h3>{{ title }} <span> {{ subtitle }}</span></h3>
+    <h3>
+        {{ title }} 
+        <span class="subtitle"> {{ subtitle }}</span>
+        <slot name="content"></slot>
+    </h3>
 </template>
 
 <script>
@@ -23,7 +27,7 @@
         padding-bottom: 10px;
         border-bottom: 1px solid #eeeeee;
 
-        & > span {
+        & > .subtitle {
             font-size: 12px;
             color: #999999;
         }

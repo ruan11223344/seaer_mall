@@ -151,6 +151,10 @@ const newRouter = new Router({
           path: 'uploadproduct',
           component: () => import("./views/Inquiry/Update/index.vue")
         },
+        { // 上传商品----详细信息
+          path: 'uploadinfo',
+          component: () => import("./views/Inquiry/UpdateInfo/index.vue")
+        },
           // 设置
         {
           path: 'set',

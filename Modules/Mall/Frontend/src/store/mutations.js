@@ -7,8 +7,11 @@ const mutations = {
     // 注册邮箱
     SET_REGEMAIL(state, email) {
         state.RegEmail = email
+    },
+    // 设置收件箱所有数据
+    SET_INBOX_FROM(state, From) {
+        state.Inbox_From = From
     }
-
 }
 
 export default mutations

@@ -1,17 +1,21 @@
 import axios from 'axios'
+import auth from '../utils/auth'
 
 // 创建axios实例
 const service = axios.create({
   baseURL: 'http://www.seaer.local/api', // api 的 base_url
   timeout: 15000, // 请求超时时间
-  headers: { 'Content-Type': 'application/json' }
+  headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
 })
-
-
 
 // request拦截器
 service.interceptors.request.use(
   config => {
+    // token 存在则携带token
+    if(auth.getCookies()) {
+      const token = auth.getCookies()
+      config.headers['Authorization'] = 'Bearer ' + token;
+    }
 
     return config
   },
