@@ -37,8 +37,8 @@ class MessagesController extends Controller
      */
 
     public function sendMailNotification($to_user_id,$message,$is_reply = false){
-        $to_user = UsersExtends::where('user_id',$to_user_id)->first();
-        if($to_user->email_notification){
+        $to_user_ex = UsersExtends::where('user_id',$to_user_id)->first();
+        if($to_user_ex->email_notification){
             $email_obj = new EMail();
             $subject = $is_reply ?? 'RE: ' . '你有一条新的询盘消息!';
             $email_obj->send(User::find($to_user_id)->email,$subject,['messages'=>$message],$email_obj::TEMPLATE_MESSAGE);
@@ -220,6 +220,25 @@ class MessagesController extends Controller
         if ($validator->fails()){
             return $this->echoErrorJson('表单验证失败!'.$validator->messages());
         }
+        $subject = $request->input('subject');
+        $body = $request->input('content');
+        $re_thread =InquiryThreads::where('subject',$subject)->orderBy('created_at','desc')->first();
+        $to_af_id = $request->input('to_af_id');
+        $to_user_id = UtilsController::getUserIdFormAfId($to_af_id);
+
+
+        if($re_thread != null){
+            $re_message= InquiryMessages::where('thread_id',$re_thread->id)->first();
+            $re_body= $re_message->body;
+            $re_participant = InquiryParticipants::where('thread_id',$re_thread->id)->first();
+            $re_user_id = $re_participant->user_id;
+
+            if($re_body == $body && $re_user_id == $to_user_id){
+                return $this->echoErrorJson('失败!不能发生相同的消息给同一个用户',[]);
+            }
+        }
+
+
         $files = $request->file('attachment_list');
 
         if($files != null){
@@ -239,7 +258,7 @@ class MessagesController extends Controller
             }
 
             $thread = InquiryThreads::create([
-                'subject' => $request->input('subject'),
+                'subject' => $subject,
                 'extends'=>[
                     'extra_request'=>$extra_request_list,
                     'purchase_quantity'=>$request->input('purchase_quantity',null),
@@ -253,7 +272,7 @@ class MessagesController extends Controller
             $message = InquiryMessages::create([
                 'thread_id' => $thread->id,
                 'user_id' =>$user_id,
-                'body' => $request->input('content'),
+                'body' => $body,
                 'extends'=>[
                     'soft_deleted_at'=>false,
                     'true_deleted_at'=>false,
@@ -264,9 +283,7 @@ class MessagesController extends Controller
                 ],
             ]);
 
-            $to_af_id = $request->input('to_af_id');
 
-            $to_user_id = UtilsController::getUserIdFormAfId($to_af_id);
 
             InquiryParticipants::create([
                 'thread_id' => $thread->id,
@@ -281,7 +298,7 @@ class MessagesController extends Controller
                     'message_id'=> $message->id,
                 ],
             ]);
-            $this->sendMailNotification($to_user_id,$request->input('subject'));
+            $this->sendMailNotification($to_user_id,$subject);
 
             DB::commit();
         }catch (Exception $e){
@@ -314,13 +331,28 @@ class MessagesController extends Controller
         }
 
         $form_message_id = $request->input('message_id');
+        $from_message = InquiryMessages::find($form_message_id);
+
+        $user_id = Auth::id();
+
+
+        $re_message = InquiryMessages::where('user_id',$user_id)->orderBy('created_at','desc')->get()->first(); //找到最近一条发送的消息
+        $re_body = $re_message->body; //最近一条发送的内容
+        $content = $request->input('content');  //准备发送的内容
+        $to_user_id = $from_message->user_id; //要回复的user_id
+
+        if($re_body == $content){
+            if(InquiryParticipants::where('extends->message_id',(integer)$re_message->id)->get()->first()->user_id == $to_user_id){
+                return $this->echoErrorJson('你不能发送重复的消息给同一用户!',[]);
+            }
+        }
+
         try{
             DB::beginTransaction();
-            $from_message = InquiryMessages::find($form_message_id)->first();
             //标记为已回复
-            InquiryParticipants::where('thread_id',$from_message->thread->id)->where('extends->message_id',(integer)$form_message_id)->first()->forceFill(['extends->is_reply'=>true])->save();
-
-            $content = $request->input('content');
+            InquiryParticipants::where('thread_id',$from_message->thread->id)->where('extends->message_id',(integer)$form_message_id)->get()->map(function ($item){
+                $item->forceFill(['extends->is_reply'=>true])->save();
+            });
 
             $files = $request->file('attachment_list');
 
@@ -330,7 +362,6 @@ class MessagesController extends Controller
                 $attachments = [];
             }
 
-            $user_id = Auth::id();
 
             $ip = $request->getClientIp();
 
@@ -351,7 +382,6 @@ class MessagesController extends Controller
             $subject = $message->thread->subject;
 
 
-            $to_user_id = $from_message->user_id;
 
 
             InquiryParticipants::create([
