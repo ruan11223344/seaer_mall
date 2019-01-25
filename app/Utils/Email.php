@@ -62,7 +62,6 @@ class EMail
             $this->recoredMail($user_id,$to,$template_name,self::STATUS_SUCCESS);
             return true;
         }catch (Exception $ex){
-            dd($ex->getMessage());
             Log::error('邮件发送错误:'.$ex->getMessage());
             $this->recoredMail($user_id,$to,$template_name,self::STATUS_ERROR);
             return false;
