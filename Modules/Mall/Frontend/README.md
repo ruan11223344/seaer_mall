@@ -383,6 +383,7 @@ url:http://域名/api/message/create_message
 参数:"purchase_quantity",值:"24"  //必填 需要的数量
 参数:"purchase_unit",值:"斤"  //必填 需要的数量的单位
 参数:"content",值:"香蕉是个好东西 真好吃！"  //必填 发送的主体内容
+参数:"extra_request[]",值:"{"Price" :true}"  //非必填 额外要求 值要求:json字符串对象
 
 返回:
 {
@@ -1063,12 +1064,344 @@ url:http://域名/api/message/inbox_message
 
 ```
 
+15.获取垃圾询盘消息
+
+```
+url:http://域名/api/message/spam_message
+
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+无普通参数
+
+返回：
+{
+    "code": 200,
+    "message": "成功",
+    "data": {
+        "all": [
+            {
+                "subject": "wawawwawa我需要一些肉肉肉肉肉肉肉",
+                "content": "wawawwawa我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是",
+                "message_id": 32,
+                "participant_id": 29,
+                "thread_id": 27,
+                "send_at": {
+                    "date": "2019-01-24 13:48:37.000000",
+                    "timezone_type": 3,
+                    "timezone": "PRC"
+                },
+                "is_read": true,
+                "is_reply": false,
+                "send_from_ip": "127.0.0.*",
+                "send_by_af_id": "AF_CN_c1dce03043",
+                "send_by_name": "王尼玛",
+                "send_country": "cn",
+                "extra_request": [
+                    {
+                        "Price": true
+                    },
+                    {
+                        "Specifications": true
+                    },
+                    {
+                        "Company Profile": true
+                    }
+                ],
+                "purchase_quantity": "24 斤",
+                "attachment_list": [
+                    {
+                        "下载.png": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/attachment/154830891665374900.png"
+                    },
+                    {
+                        "960 (1).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/attachment/154830891773900395.jpeg"
+                    }
+                ],
+                "is_flag": false,
+                "type": "inbox"
+            }
+        ]
+    }
+}
+```
 
 
+16.获取标旗询盘消息
+
+```
+url:http://域名/api/message/flag_message
+
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+无普通参数
+
+返回：
+{
+    "code": 200,
+    "message": "成功",
+    "data": {
+        "all": [
+            {
+                "subject": "wawawwawa我需要一些肉肉肉肉肉肉肉",
+                "content": "你要多少肉肉啊1111",
+                "message_id": 35,
+                "thread_id": 27,
+                "send_at": {
+                    "date": "2019-01-24 16:11:58.000000",
+                    "timezone_type": 3,
+                    "timezone": "PRC"
+                },
+                "send_from_ip": "127.0.0.*",
+                "send_by_af_id": "AF_CN_c1dce03047",
+                "send_to_af_id": "AF_CN_c1dce03047",
+                "send_by_name": "wang ni ma",
+                "send_to_name": "wang ni ma",
+                "send_country": "cn",
+                "extra_request": [
+                    {
+                        "Price": true
+                    },
+                    {
+                        "Specifications": true
+                    },
+                    {
+                        "Company Profile": true
+                    }
+                ],
+                "purchase_quantity": "24 斤",
+                "attachment_list": [
+                    {
+                        "960 (1).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03047/attachment/154831751852539124.jpeg"
+                    }
+                ],
+                "other_party_is_read": false,
+                "other_party_is_reply": false,
+                "quote_message": [],
+                "is_flag": true,
+                "type": "outbox"
+            },
+            {
+                "subject": "wawawwawa我需要一些肉肉肉肉肉肉肉",
+                "content": "wawawwawa我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是我真的很喜欢肉肉啊 你知道吗搜索是是是  是 是是是是",
+                "message_id": 32,
+                "participant_id": 29,
+                "thread_id": 27,
+                "send_at": {
+                    "date": "2019-01-24 13:48:37.000000",
+                    "timezone_type": 3,
+                    "timezone": "PRC"
+                },
+                "is_read": true,
+                "is_reply": false,
+                "send_from_ip": "127.0.0.*",
+                "send_by_af_id": "AF_CN_c1dce03043",
+                "send_by_name": "王尼玛",
+                "send_country": "cn",
+                "extra_request": [
+                    {
+                        "Price": true
+                    },
+                    {
+                        "Specifications": true
+                    },
+                    {
+                        "Company Profile": true
+                    }
+                ],
+                "purchase_quantity": "24 斤",
+                "attachment_list": [
+                    {
+                        "下载.png": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/attachment/154830891665374900.png"
+                    },
+                    {
+                        "960 (1).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/attachment/154830891773900395.jpeg"
+                    }
+                ],
+                "is_flag": true,
+                "type": "inbox"
+            }
+        ]
+    }
+}
+```
+
+17.标记标旗询盘消息
+
+```
+url:http://域名/api/message/mark_flag_message
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+普通参数 注意 这是一个翻转接口............
+以下是普通参数 ↓
+参数:"participant_id",值:"32"   //type为inbox时必填  收件id
+参数:"message_id",值:"32"   //type为outbox时必填  发件id
+参数:"type",值:"inbox" or “”outbox"   //必填  
 
 
+返回：
+{
+    "code": 200,
+    "message": "成功!",
+    "data": [
+        [
+            {
+                "id": 32,
+                "thread_id": 27,
+                "user_id": 7,
+                "last_read": null,
+                "created_at": "2019-01-24 16:11:58",
+                "updated_at": "2019-01-25 10:16:33",
+                "deleted_at": null,
+                "extends": {
+                    "is_flag": true,
+                    "is_spam": false,
+                    "is_reply": false,
+                    "message_id": 35,
+                    "soft_deleted_at": false,
+                    "true_deleted_at": false
+                }
+            }
+        ]
+    ]
+}
+```
 
 
+18.标记垃圾询盘消息
+
+```
+url:http://域名/api/message/mark_spam_message
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+普通参数 注意 这是一个翻转接口............
+以下是普通参数 ↓
+参数:"thread_id_list[]",值:"32"   //必填 注意 会话id列表 这个参数传数组
+参数:"action",值:"cancel" 或者 "mark"   //必填 动作清除或者标记
 
 
+返回：
+{
+    "code": 200,
+    "message": "成功!",
+    "data": []
+}
+```
+
+
+19.标记删除消息
+
+```
+url:http://域名/api/message/mark_delete_message
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+以下是普通参数 ↓
+参数:"thread_id_list[]",值:"32"   //type为inbox时必填
+参数:"messages_id_list[]",值:"32"   //type为outbox时必填
+参数:"type",值:"inbox" 或者 "outbox"   //必填 删除哪的消息 收件箱或者发件箱
+参数:"action",值:"mark" 或者 "cancel"   //必填 动作清除或者标记
+
+
+返回：
+{
+    "code": 200,
+    "message": "删除消息成功!",
+    "data": []
+}
+```
+
+20.标记为已读消息
+
+```
+url:http://域名/api/message/mark_delete_message
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+以下是普通参数 ↓
+参数:"participant_id",值:"32"   //收件消息id
+
+返回：
+{
+    "code": 200,
+    "message": "成功!",
+    "data": []
+}
+```
+
+
+21.清空删除的消息
+
+```
+url:http://域名/api/message/empty_message
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+无普通参数
+
+返回：
+{
+    "code": 200,
+    "message": "清空成功!",
+    "data": []
+}
+```
+21.获取消息详情   
+
+```
+url:http://域名/api/message/message_info
+
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+以下是普通参数 ↓
+参数:"message_id",值:"32"   //type为outbox时必填
+参数:"participant_id",值:"32"   //type为inbox时必填
+参数:"type",值:"inbox" 或者 "outbox"   //必填 删除哪的消息 收件箱或者发件箱
+
+返回：
+{
+    "code": 200,
+    "message": "成功!",
+    "data": [
+        {
+            "subject": "我需要大量的香蕉 可以聊一下嘛？",
+            "content": "香蕉是个好东西 真好吃",
+            "message_id": 42,
+            "thread_id": 41,
+            "send_at": {
+                "date": "2019-01-25 13:39:23.000000",
+                "timezone_type": 3,
+                "timezone": "PRC"
+            },
+            "send_from_ip": "127.0.0.*",
+            "send_by_af_id": "AF_CN_c1dce03043",
+            "send_to_af_id": "AF_CN_7a49b34079",
+            "send_by_name": "王尼玛",
+            "send_to_name": "QWEQE",
+            "send_country": "cn",
+            "extra_request": null,
+            "purchase_quantity": "24 斤",
+            "attachment_list": null,
+            "quote_message": null,
+            "type": "outbox"
+        }
+    ]
+}
+```
 

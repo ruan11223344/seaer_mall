@@ -40,9 +40,14 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
             Route::get('inbox_message', 'MessagesController@inboxMessage');
             Route::get('outbox_message', 'MessagesController@outboxMessage');
             Route::get('spam_message', 'MessagesController@spamMessage');
+            Route::get('flag_message', 'MessagesController@flagMessage');
 
-            Route::post('mark_spam_message', 'MessagesController@spamMessage');
-            Route::post('mark_delete_message', 'MessagesController@deleteMessage');
+            Route::get('message_info', 'MessagesController@getMessageInfo');
+
+            Route::post('mark_spam_message', 'MessagesController@markSpamMessage');
+            Route::post('mark_flag_message', 'MessagesController@markFlagMessage');
+            Route::post('mark_delete_message', 'MessagesController@markDeleteMessage');
+            Route::post('mark_read_message', 'MessagesController@markReadMessage');
             Route::post('empty_message', 'MessagesController@emptyMessage'); //清空消息
 
 
