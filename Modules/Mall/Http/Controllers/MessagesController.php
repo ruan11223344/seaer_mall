@@ -3,6 +3,7 @@
 namespace Modules\Mall\Http\Controllers;
 
 use App\Utils\EchoJson;
+use App\Utils\EMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Mall\Entities\InquiryMessages;
@@ -23,8 +24,9 @@ use Illuminate\Support\Facades\Validator;
 
 class MessagesController extends Controller
 {
-    protected $mail_notification = [];
+    protected $mail_notification_user_id = null;
     protected $function_name = null;
+    protected $email_subject = null;
 
     const KE_COUNTRY_ID = 56;
     const CHINA_COUNTRY_ID = 101;
@@ -32,29 +34,12 @@ class MessagesController extends Controller
     public function __destruct()
     {
         if($this->function_name == 'createMessage' || $this->function_name == 'replyMessage'){
-            foreach ($this->mail_notification as $user_id){
-                if(UsersExtends::where(['user_id'=>$user_id,'email_notification'=>true])->get() !== null){
-                    $this->sendMailNotification();
-                }
+            if($this->mail_notification_user_id !== null){
+                $this->sendMailNotification();
             }
         }
     }
 
-    const MSG_EX = [
-
-    ];
-
-    const PARTICIPANTS_EX = [
-
-    ];
-
-    const THREAD_EX = [
-        'purchase_quantity',
-        'purchase_unit',
-        'extra_request',
-        'reply_to_email',
-        'attachment_list'
-    ];
 
     use EchoJson;
     /**
@@ -64,7 +49,12 @@ class MessagesController extends Controller
      */
 
     public function sendMailNotification(){
-
+        $to_user = UsersExtends::where('user_id',$this->mail_notification_user_id)->first();
+        if($to_user->email_notification){
+            $email_obj = new EMail();
+            $subject = '你有一条新的询盘消息!';
+            $email_obj->send(User::find($this->mail_notification_user_id)->first()->email,$subject,['message'=>$this->email_subject],$email_obj::TEMPLATE_MESSAGE);
+        }
     }
 
     public function messageListInfo($data){
@@ -211,6 +201,7 @@ class MessagesController extends Controller
 
 
     public function createMessage(Request $request){
+        $this->function_name = 'createMessage';
         $user_id = Auth::id();
         $data = $request->all();
 
@@ -260,7 +251,7 @@ class MessagesController extends Controller
                 }
             }
 
-
+            $this->email_subject = $request->input('subject');
             $thread = InquiryThreads::create([
                 'subject' => $request->input('subject'),
                 'extends'=>[
@@ -290,6 +281,8 @@ class MessagesController extends Controller
             $to_af_id = $request->input('to_af_id');
 
             $to_user_id = UtilsController::getUserIdFormAfId($to_af_id);
+
+            $this->mail_notification_user_id = $to_af_id;
 
             InquiryParticipants::create([
                 'thread_id' => $thread->id,
@@ -324,6 +317,7 @@ class MessagesController extends Controller
 
 
     public function replyMessage(Request $request){
+        $this->function_name = 'replyMessage';
         $data = $request->all();
         $validator = Validator::make($data, [
             'message_id'=>'exists:inquiry_messages,id',
@@ -369,7 +363,13 @@ class MessagesController extends Controller
                 ],
             ]);
 
+            $subject = $message->thread->subject;
+            $this->email_subject = $subject;
+
+
             $to_user_id = $from_message->user_id;
+
+            $this->mail_notification_user_id = $to_user_id;
 
             InquiryParticipants::create([
                 'thread_id' => $from_message->thread_id,
