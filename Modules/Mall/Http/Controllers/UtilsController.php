@@ -124,7 +124,7 @@ class UtilsController extends Controller
                 return false;
             }
             if($return_name){
-               return [$file->getClientOriginalName()=>$oss->url($to_path.$key)]
+               return [$file->getClientOriginalName()=>$oss->url($to_path.$key)];
             }else{
                 return $oss->url($to_path.$key);
             }
