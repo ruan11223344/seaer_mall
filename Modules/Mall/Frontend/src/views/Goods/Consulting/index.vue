@@ -23,30 +23,31 @@
                 <!-- 主题 -->
                 <div class="consulting-main-body-content" style="marginTop: 24px;marginBottom: 32px;">
                     <div class="consulting-main-body-content-label" style="marginTop: 12px;">Subject</div>
-                    <div class="consulting-main-body-content-subject">Inquiry about”Beidou GPS dual mode  vehicle navigation ”</div>
+                    <div class="consulting-main-body-content-subject">{{ fromItem.subject }}</div>
                 </div>
                 <!-- 采购 -->
                 <div class="consulting-main-body-content">
                     <div class="consulting-main-body-content-label" style="lineHeight: 34px;">Purchase Quantity</div>
                     <div class="consulting-main-body-content-purchase">
-                        <input type="text">
-                         <Select v-model="model1" style="width:183px;" >
+                        <input type="number" v-model="fromItem.quantity">
+                         <Select style="width:183px;" @on-change="onUnit" value="Pieces">
                             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
+                        <input style="marginLeft: 8px;" type="text" v-show="is_select" v-model="fromItem.unit">
                     </div>
                 </div>
                 <!-- 额外了解 -->
                 <div class="consulting-main-body-content" style="marginTop: 22px;marginBottom: 29px;">
                     <div class="consulting-main-body-content-label">Extra Request</div>
                     <div class="consulting-main-body-content-extra">
-                        <CheckboxGroup v-model="social">
-                            <Checkbox label="twitter" style="marginRight: 35px; fontSize: 16px;">
+                        <CheckboxGroup v-model="fromItem.social">
+                            <Checkbox label="Price" style="marginRight: 35px; fontSize: 16px;">
                                 <span>Price</span>
                             </Checkbox>
-                            <Checkbox label="github" style="marginRight: 35px; fontSize: 16px;">
+                            <Checkbox label="Product" style="marginRight: 35px; fontSize: 16px;">
                                 <span>Product Spectfications</span>
                             </Checkbox>
-                            <Checkbox label="snapchat" style="fontSize: 16px;">
+                            <Checkbox label="Proile" style="fontSize: 16px;">
                                 <span>Company Proile</span>
                             </Checkbox>
                         </CheckboxGroup>
@@ -55,7 +56,7 @@
                 <!-- 内容 -->
                 <div class="consulting-main-body-content">
                     <div class="consulting-main-body-content-label">Content</div>
-                    <textarea class="consulting-main-body-content-content" name="" id="" cols="30" rows="10"></textarea>
+                    <textarea class="consulting-main-body-content-content" name="" id="" cols="30" rows="10" v-model="fromItem.content"></textarea>
                     <div class="consulting-main-body-content-prompt">please enter the content for your inquiry</div>
                 </div>
                 <!-- 上传文件 -->
@@ -63,6 +64,7 @@
                     <div class="consulting-main-body-content-label"></div>
                     <div class="consulting-main-body-content-upload">
                         <Upload
+                            multiple
                             action="//jsonplaceholder.typicode.com/posts/"
                             :before-upload="onbeforeUpload"
                             style="width:85px">
@@ -78,13 +80,16 @@
                 </div>
                 <div class="consulting-main-body-content">
                     <div class="consulting-main-body-content-label"></div>
-                    <div class="consulting-main-body-content-fileName" v-show="fromItem.file">
+                    <div class="consulting-main-body-content-fileName" v-show="fromItem.files" v-for="(file, index) in fromItem.files" :key="index">
                         <v-img width="13" height="13" :imgSrc="require('@/assets/img/fj.png')"></v-img>
-                        <span>{{ fromItem.file.name }}</span>
-                        <v-img width="16" style="cursor: pointer" height="16" :imgSrc="require('@/assets/img/qx.png')"></v-img>
+                        <!-- <span>{{ fromItem.files.name }}</span> -->
+                        <span>{{ file.name }}</span>
+                        <span @click="onDelete(index)">
+                            <v-img width="16" style="cursor: pointer" height="16" :imgSrc="require('@/assets/img/qx.png')" ></v-img>
+                        </span>
                     </div>
                 </div>
-                <button class="consulting-main-body-content-btn" @click="onRouter">Send Inquiry</button>
+                <button class="consulting-main-body-content-btn" @click="onSend">Send Inquiry</button>
             </div>
         </main>
 
@@ -99,34 +104,54 @@
             return {
                 cityList: [
                     {
-                        value: 'New York',
-                        label: 'New York'
+                        value: 'Pieces',
+                        label: 'Pieces'
                     },
                     {
-                        value: 'London',
-                        label: 'London'
+                        value: 'Bags',
+                        label: 'Bags'
                     },
                     {
-                        value: 'Sydney',
-                        label: 'Sydney'
+                        value: 'Boxes',
+                        label: 'Boxes'
                     },
                     {
-                        value: 'Ottawa',
-                        label: 'Ottawa'
+                        value: 'Foot',
+                        label: 'Foot'
                     },
                     {
-                        value: 'Paris',
-                        label: 'Paris'
+                        value: 'Meter',
+                        label: 'Meter'
                     },
                     {
-                        value: 'Canberra',
-                        label: 'Canberra'
-                    }
+                        value: 'Kg',
+                        label: 'Kg'
+                    },
+                    {
+                        value: 'Ton',
+                        label: 'Ton'
+                    },
+                    {
+                        value: '㎡',
+                        label: '㎡'
+                    },
+                    {
+                        value: 'm³',
+                        label: 'm³'
+                    },
+                    {
+                        value: 'Other',
+                        label: 'Other'
+                    },
                 ],
-                model1: '',
-                social: ['facebook', 'github'],
+                is_select: false,
                 fromItem: {
-                    file: ''
+                    files: [],
+                    unit: 'Pieces',
+                    quantity: '',
+                    subject: 'Inquiry about”Beidou GPS dual mode  vehicle navigation ”',
+                    content: '',
+                    social: []
                 }
             }
         },
@@ -140,11 +165,79 @@
                 if(files.size > 1048576 * 3 || !(['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'rar', 'and', 'zip'].includes(type))) { // 图片大于3M
                     this.$Notice.error({
                         desc: '- Supports jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt, rar and zip \n- Max upload 3 files;Max. total size: 3MB'
-                    });
+                    })
                 }else {
-                    this.$set(this.fromItem, 'file', files)
+                    if(this.fromItem.files.length < 3) {
+                        this.fromItem.files.push(files)
+                    }else {
+                        this.$Notice.error({
+                            desc: '- Max upload 3 files;Max. total size: 3MB'
+                        })
+                    }
                 }
                 return false
+            },
+            onDelete(index) {
+                this.$delete(this.fromItem.files, index)
+            },
+            onUnit(value) {
+                if(value == 'Other') {
+                    this.$set(this.fromItem, 'unit', '')
+                    this.is_select = true
+                }else {
+                    this.$set(this.fromItem, 'unit', value)
+                    this.is_select = false
+                }
+            },
+            // 发送
+            onSend() {
+                if(this.fromItem.quantity.length <= 0) {
+                    this.$Notice.error({
+                        desc: 'Please fill out the purchase quantity'
+                    });
+                    return false
+                }
+
+                if(this.fromItem.content.length <= 0) {
+                    this.$Notice.error({
+                        desc: 'Please fill out the content'
+                    });
+                    return false
+                }
+                let data = new FormData()
+                // new File()
+                data.append('to_af_id', 'AF_CN_7a49b34079') //必填  发送给用户的唯一识别id
+                for(let i = 0; i < this.fromItem.files.length; i++) { // 发送多个文件
+                    data.append('attachment_list[]', this.fromItem.files[i])
+                }
+                data.append('subject', this.fromItem.subject) //必填 询盘的主题 
+                data.append('purchase_quantity', this.fromItem.quantity) //必填 需要的数量
+                data.append('purchase_unit', this.fromItem.unit)  //必填 需要的数量的单位
+                data.append('content', this.fromItem.content) //必填 发送的主体内容
+
+                if(this.fromItem.social.length > 0) {
+                    let extra_request = {}
+                    for(let i = 0; i < this.fromItem.social.length; i++) {
+                        extra_request[this.fromItem.social[i]] = true
+                    }
+                    data.append('extra_request[]', JSON.stringify(extra_request)) //非必填 额外要求 值要求:json字符串对象
+                }
+
+                this.$request({
+                    url: '/message/create_message',
+                    method: 'post',
+                    data,
+                    headers:{'Content-Type': 'multipart/form-data'}
+                }).then(({code}) => {
+                    if(code == 200) {
+                        this.$router.push('/goods/success')
+                    }
+                }).catch(err => {
+                    console.log(err);
+                    
+                })
+
+                return true
             }
         },
         components: {

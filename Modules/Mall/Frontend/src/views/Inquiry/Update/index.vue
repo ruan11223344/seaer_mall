@@ -1,6 +1,6 @@
 <template>
     <div class="product">
-        <v-head></v-head>
+        <v-head :imgSrc="require('@/assets/img/login/bg1.png')"></v-head>
         <v-title title="Upload Product" subtitle="(1 added, maximum 200）"></v-title>
 
         <section class="Send-main-screening" style="marginBottom: 20px;">
@@ -118,6 +118,7 @@
 
 <style lang="less" scoped>
     @import url('../../../assets/css/index.less');
+
     .product {
         width: 945px;
         height: 931px;
@@ -229,7 +230,7 @@
         background-color: #f5f5f9;
         margin-top: 19px;
         .flex(flex-start, center);
-        padding-left: 27px;
+        padding-left: 20px;
 
         &-text {
             .lineHeight(47px);

@@ -10,7 +10,7 @@
                 <div class="box-title">Account</div>
                 <!-- 用户id -->
                 <section class="box-useId">
-                    <input type="text" placeholder="Please enter your Email Address or Member ID." v-model="rulesFrom.userId" v-verify="rulesFrom.userId" @focus="bool=false">
+                    <input type="text" placeholder="Please enter your Email Address or Member ID." v-model="rulesFrom.userId" v-verify="rulesFrom.userId" @focus="bool=false" @keyup.enter="onSubmit">
                     <div class="box-useId-prompt" v-remind="rulesFrom.userId">Please enter your Email Address or Member ID.</div>
                     <div class="box-useId-prompt" v-show="bool">Please enter your Email Address or Member ID.</div>
                 </section>
@@ -20,7 +20,7 @@
                 </section>
                 <!-- 用户密码 -->
                 <section class="box-useId">
-                    <input type="password" placeholder="Please enter your password." v-model="rulesFrom.password" v-verify="rulesFrom.password" @focus="bool=false">
+                    <input type="password" placeholder="Please enter your password." v-model="rulesFrom.password" v-verify="rulesFrom.password" @focus="bool=false" @keyup.enter="onSubmit">
                     <div class="box-useId-prompt" v-remind="rulesFrom.password">Please fill in the correct password</div>
                     <div class="box-useId-prompt" v-show="bool">Please fill in the correct password</div>
                 </section>

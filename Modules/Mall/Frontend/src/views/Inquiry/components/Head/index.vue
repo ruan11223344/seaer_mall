@@ -1,6 +1,6 @@
 <template>
     <div class="head">
-        <v-img width="801" height="56" :imgSrc="require('@/assets/img/login/bg1.png')"></v-img>
+        <v-img width="801" height="56" :imgSrc="imgSrc"></v-img>
     </div>
 </template>
 
@@ -8,6 +8,9 @@
     import Img from "@/components/Img"
 
     export default {
+        props: {
+            imgSrc: ''
+        },
         components: {
             "v-img": Img
         }
