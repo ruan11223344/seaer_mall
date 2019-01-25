@@ -15,11 +15,11 @@
             <span>Total  4</span>
         </div>
 
-        <Table :height="data6.length > 8 ? 530 : ''" :columns="columns12" :data="data6">
+        <Table :height="data6.length > 8 ? 530 : ''" :columns="columns12" :data="data6" @on-selection-change="onSelect">
             <!-- 已读 -->
             <template slot-scope="{ row }" slot="isRead">
                 <div>
-                    <v-img width="23" :height="row.read ? '19' : '15'" :imgSrc="row.read ? require('@/assets/img/icon/wdyj.png') : require('@/assets/img/icon/youjian.png') "></v-img>
+                    <v-img width="23" :height="row.read ? '19' : '15'" :imgSrc="row.read ? require('@/assets/img/icon/yd.png') : require('@/assets/img/icon/wd.png') "></v-img>
                 </div>
             </template>
             <!-- 地区 -->
@@ -32,7 +32,7 @@
             <!-- 内容 -->
             <template slot-scope="{ row }" slot="Content">
                 <div class="Send-main-content">
-                    <v-img width="11" height="22" :imgSrc="require('@/assets/img/icon/baoj.png')" style="marginRight: 9px;cursor: pointer;"></v-img>
+                    <v-img width="11" height="22" :imgSrc="row.is_flag ? require('@/assets/img/icon/baoj.png') : require('@/assets/img/icon/wbj.png')" style="marginRight: 9px;cursor: pointer;"></v-img>
                     <router-link to="" tag="span" style="width:190px;overflow: hidden;textOverflow: ellipsis;whiteSpace: nowrap;cursor: pointer;">{{ 'Re:' + row.re }}</router-link>
                 </div>
             </template>
@@ -143,7 +143,8 @@
                 dataFrom.forEach((value, index) => {
                     this.data6.push({ 
                         re: value.subject,
-                        read: value.is_read,
+                        read: value.other_party_is_read,
+                        is_flag: value.is_flag,
                         name: value.send_by_name,
                         address: value.send_country,
                         time: dayjs(value.send_at.date).format('MMM DD,YYYY HH:mm')
@@ -164,6 +165,14 @@
                     case 2:
                         this.filterAll(this.dataFrom.unread)
                         break;
+                }
+            },
+            onSelect(value) { // 全选
+                if(value.length > 0) {
+                    // console.log(1);
+                    
+                }else {
+                    return false
                 }
             }
         },
