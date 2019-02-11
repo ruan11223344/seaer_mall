@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Utils\EchoJson;
 use Khsing\World\Models\Country;
+use Modules\Mall\Entities\AlbumUser;
 use Modules\Mall\Entities\Company;
 use Modules\Mall\Entities\RegisterTemp;
 use Modules\Mall\Entities\UsersExtends;
@@ -198,8 +199,14 @@ class RegisterController extends Controller
                         'chinese_name'=>$request->input('chinese_name',null),
                     ]
                 );
+
+              AlbumUser::create(
+                  [
+                      'album_name'=>'Default Album',
+                      'user_id'=>$user->id
+                  ]
+              ); //创建默认相册
             }
-            // RegisterTemp::where('register_uuid',$uuid)->update(['status'=>RegisterTemp::STATUS_SUCCESS]);
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();

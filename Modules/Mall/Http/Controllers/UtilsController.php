@@ -97,7 +97,9 @@ class UtilsController extends Controller
                 //阿里 OSS 图片上传
                 $result = $oss->put($to_path.$key, file_get_contents($pic_path));
 
-                if (!$result) continue;
+                if(!$result){
+                    continue;
+                }
                 if($return_name){
                     array_push($file_url_list,[$value->getClientOriginalName()=>$oss->url($to_path.$key)]);
                 }else{
@@ -142,6 +144,11 @@ class UtilsController extends Controller
     public static function getUserProductDirectory(){
         $af_id = self::getAfId();
         return self::OSS_FILE_PATH.'/users/'.$af_id.'/product/';
+    }
+
+    public static function getUserAlbumDirectory(){
+        $af_id = self::getAfId();
+        return self::OSS_FILE_PATH.'/users/'.$af_id.'/album/';
     }
 
     public static function getUserPrivateDirectory($af_id){

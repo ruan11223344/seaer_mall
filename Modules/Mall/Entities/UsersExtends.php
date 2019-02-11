@@ -28,6 +28,11 @@ class UsersExtends extends Model
         'id_card_num',
         'id_card_positive_pic_url',
         'id_card_negative_pic_url',
+        'email_notification',
+    ];
+
+    protected $casts = [
+        'email_notification' => 'boolean',
     ];
 
     public function user()

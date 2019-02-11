@@ -67,6 +67,9 @@ class AuthorizationsController extends Controller
     public function getAccessToken(AuthorizationServer $server, ServerRequestInterface $serverRequest)
     {
         $data = $serverRequest->getParsedBody();
+        if($data === []){
+            return $this->echoErrorJson('错误!参数不能为空!',[]);
+        }
         $this->ip = $serverRequest->getServerParams()['REMOTE_ADDR'];
         $this->username = $data['username'];
 

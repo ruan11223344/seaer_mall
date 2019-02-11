@@ -49,10 +49,23 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
             Route::post('mark_delete_message', 'MessagesController@markDeleteMessage');
             Route::post('mark_read_message', 'MessagesController@markReadMessage');
             Route::post('empty_message', 'MessagesController@emptyMessage'); //清空消息
-
-
         });
     });
+
+    //相册
+    Route::prefix('album')->group(function() {
+        Route::group(['middleware' => ['client.credentials','auth:api']], function(){
+            //需要认证的组
+            Route::post('create_album', 'AlbumController@createAlbum');
+            Route::post('delete_album', 'AlbumController@deleteAlbum');
+            Route::post('edit_album', 'AlbumController@editAlbum');
+            Route::post('save_img_to_album', 'AlbumController@saveImgToAlbum');
+            Route::get('album_photo_list', 'AlbumController@albumPhotoList');
+            Route::post('modify_photos', 'AlbumController@modifyPhotos');
+            Route::get('album_list', 'AlbumController@albumList');
+        });
+    });
+
 
     //商品
     Route::prefix('shop')->group(function() {
