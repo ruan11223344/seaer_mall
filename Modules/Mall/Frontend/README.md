@@ -1307,7 +1307,7 @@ url:http://域名/api/message/mark_delete_message
 请求头参数:"Authorization",值:"Bearer空格+token" //必填
 
 以下是普通参数 ↓
-参数:"thread_id_list[]",值:"32"   //type为inbox时必填
+参数:"participants_id_list[]",值:"32"   //type为inbox时必填
 参数:"messages_id_list[]",值:"32"   //type为outbox时必填
 参数:"type",值:"inbox" 或者 "outbox"   //必填 删除哪的消息 收件箱或者发件箱
 参数:"action",值:"mark" 或者 "cancel"   //必填 动作清除或者标记
