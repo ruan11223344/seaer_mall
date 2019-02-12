@@ -59,6 +59,7 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
             Route::post('create_album', 'AlbumController@createAlbum');
             Route::post('delete_album', 'AlbumController@deleteAlbum');
             Route::post('edit_album', 'AlbumController@editAlbum');
+            Route::post('upload_img_to_album', 'AlbumController@uploadImgToAlbum');
             Route::post('save_img_to_album', 'AlbumController@saveImgToAlbum');
             Route::get('album_photo_list', 'AlbumController@albumPhotoList');
             Route::post('modify_photos', 'AlbumController@modifyPhotos');

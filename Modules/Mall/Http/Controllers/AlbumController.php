@@ -13,6 +13,8 @@ use App\Utils\EchoJson;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 use Modules\Mall\Entities\AlbumPhoto;
 use Modules\Mall\Entities\AlbumUser;
 use Illuminate\Support\Facades\Validator;
@@ -117,9 +119,14 @@ class AlbumController extends Controller
     public function uploadImgToAlbum(Request $request){
         $images = $request->file('images');
         if(count($images) == 1){
-           $res = UtilsController::uploadFile($images,UtilsController::getUserAlbumDirectory(),true);
+           $res = UtilsController::uploadFile($images[0],UtilsController::getUserAlbumDirectory(),true);
         }else{
            $res = UtilsController::uploadMultipleFile($images,UtilsController::getUserAlbumDirectory(),true);
+        }
+
+        $expiresAt = Carbon::now()->addHour(2);
+        foreach ($res as $value){
+            Cache::store('redis')->put($value,1,$expiresAt);
         }
 
         $this->echoSuccessJson('成功!',$res);

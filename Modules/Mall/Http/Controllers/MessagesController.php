@@ -554,6 +554,7 @@ class MessagesController extends Controller
 
         Validator::extend('message_in_table', function($attribute, $value, $parameters)
         {
+
             if(count($value) > 0){
             foreach($value as $v) {
                 if(InquiryMessages::find($v) == null){
@@ -565,8 +566,8 @@ class MessagesController extends Controller
         });
 
         $validator = Validator::make($data,[
-            'participants_id_list'=>'participant_in_table',
-            'messages_id_list'=>'message_in_table',
+            'participants_id_list'=>'participant_in_table|array',
+            'messages_id_list'=>'message_in_table|array',
             'action'=>'in:mark,cancel|required',
             'type'=>'in:inbox,outbox|required'
         ]);
