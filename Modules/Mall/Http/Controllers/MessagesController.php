@@ -114,6 +114,7 @@ class MessagesController extends Controller
                 $tmp_data['send_at'] = $message->created_at;
                 $tmp_data['is_read'] = $value->last_read == null ? false : true;
                 $tmp_data['is_reply'] = $value->extends['is_reply'];
+                $tmp_data['from_other_party_reply'] = $value->extends['from_other_party_reply'];
                 $tmp_data['send_from_ip'] =$message->extends['from_ip'];
                 $tmp_data['send_by_af_id'] = $from_user_extends->af_id;
                 $tmp_data['send_by_name'] = $from_user_extends->contact_full_name;
@@ -306,6 +307,7 @@ class MessagesController extends Controller
                 'last_read' => null,
                 'extends'=>[
                     'is_reply' => false,
+                    'from_other_party_reply'=>false,
                     'soft_deleted_at' => false,
                     'true_deleted_at'=>false,
                     'is_flag'=> false,
@@ -405,6 +407,7 @@ class MessagesController extends Controller
                 'last_read' => null,
                 'extends'=>[
                     'is_reply' => false,
+                    'from_other_party_reply'=>true,
                     'soft_deleted_at' => false,
                     'true_deleted_at'=>false,
                     'is_flag'=> false,

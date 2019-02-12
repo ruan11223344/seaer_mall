@@ -881,6 +881,7 @@ url:http://域名/api/message/inbox_message
                 },
                 "is_read": true,
                 "is_reply": false,
+                "from_other_party_reply“: false,
                 "send_from_ip": "127.0.0.*",
                 "send_by_af_id": "AF_CN_c1dce03043",
                 "send_by_name": "王尼玛",
@@ -920,6 +921,7 @@ url:http://域名/api/message/inbox_message
                 },
                 "is_read": false,
                 "is_reply": false,
+                "from_other_party_reply“: false,
                 "send_from_ip": "127.0.0.*",
                 "send_by_af_id": "AF_CN_c1dce03047",
                 "send_by_name": "wang ni ma",
@@ -958,6 +960,7 @@ url:http://域名/api/message/inbox_message
                 },
                 "is_read": false,
                 "is_reply": false,
+                "from_other_party_reply“: false,
                 "send_from_ip": "127.0.0.*",
                 "send_by_af_id": "AF_CN_c1dce03047",
                 "send_by_name": "wang ni ma",
@@ -996,6 +999,7 @@ url:http://域名/api/message/inbox_message
                 },
                 "is_read": true,
                 "is_reply": false,
+                "from_other_party_reply“: false,
                 "send_from_ip": "127.0.0.*",
                 "send_by_af_id": "AF_CN_c1dce03043",
                 "send_by_name": "王尼玛",
@@ -1035,6 +1039,7 @@ url:http://域名/api/message/inbox_message
                 },
                 "is_read": false,
                 "is_reply": false,
+                "from_other_party_reply“: false,
                 "send_from_ip": "127.0.0.*",
                 "send_by_af_id": "AF_CN_c1dce03047",
                 "send_by_name": "wang ni ma",
@@ -1094,6 +1099,7 @@ url:http://域名/api/message/spam_message
                 },
                 "is_read": true,
                 "is_reply": false,
+                "from_other_party_reply“: false,
                 "send_from_ip": "127.0.0.*",
                 "send_by_af_id": "AF_CN_c1dce03043",
                 "send_by_name": "王尼玛",
@@ -1196,6 +1202,7 @@ url:http://域名/api/message/flag_message
                 },
                 "is_read": true,
                 "is_reply": false,
+                "from_other_party_reply“: false,
                 "send_from_ip": "127.0.0.*",
                 "send_by_af_id": "AF_CN_c1dce03043",
                 "send_by_name": "王尼玛",
@@ -1262,6 +1269,7 @@ url:http://域名/api/message/mark_flag_message
                     "is_flag": true,
                     "is_spam": false,
                     "is_reply": false,
+                    "from_other_party_reply“: false,
                     "message_id": 35,
                     "soft_deleted_at": false,
                     "true_deleted_at": false
@@ -1580,7 +1588,7 @@ url:http://域名/api/album/modify_photos
 ```
 
 
-29.获取相册id列表
+28.获取相册id列表
 ```
 url:http://域名/api/album/album_list
 
