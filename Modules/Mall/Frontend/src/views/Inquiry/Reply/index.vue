@@ -1,63 +1,62 @@
 <template>
     <div class="reply">
         <section class="reply-btn">
-            <button type="button">Send</button>
-            <button type="button">Close</button>
+            <button type="button" @click="onSend">Send</button>
+            <button type="button" @click="$router.go(-2)">Close</button>
         </section>
 
         <section class="reply-card">
             <div class="reply-card-title">
                 <label for="">To:</label>
-                <span>Charles Wang</span>
+                <span>{{ infoData.send_to_name }}</span>
             </div>
             <div class="reply-card-subject">
                 <label for="">Subject:</label>
-                <span>Inquiry about “High Quality New Crop/Fresh Garlic - Chinese Shandong Garlic”</span>
+                <span>{{ infoData.subject }}</span>
             </div>
             <div class="reply-card-info">
+                <!-- 展示图片 -->
                 <v-img width="64" height="64" imgSrc=""></v-img>
                 <div class="reply-card-info-text">
-                    <span>Purchase Quantity:10 Bays</span>
-                    <span>Extra Request:Price,Company Profile</span>
+                    <span>Purchase Quantity:{{ infoData.purchase_quantity }}</span>
+                    <span v-if="infoData.extra_request">Extra Request:{{ infoData.extra_request }}</span>
                 </div>
             </div>
         </section>
 
         <section class="reply-input">
             <!-- 询问内容 -->
-            <textarea>
-
-            </textarea>
+            <textarea v-model="text"></textarea>
         </section>
         
-        <template>
-            <Collapse simple class="reply-history">
+        <template v-if="infoData.quote_message">
+            <Collapse simple class="reply-history" :value="name">
                 <Panel name="1" :hide-arrow="true">
                     <div class="reply-history-title">
                         <span>Quote</span>
-                        <Icon type="ios-arrow-forward" class="reply-history-title-icon"/>
+                        <Icon :type="name[0] == '1' ? 'ios-arrow-down' : 'ios-arrow-forward'" class="reply-history-title-icon"/>
                     </div>
                     <!-- 历史信息 -->
                     <section slot="content" class="reply-history-content">
                         <dl class="reply-history-content-item">
                             <dd class="reply-history-content-item-list">
                                 <label for="">From: </label>
-                                <span>Charles Wang</span>
+                                <span>{{ infoData.quote_message[0].send_by_name }}</span>
                             </dd>
                             <dd class="reply-history-content-item-list">
                                 <label for="">To: </label>
-                                <span>Nancy</span>
+                                <span>{{ infoData.quote_message[0].send_to_name }}</span>
                             </dd>
                             <dd class="reply-history-content-item-list">
                                 <label for="">Sent: </label>
-                                <span>Dec,28 2018 13:21</span>
+                                <span>{{ dayjs(infoData.quote_message[0].send_at.date).format('MMM DD,YYYY HH:mm') }}</span>
                             </dd>
                             <dd class="reply-history-content-item-list">
                                 <label for="">Subject: </label>
-                                <span>Inquiry about “High Quality New Crop/Fresh Garlic - Chinese Shandong Garlic”</span>
+                                <span>{{ infoData.quote_message[0].subject }}</span>
                             </dd>
                             <dd class="reply-history-content-item-list reply-history-content-item-title">
-                                <label for="">Hello, do you have any bags of cat litter?</label>
+                                <label for="">{{ infoData.quote_message[0].content }}</label>
                             </dd>
                         </dl>
                     </section>
@@ -69,8 +68,92 @@
 
 <script>
     import Img from '@/components/Img'
+    import dayjs from 'dayjs'
 
     export default {
+        data() {
+            return {
+                name: [],
+                infoData: {
+                    send_at: {
+                        date: '2019-01-25 15:04:11.000000'
+                    },
+                    quote_message: [
+                        {
+                            "subject": "",
+                            "content": "",
+                            "send_at": {
+                                "date": "2019-01-24 13:48:37.000000",
+                            },
+                            "send_by_name": "",
+                            "send_to_name": "",
+                        }
+                    ]
+                },
+                infoQuery: {},
+                text: ''
+            }
+        },
+        methods: {
+            dayjs: dayjs,
+            // 获取数据
+            GetData(type) {
+
+                let datas = { type }
+                
+                if(type == 'outbox') {
+                    datas.message_id = this.$route.query.message_id
+                }else if(type == 'inbox') {
+                    datas.message_id = this.$route.query.message_id
+                    datas.participant_id = this.$route.query.participant_id
+                }
+
+                this.$request({
+                    url: '/message/message_info',
+                    params: datas
+                }).then(({ code, data }) => {
+                    if(code == 200) {
+                        this.infoData = data[0]
+                        this.infoQuery = datas
+                        console.log(this.infoData)
+                    }else {
+                        this.$router.push('/inquiryList/send')
+                    }
+                }).catch(err => {
+                    return false
+                })
+            },
+            // 发送
+            onSend() {
+                // 参数:"message_id",值:"32"   //必填  要回复的消息id
+                // 参数:"attachment_list",值:"多文件上传"   //必填   附件上传接口 以file格式上传 表单加 [] 否则不予通过 ,就算一个文件也是已数组形式传输 
+                // 参数:"quote_message_id",值:"35"   //引用消息的id   非必填
+                // 参数:"content",值:"非洲香蕉大 真好吃！！"  //必填 发送的主体内容
+                let formData = new FormData()
+
+                formData.append('message_id', this.infoQuery.message_id)
+                formData.append('attachment_list', '')
+                formData.append('quote_message_id', this.infoData.quote_message ? this.infoData.quote_message[0].message_id : '')
+                formData.append('content', this.text)
+
+                this.$request({
+                    url: '/message/reply_message',
+                    method: 'post',
+                    data: formData
+                }).then(res => {
+                    if(res.code == 200) {
+                        this.$Message.success('Send successfully!');
+                    }else {
+                        this.$Message.warning('fail in send!');
+                    }
+                }).catch(err => {
+                    return false
+                })
+            }
+        },
+        mounted() {
+            this.GetData(this.$route.query.type)
+        },
         components: {
             'v-img': Img
         }

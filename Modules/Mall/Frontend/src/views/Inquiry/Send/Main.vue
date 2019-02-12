@@ -11,8 +11,9 @@
         </section>
 
         <div class="Send-main-btn">
-            <button>Delete</button>
-            <span>Total  4</span>
+            <!-- 删除发件箱信息 -->
+            <button @click="onDelete">Delete</button>
+            <span>Total  {{ message_id.length }}</span>
         </div>
 
         <Table :height="data6.length > 8 ? 530 : ''" :columns="columns12" :data="data6" @on-selection-change="onSelect">
@@ -32,8 +33,10 @@
             <!-- 内容 -->
             <template slot-scope="{ row }" slot="Content">
                 <div class="Send-main-content">
-                    <v-img width="11" height="22" :imgSrc="row.is_flag ? require('@/assets/img/icon/baoj.png') : require('@/assets/img/icon/wbj.png')" style="marginRight: 9px;cursor: pointer;"></v-img>
-                    <router-link to="" tag="span" style="width:190px;overflow: hidden;textOverflow: ellipsis;whiteSpace: nowrap;cursor: pointer;">{{ 'Re:' + row.re }}</router-link>
+                    <div  @click="onSign(row.message_id)">
+                        <v-img width="11" height="22" :imgSrc="row.is_flag ? require('@/assets/img/icon/baoj.png') : require('@/assets/img/icon/wbj.png')" style="marginRight: 9px;cursor: pointer;"></v-img>
+                    </div>
+                    <router-link :to="'/inquiryList/read?' + 'message_id=' + row.message_id  + '&type=' + 'outbox'" tag="span" style="width:190px;overflow: hidden;textOverflow: ellipsis;whiteSpace: nowrap;cursor: pointer;">{{ 'Re:' + row.re }}</router-link>
                 </div>
             </template>
             <!-- 时间 -->
@@ -116,10 +119,23 @@
                     //     src: require('@/assets/img/china.png'),
                     //     time: 'Dec 28,2018  09:20',
                     // },
-                ]
+                ],
+                message_id: []
             }
         },
         methods: {
+            // 获取数据
+            GetRequest() {
+                this.$request({
+                    url: '/message/outbox_message'
+                }).then(({ code, data }) => {
+                    if(code == 200) {
+                        this.filterInbox(data)
+                    }
+                }).catch(err => {
+                    console.log(err)
+                })
+            },
             // 处理获取的收件箱数据
             filterInbox(data) {
                 // this.SET_INBOX_FROM(data)
@@ -142,6 +158,7 @@
                 
                 dataFrom.forEach((value, index) => {
                     this.data6.push({ 
+                        message_id: value.message_id,
                         re: value.subject,
                         read: value.other_party_is_read,
                         is_flag: value.is_flag,
@@ -169,23 +186,71 @@
             },
             onSelect(value) { // 全选
                 if(value.length > 0) {
-                    // console.log(1);
-                    
+                    let ids = []
+                    // 获取删除消息的id值
+                    value.forEach((value, index) => {
+                        ids.push(value.message_id)
+                    })
+                    this.message_id = ids
+                }else {
+                    this.message_id = []
+                    return false
+                }
+            },
+            onDelete() {
+                // 判断用户是否选中
+                if(this.message_id.length > 0) {
+                    let formData = new FormData();
+                    for(let i = 0; i < this.message_id.length; i++) {
+                        formData.append('messages_id_list[]', this.message_id[i])
+                    }
+                    formData.append('type', 'outbox')
+                    formData.append('action', 'mark')
+
+                    this.$request({
+                        url: '/message/mark_delete_message',
+                        method: 'post',
+                        data: formData,
+                        headers:{'Content-Type':'multipart/form-data'}
+                    }).then(res => {
+                        if(res.code == 200) {
+                            this.$Message.info('Delete successful!')
+                            this.GetRequest()
+                            this.message_id = []
+                        }else {
+                            this.$Message.info('Delete failed!')
+                            this.message_id = []
+                        }
+                    }).catch(err => {
+                        console.log(err)
+                    })
                 }else {
                     return false
                 }
+            },
+            onSign(id) {
+                // 标记收藏
+                this.$request({
+                    url: '/message/mark_flag_message',
+                    method: 'post',
+                    data: {
+                        message_id: id,
+                        type: 'outbox'
+                    },
+                }).then(res => {
+                    if(res.code == 200) {
+                        this.$Message.info('Marking success!')
+                        this.GetRequest()
+                    }else {
+                        this.$Message.info('Marking failed!')
+                    }
+                }).catch(err => {
+                    console.log(err)
+                })
             }
         },
         mounted() {
-            this.$request({
-                url: '/message/outbox_message'
-            }).then(({ code, data }) => {
-                if(code == 200) {
-                    this.filterInbox(data)
-                }
-            }).catch(err => {
-                console.log(err)
-            })
+            this.GetRequest()
         },
         components: {
             "v-title": Title,

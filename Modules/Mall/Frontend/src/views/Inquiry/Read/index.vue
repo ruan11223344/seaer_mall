@@ -1,55 +1,59 @@
 <template>
     <div class="read-main">
         <section class="read-main-btn">
-            <button>Return</button>
-            <button class="read-main-btn-active">Reply</button>
-            <button>Delete</button>
-            <button>Spam</button>
+            <button @click="$router.go(-1)">Return</button>
+            <button @click="$router.push('/inquiryList/reply?' + 'message_id=' + infoQuery.message_id + '&type=' + infoQuery.type)" class="read-main-btn-active">Reply</button>
+            <button @click="onDelete">Delete</button>
+            <button @click="onSpam">Spam</button>
         </section>
         <!-- 商品信息 -->
         <section class="read-main-card">
             <div class="read-main-card-date">
                 <div class="read-main-card-date-time">
                     <span>Time:</span>
-                    <span class="read-main-card-date-time-text">Dec,28  2018  13:21</span>
+                    <span class="read-main-card-date-time-text">{{ dayjs(infoData.send_at.date).format('MMM DD,YYYY HH:mm') }}</span>
                 </div>
                 <div class="read-main-card-date-address">
                     <span>IP Address:</span>
                     <span  class="read-main-card-date-address-text">
-                        <v-img width="26" height="17" :imgSrc="require('@/assets/img/china.png')" class="read-main-card-date-address-text-ip"></v-img>
-                        <span>27.59.221.*</span>
+                        <v-img width="26" height="17" :imgSrc="infoData.send_country == 'cn' ? require('@/assets/img/china.png') : require('@/assets/img/kenya.png')" class="read-main-card-date-address-text-ip"></v-img>
+                        
+                        <span>{{ infoData.send_from_ip }}</span>
                     </span>
                 </div>
             </div>
             <div class="read-main-card-from">
                 <span>From:</span>
                 <span>
-                    <span class="read-main-card-from-text">Charles Wang</span>
-                    <v-img width="26" height="17" :imgSrc="require('@/assets/img/china.png')"></v-img>
+                    <span class="read-main-card-from-text">{{ infoData.send_by_name }}</span>
+                    <v-img width="26" height="17" :imgSrc="infoData.send_country == 'cn' ? require('@/assets/img/china.png') : require('@/assets/img/kenya.png')"></v-img>
                 </span>
             </div>
             <div class="read-main-card-subject">
                 <span>Subject:</span>
-                <span>Inquiry about “High Quality New Crop/Fresh Garlic - Chinese Shandong Garlic”</span>
+                <span>{{ infoData.subject }}</span>
             </div>
             <div class="read-main-card-figure">
                 <v-img width="64" height="64" :imgSrc="require('@/assets/img/china.png')"></v-img>
                 <div class="read-main-card-figure-parameter">
-                    <p>Purchase Quantity:10 Bays</p>
-                    <p>Extra Request:Price,Company Profile</p>
+                    <p>Purchase Quantity:{{ infoData.purchase_quantity }}</p>
+                    <!-- 额外要求 -->
+                    <!-- <p>Extra Request:Price,Company Profile</p> -->
+                    <p v-if="infoData.extra_request">Extra Request:{{infoData.extra_request}}</p>
                 </div>
             </div>
         </section>
         <!-- 询问信息 -->
-        <section class="read-main-info" v-html="'Hello,\rI need high quality fabric,I need high quality fabricI need high quality fabric I need high quality fabric'">
+        <section class="read-main-info" v-html="infoData.content"></section>
 
-        </section>
-
-        <section class="read-main-up">
+        <section class="read-main-up" v-if="infoData.attachment_list">
             <div class="read-main-up-title">
                 <v-img width="13" height="13" :imgSrc="require('@/assets/img/fj.png')"></v-img>
-                <template>
-                    <!-- 上传文件 -->
+                <div class="read-main-up-title-file">
+                    Attached
+                    <span class="read-main-up-title-file-num">({{ infoData.attachment_list.length }} pieces)</span>
+                </div>
+                <!-- <template>
                     <Upload
                         class="read-main-up-title-file"
                         multiple
@@ -59,17 +63,17 @@
                         Attached
                         <span class="read-main-up-title-file-num">({{ 2 }} pieces)</span>
                     </Upload>
-                </template>
+                </template> -->
             </div>
             <ul class="read-main-up-item">
-                <li>
+                <li v-for="(item, index) of infoData.attachment_list" :key="index">
+                    <v-img width="12" hegiht="12" imgSrc=""></v-img>
+                    <span>{{ Object.keys(item)[0] }}</span>
+                </li>
+                <!-- <li>
                     <v-img width="12" hegiht="12" imgSrc=""></v-img>
                     <span>{{ 'attachment1.rar (17.2k)' }}</span>
-                </li>
-                <li>
-                    <v-img width="12" hegiht="12" imgSrc=""></v-img>
-                    <span>{{ 'attachment1.rar (17.2k)' }}</span>
-                </li>
+                </li> -->
             </ul>
         </section>
     </div>
@@ -77,13 +81,22 @@
 
 <script>
     import Img from '@/components/Img'
+    import dayjs from 'dayjs'
+
     export default {
         data() {
             return {
-                upObjs: []
+                upObjs: [],
+                infoData: {
+                    send_at: {
+                        date: '2019-01-25 15:04:11.000000'
+                    },
+                },
+                infoQuery: {}
             }
         },
         methods: {
+            dayjs: dayjs,
             onUpBefore(files) {
                 let name = files.name.split('.')
                 name = name[name.length - 1]
@@ -93,12 +106,87 @@
                     name: files.name,
                     file: files,
                 })
-                console.log(this.upObjs)
                 return false
+            },
+            // 获取数据
+            GetData(type) {
+
+                let datas = { type }
+                if(type == 'outbox') {
+                    datas.message_id = this.$route.query.message_id
+                }else if(type == 'inbox') {
+                    datas.message_id = this.$route.query.message_id
+                    datas.participant_id = this.$route.query.participant_id
+                }
+
+                this.$request({
+                    url: '/message/message_info',
+                    params: datas
+                }).then(({ code, data }) => {
+                    if(code == 200) {
+                        this.infoData = data[0]
+                        this.infoQuery = datas
+                    }else {
+                        this.$router.push('/inquiryList/send')
+                    }
+                }).catch(err => {
+                    return false
+                })
+            },
+            // 垃圾询盘
+            onSpam() {
+                let formData = new FormData()
+
+                if(this.infoQuery.type == 'outbox') {
+                    formData.append('messages_id_list[]', this.infoQuery.message_id)
+                }else {
+                    formData.append('messages_id_list[]', this.infoQuery.participant_id)
+                }
+                formData.append('action', 'mark')
+                
+                this.$request({
+                    url: '/message/mark_spam_message',
+                    method: 'post',
+                    data: formData
+                }).then(res => {
+                    if(res.code == 200) {
+                        this.$Message.info('Marked as spam inquiry');
+                    }                    
+                }).catch(err => {
+                    console.log(err);
+                })
+            },
+            // 删除
+            onDelete() {
+                let formData = new FormData();
+                if(this.infoQuery.type == 'outbox') {
+                    formData.append('messages_id_list[]', this.infoQuery.message_id)
+                }else {
+                    formData.append('messages_id_list[]', this.infoQuery.participant_id)
+                }
+                formData.append('type', this.infoQuery.type)
+                formData.append('action', 'mark')
+
+                this.$request({
+                    url: '/message/mark_delete_message',
+                    method: 'post',
+                    data: formData,
+                    headers:{'Content-Type':'multipart/form-data'}
+                }).then(res => {
+                    if(res.code == 200) {
+                        this.$Message.info('Delete successful!')
+                        this.$router.go(-1)
+                    }else {
+                        this.$Message.info('Delete failed!')
+                    }
+                }).catch(err => {
+                    console.log(err)
+                })
             }
         },
         mounted() {
-            
+            const query = this.$route.query
+            this.GetData(query.type)
         },
         components: {
             'v-img': Img
