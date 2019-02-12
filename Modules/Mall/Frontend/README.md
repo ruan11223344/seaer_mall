@@ -1419,8 +1419,18 @@ url:http://域名/api/album/upload_img_to_album
 返回：
 {
     "code": 200,
-    "message": "保存成功!",
-    "data": []
+    "message": "成功!",
+    "data": [
+        {
+            "960 (2).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/album/154994802072479997.jpeg"
+        },
+        {
+            "960 (1).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/album/15499480207194725.jpeg"
+        },
+        {
+            "960.jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/album/154994802178413506.jpeg"
+        }
+    ]
 }
 ```
 
@@ -1443,4 +1453,183 @@ url:http://域名/api/album/save_img_to_album
     "data": []
 }
 ```
+
+24.创建相册
+```
+url:http://域名/api/album/create_album
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+以下是普通参数 ↓
+参数:"album_name",值:"相册1"   //相册名称
+参数:"album_descriptiond",值:"这里是相册描述"   //相册描述信息
+
+返回：
+{
+    "code": 200,
+    "message": "创建相册成功!",
+    "data": []
+}
+```
+
+25.删除相册
+```
+url:http://域名/api/album/delete_album
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+以下是普通参数 ↓
+参数:"album_id",值:"3"   //相册id
+
+返回：
+{
+    "code": 200,
+    "message": "删除相册成功!",
+    "data": []
+}
+```
+
+26.修改相册
+```
+url:http://域名/api/album/edit_album
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+以下是普通参数 ↓
+参数:"album_id",值:"3"   //相册id
+参数:"album_name",值:"相册名称1"   //相册名称
+参数:"album_description",值:"此处是相册描述"   //相册描述
+
+返回：
+{
+    "code": 200,
+    "message": "更新相册成功!",
+    "data": []
+}
+```
+
+27.获取相册中的图片列表
+```
+url:http://域名/api/album/edit_album
+
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+以下是普通参数 ↓
+参数:"album_id",值:"3"   //相册id
+
+返回：
+{
+    "code": 200,
+    "message": "获取相册图片列表成功!",
+    "data": [
+        {
+            "id": 3,
+            "album_id": 3,
+            "photo_name": "dd3",
+            "photo_url": "https://iocaffcdn.phphub.org/uploads/banners/5LNCgFww4UqiB4Jf4yPl.jpg!/both/554x132",
+            "created_at": null,
+            "updated_at": "2019-02-11 16:11:46"
+        },
+        {
+            "id": 4,
+            "album_id": 3,
+            "photo_name": "dd4",
+            "photo_url": "https://iocaffcdn.phphub.org/uploads/banners/5LNCgFww4UqiB4Jf4yPl.jpg!/both/554x132",
+            "created_at": "2019-02-11 14:12:40",
+            "updated_at": null
+        },
+        {
+            "id": 5,
+            "album_id": 3,
+            "photo_name": "dd4",
+            "photo_url": "https://iocaffcdn.phphub.org/uploads/banners/5LNCgFww4UqiB4Jf4yPl.jpg!/both/554x132",
+            "created_at": "2019-02-11 14:35:01",
+            "updated_at": null
+        }
+    ]
+}
+```
+
+28.修改或删除图片
+```
+url:http://域名/api/album/modify_photos
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+以下是普通参数 ↓
+参数:"photo_id_list[]",值:"[3,4,5,6]"   //必填 数组格式 图片id列表（图片id可以从27号接口中获取。)
+参数:"action",值:"move"   //必填 动作 move 或者 delete 
+参数:"to_album_id",值:"3"   //移动到哪个相册id 当action为move时必填
+
+返回：
+{
+    "code": 200,
+    "message": "移动图片成功!",
+    "data": []
+}
+```
+
+
+29.获取相册id列表
+```
+url:http://域名/api/album/album_list
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+无普通参数 
+
+返回：
+{
+    "code": 200,
+    "message": "成功!",
+    "data": [
+        {
+            "id": 1,
+            "album_name": "Default Album",
+            "album_description": null,
+            "user_id": 13,
+            "created_at": "2019-02-11 11:18:02",
+            "updated_at": "2019-02-11 11:18:02"
+        },
+        {
+            "id": 2,
+            "album_name": "fffffff",
+            "album_description": "fgfffff",
+            "user_id": 13,
+            "created_at": "2019-02-11 11:22:24",
+            "updated_at": "2019-02-11 11:50:22"
+        },
+        {
+            "id": 3,
+            "album_name": "f",
+            "album_description": null,
+            "user_id": 13,
+            "created_at": null,
+            "updated_at": null
+        },
+        {
+            "id": 7,
+            "album_name": "小王",
+            "album_description": "大王",
+            "user_id": 13,
+            "created_at": "2019-02-12 13:11:53",
+            "updated_at": "2019-02-12 13:19:08"
+        }
+    ]
+}
+```
+
+
 

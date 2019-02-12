@@ -70,6 +70,10 @@ class AlbumController extends Controller
 
         $album = AlbumUser::find($data['album_id']);
 
+        if($album->soft_delete){
+            return $this->echoErrorJson('错误!不能修改已删除的相册!');
+        }
+
         if($album->user_id != Auth::id()){
             return $this->echoErrorJson('错误!只能修改用户自己的相册!');
         }
@@ -139,8 +143,13 @@ class AlbumController extends Controller
 
         $expiresAt = Carbon::now()->addHour(2);
         foreach ($res as $value){
-            foreach ($value as $v){
-                Cache::store('redis')->put($v,1,$expiresAt);
+            if(is_array($value)){
+                foreach ($value as $v){
+                    Cache::store('redis')->put($v,1,$expiresAt);
+                }
+            }else{
+                Cache::store('redis')->put($value,1,$expiresAt);
+                $res = [$res];
             }
         }
 
@@ -243,7 +252,7 @@ class AlbumController extends Controller
 
         $validator = Validator::make($data,[
             'photo_id_list'=>'required|array|check_photo_exist',
-            'action'=>'in:delete,move,',
+            'action'=>'in:delete,move|required',
             'to_album_id'=>'required_if:action,move|exists:album_user,id',
         ]);
 
