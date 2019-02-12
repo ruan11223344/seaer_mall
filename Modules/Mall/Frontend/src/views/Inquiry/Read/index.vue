@@ -2,7 +2,7 @@
     <div class="read-main">
         <section class="read-main-btn">
             <button @click="$router.go(-1)">Return</button>
-            <button @click="$router.push('/inquiryList/reply?' + 'message_id=' + infoQuery.message_id + '&type=' + infoQuery.type)" class="read-main-btn-active">Reply</button>
+            <button @click="$router.push('/inquiryList/reply?' + 'message_id=' + infoQuery.message_id + '&participant_id=' + infoQuery.participant_id + '&type=' + infoQuery.type)" class="read-main-btn-active">Reply</button>
             <button @click="onDelete">Delete</button>
             <button @click="onSpam">Spam</button>
         </section>
@@ -126,9 +126,25 @@
                     if(code == 200) {
                         this.infoData = data[0]
                         this.infoQuery = datas
+                        // 标记为已读
+                        this.onRead()
                     }else {
                         this.$router.push('/inquiryList/send')
                     }
+                }).catch(err => {
+                    return false
+                })
+            },
+            // 标记为已读
+            onRead() {
+                this.$request({
+                    url: '/message/mark_read_message',
+                    method: 'post',
+                    data: {
+                        participant_id: this.infoData.participant_id
+                    }
+                }).then(res => {
+                    console.log(res);
                 }).catch(err => {
                     return false
                 })
@@ -137,11 +153,11 @@
             onSpam() {
                 let formData = new FormData()
 
-                if(this.infoQuery.type == 'outbox') {
-                    formData.append('messages_id_list[]', this.infoQuery.message_id)
-                }else {
-                    formData.append('messages_id_list[]', this.infoQuery.participant_id)
-                }
+                // if(this.infoQuery.type == 'outbox') {
+                    formData.append('thread_id_list[]', this.infoData.thread_id)
+                // }else {
+                //     formData.append('messages_id_list[]', this.infoQuery.participant_id)
+                // }
                 formData.append('action', 'mark')
                 
                 this.$request({
@@ -162,8 +178,11 @@
                 if(this.infoQuery.type == 'outbox') {
                     formData.append('messages_id_list[]', this.infoQuery.message_id)
                 }else {
-                    formData.append('messages_id_list[]', this.infoQuery.participant_id)
+                    formData.append('participants_id_list[]', this.infoQuery.participant_id)
                 }
+                // formData.append('messages_id_list[]', this.infoQuery.message_id)
+                // formData.append('participants_id_list[]', this.infoQuery.participant_id)
+
                 formData.append('type', this.infoQuery.type)
                 formData.append('action', 'mark')
 

@@ -11,12 +11,12 @@
         </section>
 
         <div class="Send-main-btn">
-            <button>Delete</button>
-            <button style="width:109px;">Report Spam</button>
-            <span>Total {{ Info.Total }}</span>
+            <button @click="onDelete">Delete</button>
+            <button style="width:109px;" @click="onSpam">Report Spam</button>
+            <span>Total {{ this.message_id.length }}</span>
         </div>
 
-        <Table :height="data6.length > 8 ? 530 : ''" :columns="columns12" :data="data6">
+        <Table :height="data6.length > 8 ? 530 : ''" :columns="columns12" :data="data6" @on-selection-change="onSelect">
             <!-- 已读 -->
             <template slot-scope="{ row }" slot="isRead">
                 <div>
@@ -33,8 +33,10 @@
             <!-- 内容 -->
             <template slot-scope="{ row }" slot="Content">
                 <div class="Send-main-content">
-                    <v-img width="11" height="22" :imgSrc="require('@/assets/img/icon/baoj.png')" style="marginRight: 9px;cursor: pointer;"></v-img>
-                    <router-link to="" tag="span" style="width:190px;overflow: hidden;textOverflow: ellipsis;whiteSpace: nowrap;cursor: pointer;">{{ 'Re:' + row.re }}</router-link>
+                    <div  @click="onSign(row.participant_id)">
+                        <v-img width="11" height="22" :imgSrc="row.is_flag ? require('@/assets/img/icon/baoj.png') : require('@/assets/img/icon/wbj.png')" style="marginRight: 9px;cursor: pointer;"></v-img>
+                    </div>
+                    <router-link :to="'/inquiryList/read?' + 'message_id=' + row.message_id + '&participant_id=' + row.participant_id + '&type=' + 'inbox'" tag="span" style="width:190px;overflow: hidden;textOverflow: ellipsis;whiteSpace: nowrap;cursor: pointer;">{{ (row.from_other_party_reply ? 'Re:' : '') + row.re }}</router-link>
                 </div>
             </template>
             <!-- 时间 -->
@@ -118,7 +120,9 @@
                     //     time: 'Dec 28,2018  09:20',
                     //     read: ''
                     // },
-                ]
+                ],
+                message_id: [],
+                participant_id: []
             }
         },
         computed: {
@@ -126,6 +130,17 @@
         },
         methods: {
             ...mapMutations(['SET_INBOX_FROM']),
+            GetRequest() {
+                this.$request({
+                    url: '/message/inbox_message'
+                }).then(({ code, data }) => {
+                    if(code == 200) {
+                        this.filterInbox(data)
+                    }
+                }).catch(err => {
+                    console.log(err)
+                })
+            },
             // 处理获取的收件箱数据
             filterInbox(data) {
                 this.SET_INBOX_FROM(data)
@@ -135,18 +150,24 @@
                 this.$set(this.Info, 'Unread', data.unread.length)
                 this.$set(this.Info, 'Reply', data.pending_for_reply.length)
                 this.$set(this.Info, 'Total', Total)
-                
                 this.filterAll(data.all)
             },
             // 显示对应的数据
             filterAll(data) {
                 this.data6 = []
-
                 const { num, size } = this.total
-                const dataFrom = data.slice(num * size - 8, num * size + 1)
+                const dataFrom = data.slice(num * size - 8, num * size)
                 this.total.total = data.length
+                console.log(dataFrom);
+                
                 dataFrom.forEach((value, index) => {
                     this.data6.push({ 
+                        is_reply: value.is_reply,
+                        from_other_party_reply: value.from_other_party_reply,
+                        message_id: value.message_id,
+                        thread_id: value.thread_id,
+                        participant_id: value.participant_id,
+                        is_flag: value.is_flag,
                         re: value.subject,
                         read: value.is_read,
                         name: value.send_by_name,
@@ -161,27 +182,108 @@
 
                 switch (this.bool) {
                     case 0:
-                        this.filterAll(dataFrom.all)
+                        this.filterAll(this.dataFrom.all)
                         break;
                     case 1:
-                        this.filterAll(dataFrom.unread)
+                        this.filterAll(this.dataFrom.unread)
                         break;
                     case 2:
-                        this.filterAll(dataFrom.pending_for_reply)
+                        this.filterAll(this.dataFrom.pending_for_reply)
                         break;
                 }
+            },
+            onSelect(value) { // 全选
+                if(value.length > 0) {
+                    let ids = []
+                    let message = []
+                    // 获取删除消息的id值
+                    value.forEach((value, index) => {
+                        ids.push(value.participant_id)
+                        message.push(value.thread_id)
+                    })
+                    this.participant_id = ids
+                    this.thread_id = message
+                }else {
+                    this.participant_id = []
+                    this.thread_id = []
+                    return false
+                }
+            },
+            onDelete() {
+                // 判断用户是否选中
+                if(this.participant_id.length > 0) {
+                    let formData = new FormData();
+                    for(let i = 0; i < this.participant_id.length; i++) {
+                        formData.append('participants_id_list[]', this.participant_id[i])
+                    }
+                    formData.append('type', 'inbox')
+                    formData.append('action', 'mark')
+
+                    this.$request({
+                        url: '/message/mark_delete_message',
+                        method: 'post',
+                        data: formData,
+                        headers:{'Content-Type':'multipart/form-data'}
+                    }).then(res => {
+                        if(res.code == 200) {
+                            this.$Message.info('Delete successful!')
+                            this.GetRequest()
+                            this.participant_id = []
+                        }else {
+                            this.$Message.info('Delete failed!')
+                            this.participant_id = []
+                        }
+                    }).catch(err => {
+                        console.log(err)
+                    })
+                }else {
+                    return false
+                }
+            },
+            // 垃圾询盘
+            onSpam() {
+                let formData = new FormData()
+
+                for (let index = 0; index < this.thread_id.length; index++) {
+                    formData.append('thread_id_list[]', this.thread_id[index])
+                }
+                formData.append('action', 'mark')
+
+                this.$request({
+                    url: '/message/mark_spam_message',
+                    method: 'post',
+                    data: formData
+                }).then(res => {
+                    if(res.code == 200) {
+                        this.$Message.info('Marked as spam inquiry');
+                    }                    
+                }).catch(err => {
+                    console.log(err);
+                })
+            },
+            onSign(id) {
+                // 标记收藏
+                this.$request({
+                    url: '/message/mark_flag_message',
+                    method: 'post',
+                    data: {
+                        participant_id: id,
+                        type: 'inbox'
+                    },
+                }).then(res => {
+                    if(res.code == 200) {
+                        this.$Message.info('Marking success!')
+                        this.GetRequest()
+                    }else {
+                        this.$Message.info('Marking failed!')
+                    }
+                }).catch(err => {
+                    console.log(err)
+                })
             }
         },
         mounted() {
-            this.$request({
-                url: '/message/inbox_message'
-            }).then(({ code, data }) => {
-                if(code == 200) {
-                    this.filterInbox(data)
-                }
-            }).catch(err => {
-                console.log(err)
-            })
+            this.GetRequest()
         },
         components: {
             "v-title": Title,
