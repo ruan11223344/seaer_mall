@@ -117,7 +117,20 @@ class AlbumController extends Controller
     }
 
     public function uploadImgToAlbum(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data,[
+            'images'=>'required|array',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+        }
+
         $images = $request->file('images');
+        if($images == null){
+            return $this->echoErrorJson('错误!没有图片!');
+        }
+
         if(count($images) == 1){
            $res = UtilsController::uploadFile($images[0],UtilsController::getUserAlbumDirectory(),true);
         }else{
@@ -126,20 +139,23 @@ class AlbumController extends Controller
 
         $expiresAt = Carbon::now()->addHour(2);
         foreach ($res as $value){
-            Cache::store('redis')->put($value,1,$expiresAt);
+            foreach ($value as $v){
+                Cache::store('redis')->put($v,1,$expiresAt);
+            }
         }
 
-        $this->echoSuccessJson('成功!',$res);
+        return $this->echoSuccessJson('成功!',$res);
     }
 
     public function saveImgToAlbum(Request $request){
+
         $data = $request->all();
 
         Validator::extend('check_photo', function($attribute, $value){
             if(is_array($value) && count($value) >= 1){
                 $mark = true;
                 foreach ($value as $v){
-                    if(strpos($v['photo_url'],'http://') === false){
+                    if(!Cache::store('redis')->has($v)){
                         $mark = false;
                     }
                 }
@@ -165,13 +181,21 @@ class AlbumController extends Controller
             return $this->echoErrorJson('错误!只能上传到用户自己的相册!');
         }
 
-        $insert_data = $request->input('photo_name_url_list');
+        $input_data = $request->input('photo_name_url_list');
 
         $carbon = new Carbon;
 
-        foreach ($insert_data as $key=>$value){
-            $insert_data[$key]['album_id'] = $data['album_id'];
-            $insert_data[$key]['created_at'] = $carbon;
+        $insert_data = [];
+
+        foreach ($input_data as $key=>$value){
+            if(AlbumPhoto::where(['photo_name'=>$key,'photo_url'=>$value])->count() == 0){
+                $tmp = [];
+                $tmp['album_id'] = $data['album_id'];
+                $tmp['created_at'] = $carbon;
+                $tmp['photo_name'] = $key;
+                $tmp['photo_url'] = $value;
+                $insert_data[] = $tmp;
+            }
         }
 
         $res = AlbumPhoto::insert($insert_data);

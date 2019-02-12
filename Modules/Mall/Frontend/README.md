@@ -1405,3 +1405,42 @@ url:http://域名/api/message/message_info
 }
 ```
 
+22.上传图片到相册目录
+```
+url:http://域名/api/album/upload_img_to_album
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+以下是普通参数 ↓
+参数:"images[]",值:"单个或者多个文件"   //以数组形式传输 file。
+
+返回：
+{
+    "code": 200,
+    "message": "保存成功!",
+    "data": []
+}
+```
+
+23.保存上传的图片到相册
+```
+url:http://域名/api/album/save_img_to_album
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+以下是普通参数 ↓
+参数:"photo_name_url_list[图片1]",值:"https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg"   //关联数组格式 可以多个或者单个 但必须是关联数组 以 自定义图片名->图片url的格式  （图片url从22号接口获取)
+参数:"album_id",值:"6"   //相册id
+
+返回：
+{
+    "code": 200,
+    "message": "保存成功!",
+    "data": []
+}
+```
+

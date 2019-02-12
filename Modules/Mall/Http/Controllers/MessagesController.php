@@ -36,6 +36,21 @@ class MessagesController extends Controller
      * @return mixed
      */
 
+    static function extraRequestToStr($object){
+        $str = '';
+        if($object !== null){
+            foreach ($object as $value){
+                foreach ($value as $key=>$v){
+                    if($v == true){
+                        $str.=$key.',';
+                    }
+                }
+            }
+        }
+        $str =rtrim($str, ',');
+        return $str;
+    }
+
     public function sendMailNotification($to_user_id,$message,$is_reply = false){
         $to_user_ex = UsersExtends::where('user_id',$to_user_id)->first();
         if($to_user_ex->email_notification){
@@ -135,7 +150,7 @@ class MessagesController extends Controller
                 $tmp_data['send_by_af_id'] = $from_user_extends->af_id;
                 $tmp_data['send_by_name'] = $from_user_extends->contact_full_name;
                 $tmp_data['send_country'] = $from_user_extends->country_id == self::KE_COUNTRY_ID ? 'ke' : 'cn';
-                $tmp_data['extra_request'] = json_decode($value->thread->extends)->extra_request;
+                $tmp_data['extra_request'] = self::extraRequestToStr(json_decode($value->thread->extends)->extra_request);
                 $tmp_data['purchase_quantity'] =  $purchase_info->purchase_quantity.' '.$purchase_info->purchase_unit;
                 $tmp_data['attachment_list'] = $message->extends['attachment_list'];
 //                $tmp_data['is_flag'] = $value->extends['is_flag'];
@@ -169,7 +184,7 @@ class MessagesController extends Controller
                     $tmp_data['send_by_name'] = $user_extends->contact_full_name;
                     $tmp_data['send_to_name'] = $to_user_extends->contact_full_name;
                     $tmp_data['send_country'] = $user_extends->country_id == self::KE_COUNTRY_ID ? 'ke' : 'cn';
-                    $tmp_data['extra_request'] = json_decode($value->thread->extends)->extra_request;
+                    $tmp_data['extra_request'] = self::extraRequestToStr(json_decode($value->thread->extends)->extra_request);
                     $tmp_data['purchase_quantity'] =  $purchase_info->purchase_quantity.' '.$purchase_info->purchase_unit;
                     $attachment_list = $value->extends['attachment_list'];
                     $tmp_data['attachment_list'] = count($attachment_list) == 0 ? null : $attachment_list;
@@ -596,7 +611,7 @@ class MessagesController extends Controller
             });
         }
 
-        return $this->echoSuccessJson('删除消息成功!',[]);
+        return $this->echoSuccessJson('操作成功!');
     }
 
     public function markReadMessage(Request $request){
