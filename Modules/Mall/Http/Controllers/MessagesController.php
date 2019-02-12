@@ -354,9 +354,13 @@ class MessagesController extends Controller
 
 
         $re_message = InquiryMessages::where('user_id',$user_id)->orderBy('created_at','desc')->get()->first(); //找到最近一条发送的消息
+        
         if($re_message != null){
             $re_body = $re_message->body; //最近一条发送的内容
+        }else{
+            $re_body = null;
         }
+
         $content = $request->input('content');  //准备发送的内容
         $to_user_id = $from_message->user_id; //要回复的user_id
 
