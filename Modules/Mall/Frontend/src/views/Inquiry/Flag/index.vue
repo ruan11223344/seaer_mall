@@ -53,6 +53,19 @@
     export default {
         data () {
             return {
+                bool: 0,
+                total: {
+                    size: 8,
+                    total: 100,
+                    num: 1
+                },
+                Info: {
+                    Total: 0,
+                    All: 0,
+                    Unread: 0,
+                    Reply: 0
+                },
+                dataFrom: null,
                 columns12: [
                     {
                         type: 'selection',
@@ -154,6 +167,54 @@
                     },
                 ]
             }
+        },
+        methods: {
+            GetData() {
+                this.$request({
+                    url: '/message/flag_message',
+                }).then(res => {
+                    console.log(res);
+                }).catch(err => {
+                    return false
+                })
+            },
+            // 处理获取的收件箱数据
+            filterInbox(data) {
+                this.SET_INBOX_FROM(data)
+                this.dataFrom = data
+                const Total = data.all.length + data.unread.length + data.pending_for_reply.length
+                this.$set(this.Info, 'All', data.all.length)
+                this.$set(this.Info, 'Unread', data.unread.length)
+                this.$set(this.Info, 'Reply', data.pending_for_reply.length)
+                this.$set(this.Info, 'Total', Total)
+                this.filterAll(data.all)
+            },
+            // 显示对应的数据
+            filterAll(data) {
+                this.data6 = []
+                const { num, size } = this.total
+                const dataFrom = data.slice(num * size - 8, num * size)
+                this.total.total = data.length
+                
+                dataFrom.forEach((value, index) => {
+                    this.data6.push({
+                        is_reply: value.is_reply,
+                        from_other_party_reply: value.from_other_party_reply,
+                        message_id: value.message_id,
+                        thread_id: value.thread_id,
+                        participant_id: value.participant_id,
+                        is_flag: value.is_flag,
+                        re: value.subject,
+                        read: value.is_read,
+                        name: value.send_by_name,
+                        address: value.send_country,
+                        time: dayjs(value.send_at.date).format('MMM DD,YYYY HH:mm')
+                    })
+                })
+            }
+        },
+        mounted() {
+            this.GetData()
         },
         components: {
             "v-title": Title,

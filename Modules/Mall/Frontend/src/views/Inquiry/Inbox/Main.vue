@@ -158,7 +158,6 @@
                 const { num, size } = this.total
                 const dataFrom = data.slice(num * size - 8, num * size)
                 this.total.total = data.length
-                console.log(dataFrom);
                 
                 dataFrom.forEach((value, index) => {
                     this.data6.push({ 
