@@ -1332,7 +1332,7 @@ url:http://域名/api/message/mark_delete_message
 20.标记为已读消息
 
 ```
-url:http://域名/api/message/mark_delete_message
+url:http://域名/api/message/mark_read_message
 
 请求方法:post
 请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
