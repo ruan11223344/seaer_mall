@@ -55,7 +55,7 @@ class MessagesController extends Controller
         $to_user_ex = UsersExtends::where('user_id',$to_user_id)->first();
         if($to_user_ex->email_notification){
             $email_obj = new EMail();
-            $subject = $is_reply ?? 'RE: ' . '你有一条新的询盘消息!';
+            $subject = $is_reply ? 'RE: ' . '你有一条新的询盘消息!' : '你有一条新的询盘消息!';
             $email_obj->send(User::find($to_user_id)->email,$subject,['messages'=>$message],$email_obj::TEMPLATE_MESSAGE);
         }
     }
@@ -354,7 +354,6 @@ class MessagesController extends Controller
 
 
         $re_message = InquiryMessages::where('user_id',$user_id)->orderBy('created_at','desc')->get()->first(); //找到最近一条发送的消息
-        
         if($re_message != null){
             $re_body = $re_message->body; //最近一条发送的内容
         }else{
@@ -638,7 +637,7 @@ class MessagesController extends Controller
         return $this->echoSuccessJson('成功!',[]);
     }
 
-    public function emptyMessage(){
+    public function emptyMessage(){ //todo 可能会通过批量id删除
         $user_id = Auth::id();
         InquiryParticipants::where('user_id',$user_id)->where('extends->soft_deleted_at','!=',false)->get()->map(
             function ($item){
@@ -698,11 +697,11 @@ class MessagesController extends Controller
 
         if($type == 'inbox'){
             $participant_id = $request->input('participant_id');
-           $data =  InquiryParticipants::where('user_id',$user_id)->where('extends->soft_deleted_at','=',false)->where('id',$participant_id)->get();
+           $data =  InquiryParticipants::where('user_id',$user_id)->where('id',$participant_id)->get();
            $res_data = $this->participantInfo($data);
         }elseif ($type == 'outbox'){
             $message_id = $request->input('message_id');
-            $data = InquiryMessages::where('user_id',$user_id)->where('extends->soft_deleted_at','=',false)->where('id',$message_id)->get();
+            $data = InquiryMessages::where('user_id',$user_id)->where('id',$message_id)->get();
             $res_data = $this->messageInfo($data);
         }
 
