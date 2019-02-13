@@ -3,30 +3,31 @@
         <v-title title="Flag Inquiry"></v-title>
 
         <section class="Send-main-screening">
-            <div class="Send-main-screening-text Send-main-screening-text-active">Inbox <span>10</span></div>
+            <div :class="'Send-main-screening-text ' + (bool == 0 ? 'Send-main-screening-text-active' : '')" @click="bool=0, filterAll(inboxData)">Inbox <span>{{ inboxData.length }}</span></div>
             <div class="Send-main-screening-hr"></div>
-            <div class="Send-main-screening-text">Sent <span>10</span></div>
+            <div :class="'Send-main-screening-text ' + (bool == 1 ? 'Send-main-screening-text-active' : '')" @click="bool=1, filterAll(outboxData)">Sent <span>{{ outboxData.length }}</span></div>
         </section>
 
         <div class="Send-main-btn">
-            <button>Delete</button>
-            <span>Total 4</span>
+            <button @click="onDelete">Delete</button>
+            <span>Total {{ bool == 0 ? message_id.length :  participant_id.length }}</span>
         </div>
 
-        <Table :height="data6.length > 8 ? 530 : ''" :columns="columns12" :data="data6">
+        <Table :height="data6.length > 8 ? 530 : ''" :columns="columns12" :data="data6"  @on-selection-change="onSelect">
             <!-- 地区 -->
             <template slot-scope="{ row }" slot="Contact">
                 <div class="Send-main-name">
-                    <v-img width="27" height="19" :imgSrc="row.src"></v-img>
+                    <v-img width="27" height="19" :imgSrc="row.address == 'cn' ? require('@/assets/img/china.png') : require('@/assets/img/kenya.png')"></v-img>
                     <span>{{row.name}}</span>
                 </div>
             </template>
             <!-- 内容 -->
             <template slot-scope="{ row }" slot="Content">
                 <div class="Send-main-content">
-                    <v-img width="11" height="22" :imgSrc="require('@/assets/img/icon/baoj.png')" style="marginRight: 9px;"></v-img>
-                    <span>{{ 'Re:' + row.ask.re }}</span>
-                    <!-- <span>{{ 'Dear:' + row.ask.Dear }}</span> -->
+                    <div  @click="onSign(row.participant_id, row.message_id)">
+                        <v-img width="11" height="22" :imgSrc="row.is_flag ? require('@/assets/img/icon/baoj.png') : require('@/assets/img/icon/wbj.png')" style="marginRight: 9px;cursor: pointer;"></v-img>
+                    </div>
+                    <router-link :to="'/inquiryList/read?' + 'message_id=' + row.message_id + '&participant_id=' + row.participant_id + '&type=' + row.type" tag="span" style="width:190px;overflow: hidden;textOverflow: ellipsis;whiteSpace: nowrap;cursor: pointer;">{{ (row.from_other_party_reply ? 'Re:' : '') + row.re }}</router-link>
                 </div>
             </template>
             <!-- 时间 -->
@@ -39,7 +40,7 @@
         
         <section style="marginTop:20px;">
             <template>
-                <Page :total="100" style="textAlign: center"/>
+                <Page :total="total.total" :page-size="8" style="textAlign: center" @on-change="onPages"/>
             </template>
         </section>
         
@@ -49,10 +50,18 @@
 <script>
     import Title from "../components/Title"
     import Img from "@/components/Img"
+    import dayjs from "dayjs"
 
     export default {
         data () {
             return {
+                bool: 0,
+                total: {
+                    size: 8,
+                    total: 0,
+                    num: 1
+                },
+                dataFrom: null,
                 columns12: [
                     {
                         type: 'selection',
@@ -82,78 +91,161 @@
                 data6: [
                     {
                         name: 'John Brown',
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
+                        re: 'Inquiry about...',
                         src: require('@/assets/img/china.png'),
                         time: 'Dec 28,2018  09:20',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:20',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:21',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:20',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:20',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:25',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:20',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:20',
-                    },
-                ]
+                    }
+                ],
+                inboxData: [],
+                outboxData: [],
+                message_id: [],
+                participant_id: []
             }
+        },
+        methods: {
+            dayjs: dayjs,
+            GetData() {
+                this.$request({
+                    url: '/message/flag_message',
+                }).then(({ code, data }) => {
+                    if(code == 200) {
+                        this.filterData(data.all)
+                    }
+                }).catch(err => {
+                    return false
+                })
+            },
+            // 处理获取的数据
+            filterData(data) {
+                let inboxArr = []
+                let outboxArr = []
+
+                data.forEach(value => {
+                    // 通过类型判断属于收件箱还是发件箱
+                    if(value.type == 'outbox') {
+                        outboxArr.push(value)
+                    }else if(value.type == 'inbox') {
+                        inboxArr.push(value)
+                    }
+                })
+
+                this.inboxData = inboxArr
+                this.outboxData = outboxArr
+                this.filterAll(this.inboxData)
+            },
+            // 显示对应的数据
+            filterAll(data) {
+                this.data6 = []
+                const { num, size } = this.total
+                const dataFrom = data.slice(num * size - 8, num * size)
+                this.total.total = data.length
+
+                dataFrom.forEach((value, index) => {
+                    this.data6.push({ 
+                        type: value.type,
+                        is_reply: value.is_reply,
+                        from_other_party_reply: value.from_other_party_reply,
+                        message_id: value.message_id,
+                        thread_id: value.thread_id,
+                        participant_id: value.participant_id,
+                        is_flag: value.is_flag,
+                        re: value.subject,
+                        read: value.is_read,
+                        name: value.send_by_name,
+                        address: value.send_country,
+                        time: dayjs(value.send_at.date).format('MMM DD,YYYY HH:mm')
+                    })
+                })
+            },
+            // 分页
+            onPages(index) {
+                this.$set(this.total, 'num', index)
+
+                switch (this.bool) {
+                    case 0:
+                        this.filterAll(this.inboxData)
+                        break;
+                    case 1:
+                        this.filterAll(this.outboxData)
+                        break;
+                }
+            },
+            onSign(id, message_id) {
+                // 标记收藏
+                this.$request({
+                    url: '/message/mark_flag_message',
+                    method: 'post',
+                    data: {
+                        participant_id: id,
+                        message_id: message_id,
+                        type: this.bool == 0 ? 'inbox' : 'outbox'
+                    },
+                }).then(res => {
+                    if(res.code == 200) {
+                        this.$Message.info('Marking success!')
+                        this.GetData()
+                        this.bool = 0
+                    }else {
+                        this.$Message.info('Marking failed!')
+                    }
+                }).catch(err => {
+                    // console.log(err)
+                    return false
+                })
+            },
+            onSelect(value) { // 全选
+                if(value.length > 0) {
+                    let ids = []
+                    let message = []
+                    // 获取删除消息的id值
+                    value.forEach((value, index) => {
+                        ids.push(value.participant_id)
+                        message.push(value.message_id)
+                    })
+                    this.participant_id = ids
+                    this.message_id = message
+                }else {
+                    this.participant_id = []
+                    this.message_id = []
+                    return false
+                }
+            },
+            onDelete() {
+                // 判断用户是否选中
+                let formData = new FormData();
+                for(let i = 0; i < this.participant_id.length; i++) {
+                    formData.append('participants_id_list[]', this.participant_id[i])
+                }
+                for(let i = 0; i < this.message_id.length; i++) {
+                    formData.append('participants_id_list[]', this.message_id[i])
+                }
+                formData.append('type', this.bool == 0 ? 'inbox' : 'outbox')
+                formData.append('action', 'mark')
+
+                this.$request({
+                    url: '/message/mark_delete_message',
+                    method: 'post',
+                    data: formData,
+                    headers:{'Content-Type':'multipart/form-data'}
+                }).then(res => {
+                    if(res.code == 200) {
+                        this.$Message.info('Delete successful!')
+                        this.GetData()
+                        this.participant_id = []
+                        this.message_id = []
+                    }else {
+                        this.$Message.warning('Delete failed!')
+                        this.participant_id = []
+                        this.message_id = []
+                    }
+                }).catch(err => {
+                    console.log(err)
+                })
+               
+            },
+        },
+        mounted() {
+            this.GetData()
         },
         components: {
             "v-title": Title,

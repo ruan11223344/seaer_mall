@@ -109,7 +109,7 @@ const newRouter = new Router({
           component: () => import("./views/Inquiry/Collection/index.vue")
         },
         {
-          // 国旗
+          // 标记
           path: "flag",
           component: () => import("./views/Inquiry/Flag/index.vue")
         },

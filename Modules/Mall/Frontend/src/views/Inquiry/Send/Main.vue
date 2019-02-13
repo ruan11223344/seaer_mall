@@ -36,7 +36,7 @@
                     <div  @click="onSign(row.message_id)">
                         <v-img width="11" height="22" :imgSrc="row.is_flag ? require('@/assets/img/icon/baoj.png') : require('@/assets/img/icon/wbj.png')" style="marginRight: 9px;cursor: pointer;"></v-img>
                     </div>
-                    <router-link :to="'/inquiryList/read?' + 'message_id=' + row.message_id  + '&type=' + 'outbox'" tag="span" style="width:190px;overflow: hidden;textOverflow: ellipsis;whiteSpace: nowrap;cursor: pointer;">{{ 'Re:' + row.re }}</router-link>
+                    <router-link :to="'/inquiryList/read?' + 'message_id=' + row.message_id  + '&type=' + 'outbox'" tag="span" style="width:190px;overflow: hidden;textOverflow: ellipsis;whiteSpace: nowrap;cursor: pointer;">{{ (row.from_other_party_reply ? 'Re:' : '') + row.re }}</router-link>
                 </div>
             </template>
             <!-- 时间 -->
@@ -158,6 +158,8 @@
                 
                 dataFrom.forEach((value, index) => {
                     this.data6.push({ 
+                        is_reply: value.is_reply,
+                        from_other_party_reply: value.from_other_party_reply,
                         message_id: value.message_id,
                         re: value.subject,
                         read: value.other_party_is_read,
