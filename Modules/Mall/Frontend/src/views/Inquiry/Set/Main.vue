@@ -4,7 +4,7 @@
         <section class="set-main">
             <h1>Email notificatiom rules</h1>
             <div>
-                <Checkbox v-model="single" class="set-main-checkBox"></Checkbox>
+                <Checkbox v-model="single" class="set-main-checkBox" @on-change="onChange"></Checkbox>
                 <span>Send the notification email to me while new inquiry received</span>
             </div>
         </section>
@@ -17,8 +17,40 @@
     export default {
         data() {
             return {
-                single: true
+                single: false
             }
+        },
+        methods: {
+            GetData() {
+                this.$request({
+                    url: '/message/email_notification_status'
+                }).then(({ code, data }) => {
+                    if(code == 200) {
+                        this.filterRules(data.email_notification)
+                    }
+                }).catch(err => {
+                    return false
+                })
+            },
+            // 设置
+            filterRules(data) {
+                this.single = data
+            },
+            onChange(value) {
+                this.$request({
+                    url: '/message/set_email_notification',
+                    method: 'post',
+                }).then(({ code, data }) => {
+                    if(code == 200) {
+                        return true
+                    }
+                }).catch(err => {
+                    return false
+                })
+            }
+        },
+        mounted() {
+            this.GetData()
         },
         components: {
             "v-title": Title,
