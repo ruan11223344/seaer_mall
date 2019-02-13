@@ -565,6 +565,10 @@ class MessagesController extends Controller
 
         Validator::extend('participant_in_table', function($attribute, $value, $parameters)
         {
+            if($value == null){
+                return true;
+            }
+
             if(count($value) > 0){
                 foreach($value as $v) {
                     if(InquiryParticipants::find($v) == null){
@@ -577,6 +581,10 @@ class MessagesController extends Controller
 
         Validator::extend('message_in_table', function($attribute, $value, $parameters)
         {
+
+            if($value == null){
+                return true;
+            }
 
             if(count($value) > 0){
             foreach($value as $v) {
@@ -607,16 +615,20 @@ class MessagesController extends Controller
 
         if($type == 'inbox'){
             $participant_id_list = $request->input('participants_id_list');
-            InquiryParticipants::whereIn('id',$participant_id_list)->where('user_id',$user_id)->get()->map(function ($item)use ($action){
-                $item->forceFill(['extends->soft_deleted_at'=>$action == 'mark' ? Carbon::now()->toDateTimeString() :false]);
-                $item->save();
-            });
+            if($participant_id_list !== null){
+                InquiryParticipants::whereIn('id',$participant_id_list)->where('user_id',$user_id)->get()->map(function ($item)use ($action){
+                    $item->forceFill(['extends->soft_deleted_at'=>$action == 'mark' ? Carbon::now()->toDateTimeString() :false]);
+                    $item->save();
+                });
+            }
         }elseif ($type == 'outbox'){
             $message_id_list = $request->input('messages_id_list');
-            InquiryMessages::whereIn('id',$message_id_list)->where('user_id',$user_id)->get()->map(function ($item)use ($action){
-                $item->forceFill(['extends->soft_deleted_at'=>$action == 'mark' ? Carbon::now()->toDateTimeString() :false]);
-                $item->save();
-            });
+            if($message_id_list !== null){
+                InquiryMessages::whereIn('id',$message_id_list)->where('user_id',$user_id)->get()->map(function ($item)use ($action){
+                    $item->forceFill(['extends->soft_deleted_at'=>$action == 'mark' ? Carbon::now()->toDateTimeString() :false]);
+                    $item->save();
+                });
+            }
         }
 
         return $this->echoSuccessJson('操作成功!');
