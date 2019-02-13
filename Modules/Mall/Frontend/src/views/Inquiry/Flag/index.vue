@@ -170,8 +170,8 @@
                         break;
                 }
             },
+            // 标记收藏
             onSign(id, message_id) {
-                // 标记收藏
                 this.$request({
                     url: '/message/mark_flag_message',
                     method: 'post',
