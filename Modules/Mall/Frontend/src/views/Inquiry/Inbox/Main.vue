@@ -254,7 +254,8 @@
                     data: formData
                 }).then(res => {
                     if(res.code == 200) {
-                        this.$Message.info('Marked as spam inquiry');
+                        this.$Message.info('Marked as spam inquiry')
+                        this.GetRequest()
                     }                    
                 }).catch(err => {
                     console.log(err);
