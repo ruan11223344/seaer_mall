@@ -1413,6 +1413,46 @@ url:http://域名/api/message/message_info
 }
 ```
 
+2019-02-13 新增 查询邮箱通知设置
+```
+url:http://域名/api/message/email_notification_status
+
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+无普通参数
+
+返回：
+{
+    "code": 200,
+    "message": "获取邮箱通知状态成功!",
+    "data": {
+        "email_notification": true
+    }
+}
+```
+
+2019-02-13 新增 设置邮箱通知
+```
+url:http://域名/api/message/email_notification_status
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+无普通参数  注意该接口是一个翻转接口。
+
+返回：
+{
+    "code": 200,
+    "message": "设置成功!",
+    "data": []
+}
+```
+
+
+
 22.上传图片到相册目录
 ```
 url:http://域名/api/album/upload_img_to_album

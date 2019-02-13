@@ -713,4 +713,17 @@ class MessagesController extends Controller
         return $this->echoSuccessJson('成功!',$res_data);
     }
 
+    public function emailNotificationStatus(){
+        $res = Auth::user()->usersExtends->email_notification;
+        return $this->echoSuccessJson('获取邮箱通知状态成功!',['email_notification'=>$res]);
+    }
+
+    public function setEmailNotification(){
+        $user_extends = Auth::user()->usersExtends;
+        $res = $user_extends->email_notification;
+        $user_extends->email_notification = $res ? false : true;
+        $user_extends->save();
+        return $this->echoSuccessJson('设置成功!');
+    }
+
 }
