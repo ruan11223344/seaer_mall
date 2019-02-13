@@ -3,7 +3,7 @@
         <v-head :imgSrc="require('@/assets/img/login/bg2.png')"></v-head>
         <v-title title="Selected Subcatalog: "  class="updateInfo-title">
             <template slot="content">
-                <span class="updateInfo-title-text">Garlic</span>
+                <span class="updateInfo-title-text">{{ 'Garlic' }}</span>
                 <button type="button" class="updateInfo-title-btn">Reselect</button>
             </template>
         </v-title>
@@ -11,8 +11,50 @@
         <section class="Send-main-screening" style="marginBottom: 20px;">
             <div class="Send-main-screening-text">Basic Info</div>
         </section>
-
-      
+        <!-- Basic Info内容 -->
+        <template>
+            <section>
+                <Form ref="formInline" :model="formItem">
+                    <FormItem prop="">
+                        <Row :gutter="20">
+                            <Col span="6" class-name="updateInfo-lable">
+                                <span>Product Name</span>
+                            </Col>
+                            <Col span="15">
+                                <Input placeholder="eg: Pure white garlic wholesale"></Input>
+                            </Col>
+                        </Row>
+                    </FormItem>
+                    <FormItem prop="">
+                        <Row :gutter="20">
+                            <Col span="6" class-name="updateInfo-lable">
+                                <span>SKU No.</span>
+                            </Col>
+                            <Col span="15">
+                                <Input placeholder="SKU refers to the number of business management products, it is not visible to buyer."></Input>
+                            </Col>
+                        </Row>
+                    </FormItem>
+                    <FormItem prop="">
+                        <Row :gutter="20">
+                            <Col span="6" class-name="updateInfo-lable">
+                                <span>
+                                    Keyword
+                                    <span style="color: #999999;fontSize: 14px;">(Up to 3)</span>
+                                </span>
+                            </Col>
+                            <Col span="15">
+                                <Row>
+                                    <Col span="24">
+                                        <Input placeholder="The suggested length of keyword is 1-4 words."></Input>
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
+                    </FormItem>
+                </Form>
+            </section>
+        </template>
     </div>
 </template>
 
@@ -20,116 +62,22 @@
     import Title from "../components/Title"
     import Img from "@/components/Img"
     import Head from "../components/Head"
-    // import Select from "@/components/Select"
-    // // 图片预览插件
-    // import LightBox from 'vue-image-lightbox'
-    // import 'vue-image-lightbox/dist/vue-image-lightbox.min.css'
-    
-    // // 公共方法
-    // import getData from '@/utils/getData'
     
     export default {
         data() {
             return {
-                Business: [
-                    {   
-                        name: 'Manufacturer / Factory',
-                        active: true,
-                    },
-                    {   
-                        name: 'Manufacturer / Factory',
-                        active: false,
-                    },
-                    {   
-                        name: 'Manufacturer / Factory',
-                        active: false,
-                    },
-                    {   
-                        name: 'Manufacturer / Factory',
-                        active: false,
-                    },
-                    {   
-                        name: 'Manufacturer / Factory',
-                        active: false,
-                    },
-                ],
-                select: [
-                    {
-                        address: 'a',
-                        id: 0
-                    },
-                    {
-                        address: 'b',
-                        id: 1
-                    },
-                ],
-                Products: [ '' ],
-                // 图片预览
-                imgSrc: '',
-                imgSrc1: [
-                    {
-                        thumb: '',
-                        src: '',
-                    }
-                ],
+                formItem: {
+
+                }
             }
         },
         methods: {
-            onRadio(active, index) { // 单选
-                if(active) {
-                    this.Business.forEach((element, i) => {
-                        if(i != index) {
-                            this.$set(this.Business[i], 'active', false)
-                        }else {
-                            this.$set(this.Business[index], 'active', true)
-                        }
-                    })
-                }
-            },
-            onProductsAdd() { // 添加主要产品
-                if(this.Products.length < 5) {
-                    this.Products.push('')
-                }
-                return false
-            },
-            onProductsRemove(index) { // 删除主要产品
-                if(this.Products.length > 1) {
-                    this.$delete(this.Products, index)
-                }
-                return false
-            },
-            getObjectURL: getData.getObjectURL, // 获取图片本地地址
-            checkAllGroupChange(value) {
-                
-            },
-            onBeforeUpload(files) {
-                const type = (files.type.split('/'))[1]
-                // 判断上传图片是否符合格式
-                if(files.size > 1048576 || !(['jpg','jpeg','png'].includes(type))) { // 图片大于1M
-                    this.$Message.warning('Upload png, jpg,jpeg within 1M')
-                }else {
-                    // 获取图片路径
-                    this.imgSrc = this.getObjectURL(files)
-                    this.$set(this.imgSrc1[0], 'thumb', this.getObjectURL(files))
-                    this.$set(this.imgSrc1[0], 'src', this.getObjectURL(files))
-
-                    // this.$set(this.formItem, 'file', files)
-                }
-                // 阻止默认上传
-                return false;
-            },
-
-            // 图片预览
-            openGallery(index) {
-                this.$refs.lightbox.showImage(index)
-            },
+            
         },
         components: {
             "v-title": Title,
             "v-img": Img,
-            // "v-select": Select,
             "v-head": Head,
-            // LightBox
         }
     }
 </script>
@@ -159,6 +107,13 @@
                 color: #ffffff;
                 margin-left: 18px;
             }
+        }
+
+        &-lable {
+            text-align: right;
+            font-size: 16px;
+            line-height: 36px;
+            color: #333333;
         }
     }
 
