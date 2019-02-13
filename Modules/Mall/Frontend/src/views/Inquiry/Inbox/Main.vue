@@ -13,7 +13,7 @@
         <div class="Send-main-btn">
             <button @click="onDelete">Delete</button>
             <button style="width:109px;" @click="onSpam">Report Spam</button>
-            <span>Total {{ this.message_id.length }}</span>
+            <span>Total {{ participant_id.length }}</span>
         </div>
 
         <Table :height="data6.length > 8 ? 530 : ''" :columns="columns12" :data="data6" @on-selection-change="onSelect">
@@ -121,7 +121,7 @@
                     //     read: ''
                     // },
                 ],
-                message_id: [],
+                thread_id: [],
                 participant_id: []
             }
         },
@@ -211,7 +211,7 @@
             onDelete() {
                 // 判断用户是否选中
                 if(this.participant_id.length > 0) {
-                    let formData = new FormData();
+                    let formData = new FormData()
                     for(let i = 0; i < this.participant_id.length; i++) {
                         formData.append('participants_id_list[]', this.participant_id[i])
                     }
