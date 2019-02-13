@@ -1435,7 +1435,7 @@ url:http://域名/api/message/email_notification_status
 
 2019-02-13 新增 设置邮箱通知
 ```
-url:http://域名/api/message/email_notification_status
+url:http://域名/api/message/set_email_notification
 
 请求方法:post
 请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
