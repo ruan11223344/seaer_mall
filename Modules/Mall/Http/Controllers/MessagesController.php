@@ -211,7 +211,7 @@ class MessagesController extends Controller
         Validator::extend('extra_request_object', function($attribute, $value, $parameters)
         {
             try{
-                if(count($value) == 0 ){
+                if(count($value) == 0){
                     return true;
                 }
                 foreach($value as $v) {
@@ -569,7 +569,7 @@ class MessagesController extends Controller
                 return true;
             }
 
-            if(count($value) > 0 && !isEmpty($value[0])){
+            if(count($value) > 0 && !empty($value[0])){
                 foreach($value as $v) {
                     if(InquiryParticipants::find($v) == null){
                         return false;
@@ -582,7 +582,7 @@ class MessagesController extends Controller
         Validator::extend('message_in_table', function($attribute, $value, $parameters)
         {
 
-            if(count($value) > 0  && !isEmpty($value[0])){
+            if(count($value) > 0  && !empty($value[0])){
             foreach($value as $v) {
                 if(InquiryMessages::find($v) == null){
                     return false;
@@ -649,7 +649,7 @@ class MessagesController extends Controller
         $data = $request->all();
         Validator::extend('participant_in_table', function($attribute, $value, $parameters)
         {
-            if(count($value) > 0 && !isEmpty($value[0])){
+            if(count($value) > 0 && !empty($value[0])){
                 foreach($value as $v) {
                     if(InquiryParticipants::find($v) == null){
                         return false;
@@ -661,7 +661,7 @@ class MessagesController extends Controller
 
         Validator::extend('message_in_table', function($attribute, $value, $parameters)
         {
-            if(count($value) > 0 && !isEmpty($value[0])){
+            if(count($value) > 0 && !empty($value[0])){
                 foreach($value as $v) {
                     if(InquiryMessages::find($v) == null){
                         return false;
