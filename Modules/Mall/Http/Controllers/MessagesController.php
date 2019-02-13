@@ -637,22 +637,57 @@ class MessagesController extends Controller
         return $this->echoSuccessJson('成功!',[]);
     }
 
-    public function emptyMessage(){ //todo 可能会通过批量id删除
+    public function confirmDeleteMessage(Request $request){
+        $data = $request->all();
+        Validator::extend('participant_in_table', function($attribute, $value, $parameters)
+        {
+            if(count($value) > 0){
+                foreach($value as $v) {
+                    if(InquiryParticipants::find($v) == null){
+                        return false;
+                    }
+                }
+            }
+            return true;
+        });
+
+        Validator::extend('message_in_table', function($attribute, $value, $parameters)
+        {
+            if(count($value) > 0){
+                foreach($value as $v) {
+                    if(InquiryMessages::find($v) == null){
+                        return false;
+                    }
+                }
+            }
+            return true;
+        });
+
+        $validator = Validator::make($data,[
+            'participants_id_list'=>'required|participant_in_table|array',
+            'messages_id_list'=>'required|message_in_table|array',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+        }
+
+
         $user_id = Auth::id();
-        InquiryParticipants::where('user_id',$user_id)->where('extends->soft_deleted_at','!=',false)->get()->map(
+        InquiryParticipants::where('user_id',$user_id)->where('extends->soft_deleted_at','!=',false)->whereIn('id',$request->input('participants_id_list'))->get()->map(
             function ($item){
                 $item->forceFill(['extends->true_deleted_at'=>Carbon::now()->toDateTimeString()]);
                 $item->save();
             }
         );
 
-        InquiryMessages::where('user_id',$user_id)->where('extends->soft_deleted_at','!=',false)->get()->map(
+        InquiryMessages::where('user_id',$user_id)->where('extends->soft_deleted_at','!=',false)->whereIn('id',$request->input('messages_id_list'))->get()->map(
             function ($item){
                 $item->forceFill(['extends->true_deleted_at'=>Carbon::now()->toDateTimeString()]);
                 $item->save();
             }
         );
-        return $this->echoSuccessJson('清空成功!',[]);
+        return $this->echoSuccessJson('永久删除成功!',[]);
     }
 
     public function autoMarkSpamMessage(){
@@ -708,7 +743,6 @@ class MessagesController extends Controller
         if(count($res_data) == 0){
             return $this->echoErrorJson('失败!没有获取到任何消息!',[]);
         }
-
 
         return $this->echoSuccessJson('成功!',$res_data);
     }

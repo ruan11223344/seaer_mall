@@ -48,7 +48,8 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
             Route::post('mark_flag_message', 'MessagesController@markFlagMessage');
             Route::post('mark_delete_message', 'MessagesController@markDeleteMessage');
             Route::post('mark_read_message', 'MessagesController@markReadMessage');
-            Route::post('empty_message', 'MessagesController@emptyMessage'); //清空消息
+//            Route::post('empty_message', 'MessagesController@emptyMessage'); //清空消息 被禁用
+            Route::post('confirm_delete_message', 'MessagesController@confirmDeleteMessage'); //永久软删除消息
 
             Route::get('email_notification_status', 'MessagesController@emailNotificationStatus'); //查看邮件通知设置
             Route::post('set_email_notification', 'MessagesController@setEmailNotification'); //设置邮件通知

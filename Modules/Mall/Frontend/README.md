@@ -413,7 +413,7 @@ url:http://域名/api/message/create_message
 }
 ```
 
-11.清空已经删除的消息（清空回收站)
+11.清空已经删除的消息（清空回收站)  // 2019-02-13 此接口已删除！
 
 ```
 url:http://域名/api/message/empty_message
@@ -1451,6 +1451,25 @@ url:http://域名/api/message/set_email_notification
 }
 ```
 
+2019-02-13 新增 永久软删除消息
+```
+url:http://域名/api/message/confirm_delete_message
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+以下是普通参数 ↓
+参数:"participants_id_list[]",值:"32"   //必填 没有传 []空数组  inbox 的 id
+参数:"messages_id_list[]",值:"32"   //必填 没有传 []空数组 outbox 的 id
+
+返回：
+{
+    "code": 200,
+    "message": "永久删除成功!",
+    "data": []
+}
+```
 
 
 22.上传图片到相册目录
