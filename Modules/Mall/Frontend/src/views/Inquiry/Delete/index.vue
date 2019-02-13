@@ -1,12 +1,7 @@
 <template>
     <div class="Send-main">
         <v-title title="Delete Inquiry"></v-title>
-
-        <!-- <section class="Send-main-screening">
-            <div class="Send-main-screening-text Send-main-screening-text-active">Inbox <span>10</span></div>
-            <div class="Send-main-screening-hr"></div>
-            <div class="Send-main-screening-text">Sent <span>10</span></div>
-        </section> -->
+        
         <section class="Send-main-screening">
             <div :class="'Send-main-screening-text ' + (bool == 0 ? 'Send-main-screening-text-active' : '')" @click="bool=0, filterAll(inboxData)">Inbox <span>{{ inboxData.length }}</span></div>
             <div class="Send-main-screening-hr"></div>
@@ -14,12 +9,12 @@
         </section>
 
         <div class="Send-main-btn">
-            <button>Delete</button>
-            <button style="backgroundColor: #fff8f3;border: solid 1px #f0883a;color: #f0883a">Empty</button>
-            <span>Total 4</span>
+            <button @click="onDelete">Delete</button>
+            <button style="width: 109px;backgroundColor: #fff8f3;border: solid 1px #f0883a;color: #f0883a" @click="onCancel">Cancel  Delete</button>
+            <span>Total {{ bool == 0 ? participant_id.length : message_id.length }}</span>
         </div>
 
-        <Table :height="data6.length > 8 ? 530 : ''" :columns="columns12" :data="data6">
+        <Table :height="data6.length > 8 ? 530 : ''" :columns="columns12" :data="data6" @on-selection-change="onSelect">
             <!-- 地区 -->
             <template slot-scope="{ row }" slot="Contact">
                 <!-- <div class="Send-main-name">
@@ -107,6 +102,8 @@
                 ],
                 inboxData: [],
                 outboxData: [],
+                message_id: [],
+                participant_id: []
             }
         },
         methods: {
@@ -116,6 +113,8 @@
                 }).then(({ code, data }) => {
                     if(code == 200) {
                         this.filterData(data)
+                        console.log(data);
+                        
                     }
                 }).catch(err => {
                     return false
@@ -199,6 +198,85 @@
                         break;
                 }
             },
+            onSelect(value) { // 全选
+            console.log(value);
+            
+                if(value.length > 0) {
+                    let ids = []
+                    let message = []
+                    // 获取删除消息的id值
+                    value.forEach((value, index) => {
+                        ids.push(value.participant_id)
+                        message.push(value.message_id)
+                    })
+                    this.participant_id = ids
+                    this.message_id = message
+                }else {
+                    this.participant_id = []
+                    this.message_id = []
+                    return false
+                }
+            },
+            // 永久删除
+            onDelete() {
+                if(this.participant_id.length > 0 || this.message_id.length > 0) {
+                    let formData = new FormData()
+                
+                    for(let index = 0; index < this.participant_id.length; index++) {
+                        formData.append('participants_id_list[]', this.participant_id[index])
+                    }
+
+                    for(let index = 0; index < this.message_id.length; index++) {
+                        formData.append('messages_id_list[]', this.message_id[index])
+                    }
+
+                    this.$request({
+                        url: '/message/confirm_delete_message',
+                        method: 'post',
+                        data: formData,
+                        headers:{'Content-Type':'multipart/form-data'}
+                    }).then(res => {
+                        this.GetData()
+                    }).catch(err => {
+                        return false
+                    })
+                }else {
+                    return false
+                }
+            },
+            // 取消删除
+            onCancel() {
+                if(this.participant_id.length > 0 || this.message_id.length > 0) {
+                    let formData = new FormData()
+                
+                    for(let index = 0; index < this.participant_id.length; index++) {
+                        formData.append('participants_id_list[]', this.participant_id[index] ? this.participant_id[index] : [])
+                    }
+
+                    for(let index = 0; index < this.message_id.length; index++) {
+                        formData.append('messages_id_list[]', this.message_id[index])
+                    }
+
+                    formData.append('type', this.bool == 0 ? 'inbox' : 'outbox')
+                    formData.append('action', 'cancel')
+
+                    this.$request({
+                        url: '/message/mark_delete_message',
+                        method: 'post',
+                        data: formData,
+                        headers:{'Content-Type':'multipart/form-data'}
+                    }).then(res => {
+                        this.GetData()
+                        this.bool = 0
+                        this.message_id = []
+                        this.participant_id = []
+                    }).catch(err => {
+                        return false
+                    })
+                }else {
+                    return false
+                }
+            }
         },
         mounted() {
             this.GetData()

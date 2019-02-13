@@ -158,7 +158,7 @@ const newRouter = new Router({
           // 设置
         {
           path: 'set',
-          component: () => import("./views/Inquiry/Set/index.vue")        
+          component: () => import("./views/Inquiry/Set/index.vue")
         } 
       ]
     },
