@@ -155,6 +155,14 @@ const newRouter = new Router({
           path: 'uploadinfo',
           component: () => import("./views/Inquiry/UpdateInfo/index.vue")
         },
+        { // 审核
+          path: 'examine',
+          component: () => import("./views/Inquiry/Examine/index.vue")
+        },
+        { // 上传前审核
+          path: 'tips',
+          component: () => import("./views/Inquiry/Tips/index.vue")
+        },
           // 设置
         {
           path: 'set',
