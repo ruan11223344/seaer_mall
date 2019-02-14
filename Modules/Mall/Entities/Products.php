@@ -1,13 +1,13 @@
 <?php
 
 namespace Modules\Mall\Entities;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class Products extends Model
 {
-
-    protected $table = 'products_categories';
+    use SoftDeletes;
+    protected $table = 'products';
 
     protected $fillable = [
         'id',
@@ -21,6 +21,7 @@ class Products extends Model
         'product_audit_status',
         'product_publishing_time',
         'product_price_id',
+        'company_id',
     ];
 
     protected $casts = [
