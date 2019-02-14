@@ -163,6 +163,17 @@ const newRouter = new Router({
           path: 'tips',
           component: () => import("./views/Inquiry/Tips/index.vue")
         },
+        { // 相册
+          path: 'album',
+          component: () => import("./views/Inquiry/Album/index.vue"),
+          children: [
+            {
+              // 管理相册
+              path: "administration",
+              component: () => import("./views/Inquiry/Album/Administration/index.vue")
+            }
+          ]
+        },
           // 设置
         {
           path: 'set',
