@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterProductsSkuTable extends Migration
+class AlterProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AlterProductsSkuTable extends Migration
      */
     public function up()
     {
-        Schema::table('products_sku', function (Blueprint $table) {
-            $table->integer('sku_attr_id')->change();
+        Schema::table('products', function (Blueprint $table) {
+            $table->longText('product_details')->nullable();
         });
     }
 

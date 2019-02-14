@@ -1647,7 +1647,7 @@ url:http://域名/api/album/modify_photos
 ```
 
 
-28.获取相册id列表
+29.获取相册id列表
 ```
 url:http://域名/api/album/album_list
 
@@ -1698,5 +1698,118 @@ url:http://域名/api/album/album_list
 }
 ```
 
+
+30.获取商品分组列表
+```
+url:http://域名/api/shop/product_group/product_group_list
+
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+无普通参数 
+
+返回：
+{
+    "code": 200,
+    "message": "获取商品分组成功!",
+    "data": [
+        {
+            "id": 15,
+            "user_id": 13,
+            "group_name": "嘿嘿嘿ddd",
+            "parent_id": 0,
+            "show_home_page": true,
+            "sort": 22,
+            "created_at": "2019-02-14 16:40:45",
+            "updated_at": "2019-02-14 16:40:45",
+            "deleted_at": null,
+            "children": null
+        },
+        {
+            "id": 16,
+            "user_id": 13,
+            "group_name": "嘿嘿嘿dddd",
+            "parent_id": 0,
+            "show_home_page": true,
+            "sort": 22,
+            "created_at": "2019-02-14 16:43:50",
+            "updated_at": "2019-02-14 16:43:50",
+            "deleted_at": null,
+            "children": null
+        }
+    ]
+}
+```
+
+31.创建商品分组
+```
+url:http://域名/api/shop/product_group/create_products_group
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+json参数:
+{
+	"group_parent_id":null,   //父分组id 必填 没有为null
+	"group_name":"嘿嘿嘿ddddd", //必填 分组名称
+	"show_home_page":true,  //必填 布尔类型 是否在首页显示
+	"sort":22   // 必填 排序 数字 不排序 填0
+} 
+
+返回：
+{
+    "code": 200,
+    "message": "创建分组成功!",
+    "data": []
+}
+```
+
+32.修改商品分组
+```
+url:http://域名/api/shop/product_group/edit_products_group
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+json参数:
+{
+	"product_group_id":17,  //分组id 必填
+	"group_name":"嘿嘿嘿dddddfffffff",  //修改后的分组名称 必填
+	"show_home_page":true,  //必填 布尔类型 是否在首页显示
+	"sort":22  //必填 排序 数字 不排序 填0
+}
+
+返回：
+{
+    "code": 200,
+    "message": "更新商品分组成功!",
+    "data": []
+}
+```
+
+
+33.删除商品分组
+```
+url:http://域名/api/shop/product_group/edit_products_group
+
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+json参数:
+{
+"product_group_id":17  //分组id 必填
+} 
+
+返回：
+{
+    "code": 200,
+    "message": "分组删除成功! 分组ID：17",
+    "data": []
+}
+```
 
 

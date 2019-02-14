@@ -74,11 +74,27 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
 
     //商品
     Route::prefix('shop')->group(function() {
-            Route::get('get_category', 'Shop\ProductsCategoriesController@getProductsCategories')->name('shop.get.category');
+        Route::get('get_category', 'Shop\ProductsCategoriesController@getProductsCategories')->name('shop.get.category');
+        Route::prefix('product')->group(function (){
+            Route::group(['middleware' => ['client.credentials','auth:api']], function(){
+                Route::post('publish_product', 'Shop\ProductsController@publishProduct')->name('shop.publish.product');
+            });
+        });
+
+        Route::prefix('product_group')->group(function (){
+            Route::group(['middleware' => ['client.credentials','auth:api']], function(){
+                Route::get('product_group_list', 'Shop\ProductsGroupsController@productsGroupsList')->name('shop.group.list');
+                Route::post('edit_products_group', 'Shop\ProductsGroupsController@editProductsGroup')->name('shop.group.edit');
+                Route::post('create_products_group', 'Shop\ProductsGroupsController@createProductsGroup')->name('shop.group.create');
+                Route::post('delete_products_group', 'Shop\ProductsGroupsController@deleteProductsGroup')->name('shop.group.create');
+            });
+        });
     });
 
 
-    Route::group(['prefix' => 'utils'],function() {
+
+
+        Route::group(['prefix' => 'utils'],function() {
             Route::get('get_captcha','UtilsController@getCaptcha')->name('get_captcha');
             Route::post('check_captcha_url','UtilsController@checkCaptchaUrl')->name('check_captcha');
             Route::get('get_provinces_list','UtilsController@getProvincesList')->name('get_provinces_list');
