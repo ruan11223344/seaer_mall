@@ -66,7 +66,8 @@
                                 path: '/inquiryList/commodity'
                             },
                             {
-                                name:'Manage Photos'
+                                name:'Manage Photos',
+                                // path: '/inquiryList/commodity'
                             },
                             {
                                 name:'Group & Sort Products'
