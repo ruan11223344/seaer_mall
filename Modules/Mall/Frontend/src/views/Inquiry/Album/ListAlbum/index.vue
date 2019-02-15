@@ -23,7 +23,7 @@
                 <Checkbox v-model="single"></Checkbox>
                 <button type="button" class="albumlist-buttonAggregate-left-btn">Cancel</button>
                 <button type="button" class="albumlist-buttonAggregate-left-btn" @click="deletAlbum=true">Delete</button>
-                <button type="button" class="albumlist-buttonAggregate-left-btn">Move to other ablum</button>
+                <button type="button" class="albumlist-buttonAggregate-left-btn" @click="moveAlbum=true">Move to other ablum</button>
             </div>
             <div class="albumlist-buttonAggregate-right">
                 <span class="albumlist-buttonAggregate-right-sort">Sort by</span>
@@ -45,8 +45,19 @@
             </div>
         </template>
 
+        <!-- 删除图片 -->
         <template>
-            <v-deletealbum v-show="deletAlbum" @on-show="onShow"></v-deletealbum>
+            <v-deletealbum v-show="deletAlbum" @on-show="onDeleteShow"></v-deletealbum>
+        </template>
+        
+        <!-- 移动到其他相册 -->
+        <!-- <template>
+            <v-move-other-album></v-move-other-album>
+        </template> -->
+
+        <!-- 移动到其他相册操作 -->
+        <template>
+            <v-move-other-albums v-show="moveAlbum" @on-show="onMoveAlbum"></v-move-other-albums>
         </template>
     </div>
 </template>
@@ -58,6 +69,11 @@
     import CardInfoTemplateVue from '../components/Card-info-template.vue'
     // 删除功能
     import DeletAlbum from "../DeleteAlbum/index.vue"
+    // 移动到其他相册提示
+    import MoveOtherAlbum from '../MoveOtherAlbum/index.vue'
+    // 移动到其他相册操作
+    import MoveOtherAlbums from '../MoveOtherAlbums/index.vue'
+
 
     export default {
         data() {
@@ -92,19 +108,26 @@
                 ],
                 model1: '',
                 single: false,
-                deletAlbum: false
+                deletAlbum: false,
+                moveAlbum: false
             }
         },
         methods: {
-            onShow() {
+            onDeleteShow() {
                 this.deletAlbum = false
+            },
+            onMoveAlbum() {
+                this.moveAlbum = false
             }
         },
         components: {
             "v-title": Title,
             "v-img": Img,
             "v-card-info": CardInfoTemplateVue,
-            "v-deletealbum": DeletAlbum
+            "v-deletealbum": DeletAlbum,
+            "v-move-other-album": MoveOtherAlbum,
+            "v-move-other-albums": MoveOtherAlbums
+
         }
     }
 </script>
