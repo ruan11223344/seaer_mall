@@ -12,13 +12,17 @@
 
         <div>
             <button type="button" class="administration-btn" style="marginRight: 10px;">Upload Picture</button>
-            <button type="button" class="administration-btn">Create Album</button>
+            <button type="button" class="administration-btn" @click="createShow=true">Create Album</button>
         </div>
 
         <template>
             <div class="administration-main">
                 <v-card-template  v-for="(item, index) in 8" :key="index" class="administration-main-card"></v-card-template>
             </div>
+        </template>
+
+        <template>
+            <v-create @on-show="onShow" v-show="createShow"></v-create>
         </template>
     </div>
 </template>
@@ -27,14 +31,25 @@
     import Img from "@/components/Img"
     import Title from "../../components/Title"
     import CardTemplateVue from '../components/Card-template.vue';
-    
+    import CreateAlbum from '../CreateAlbum/index.vue'
 
 
     export default {
+        data() {
+            return {
+                createShow: false
+            }
+        },
+        methods: {
+            onShow(index) {
+                this.createShow = index
+            }
+        },
         components: {
             "v-title": Title,
             "v-img": Img,
-            "v-card-template": CardTemplateVue
+            "v-card-template": CardTemplateVue,
+            "v-create": CreateAlbum
         }
     }
 </script>

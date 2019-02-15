@@ -171,7 +171,7 @@ const newRouter = new Router({
               // 管理相册
               path: "administration",
               component: () => import("./views/Inquiry/Album/Administration/index.vue")
-            }
+            },
           ]
         },
           // 设置

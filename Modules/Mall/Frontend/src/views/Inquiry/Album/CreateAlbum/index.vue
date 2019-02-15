@@ -1,17 +1,6 @@
 <template>
-    <div class="card">
-        <figure>
-            <!-- <img src="" alt=""> -->
-            <v-img width="211" height="167" imgSrc=""></v-img>
-            <figcaption class="card-footer">
-                <div class="card-footer-title">Default Album</div>
-                <div class="card-footer-subheading">Total {{ '1754' }} photos</div>
-            </figcaption>
-        </figure>
-        <button type="button" class="card-edit" @click="editShow=true">Edit</button>
-
-        <!-- 模态框 -->
-        <v-modality-template title="Edit Album" @on-show="onShow" v-show="editShow">
+    <div>
+        <v-modality-template title="Create Album" @on-show="onShow">
             <section slot="main" class="createAlbum">
                  <Form :model="formLeft">
                     <FormItem>
@@ -20,7 +9,7 @@
                                 <span class="createAlbum-text">Album name</span>
                             </Col>
                             <Col span="16">
-                                <Input v-model="formLeft.input1" placeholder="Default  Album"></Input>
+                                <Input v-model="formLeft.input1"></Input>
                             </Col>
                         </Row>
                     </FormItem>
@@ -43,70 +32,32 @@
 </template>
 
 <script>
-    import Img from "@/components/Img"
-    import ModalityTemplateVue from './Modality-template.vue';
-
+    import ModalityTemplateVue from '../components/Modality-template.vue';
 
     export default {
         data() {
             return {
                 formLeft: {
 
-                },
-                editShow: false
+                }
             }
         },
+        props: {
+        },
         methods: {
+            // 隐藏模态框
             onShow() {
-                this.editShow = false
+                this.$emit('on-show', false)
             }
         },
         components: {
-            "v-img": Img,
             "v-modality-template": ModalityTemplateVue
-        }
+        }    
     }
 </script>
 
 <style lang="less" scoped>
     @import url('../../../../assets/css/index.less');
-
-    .card {
-        width: 211px;
-        border:1px solid #ccc;
-        display: inline-block;
-        
-        &-footer {
-            .flex(center, center);
-            flex-direction: column;
-            width: 211px;
-            height: 54px;
-            border: solid 1px #eeeeee;
-            // border-top: 0px;
-
-            &-title {
-                font-size: 16px;
-                color: #666666;
-            }
-
-            &-subheading {
-                font-size: 12px;
-                color: #999999;
-            }
-        }
-
-        &-edit {
-            display: block;
-            width: 50px;
-            height: 19px;
-            background-color: #f0883a;
-            border: none;
-            font-size: 14px;
-            color: #ffffff;
-            margin: 0px auto;
-            margin-top: 13px;
-        }
-    }
 
     .createAlbum {
         height: auto;
