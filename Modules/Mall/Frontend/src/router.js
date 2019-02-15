@@ -176,6 +176,10 @@ const newRouter = new Router({
               // 相册列表
               path: "listalbum",
               component: () => import("./views/Inquiry/Album/ListAlbum/index.vue")
+            },
+            {
+              path: "PicturePreview",
+              component: () => import("./views/Inquiry/Album/PicturePreview/index.vue")
             }
           ]
         },
