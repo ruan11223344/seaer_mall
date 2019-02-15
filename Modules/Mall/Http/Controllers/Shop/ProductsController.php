@@ -205,5 +205,11 @@ class ProductsController extends Controller
 
     }
 
+    public function editProduct(Request $request){
+
+    }
+
+
+
 
 }

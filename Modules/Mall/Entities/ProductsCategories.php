@@ -681,7 +681,7 @@ class ProductsCategories extends Model
     ];
 
     protected $hidden = [
-        '_lft', '_rgt','parent_id',
+        '_lft', '_rgt','parent_id','created_at','updated_at',
     ];
 
 }

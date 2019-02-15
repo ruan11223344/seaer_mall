@@ -74,7 +74,15 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
 
     //商品
     Route::prefix('shop')->group(function() {
-        Route::get('get_category', 'Shop\ProductsCategoriesController@getProductsCategories')->name('shop.get.category');
+        Route::prefix('category')->group(function (){
+            Route::get('get_category', 'Shop\ProductsCategoriesController@getProductsCategories')->name('shop.get.category');
+            Route::get('search_category', 'Shop\ProductsCategoriesController@searchProductsCategories')->name('shop.search.category');
+            Route::get('get_category_child', 'Shop\ProductsCategoriesController@getCategoriesChild')->name('shop.search.category.child');
+            Route::get('get_category_parent', 'Shop\ProductsCategoriesController@getCategoriesParent')->name('shop.search.category.parent');
+            Route::get('get_category_root', 'Shop\ProductsCategoriesController@getCategoriesRoot')->name('shop.search.category.root');
+        });
+
+
         Route::prefix('product')->group(function (){
             Route::group(['middleware' => ['client.credentials','auth:api']], function(){
                 Route::post('publish_product', 'Shop\ProductsController@publishProduct')->name('shop.publish.product');
@@ -90,8 +98,6 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
             });
         });
     });
-
-
 
 
         Route::group(['prefix' => 'utils'],function() {

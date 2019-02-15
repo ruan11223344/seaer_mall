@@ -343,9 +343,9 @@ url:http://域名/api/auth/register
 
 ```
 
-9.获取商品分类
+9.获取商品分类  2019-02-15修改路由
 ```
-url:http://域名/api/shop/get_category
+url:http://域名/api/shop/category/get_category
 
 请求方法:get
 参数:"无"    
@@ -1350,7 +1350,7 @@ url:http://域名/api/message/mark_read_message
 ```
 
 
-21.清空删除的消息
+21.清空删除的消息 // 2019-02-13 此接口已删除！
 
 ```
 url:http://域名/api/message/empty_message
@@ -1813,3 +1813,164 @@ json参数:
 ```
 
 
+34.搜索关键词获取分类列表
+```
+url:http://域名/api/shop/category/search_category
+
+请求方法:get
+json参数:
+{"keywords":"玩具"} //必填 关键词
+
+ 
+返回:
+{
+    "code": 200,
+    "message": "搜索关键词分类成功!",
+    "data": [
+        {
+            "name": "Hotel Products > Room supplies > Towel",
+            "categories_id": 382
+        }
+    ]
+}
+```
+
+
+35.获取分类的子分类列表
+```
+url:http://域名/api/shop/category/get_category_child
+
+请求方法:get
+json参数:
+{"categories_id":1} //必填 分类id
+
+ 
+返回:
+{
+    "code": 200,
+    "message": "获取子分类成功!",
+    "data": [
+        {
+            "id": 2,
+            "name": "Engine Parts",
+            "sort": 0
+        },
+        {
+            "id": 26,
+            "name": "Transmission Parts",
+            "sort": 0
+        },
+        {
+            "id": 37,
+            "name": "Chassis Parts",
+            "sort": 0
+        },
+        {
+            "id": 54,
+            "name": "Body & Interiorand Exterior Parts",
+            "sort": 0
+        },
+        {
+            "id": 81,
+            "name": "Maintenance & Modification Supplies",
+            "sort": 0
+        },
+        {
+            "id": 98,
+            "name": "Auto Repair Tool",
+            "sort": 0
+        }
+    ]
+}
+```
+
+36.获取分类的父分类
+```
+url:http://域名/api/shop/category/get_category_parent
+
+请求方法:get
+json参数:
+{"categories_id":3} //必填 分类id
+ 
+返回:
+{
+    "code": 200,
+    "message": "获取父分类成功!",
+    "data": {
+        "id": 2,
+        "name": "Engine Parts",
+        "sort": 0
+    }
+}
+```
+
+37.获取根分类列表
+```
+url:http://域名/api/shop/category/get_category_root
+
+请求方法:get
+没有参数
+
+返回:
+{
+    "code": 200,
+    "message": "获取根分类成功!",
+    "data": [
+        {
+            "id": 1,
+            "name": "Auto & Transportation",
+            "sort": 0
+        },
+        {
+            "id": 127,
+            "name": "Construction",
+            "sort": 0
+        },
+        {
+            "id": 199,
+            "name": "Home Furniture",
+            "sort": 0
+        },
+        {
+            "id": 275,
+            "name": "Household Appliances",
+            "sort": 0
+        },
+        {
+            "id": 311,
+            "name": "Lights",
+            "sort": 0
+        },
+        {
+            "id": 348,
+            "name": "Hotel Products",
+            "sort": 0
+        },
+        {
+            "id": 405,
+            "name": "Fabric Material",
+            "sort": 0
+        },
+        {
+            "id": 466,
+            "name": "Metal Parts & Tools",
+            "sort": 0
+        },
+        {
+            "id": 532,
+            "name": "Packaging",
+            "sort": 0
+        },
+        {
+            "id": 540,
+            "name": "Idle Item",
+            "sort": 0
+        },
+        {
+            "id": 546,
+            "name": "Food & Beverage / Agriculture",
+            "sort": 0
+        }
+    ]
+}
+```
