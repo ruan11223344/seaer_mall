@@ -32,7 +32,7 @@
 </template>
 
 <script>
-    import ModalityTemplateVue from '../components/Modality-template.vue';
+    import ModalityTemplateVue from '../components/Modality-template.vue'
 
     export default {
         data() {
