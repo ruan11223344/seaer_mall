@@ -38,8 +38,6 @@
     import CreateAlbum from '../CreateAlbum/index.vue'
     import UploadAlbum from '../UploadAlbum/index.vue'
     
-
-
     export default {
         data() {
             return {
