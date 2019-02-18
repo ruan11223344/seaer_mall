@@ -11,7 +11,7 @@
         </section>
 
         <div>
-            <button type="button" class="administration-btn" style="marginRight: 10px;">Upload Picture</button>
+            <button type="button" class="administration-btn" style="marginRight: 10px;" @click="uploadShow=true">Upload Picture</button>
             <button type="button" class="administration-btn" @click="createShow=true">Create Album</button>
         </div>
 
@@ -22,7 +22,11 @@
         </template>
 
         <template>
-            <v-create @on-show="onShow" v-show="createShow"></v-create>
+            <v-create @on-show="onCreateShow" v-show="createShow"></v-create>
+        </template>
+
+        <template>
+            <v-upload @on-show="onUploadShow" v-show="uploadShow"></v-upload>
         </template>
     </div>
 </template>
@@ -32,24 +36,31 @@
     import Title from "../../components/Title"
     import CardTemplateVue from '../components/Card-template.vue';
     import CreateAlbum from '../CreateAlbum/index.vue'
-
-
+    import UploadAlbum from '../UploadAlbum/index.vue'
+    
     export default {
         data() {
             return {
-                createShow: false
+                createShow: false,
+                uploadShow: false,
             }
         },
         methods: {
-            onShow(index) {
-                this.createShow = index
+            onCreateShow(index) {
+                this.createShow = false
+            },
+            onUploadShow(index) {
+                console.log(1);
+                
+                this.uploadShow = false
             }
         },
         components: {
             "v-title": Title,
             "v-img": Img,
             "v-card-template": CardTemplateVue,
-            "v-create": CreateAlbum
+            "v-create": CreateAlbum,
+            "v-upload": UploadAlbum
         }
     }
 </script>

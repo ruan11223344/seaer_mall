@@ -172,6 +172,15 @@ const newRouter = new Router({
               path: "administration",
               component: () => import("./views/Inquiry/Album/Administration/index.vue")
             },
+            {
+              // 相册列表
+              path: "listalbum",
+              component: () => import("./views/Inquiry/Album/ListAlbum/index.vue")
+            },
+            {
+              path: "PicturePreview",
+              component: () => import("./views/Inquiry/Album/PicturePreview/index.vue")
+            }
           ]
         },
           // 设置
