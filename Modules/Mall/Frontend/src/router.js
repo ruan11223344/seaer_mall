@@ -183,6 +183,10 @@ const newRouter = new Router({
             }
           ]
         },
+        { // 产品分组
+          path: 'SortProducts',
+          component: () => import("./views/Inquiry/Sort/index.vue")
+        },
           // 设置
         {
           path: 'set',

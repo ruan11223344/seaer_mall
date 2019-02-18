@@ -50,7 +50,6 @@
                 this.createShow = false
             },
             onUploadShow(index) {
-                console.log(1);
                 
                 this.uploadShow = false
             }
