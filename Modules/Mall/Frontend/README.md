@@ -2038,3 +2038,56 @@ json参数
     "data": []
 }
 ```
+
+
+40.上传发布商品的图片
+```
+url:http://域名/api/shop/product/upload_product_img
+
+请求方法:post    form-data 传值
+product_img //上传的图片 必须 只能有一个图片文件 不能超过1024kb 
+where  //必填 商品哪里的图  只能是 main 1 2 3 4 这5个值
+
+返回:
+{
+    "code": 200,
+    "message": "上传成功!",
+    "data": {
+        "img_path": {
+            "960 (2).jpeg": "mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg"  //原始文件名+文件path
+        },
+        "img_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",  //直接可以访问的url
+        "where": "main" //商品哪里的图
+    }
+}
+```
+
+
+41.发布商品
+```
+url:http://域名/api/shop/product/publish_product
+
+json参数:
+{
+	"product_attr":[{"颜色":"绿色"},{"颜色":"黑色"},{"容量":"32G"},{"容量":"64G"},{"容量":"128G"},{"尺寸":"超大"},{"尺寸":"超小"}],  //商品属性  数组格式  内部为对象
+	
+	"product_name":"超级无敌大飞车玩具赛车黄色1",  //商品名称
+	"product_sku_no":100023,  //商品编号
+	"product_keywords":["玩具","赛车"],  //商品关键词  数组
+	"product_images":[{"main":"mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg"},{"1":"mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg"},{"2":"mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg"},{"3":"mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg"},{"4":"mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg"}],  //商品图片 数组 内部为文件path
+	"product_price":[[{"min_order":"10"},{"order_price":"800"},{"unit":"Pieces"}],[{"min_order":"20"},{"order_price":"500"},{"unit":"Pieces"}]],     //价格 数组  此为阶梯价 基本价格式 [{"min_order":"50","min_order_price":"100","max_order_price":"200","unit":"Pieces"}]
+	"product_price_type":"ladder", //价格类型 必填  ladder 或 base
+	"product_details":"这里是描述描述再秒睡<div>大萨达撒多撒大萨达sad撒<div/>",  //商品详情 可以是 html
+	"product_publishing_time":"2019-03-14 11:00:00",  //定时发布时间 不定时发布 传 null
+	"product_categories_id":1,  //分类id
+	"product_group_id":null, //分组id 不设置传null 
+	"product_put_warehouse":false  //是否放入仓库  布尔值
+}
+
+返回:
+{
+    "code": 200,
+    "message": "创建商品成功!",
+    "data": []
+}
+```

@@ -368,24 +368,4 @@ class RegisterController extends Controller
         return $AfId;
     }
 
-    public function updateBusinessLicenseImage($pic){
-        if(!empty($pic)){
-            if (!$pic->isValid()) {
-                return false;
-            }else{
-                //获取后缀名
-                $titles = $pic->getClientOriginalExtension();
-                // 获取图片在临时文件中的地址
-                $pic_path = $pic->getRealPath();
-                // 制作文件名
-                $key = time() . rand(10000, 99999999) . '.'.$titles;
-                //阿里 OSS 图片上传
-                $oss = Oss::getInstance();
-                $result = $oss->put('business_license/'.$key, file_get_contents($pic_path));
-
-                if (!$result) return false;
-                return $oss->url('business_license/'.$key);
-            }
-        }
-    }
 }

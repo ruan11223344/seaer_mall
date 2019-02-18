@@ -21,6 +21,9 @@ class UtilsController extends Controller
     const OSS_FILE_PATH = 'mall';
 
     use EchoJson;
+
+
+
     public function getCaptcha(){
         return $this->echoSuccessJson('获取验证码成功!',app('captcha')->create('default', true));
     }
@@ -124,9 +127,9 @@ class UtilsController extends Controller
                 return false;
             }
             if($return_name){
-               return [$file->getClientOriginalName()=>$oss->url($to_path.$key)];
+               return [$file->getClientOriginalName()=>$to_path.$key];
             }else{
-                return $oss->url($to_path.$key);
+                return $to_path.$key;
             }
     }
 
@@ -153,6 +156,10 @@ class UtilsController extends Controller
         return self::OSS_FILE_PATH.'/users/'.$af_id.'/private/';
     }
 
+    public static function getUserProtectedDirectory($af_id){
+        return self::OSS_FILE_PATH.'/users/'.$af_id.'/private/';
+    }
+
     public static function getUserIdFormAfId($af_id){
         $user_ex = UsersExtends::where('af_id',$af_id)->first();
         if($user_ex != null){
@@ -160,5 +167,10 @@ class UtilsController extends Controller
         }
         return null;
     }
+
+    public static function getPathFileUrl($path){
+        return env('OSS_URL').$path;
+    }
+
 
 }

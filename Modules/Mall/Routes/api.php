@@ -80,8 +80,11 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
         //商品产品
         Route::prefix('product')->group(function (){
             Route::group(['middleware' => ['client.credentials','auth:api']], function(){
-                Route::post('publish_product', 'Shop\ProductsController@publishProduct')->name('shop.publish.product');
-                Route::get('check_publish_product_permissions', 'Shop\ProductsController@checkPublishProductPermissions')->name('shop.publish.product.permissions');  //商品发布权限检查
+                Route::post('publish_product', 'Shop\ProductsController@publishProduct')->name('shop.product.publish');
+                Route::get('check_publish_product_permissions', 'Shop\ProductsController@checkPublishProductPermissions')->name('shop.product.publish.permissions');//商品发布权限检查
+                Route::post('upload_product_img', 'Shop\ProductsController@uploadProductImg')->name('shop.product.uploadImg');
+                Route::get('get_product_list', 'Shop\ProductsController@getProductList')->name('shop.product.productList');
+
             });
         });
         //商品分组

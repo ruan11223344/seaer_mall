@@ -22,7 +22,8 @@ class Products extends Model
         'product_publishing_time',
         'product_price_id',
         'company_id',
-        'product_attr_id'
+        'product_attr_id',
+        'product_details'
     ];
 
     protected $casts = [
@@ -32,6 +33,10 @@ class Products extends Model
 
     public function products_categories(){
         return $this->hasOne('Modules\Mall\Entities\ProductsCategories','id','product_categories_id');
+    }
+
+    public function products_price(){
+        return $this->hasOne('Modules\Mall\Entities\ProductsPrice','id','product_price_id');
     }
 
 }

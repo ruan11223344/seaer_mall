@@ -231,6 +231,10 @@ class AlbumController extends Controller
 
         $data = AlbumPhoto::where(['album_id'=>$album->id,'soft_delete'=>false])->get()->toArray();
 
+        foreach ($data as $k=>$v){
+            $data[$k]['photo_url'] = UtilsController::getPathFileUrl($v['photo_url']);
+        }
+
         return $this->echoSuccessJson('获取相册图片列表成功!',$data);
     }
 
