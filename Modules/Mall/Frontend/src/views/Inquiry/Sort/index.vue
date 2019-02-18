@@ -56,8 +56,8 @@
                             <dd class="products-table-body-dl-text products-table-body-dl-operation">
                                 <template>
                                     <section class="products-table-body-dl-operation-btns">
-                                        <button type="button">Delete</button>
-                                        <button type="button">Edit</button>
+                                        <button type="button" @click="deletAlbum=true">Delete</button>
+                                        <button type="button" @click="EditCategory=true">Edit</button>
                                     </section>
                                 </template>
                             </dd>
@@ -123,7 +123,10 @@
                 <v-sort-template title="Add Sub-category" v-show="SubCategory" @on-show="onSubCategory"></v-sort-template>
             </template>
 
-            
+            <!-- 排序----编辑-新类别 -->
+            <template>
+                <v-sort-template title="Edit  Category" v-show="EditCategory" @on-show="onEditCategory"></v-sort-template>
+            </template>
         </template>
     </div>
 </template>
@@ -141,7 +144,8 @@
                 single: false,
                 deletAlbum: false,
                 NewCategory: false,
-                SubCategory: false
+                SubCategory: false,
+                EditCategory: false
             }
         },
         methods: {
@@ -153,6 +157,9 @@
             },
             onSubCategory() {
                 this.SubCategory = false
+            },
+            onEditCategory() {
+                this.EditCategory = false
             }
         },
         components: {
