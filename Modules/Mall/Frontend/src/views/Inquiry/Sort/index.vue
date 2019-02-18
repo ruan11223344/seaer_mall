@@ -4,7 +4,7 @@
         <template>
             <section class="products-btns">
                 <button type="button" @click="deletAlbum=true">Delete</button>
-                <button type="button">New Category</button>
+                <button type="button" @click="NewCategory=true">New Category</button>
             </section>
         </template>
 
@@ -181,9 +181,14 @@
                 </template>
             </section>
 
-            <!-- 删除图片 -->
+            <!-- 删除 -->
             <template>
                 <v-deletealbum v-show="deletAlbum" @on-show="onDeleteShow"></v-deletealbum>
+            </template>
+
+            <!-- 排序 -->
+            <template>
+                <v-sort-template title="New Category" v-show="NewCategory" @on-show="onNewCategory"></v-sort-template>
             </template>
         </template>
     </div>
@@ -194,26 +199,29 @@
     import Title from "../components/Title/index.vue"
     // 删除功能
     import DeletAlbum from "./DeleteAlbum/index.vue"
-
+    // 排序
+    import SortTemplate from './Sort-template/index.vue'
     export default {
         data() {
             return {
                 single: false,
-                deletAlbum: true,
+                deletAlbum: false,
+                NewCategory: false
             }
         },
         methods: {
             onDeleteShow() {
                 this.deletAlbum = false
             },
-            onMoveAlbum() {
-                this.moveAlbum = false
+            onNewCategory() {
+                this.NewCategory = false
             }
         },
         components: {
             "v-title": Title,
             "v-img": Img,
             "v-deletealbum": DeletAlbum,
+            "v-sort-template": SortTemplate
 
         }
     }
