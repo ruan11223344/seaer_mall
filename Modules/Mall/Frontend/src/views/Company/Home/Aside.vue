@@ -1,16 +1,30 @@
 <template>
     <div>
         <!-- 侧边栏 -->
-        <aside class="company-home-main-aside"  :style="{ height: (81 + 16 * aside.length + 26 * aside.length - 1) + 'px' }">
+        <!-- <aside class="company-home-main-aside"  :style="{ height: (81 + 16 * aside.length + 26 * aside.length - 1) + 'px' }"> -->
+        <aside class="company-home-main-aside">
             <div class="company-home-main-aside-title"> 
                 <v-img width="21" height="15" :imgSrc="require('@/assets/img/icon/fenlei.png')" class="company-home-main-aside-title-icon"></v-img>
-                Products
+                All Products
             </div>
 
-            <ul class="company-home-main-aside-item">
-                <li class="company-home-main-aside-item-list" v-for="(item, index) in aside" :key="index" v-text="item"></li>
-            </ul>
+            <aside class="inquire-aside">
+                <ul>
+                    <li v-for="(item, index) in menuList" :key="index">
+                        <div ref="menuList" class="inquire-aside-title" @click="onClick(item,index)">
+                            <span>
+                                {{ item.name }}
+                            </span>
+                            <Icon type="ios-arrow-forward" style="transition: all 0.2s;" :style="{transform: item.isSubShow ? 'rotate(90deg)' : 'rotate(0deg)' }"/>
+                        </div>
+                        <ul class="inquire-aside-items" :style="{ height: item.isSubShow ? item.subItems.length * 35 + 'px' : ''  }">
+                            <router-link :style="{ color: $route.path == path ? '#f0883a' : ''}" v-for="({name, path}, i) in item.subItems" :key="i" :to="path ? path : ''" tag="li">{{ name }}</router-link>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
         </aside>
+        
         <!-- 公司介绍 -->
         <section class="company-home-main-fixed">
             <!-- logo -->
@@ -68,7 +82,41 @@
                     'Building materials',
                     'Building materials',
                 ],
-                isShade: false
+                isShade: false,
+                menuList: [
+                    {
+                        name:'Account Center',
+                        isSubShow:false,
+                        subItems:[
+                            {
+                                name:'Building materials123'
+                            },
+                            {
+                                name:'Building materials',
+                                // path: '/inquiryList/companyinfo'
+                            },
+                            {
+                                name:'Building materials'
+                            },
+                            {
+                                name:'Building materials',
+                                // path: '/inquiryList/picture'
+                            }
+                        ]
+                    },
+                    {
+                        name:'Account Center',
+                        isSubShow:false,
+                        subItems:[
+                            {
+                                name:'Building materials'
+                            },
+                            {
+                                name:'Building materials'
+                            }
+                        ]
+                    },
+                ]
             }
         },
         methods: {
@@ -77,7 +125,26 @@
             },
             onBlur() {
                 this.text.length > 0 ? '' : this.text = 'We suggest you detail your preduct requirements and company information here(Enter between 20-4000characters)'
-            }
+            },
+            onClick(item, index) {
+                this.menuList.forEach((i,inx) => {
+                    if (inx !== index) {
+                        i.isSubShow = false;
+                    }else {
+                        i.isSubShow = true;
+                    }
+                });
+            },
+        },
+        mounted() {
+            const path = this.$route.path
+            this.menuList.forEach(value => {
+                value.subItems.forEach(v => {
+                    if(v.path == path) {
+                        value.isSubShow = true
+                    }
+                })
+            })
         },
         components: {
             "v-img": Img
@@ -312,5 +379,42 @@
             font-size: 18px;
             margin: 0px auto;
         }
+    }
+
+    .inquire-aside {
+        align-self: flex-start;
+        .bg-color(white);
+        padding: 6px 18px;
+        padding-left: 0px;
+        overflow: hidden;
+
+        &-title {
+            .flex(space-between);
+            font-size: 16px;
+            line-height: 1;
+            color: #333333;
+            cursor: pointer;
+            margin-top: 21px;
+        }
+
+        &-items {
+            overflow: hidden;
+            height: 0px;
+            transition: height 0.2s;
+            cursor: pointer;
+            
+            & > li {
+                font-size: 14px;
+                line-height: 1;
+                color: #999999;
+                margin-top: 21px;
+                .textHidden();
+            }
+
+            & > li:hover {
+                color: #f0883a;
+            }
+        }
+        
     }
 </style>

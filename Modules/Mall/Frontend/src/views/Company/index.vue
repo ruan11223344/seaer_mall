@@ -5,13 +5,15 @@
         <header class="header">
             <v-nav></v-nav>
         </header>
-        
-        <div style="backgroundColor:#ffffff">
-            <!-- 搜索 -->
+
+        <!-- 搜索 -->
+        <!-- <div style="backgroundColor:#ffffff">
             <section class="container search">
                 <v-search></v-search>
             </section>
-        </div>
+        </div> -->
+
+        
 
         <!-- 子页面渲染 -->
         <router-view></router-view>
@@ -19,7 +21,6 @@
         <!-- 页脚 -->
         <v-footer-nav></v-footer-nav>
         <v-footer></v-footer>
-        
     </div>
 </template>
 
@@ -27,12 +28,12 @@
     import Header from "@/components/Header"
     import FooterNav from "@/components/Footer-nav"
     import Footer from "@/components/Footer"
-    import Search from "@/components/Search"
+    // import Search from "@/components/Search"
     
     export default {
         components: {
             'v-nav': Header,
-            'v-search': Search,
+            // 'v-search': Search,
             'v-footer-nav': FooterNav,
             'v-footer': Footer,
         }
@@ -47,7 +48,9 @@
         background-color: #1c1a1a;
     }
     // 搜索
-    .search {
-        height: 100px;
-    }
+    // .search {
+    //     height: 100px;
+    // }
+
+    
 </style>
