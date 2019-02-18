@@ -3,7 +3,7 @@
         <v-title title="Group & Sort Products"></v-title>
         <template>
             <section class="products-btns">
-                <button type="button">Delete</button>
+                <button type="button" @click="deletAlbum=true">Delete</button>
                 <button type="button">New Category</button>
             </section>
         </template>
