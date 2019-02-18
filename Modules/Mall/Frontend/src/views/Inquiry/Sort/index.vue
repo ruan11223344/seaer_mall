@@ -36,7 +36,7 @@
                                 <template>
                                     <div class="products-table-body-dl-name-open products-table-body-dl-name-open-add"></div>
                                     <span class="products-table-body-dl-name-text">Beauty and Hair </span>
-                                    <button type="button" class="products-table-body-dl-name-btn">Add Sub-category</button>
+                                    <button type="button" class="products-table-body-dl-name-btn" @click="SubCategory=true">Add Sub-category</button>
                                 </template>
                             </dd>
                             <dd class="products-table-body-dl-text products-table-body-dl-sort">
@@ -63,79 +63,6 @@
                             </dd>
                         </dl>
                         <dl class="products-table-body-dl">
-                            <dd class="products-table-body-dl-checkbox">
-                                <!-- <template>
-                                    <Checkbox v-model="single" size="large"></Checkbox>
-                                </template> -->
-                            </dd>
-                            <dd class="products-table-body-dl-text products-table-body-dl-name ">
-                                <template>
-                                    <div class="products-table-body-dl-name-seat"></div>
-                                    <span class="products-table-body-dl-name-text products-table-body-dl-name-dot">Beauty and Hair </span>
-                                </template>
-                            </dd>
-                            <dd class="products-table-body-dl-text products-table-body-dl-sort">
-                                <template>
-                                    <span>
-                                        0
-                                    </span>
-                                </template>
-                            </dd>
-                            <dd class="products-table-body-dl-text products-table-body-dl-display">
-                                <template>
-                                    <span>
-                                        Yes
-                                    </span>
-                                </template>
-                            </dd>
-                            <dd class="products-table-body-dl-text products-table-body-dl-operation">
-                                <template>
-                                    <section class="products-table-body-dl-operation-btns">
-                                        <button type="button">Delete</button>
-                                        <button type="button">Edit</button>
-                                    </section>
-                                </template>
-                            </dd>
-                        </dl>
-                    </template>
-                    <template>
-                        <dl class="products-table-body-dl">
-                            <dd class="products-table-body-dl-checkbox">
-                                <template>
-                                    <Checkbox v-model="single" size="large"></Checkbox>
-                                </template>
-                            </dd>
-                            <dd class="products-table-body-dl-text products-table-body-dl-name ">
-                                <template>
-                                    <div class="products-table-body-dl-name-open products-table-body-dl-name-open-add"></div>
-                                    <span class="products-table-body-dl-name-text">Beauty and Hair </span>
-                                    <button type="button" class="products-table-body-dl-name-btn">Add Sub-category</button>
-                                </template>
-                            </dd>
-                            <dd class="products-table-body-dl-text products-table-body-dl-sort">
-                                <template>
-                                    <span>
-                                        0
-                                    </span>
-                                </template>
-                            </dd>
-                            <dd class="products-table-body-dl-text products-table-body-dl-display">
-                                <template>
-                                    <span>
-                                        Yes
-                                    </span>
-                                </template>
-                            </dd>
-                            <dd class="products-table-body-dl-text products-table-body-dl-operation">
-                                <template>
-                                    <section class="products-table-body-dl-operation-btns">
-                                        <button type="button">Delete</button>
-                                        <button type="button">Edit</button>
-                                    </section>
-                                </template>
-                            </dd>
-                        </dl>
-                        <dl class="products-table-body-dl" v-show="false">
                             <dd class="products-table-body-dl-checkbox">
                                 <!-- <template>
                                     <Checkbox v-model="single" size="large"></Checkbox>
@@ -186,10 +113,17 @@
                 <v-deletealbum v-show="deletAlbum" @on-show="onDeleteShow"></v-deletealbum>
             </template>
 
-            <!-- 排序 -->
+            <!-- 排序----新类别 -->
             <template>
                 <v-sort-template title="New Category" v-show="NewCategory" @on-show="onNewCategory"></v-sort-template>
             </template>
+
+            <!-- 排序----子类-新类别 -->
+            <template>
+                <v-sort-template title="Add Sub-category" v-show="SubCategory" @on-show="onSubCategory"></v-sort-template>
+            </template>
+
+            
         </template>
     </div>
 </template>
@@ -206,7 +140,8 @@
             return {
                 single: false,
                 deletAlbum: false,
-                NewCategory: false
+                NewCategory: false,
+                SubCategory: false
             }
         },
         methods: {
@@ -215,6 +150,9 @@
             },
             onNewCategory() {
                 this.NewCategory = false
+            },
+            onSubCategory() {
+                this.SubCategory = false
             }
         },
         components: {
