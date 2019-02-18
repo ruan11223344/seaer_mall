@@ -8,9 +8,7 @@
 
 namespace Modules\Mall\Http\Controllers\Shop;
 
-use App\Utils\City;
 use App\Utils\EchoJson;
-use App\Utils\Oss;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -19,10 +17,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Modules\Mall\Entities\Products;
 use Modules\Mall\Entities\ProductsAttr;
-use Modules\Mall\Entities\ProductsGroup;
 use Modules\Mall\Entities\ProductsPrice;
 use Modules\Mall\Entities\ProductsProductsGroup;
-use Modules\Mall\Entities\UsersExtends;
 
 class ProductsController extends Controller
 {
@@ -124,17 +120,20 @@ class ProductsController extends Controller
             'product_status'=>'required|in:0,1'
         ]);
 
-
-
         if ($validator->fails()) {
             return $this->echoErrorJson('表单验证失败!'.$validator->messages());
         }
 
+        $pub_status = self::getPublishProductPermissions();
+
+        if($pub_status[0] == false){
+            return $this->echoErrorJson('不能发布商品! 详细信息: '.$pub_status[1]);
+        }
 
         $product_name = $request->input('product_name');
         $product_categories_id = $request->input('product_categories_id');
         $product_sku_no = $request->input('product_sku_no');
-        $product_keywords = $request->input('product_keywords'); //todo 组装对象格式
+        $product_keywords = $request->input('product_keywords');
         $product_group_id = $request->input('product_group_id');
         $product_attr = $request->input('product_attr');
         $product_images = $request->input('product_images');
@@ -166,7 +165,6 @@ class ProductsController extends Controller
                 );
             }
 
-
            $product_model = Products::create(
                [
                    'product_name'=>$product_name,
@@ -191,9 +189,7 @@ class ProductsController extends Controller
                    ]
                );
            }
-
            DB::commit();
-
            return $this->echoSuccessJson('创建商品成功!');
         }catch (Exception $e){
             DB::rollback();
@@ -206,6 +202,10 @@ class ProductsController extends Controller
     }
 
     public function editProduct(Request $request){
+
+    }
+
+    public function deleteProduct(Request $request){
 
     }
 

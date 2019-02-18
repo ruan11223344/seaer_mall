@@ -63,6 +63,7 @@ class EMail
             return true;
         }catch (Exception $ex){
             Log::error('邮件发送错误:'.$ex->getMessage());
+            dd($ex->getMessage()); //todo 生产环境移除
             $this->recoredMail($user_id,$to,$template_name,self::STATUS_ERROR);
             return false;
         }

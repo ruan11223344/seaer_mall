@@ -17,7 +17,7 @@ class CreateCaptchaTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->nullable();
             $table->enum('type',['email','phone']);
-            $table->char('captcha',25);
+            $table->char('captcha',255);
             $table->tinyInteger('status');
             $table->smallInteger('timeout_second');
             $table->string('verifly_from');

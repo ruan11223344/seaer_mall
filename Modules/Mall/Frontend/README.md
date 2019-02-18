@@ -1974,3 +1974,67 @@ url:http://域名/api/shop/category/get_category_root
     ]
 }
 ```
+
+38.发送重置密码邮件
+```
+url:http://域名/api/auth/send_reset_password_email
+
+请求方法:post
+json参数
+{
+	"member_id_or_email":"admin",  //必填 member_id 或者 邮箱
+	"key":"$2y$10$Q20AAPEs3TAtx/Kl/bKKIeDOVe7x3rXRJTy2Wy4dWyY0Q3mRwzKjq",   //验证码key
+	"captcha":"x7fpb"  //验证码
+}
+
+返回:
+{
+    "code": 200,
+    "message": "发送重置密码邮件成功!",
+    "data": {
+        "redirect_to": "http://mail.google.com"
+    }
+}
+
+PS::token在邮件的链接中 ?token=bKKIeDOVe7x3rXRJTy2Wy4dWyY0Q3mRwzKjq
+```
+
+38.获取重置密码的member_id
+```
+url:http://域名/api/auth/get_reset_password_member_id
+
+请求方法:get
+json参数
+{
+"token":"f76b70e50f82c4c6fd728117c487b4e2"  //token必填
+}
+
+返回:
+{
+    "code": 200,
+    "message": "获取member_id成功!",
+    "data": {
+        "member_id": "admin"
+    }
+}
+```
+
+39.提交重置密码
+```
+url:http://域名/api/auth/reset_password
+
+请求方法:get
+json参数
+{
+"token":"c7c42b0ae91816101bd7fea8887bc48a",  //token必填
+"password":"123456",  //新密码
+"password_confirmation":"123456"  //新重复密码
+}
+
+返回:
+{
+    "code": 200,
+    "message": "恭喜!重置密码成功!",
+    "data": []
+}
+```

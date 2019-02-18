@@ -4,17 +4,22 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterUsersExtendsTable extends Migration
+class AlterCaptchaTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
+    public function __construct()
+    {
+        DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
+    }
+
     public function up()
     {
-        Schema::table('users_extends', function (Blueprint $table) {
-            $table->dropColumn('calling_code');
+        Schema::table('captcha', function (Blueprint $table) {
+            $table->string('captcha',255)->change();
         });
     }
 
@@ -25,7 +30,7 @@ class AlterUsersExtendsTable extends Migration
      */
     public function down()
     {
-        Schema::table('users_extends', function (Blueprint $table) {
+        Schema::table('captcha', function (Blueprint $table) {
             //
         });
     }
