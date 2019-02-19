@@ -191,9 +191,14 @@ const newRouter = new Router({
           path: 'management',
           component: () => import("./views/Inquiry/Management/index.vue"),
           children: [
-            {
+            { // 店铺设置
               path: 'bannerset',
               component: () => import("./views/Inquiry/Management/BannerSet/index.vue")
+            },
+            {
+              // 商店动态
+              path: 'dynamics',
+              component: () => import("./views/Inquiry/Management/Dynamics/index.vue")
             }
           ]
         },
