@@ -207,9 +207,14 @@ const newRouter = new Router({
           component: () => import("./views/Company/Home/index.vue")
         },
         {
-          // 所有商品
+          // 所有商品 商品分组
           path: "all",
           component: () => import("./views/Company/AllCommodity/index.vue")
+        },
+        { 
+          // 联系方式
+          path: "contact",
+          component: () => import("./views/Company/Contact/index.vue")
         }
       ]
     }

@@ -17,7 +17,7 @@
                 About us
                 <span class="company-nav-item-list-hr"></span>
             </router-link>
-            <router-link to="/3" tag="li" class="company-nav-item-list">
+            <router-link to="/company/contact" tag="li" class="company-nav-item-list">
                 Coutact us
                 <span class="company-nav-item-list-hr"></span>
             </router-link>
