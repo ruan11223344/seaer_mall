@@ -13,6 +13,7 @@
 
         <template>
             <!-- 幻灯片广告位设置 -->
+            <v-slide-template></v-slide-template>
         </template>
     </div>
 </template>
@@ -20,13 +21,15 @@
 <script>
     import Title from "../../components/Title"
     import TableSwitch from "../../components/TableSwitch"
-    import BannerTemplate from './Banner-template.vue'
+    import BannerTemplate from "./Banner-template.vue"
+    import SlideTemplate from "./Slide-template.vue"
 
     export default {
         components: {
             "v-title": Title,
             "v-table-switch": TableSwitch,
-            "v-banner-template": BannerTemplate
+            "v-banner-template": BannerTemplate,
+            "v-slide-template": SlideTemplate
             // "v-img": Img
         }
     }
