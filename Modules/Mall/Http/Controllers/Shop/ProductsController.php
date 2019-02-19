@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Modules\Mall\Entities\Products;
 use Modules\Mall\Entities\ProductsAttr;
+use Modules\Mall\Entities\ProductsGroup;
 use Modules\Mall\Entities\ProductsPrice;
 use Modules\Mall\Entities\ProductsProductsGroup;
 use Modules\Mall\Entities\UsersExtends;
@@ -77,7 +78,7 @@ class ProductsController extends Controller
                 $status = false;
                 break;
             case self::PUBLISH_PRODUCT_STATUS_BANNED:
-                $message = '店铺资料被封禁,无法发布商品!';
+                $message = '店铺被封禁,无法发布商品!';
                 $status = false;
                 break;
         }
@@ -137,11 +138,18 @@ class ProductsController extends Controller
         }
 
         $pub_status = self::getPublishProductPermissions();
+        $put_warehouse = $request->input('product_put_warehouse');
 
-        if($pub_status[0] == false){
-            return $this->echoErrorJson('不能发布商品! 详细信息: '.$pub_status[1]);
+        if($request->input('product_publishing_time') !== null){
+            $carbon_obj = Carbon::parse($request->input('product_publishing_time'));
+            $product_publishing_time = $carbon_obj->toDateTimeString();
+        }else{
+            $product_publishing_time = null;
         }
 
+        if(($pub_status[0] == false && $put_warehouse == false) ||  ($pub_status[0] == false && $product_publishing_time !== null)){
+            return $this->echoErrorJson('不能发布商品! 详细信息: '.$pub_status[1]);
+        }
 
 
         $product_name = $request->input('product_name');
@@ -151,11 +159,7 @@ class ProductsController extends Controller
         $product_group_id = $request->input('product_group_id');
         $product_attr = $request->input('product_attr');
         $product_images = $request->input('product_images');
-        if($request->input('product_publishing_time') !== null){
-            $product_publishing_time = Carbon::parse($request->input('product_publishing_time'))->toDateTimeString();
-        }else{
-            $product_publishing_time = null;
-        }
+
 
         try{
             if(Products::where([
@@ -172,12 +176,9 @@ class ProductsController extends Controller
 
             if($price_type == 'ladder'){
                 foreach ($product_price as $v){
-                    foreach ($v as $vv){
-                        if(!(isset($vv['unit']) && isset($vv['min_order']) && isset($vv['order_price']))){
+                        if(!(isset($v['unit']) && isset($v['min_order']) && isset($v['order_price']))){
                             return $this->echoErrorJson('存在错误的阶梯价格式!');
-                        }
                     }
-
                 }
             }elseif ($price_type == 'base'){
                 foreach ($product_price as $v){
@@ -207,17 +208,15 @@ class ProductsController extends Controller
            $product_model = Products::create(
                [
                    'product_name'=>$product_name,
-                   'product_origin_id'=>self::createProductOriginId(Auth::user()),
                    'product_categories_id'=>$product_categories_id,
                    'product_sku_no'=>$product_sku_no,
                    'product_keywords'=>$product_keywords,
                    'product_images'=>$product_images,
-                   'product_status'=>$request->input('product_put_warehouse') == true ? self::PRODUCT_STATUS_WAREHOUSE : self::PRODUCT_STATUS_SALE,
+                   'product_status'=>$put_warehouse == true ? self::PRODUCT_STATUS_WAREHOUSE : self::PRODUCT_STATUS_SALE,
                    'product_publishing_time'=>$product_publishing_time,
                    'product_price_id'=>$product_price_model->id,
                    'product_attr_id'=>$product_attr == null ? null : $product_attr_model->id,
-                   'company_id'=>Auth::user()->company->id,
-                   'product_details'=>$request->input('product_details'),
+                   'product_details'=>$request->input('product_details',null),
                    'product_audit_status'=>self::PRODUCT_AUDIT_STATUS_CHECKING
                ]
             );
@@ -254,10 +253,190 @@ class ProductsController extends Controller
     }
 
     public function editProduct(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data,[
+            'product_id'=>'required|exists:products,id',
+            'product_name'=>'nullable',
+            'product_sku_no'=>'nullable',
+            'product_keywords'=>'nullable|array',
+            'product_images'=>'nullable|array',
+            'product_attr'=>'nullable|array',
+            'product_price'=>'nullable|array',
+            'product_price_type'=>'nullable|in:base,ladder',
+            'product_details'=>'nullable',
+            'product_publishing_time'=>'nullable',
+            'product_categories_id'=>'nullable|exists:products_categories,id',
+            'product_group_id'=>'nullable|exists:products_group,id',
+            'product_put_warehouse'=>'nullable|boolean'
+        ]);
 
+        if ($validator->fails()){
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+        }
+
+        $product_obj = Products::find($request->input('product_id'));
+
+        if($product_obj == null){
+            return $this->echoErrorJson('错误!该商品不存在!');
+        }
+
+        if($product_obj->company_id != Auth::user()->company->id){
+            return $this->echoErrorJson('只能编辑自己的商品!');
+        }
+
+        $price_type = $request->input('product_price_type',null);
+        $product_price = $request->input('product_price',null);
+        $product_attr = $request->input('product_attr',null);
+        $product_name = $request->input('product_name',null);
+        $product_categories_id = $request->input('product_categories_id',null);
+        $product_sku_no = $request->input('product_sku_no',null);
+        $product_keywords = $request->input('product_keywords',null);
+        $product_group_id = $request->input('product_group_id',null);
+        $product_images = $request->input('product_images',null);
+        $put_warehouse = $request->input('product_put_warehouse',null);
+        $product_publishing_time = $request->input('product_publishing_time',null);
+        $product_details = $request->input('product_details',null);
+
+        try{
+            DB::beginTransaction();
+
+            if($product_name !== null){
+                if(Products::where(
+                    [
+                        ['company_id','=',Auth::user()->company->id],
+                        ['product_name','=',$product_name],
+                        ['id','!=',$product_obj->id],
+                    ]
+                )->exists()){
+                    return $this->echoErrorJson('错误!存在相同名称的商品,不能使用该商品名!');
+                }
+            }
+
+            //更新价格
+            if($price_type !== null && $product_price !== null){
+                if($price_type == 'ladder'){
+                    foreach ($product_price as $v){
+                        if(!(isset($v['unit']) && isset($v['min_order']) && isset($v['order_price']))){
+                            return $this->echoErrorJson('存在错误的阶梯价格式!');
+                        }
+                    }
+                }elseif($price_type == 'base'){
+                    foreach ($product_price as $v){
+                        if(!(isset($v['unit']) && isset($v['min_order']) && isset($v['max_order_price']) && isset($v['min_order_price']))){
+                            return $this->echoErrorJson('基本价价格格式错误!缺少对象!');
+                        }
+                    }
+                }
+
+                $product_obj->products_price->update(
+                    [
+                        'price_type'=>$price_type,
+                        'base_price'=>$price_type == 'base' ? $product_price : null,
+                        'ladder_price'=>$price_type == 'ladder' ? $product_price : null,
+                    ]
+                );
+            }
+
+        //更新属性
+        if($product_attr !== null){
+            $product_obj->products_attr->update(
+                [
+                    'attr_specs'=>$product_attr
+                ]
+            );
+        }
+
+        if($product_publishing_time !== null){
+            $carbon_obj = Carbon::parse($request->input('product_publishing_time'));
+            if($carbon_obj->timestamp+1200 < time()){
+                return $this->echoErrorJson('定时发布时间只能是在将来的时间!');
+            }
+            $product_publishing_time = $carbon_obj->toDateTimeString();
+        }
+
+        $update_data = [
+            'product_name'=>$product_name,
+            'product_categories_id'=>$product_categories_id,
+            'product_sku_no'=>$product_sku_no,
+            'product_keywords'=>$product_keywords,
+            'product_images'=>$product_images,
+            'product_status'=>$put_warehouse == null ? null : $put_warehouse == true ? self::PRODUCT_STATUS_WAREHOUSE : self::PRODUCT_STATUS_SALE,
+            'product_publishing_time'=>$product_publishing_time,
+            'product_details'=>$product_details,
+            'product_audit_status'=>self::PRODUCT_AUDIT_STATUS_CHECKING
+        ];
+
+        foreach ($update_data as $k=>$v){
+            if($v == null){
+                unset($update_data[$k]);
+            }
+        }
+
+        //更新商品
+        $product_obj->update($update_data);
+
+        //更新分组
+        if($product_group_id !== null){
+            $p_group = ProductsGroup::find($product_group_id);
+            if($p_group == null){
+                return $this->echoErrorJson('错误,商品分组id不存在!');
+            }else{
+                if($p_group->user_id != Auth::id()){
+                    return $this->echoErrorJson('错误,该商品分组不属于该用户!');
+                }else{
+                    if(!ProductsProductsGroup::where('product_id',$product_obj->id)->exists()){
+                        ProductsProductsGroup::create(
+                            [
+                                'product_id'=>$product_obj->id,
+                                'product_group_id'=>$product_group_id
+                            ]
+                        );
+                    }else{
+                        $product_obj->products_products_group->update(
+                            ['product_group_id'=>$product_group_id]
+                        );
+                    }
+                }
+            }
+        }
+
+        DB::commit();
+
+        }catch (Exception $e){
+            DB::rollBack();
+            return $this->echoErrorJson('数据库错误 详情:'.$e->getMessage());
+        }
+
+        return $this->echoSuccessJson('编辑更新商品成功!');
     }
 
     public function deleteProduct(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'product_id'=>'required|exists:products,id',
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+        }
+
+        $product_id = $request->input('product_id');
+
+        $product_obj = Products::find($product_id);
+
+        if($product_obj == null){
+            return $this->echoErrorJson('错误!该商品不存在!');
+        }
+
+        if($product_obj->company_id != Auth::user()->company->id){
+            return $this->echoErrorJson('只能删除自己的商品!');
+        }
+
+        $product_obj->products_attr->delete();
+        $product_obj->products_price->delete();
+        $product_obj->delete();
+
+        return $this->echoSuccessJson('删除商品成功!');
 
     }
 
@@ -303,9 +482,9 @@ class ProductsController extends Controller
                 $min_order_list =[];
                 foreach ($v->products_price->ladder_price as $kk=>$vv){
                     $i = [];
-                    $i['min_order'] =  $vv[0]['min_order'];
-                    $i['order_price'] = $vv[0]['order_price'];
-                    $i['unit'] = $vv[0]['unit'];
+                    $i['min_order'] =  $vv['min_order'];
+                    $i['order_price'] = $vv['order_price'];
+                    $i['unit'] = $vv['unit'];
                     $min_order_list[] = $i;
                 }
 
@@ -317,9 +496,9 @@ class ProductsController extends Controller
                 $product_price = $v->products_price->currency == 'ksh' ? 'KSh ' .$min_price .'-'.$max_price : 'CNY ' .$min_price .'-'.$max_price;
                 $product_moq = "MOQ ".$min_item['min_order'].' '.$min_item['unit'];
             }elseif($price_type == 'base'){
-                $base_price = $v->products_price->base_price;
-                $product_price = $v->products_price->currency == 'ksh' ? 'KSh ' .$base_price[0]['min_order_price'] .'-'.$base_price[0]['max_order_price'] : 'CNY ' .$base_price[0]['min_order_price'] .'-'.$base_price[0]['max_order_price'];
-                $product_moq = "MOQ ".$base_price[0]['min_order'].' '.$base_price[0]['unit'];
+                $base_price = $v->products_price->base_price[0];
+                $product_price = $v->products_price->currency == 'ksh' ? 'KSh ' .$base_price['min_order_price'] .'-'.$base_price['max_order_price'] : 'CNY ' .$base_price['min_order_price'] .'-'.$base_price['max_order_price'];
+                $product_moq = "MOQ ".$base_price['min_order'].' '.$base_price['unit'];
             }
 
             $item = [
@@ -336,7 +515,33 @@ class ProductsController extends Controller
             array_push($res,$item);
         });
 
-        return $this->echoSuccessJson('获取商品列表成功!',$res);
+        return $this->echoSuccessJson('获取商品列表成功!',['data_list'=>$res,'total'=>count($res)]);
+    }
+
+    public function getProductDetail(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'product_id'=>'required|exists:products,id',
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+        }
+
+        $product_id = $request->input('product_id');
+
+        $product_obj = Products::find($product_id);
+
+        if($product_obj == null){
+            return $this->echoErrorJson('该商品不存在!');
+        }
+
+        $products_attr = $product_obj->products_attr;
+        $products_price = $product_obj->products_price;
+
+        $res = ['product_info'=>$product_obj->toArray(),'product_attr'=>$products_attr->toArray(),'product_price'=>$products_price->toArray()];
+
+        return $this->echoSuccessJson('获取商品详情成功!',$res);
 
 
 

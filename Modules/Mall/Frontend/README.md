@@ -2044,7 +2044,12 @@ json参数
 ```
 url:http://域名/api/shop/product/upload_product_img
 
-请求方法:post    form-data 传值
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+form-data 传值
+
+参数:
 product_img //上传的图片 必须 只能有一个图片文件 不能超过1024kb 
 where  //必填 商品哪里的图  只能是 main 1 2 3 4 这5个值
 
@@ -2066,6 +2071,10 @@ where  //必填 商品哪里的图  只能是 main 1 2 3 4 这5个值
 41.发布商品
 ```
 url:http://域名/api/shop/product/publish_product
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
 
 json参数:
 {
@@ -2075,7 +2084,7 @@ json参数:
 	"product_sku_no":100023,  //商品编号
 	"product_keywords":["玩具","赛车"],  //商品关键词  数组
 	"product_images":[{"main":"mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg"},{"1":"mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg"},{"2":"mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg"},{"3":"mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg"},{"4":"mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg"}],  //商品图片 数组 内部为文件path
-	"product_price":[[{"min_order":"10"},{"order_price":"800"},{"unit":"Pieces"}],[{"min_order":"20"},{"order_price":"500"},{"unit":"Pieces"}]],     //价格 数组  此为阶梯价 基本价格式 [{"min_order":"50","min_order_price":"100","max_order_price":"200","unit":"Pieces"}]
+	"product_price":[{"min_order":"10","order_price":"800","unit":"Pieces"},{"min_order":"5","order_price":"2","unit":"Pieces"},{"min_order":"1","order_price":"1","unit":"Pieces"}],     //价格 数组  此为阶梯价 基本价格式 [{"min_order":"50","min_order_price":"100","max_order_price":"200","unit":"Pieces"}]
 	"product_price_type":"ladder", //价格类型 必填  ladder 或 base
 	"product_details":"这里是描述描述再秒睡<div>大萨达撒多撒大萨达sad撒<div/>",  //商品详情 可以是 html
 	"product_publishing_time":"2019-03-14 11:00:00",  //定时发布时间 不定时发布 传 null
@@ -2088,6 +2097,229 @@ json参数:
 {
     "code": 200,
     "message": "创建商品成功!",
+    "data": []
+}
+```
+
+42.获取单个商品的详情
+
+```
+url:http://域名/api/shop/product/get_product_detail
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+json参数:
+{
+"product_id":29
+}
+
+返回:
+{
+    "code": 200,
+    "message": "获取商品详情成功!",
+    "data": {
+        "product_info": {
+            "id": 27,
+            "company_id": "10",
+            "product_origin_id": "PD_CN_a49b34079_524b40b0",
+            "product_categories_id": "1",
+            "product_name": "超级无敌大飞车玩具13赛2221",
+            "product_sku_no": "100023",
+            "product_keywords": [
+                "玩具",
+                "赛车"
+            ],
+            "product_images": [
+                {
+                    "main": "mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg"
+                },
+                {
+                    "1": "http://www.xx.com/2.jpg"
+                },
+                {
+                    "2": "http://www.xx.com/2.jpg"
+                },
+                {
+                    "3": "http://www.xx.com/2.jpg"
+                },
+                {
+                    "4": "http://www.xx.com/2.jpg"
+                }
+            ],
+            "product_status": 2,
+            "product_audit_status": 0,
+            "product_publishing_time": "2019-03-14 11:00:00",
+            "product_price_id": 48,
+            "product_details": "这里是描述描述再秒睡<div>大萨达撒多撒大萨达sad撒<div/>",
+            "created_at": "2019-02-19 09:47:31",
+            "updated_at": "2019-02-19 09:47:31",
+            "deleted_at": null,
+            "product_attr_id": 49,
+            "products_attr": {
+                "id": 49,
+                "attr_specs": [
+                    {
+                        "颜色": "绿色"
+                    },
+                    {
+                        "颜色": "黑色"
+                    },
+                    {
+                        "容量": "321G"
+                    },
+                    {
+                        "容量": "64G"
+                    },
+                    {
+                        "容量": "128G"
+                    },
+                    {
+                        "尺寸": "超大"
+                    },
+                    {
+                        "尺寸": "超小"
+                    }
+                ],
+                "created_at": "2019-02-19 09:47:31",
+                "updated_at": "2019-02-19 09:47:31",
+                "deleted_at": null
+            },
+            "products_price": {
+                "id": 48,
+                "price_type": "ladder",
+                "base_price": null,
+                "ladder_price": [
+                    {
+                        "unit": "Pieces",
+                        "min_order": "10",
+                        "order_price": "800"
+                    },
+                    {
+                        "unit": "Pieces",
+                        "min_order": "5",
+                        "order_price": "2"
+                    },
+                    {
+                        "unit": "Pieces",
+                        "min_order": "1",
+                        "order_price": "1"
+                    }
+                ],
+                "currency": "ksh",
+                "created_at": "2019-02-19 09:47:31",
+                "updated_at": "2019-02-19 09:47:31",
+                "deleted_at": null
+            }
+        },
+        "product_attr": {
+            "id": 49,
+            "attr_specs": [
+                {
+                    "颜色": "绿色"
+                },
+                {
+                    "颜色": "黑色"
+                },
+                {
+                    "容量": "321G"
+                },
+                {
+                    "容量": "64G"
+                },
+                {
+                    "容量": "128G"
+                },
+                {
+                    "尺寸": "超大"
+                },
+                {
+                    "尺寸": "超小"
+                }
+            ],
+            "created_at": "2019-02-19 09:47:31",
+            "updated_at": "2019-02-19 09:47:31",
+            "deleted_at": null
+        },
+        "product_price": {
+            "id": 48,
+            "price_type": "ladder",
+            "base_price": null,
+            "ladder_price": [
+                {
+                    "unit": "Pieces",
+                    "min_order": "10",
+                    "order_price": "800"
+                },
+                {
+                    "unit": "Pieces",
+                    "min_order": "5",
+                    "order_price": "2"
+                },
+                {
+                    "unit": "Pieces",
+                    "min_order": "1",
+                    "order_price": "1"
+                }
+            ],
+            "currency": "ksh",
+            "created_at": "2019-02-19 09:47:31",
+            "updated_at": "2019-02-19 09:47:31",
+            "deleted_at": null
+        }
+    }
+}
+```
+
+43.删除商品
+```
+url:http://域名/api/shop/product/delete_product
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+json参数:
+{
+"product_id":29
+}
+
+返回:
+{
+    "code": 200,
+    "message": "删除商品成功!",
+    "data": []
+}
+```
+
+44.编辑商品
+
+```
+url:http://域名/api/shop/product/edit_product
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+json参数:  注意以下参数 除product_id 必填外  其他参数非必填 不更新传null或者不传参数 即可！
+{
+"product_id":28,
+"product_images":[{"main": "mall/users/AF_CN_7a49b34079/product/xxxx.jpeg"}, {"1": "http://www.xx.com/xxxx.jpg"}, {"2": "http://www.xx.com/2.jpg"}, {"3": "http://www.xx.com/2.jpg"}, {"4": "http://www.xx.com/2.jpg"}],
+"product_name":"超级无敌大飞车玩具133赛222d331",
+"product_sku_no":"2323dsds",
+"product_keywords":["你好","很好"],
+"product_attr":[{"颜色":"小色"},{"颜色":"大色"},{"容量":"32222221G"},{"容量":"64G"},{"容量":"128G"},{"尺寸":"黑大"},{"尺寸":"白小"}],
+"product_price":[{"unit": "Pieces", "min_order": "150", "max_order_price": "2010", "min_order_price": "100"}],
+"product_price_type":"base",
+"product_details":"fffffffffffffffffffffffffff",
+"product_publishing_time":"2019-03-14 11:00:00",
+"product_categories_id":1,
+"product_group_id":15,
+"product_put_warehouse":1
+}
+
+返回:
+{
+    "code": 200,
+    "message": "编辑更新商品成功!",
     "data": []
 }
 ```

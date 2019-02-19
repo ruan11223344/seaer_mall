@@ -84,6 +84,9 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
                 Route::get('check_publish_product_permissions', 'Shop\ProductsController@checkPublishProductPermissions')->name('shop.product.publish.permissions');//商品发布权限检查
                 Route::post('upload_product_img', 'Shop\ProductsController@uploadProductImg')->name('shop.product.uploadImg');
                 Route::get('get_product_list', 'Shop\ProductsController@getProductList')->name('shop.product.productList');
+                Route::get('get_product_detail', 'Shop\ProductsController@getProductDetail')->name('shop.product.productDetail');
+                Route::post('delete_product', 'Shop\ProductsController@deleteProduct')->name('shop.product.delete');
+                Route::post('edit_product', 'Shop\ProductsController@editProduct')->name('shop.product.edit');
 
             });
         });

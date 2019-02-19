@@ -39,4 +39,13 @@ class Products extends Model
         return $this->hasOne('Modules\Mall\Entities\ProductsPrice','id','product_price_id');
     }
 
+    public function products_attr(){
+        return $this->hasOne('Modules\Mall\Entities\ProductsAttr','id','product_attr_id');
+    }
+
+    public function products_products_group(){
+        return $this->hasOne('Modules\Mall\Entities\ProductsProductsGroup','product_id','id');
+    }
+
+
 }
