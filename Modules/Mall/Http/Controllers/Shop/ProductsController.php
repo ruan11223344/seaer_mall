@@ -217,7 +217,9 @@ class ProductsController extends Controller
                    'product_price_id'=>$product_price_model->id,
                    'product_attr_id'=>$product_attr == null ? null : $product_attr_model->id,
                    'product_details'=>$request->input('product_details',null),
-                   'product_audit_status'=>self::PRODUCT_AUDIT_STATUS_CHECKING
+                   'product_audit_status'=>self::PRODUCT_AUDIT_STATUS_CHECKING,
+                   'company_id'=>Auth::user()->company->id,
+                   'product_origin_id'=>self::createProductOriginId(Auth::user())
                ]
             );
            //商品分组
@@ -412,29 +414,50 @@ class ProductsController extends Controller
 
     public function deleteProduct(Request $request){
         $data = $request->all();
+
+        Validator::extend('product_id_list', function($attribute, $value, $parameters,$validator)
+        {
+            if(is_array($value)){
+                foreach ($value as $v){
+                    if(Products::find($v) == null){
+                        $validator->setCustomMessages(['product_id_list' => "dot't exits !id:".$v]);
+                        return false;
+                    }
+                }
+            }else{
+                $validator->setCustomMessages(['product_id_list' => 'product_id_list must be a array!']);
+                return false;
+            }
+            return true;
+        });
+
         $validator = Validator::make($data, [
-            'product_id'=>'required|exists:products,id',
+            'product_id_list'=>'required|product_id_list',
         ]);
 
         if ($validator->fails()){
             return $this->echoErrorJson('表单验证失败!'.$validator->messages());
         }
 
-        $product_id = $request->input('product_id');
+        $product_id_list = $request->input('product_id_list');
 
-        $product_obj = Products::find($product_id);
 
-        if($product_obj == null){
-            return $this->echoErrorJson('错误!该商品不存在!');
+
+        $product_obj = Products::whereIn('id',$product_id_list)->get();
+
+        foreach ($product_obj as $v){
+            if($v == null){
+                return $this->echoErrorJson('错误!该商品不存在!');
+            }
+
+            if($v->company_id != Auth::user()->company->id){
+                return $this->echoErrorJson('只能删除自己的商品!');
+            }
+
+            $v->products_attr->delete();
+            $v->products_price->delete();
+            $v->delete();
         }
-
-        if($product_obj->company_id != Auth::user()->company->id){
-            return $this->echoErrorJson('只能删除自己的商品!');
-        }
-
-        $product_obj->products_attr->delete();
-        $product_obj->products_price->delete();
-        $product_obj->delete();
 
         return $this->echoSuccessJson('删除商品成功!');
 

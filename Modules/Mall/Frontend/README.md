@@ -2280,7 +2280,7 @@ url:http://域名/api/shop/product/delete_product
 
 json参数:
 {
-"product_id":29
+"product_id_list":[28,30]  //必填 数组格式 商品id的列表
 }
 
 返回:
