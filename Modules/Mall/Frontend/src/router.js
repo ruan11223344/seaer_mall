@@ -187,6 +187,16 @@ const newRouter = new Router({
           path: 'SortProducts',
           component: () => import("./views/Inquiry/Sort/index.vue")
         },
+        { // 店铺管理
+          path: 'management',
+          component: () => import("./views/Inquiry/Management/index.vue"),
+          children: [
+            {
+              path: 'bannerset',
+              component: () => import("./views/Inquiry/Management/BannerSet/index.vue")
+            }
+          ]
+        },
           // 设置
         {
           path: 'set',

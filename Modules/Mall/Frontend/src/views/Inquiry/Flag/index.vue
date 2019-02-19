@@ -50,7 +50,7 @@
 <script>
     import Title from "../components/Title"
     import Img from "@/components/Img"
-    import dayjs from "dayjs"
+    // import dayjs from "dayjs"
 
     export default {
         data () {
