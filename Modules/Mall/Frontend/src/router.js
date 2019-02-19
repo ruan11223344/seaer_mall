@@ -196,6 +196,7 @@ const newRouter = new Router({
     },
     {
       // 公司首页
+      // 店铺
       path: "/company",
       name: "company ",
       component: () => import("./views/Company/index.vue"),
@@ -204,6 +205,11 @@ const newRouter = new Router({
           // 首页
           path: "home",
           component: () => import("./views/Company/Home/index.vue")
+        },
+        {
+          // 所有商品
+          path: "all",
+          component: () => import("./views/Company/AllCommodity/index.vue")
         }
       ]
     }
