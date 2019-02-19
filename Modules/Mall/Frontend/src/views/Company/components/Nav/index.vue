@@ -13,7 +13,7 @@
                     <span>Building materials</span>
                 </div>
             </li>
-            <router-link to="/2" tag="li" class="company-nav-item-list">
+            <router-link to="/company/profile" tag="li" class="company-nav-item-list">
                 About us
                 <span class="company-nav-item-list-hr"></span>
             </router-link>

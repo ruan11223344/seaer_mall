@@ -211,10 +211,15 @@ const newRouter = new Router({
           path: "all",
           component: () => import("./views/Company/AllCommodity/index.vue")
         },
-        { 
+        {
           // 联系方式
           path: "contact",
           component: () => import("./views/Company/Contact/index.vue")
+        },
+        {
+          // 关于我们
+          path: "profile",
+          component: () => import("./views/Company/Profile/index.vue")
         }
       ]
     }
