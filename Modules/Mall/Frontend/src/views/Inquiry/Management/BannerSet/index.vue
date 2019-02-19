@@ -13,7 +13,12 @@
 
         <template>
             <!-- 幻灯片广告位设置 -->
-            <v-slide-template></v-slide-template>
+            <!-- <v-slide-template></v-slide-template> -->
+        </template>
+
+        <template>
+            <!-- 导航列表设置 -->
+            <v-nav-list></v-nav-list>
         </template>
     </div>
 </template>
@@ -23,13 +28,16 @@
     import TableSwitch from "../../components/TableSwitch"
     import BannerTemplate from "./Banner-template.vue"
     import SlideTemplate from "./Slide-template.vue"
+    import NavList from './NavList-template.vue'
+
 
     export default {
         components: {
             "v-title": Title,
             "v-table-switch": TableSwitch,
             "v-banner-template": BannerTemplate,
-            "v-slide-template": SlideTemplate
+            "v-slide-template": SlideTemplate,
+            "v-nav-list": NavList
             // "v-img": Img
         }
     }
