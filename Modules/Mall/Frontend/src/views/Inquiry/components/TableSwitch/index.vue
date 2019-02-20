@@ -4,7 +4,7 @@
         <div class="tableSwitch-hr"></div>
         <div :class="'tableSwitch-text ' + (bool == 1 ? 'tableSwitch-text-active' : '')" @click="bool=1">1</div> -->
         <div :class="'tableSwitch-text ' + (bool == 0 ? 'tableSwitch-text-active' : '')" @click="bool=0">{{ title }}</div>
-        <template v-for="(item, index) in tableSwitch">
+        <template v-for="(item, index) in tableSwitch" v-if="tableSwitch">
             <div class="tableSwitch-hr"></div>
             <div :class="'tableSwitch-text ' + (bool == index + 1 ? 'tableSwitch-text-active' : '')" @click="bool = index + 1">{{ item }}</div>
         </template>

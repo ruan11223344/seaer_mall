@@ -75,7 +75,6 @@
                     slidesPerGroup: 1,
                     loop: false,
                     loopFillGroupWithBlank: true,
-                    
                     navigation: {
                         nextEl: '.PicturePreview-Carousel-next',
                         prevEl: '.PicturePreview-Carousel-prev'

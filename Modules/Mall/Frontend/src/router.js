@@ -135,6 +135,23 @@ const newRouter = new Router({
           path: 'picture',
           component: () => import("./views/Inquiry/Picture/index.vue")
         },
+        { // 账户
+          path: 'account',
+          component: () => import("./views/Inquiry/Account/index.vue"),
+          children: [
+            {
+              // 账户信息
+              path: 'accountinfo',
+              component: () => import("./views/Inquiry/Account/AccountInfo/index.vue")
+            },
+            {
+              // 账户信息编辑
+              path: 'accountedit',
+              component: () => import("./views/Inquiry/Account/AccountEdit/index.vue")
+            }
+          ]
+          
+        },
         { // 公司信息
           path: 'companyinfo',
           component: () => import("./views/Inquiry/CompanyInfo/index.vue")

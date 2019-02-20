@@ -4,12 +4,14 @@
             <li v-for="(item, index) in menuList" :key="index">
                 <div ref="menuList" class="inquire-aside-title" @click="onClick(item,index)">
                     <span>
+                        <!-- {{ $route.path.split('/').includes('administration') }} -->
                         {{ item.name }}
                     </span>
                     <Icon type="ios-arrow-forward" style="transition: all 0.2s;" :style="{transform: item.isSubShow ? 'rotate(90deg)' : 'rotate(0deg)' }"/>
                 </div>
                 <ul class="inquire-aside-items" :style="{ height: item.isSubShow ? item.subItems.length * 35 + 'px' : ''  }">
-                    <router-link :style="{ color: $route.path == path ? '#f0883a' : ''}" v-for="({name, path}, i) in item.subItems" :key="i" :to="path ? path : ''" tag="li">{{ name }}</router-link>
+                    <!-- <router-link :style="{ color: $route.path == path ? '#f0883a' : ''}" v-for="({name, path}, i) in item.subItems" :key="i" :to="path ? path : ''" tag="li">{{ name }}</router-link> -->
+                    <router-link :style="{ color: $route.path.split('/').includes(path) ? '#f0883a' : ''}" v-for="({name, path, url}, i) in item.subItems" :key="i" :to="url ? url : ''" tag="li">{{ name }}</router-link>
                 </ul>
             </li>
         </ul>
@@ -26,18 +28,22 @@
                         isSubShow:false,
                         subItems:[
                             {
-                                name:'Account Info'
+                                name:'Account Info',
+                                path: 'account',
+                                url: '/inquiryList/account/accountinfo'
                             },
                             {
                                 name:'Company Info',
-                                path: '/inquiryList/companyinfo'
+                                path: 'companyinfo',
+                                url: '/inquiryList/companyinfo',
                             },
                             {
                                 name:'Change Password'
                             },
                             {
                                 name:'Edit My Photo',
-                                path: '/inquiryList/picture'
+                                path: 'picture',
+                                url: '/inquiryList/picture',
                             }
                         ]
                     },
@@ -59,15 +65,19 @@
                         subItems:[
                             {
                                 name:'Upload Product',
-                                path: '/inquiryList/uploadproduct'
+                                url: '/inquiryList/uploadproduct',
+                                path: 'uploadproduct',
+
                             },
                             {
                                 name:'Manage Products',
-                                path: '/inquiryList/commodity'
+                                url: '/inquiryList/commodity',
+                                path: 'commodity'
                             },
                             {
                                 name:'Manage Photos',
-                                // path: '/inquiryList/commodity'
+                                url: '/inquiryList/Album/administration',
+                                path: 'Album'
                             },
                             {
                                 name:'Group & Sort Products'
@@ -80,28 +90,33 @@
                         subItems:[
                             {
                                 name:'Inbox',
-                                path: '/inquiryList/inbox'
+                                url: '/inquiryList/inbox',
+                                path: 'inbox',
                             },
                             {
                                 name:'Sent',
-                                path: '/inquiryList/send'
-
+                                url: '/inquiryList/send',
+                                path: 'send',
                             },
                             {
                                 name:'Flag Inquiry',
-                                path: '/inquiryList/flag'
+                                url: '/inquiryList/flag',
+                                path: 'flag',
                             },
                             {
                                 name:'Delete Inquiry',
-                                path: '/inquiryList/del'
+                                url: '/inquiryList/del',
+                                path: 'del'
                             },
                             {
                                 name:'Spam Report Inquiry',
-                                path: '/inquiryList/spam'
+                                url: '/inquiryList/spam',
+                                path: 'spam',
                             },
                             {
                                 name:'Inquiry Rules',
-                                path: '/inquiryList/set'
+                                url: '/inquiryList/set',
+                                path: 'set'
                             }
                         ]
                     },
@@ -111,7 +126,8 @@
                         subItems:[
                             {
                                 name:'Products',
-                                path: '/inquiryList/collection'
+                                url: '/inquiryList/collection',
+                                path: 'collection',
                             },
                             {
                                 name:'Suppliers'
@@ -151,7 +167,10 @@
             const path = this.$route.path
             this.menuList.forEach(value => {
                 value.subItems.forEach(v => {
-                    if(v.path == path) {
+                    // if(v.path == path) {
+                    //     value.isSubShow = true
+                    // }
+                    if(path.split('/').includes(v.path)) {
                         value.isSubShow = true
                     }
                 })
