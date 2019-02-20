@@ -11,6 +11,11 @@ Vue.use(Router)
 const newRouter = new Router({
   mode: 'history',
   routes: [
+    // {
+    //   // 测试
+    //   path: '/ceshi',
+    //   component: () => import('./components/Cropper/index.vue')
+    // },
     {
       path: '/',
       redirect: '/home'
