@@ -3,25 +3,23 @@
         <v-title title="Manage Photos"></v-title>
 
         <!-- 切换 -->
-        <section class="albumlist-screening">
-            <router-link to="/inquiryList/Album/administration" class="albumlist-screening-text">My Album</router-link>
-            <div class="albumlist-screening-hr"></div>
-            <div class="albumlist-screening-text albumlist-screening-text-active">List of Image</div>
-        </section>
+        <v-table-switch title="My Album" :num="num" :tableSwitch="['List of Image']" style="marginBottom: 20px;" @on-click="onTableSwitch"></v-table-switch>
 
         <section class="albumlist-title">
             <v-img width="63" height="50" imgSrc="" style="border: 1px solid #ccc;"></v-img>
             <div class="albumlist-title-right">
-                <div>Default Album</div>
-                <div>Description Description Description Description Description</div>
+                <div>{{ $route.query.name }}</div>
+                <div v-show="$route.query.description">{{ $route.query.description }}</div>
             </div>
         </section>
 
         <!-- 按钮集合 -->
         <section class="albumlist-buttonAggregate">
             <div class="albumlist-buttonAggregate-left">
-                <Checkbox v-model="single"></Checkbox>
-                <button type="button" class="albumlist-buttonAggregate-left-btn">Cancel</button>
+                <span @click="onSelect(!single)">
+                    <Checkbox v-model="single"></Checkbox>
+                </span>
+                <!-- <button type="button" class="albumlist-buttonAggregate-left-btn">Cancel</button> -->
                 <button type="button" class="albumlist-buttonAggregate-left-btn" @click="deletAlbum=true">Delete</button>
                 <button type="button" class="albumlist-buttonAggregate-left-btn" @click="moveAlbum=true">Move to other ablum</button>
             </div>
@@ -41,13 +39,13 @@
         <!-- 图片 -->
         <template>
             <div style="marginTop: 13px;" class="albumlist-card">
-                <v-card-info v-for="item in 10" :key="item" class="albumlist-card-list"></v-card-info>
+                <v-card-info :item="item" v-for="(item, index) in formData" :key="index" @on-changes="onChanges" @on-getData="onGetAlbumList" class="albumlist-card-list"></v-card-info>
             </div>
         </template>
 
         <!-- 删除图片 -->
         <template>
-            <v-deletealbum v-show="deletAlbum" @on-show="onDeleteShow"></v-deletealbum>
+            <v-deletealbum :dataId="formData | GetAlbumId" v-show="deletAlbum" @on-show="onDeleteShow"></v-deletealbum>
         </template>
         
         <!-- 移动到其他相册 -->
@@ -73,11 +71,14 @@
     import MoveOtherAlbum from '../MoveOtherAlbum/index.vue'
     // 移动到其他相册操作
     import MoveOtherAlbums from '../MoveOtherAlbums/index.vue'
+    // 切换
+    import TableSwitch from "../../components/TableSwitch/index.vue"
 
 
     export default {
         data() {
             return {
+                num: 1,
                 createShow: false,
                 uploadShow: false,
                 cityList: [
@@ -109,15 +110,101 @@
                 model1: '',
                 single: false,
                 deletAlbum: false,
-                moveAlbum: false
+                moveAlbum: false,
+                formData: []
+            }
+        },
+        filters: {
+            // 图片id列表
+            GetAlbumId(data) {
+                const arr = []
+
+                for(let item of data) {
+                    if(item.single == true) {
+                        arr.push(item.id)
+                    }
+                }
+
+                return arr
             }
         },
         methods: {
-            onDeleteShow() {
+            onDeleteShow(bool) {
                 this.deletAlbum = false
+                if(bool) {
+                    this.onGetAlbumList()
+                }
             },
             onMoveAlbum() {
                 this.moveAlbum = false
+            },
+            // 切换
+            onTableSwitch(num) {
+                this.num = num
+                switch (num) {
+                    case 0:
+                        this.$router.push('/inquiryList/Album/administration')
+                        break
+                    case 1:
+                        
+                        break
+                }
+            },
+            onGetAlbumList() {
+                this.$request(
+                    {
+                        url: '/album/album_photo_list',
+                        method: 'get',
+                        params: {
+                            album_id: this.$route.query.id
+                        }
+                    }
+                ).then(res => {
+                    if(res.code == 200) {
+                        this.formData = this.filterFormData(res.data)
+                    }
+                }).catch(err => {
+                    return false
+                })
+            },
+            // 过滤
+            filterFormData(data) {
+                
+                const datas = data
+                for(let item of datas) {
+                    item.single = false
+                }
+                return datas
+            },
+            // 全选
+            onSelect(bool) {
+                for(let index in this.formData) {
+                    this.$set(this.formData[index], 'single', bool)
+                }
+            },
+            // 全选
+            onChanges() {
+                const arr = []
+                for(let i = 0; i < this.formData.length; i++) {
+                    arr.push(this.formData[i].single)
+                }
+
+                if(arr.includes(false)) {
+                    this.single = false
+                }else {
+                    this.single = true
+                }
+                
+                return false
+            },
+            
+        },
+        mounted() {
+            if(!this.$route.query.id) {
+                this.$router.push('/inquiryList/Album/administration')
+            }else {
+                // 获取相册列表
+                this.onGetAlbumList()
             }
         },
         components: {
@@ -126,8 +213,8 @@
             "v-card-info": CardInfoTemplateVue,
             "v-deletealbum": DeletAlbum,
             "v-move-other-album": MoveOtherAlbum,
-            "v-move-other-albums": MoveOtherAlbums
-
+            "v-move-other-albums": MoveOtherAlbums,
+            "v-table-switch": TableSwitch
         }
     }
 </script>
@@ -141,35 +228,6 @@
         .bg-color(white);
         padding: 21px 30px;
 
-        &-screening {
-            .width(886px, 47px);
-            background-color: #f5f5f9;
-            margin: 20px 0px;
-            .flex(flex-start, center);
-            padding-left: 27px;
-
-            &-text {
-                .lineHeight(47px);
-                font-size: 14px;
-                color: #666666;
-
-                & > span {
-                    color: #d72b2b;
-                }
-                cursor: pointer;
-            }
-            &-text-active {
-                border-bottom: 2px solid #f0883a;
-            }
-
-            &-hr {
-                width: 1px;
-                height: 11px;
-                background-color: #cccccc;
-                margin: 0px 18px;
-            }
-        }
-        
         &-title {
             .flex();
 

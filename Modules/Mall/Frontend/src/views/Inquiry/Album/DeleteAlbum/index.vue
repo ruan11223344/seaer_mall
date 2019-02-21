@@ -8,7 +8,7 @@
                 <div class="deleteAlbum-main-text">Are you sure you are going to do this? note: the picture in use will also be deleted.</div>
                 <div class="deleteAlbum-main-btn">
                     <button type="button">Cancel</button>
-                    <button type="button">OK</button>
+                    <button type="button" @click="onDelete">OK</button>
                 </div>
             </section>
         </v-modality-template>
@@ -20,9 +20,46 @@
     import ModalityTemplateVue from '../components/Modality-template.vue'
 
     export default {
+        props: {
+            dataId: ''
+        },
         methods: {
-            onShow() {
-                this.$emit('on-show')
+            onShow(bool) {
+                this.$emit('on-show', bool)
+            },
+            onDelete() {
+                if(this.dataId != false) {
+                    this.$request({
+                        url: '/album/modify_photos',
+                        method: 'post',
+                        data: {
+                            'photo_id_list': this.dataId,
+                            action: 'delete'
+                        }
+                    }).then(res => {
+
+                        if(res.code == 200) {
+                            this.onShow(true)
+
+                            this.$Message.info({
+                                content: res.message,
+                                duration: 3
+                            })
+                        }else {
+                            this.onShow(false)
+
+                            this.$Message.error({
+                                content: res.message,
+                                duration: 3
+                            })
+                        }
+                    }).catch(err => {
+                        return false
+                    })
+                }else {
+                    this.onShow(false)
+                }
+                
             }
         },
         components: {

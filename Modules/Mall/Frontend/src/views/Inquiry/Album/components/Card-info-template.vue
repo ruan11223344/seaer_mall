@@ -1,12 +1,12 @@
 <template>
     <div class="cardInfo" @mouseleave="onLeave" @mouseover="onOver">
         <template>
-            <v-img width="174" height="180" imgSrc=""></v-img>
+            <v-img width="174" height="180" :imgSrc="path + item.photo_url"></v-img>
         </template>
         <template>
             <div class="cardInfo-info cardInfo-body">
                 <div class="cardInfo-info-block">
-                    <div class="cardInfo-info-block-title">Default Album</div>
+                    <div class="cardInfo-info-block-title">{{ $route.query.name }}</div>
                     <div>
                         <img :src="require('@/assets/img/icon/bianj.png')" alt="" :style="{ width: '17px', height: '16px' }">
                     </div>
@@ -14,13 +14,12 @@
                 
                 <template v-if="bool">
                     <div class="cardInfo-body-block">
-                        Upload time: 2019-01-01
+                        {{ item.created_at }}
                     </div>
                     <div class="cardInfo-body-block">
                         Originai size: 800x800
                     </div>
                 </template>
-                
 
                 <template v-else>
                     <div class="cardInfo-info-block">
@@ -30,7 +29,7 @@
                         </div>
                         <div class="cardInfo-info-block-content">
                             <img :src="require('@/assets/img/icon/shanc.png')" alt="" :style="{ width: '9px', height: '12px' }">
-                            <span class="cardInfo-info-block-content-span">Delete</span>
+                            <span class="cardInfo-info-block-content-span" @click="onDelete">Delete</span>
                         </div>
                     </div>
                     <div class="cardInfo-info-block">
@@ -39,12 +38,12 @@
                             <span class="cardInfo-info-block-content-span">Move to other album</span>
                         </div>
                     </div>
-                    <div class="cardInfo-info-block">
+                    <!-- <div class="cardInfo-info-block">
                         <div class="cardInfo-info-block-content" style="width: 153px;">
                             <img :src="require('@/assets/img/icon/tupian.png')" alt="" :style="{ width: '9px', height: '12px' }">
                             <span class="cardInfo-info-block-content-span">set cover</span>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="cardInfo-info-block">
                         <div class="cardInfo-info-block-content" style="width: 153px;">
                             <img :src="require('@/assets/img/icon/wenb.png')" alt="" :style="{ width: '9px', height: '12px' }">
@@ -56,8 +55,8 @@
         </template>
 
         <!-- 右上角按钮 -->
-        <div class="cardInfo-top">
-            <Checkbox v-model="single"></Checkbox>
+        <div class="cardInfo-top" @click="onChange">
+            <Checkbox v-model="item.single"></Checkbox>
         </div>
     </div>
 </template>
@@ -68,16 +67,21 @@
     export default {
         data() {
             return {
-                single: false,
+                path: 'https://afriby-oss.oss-cn-hongkong.aliyuncs.com/',
                 bool: true,
                 clear: null
+            }
+        },
+        props: {
+            item: {
+                type: Object
             }
         },
         methods: {
             onLeave() {
                 clearTimeout(this.clear)
                 this.clear = setTimeout(() => {
-                    this.bool=true
+                    this.bool = true
                 }, 400)
             },
             onOver() {
@@ -85,6 +89,36 @@
                 this.clear = setTimeout(() => {
                     this.bool=false
                 }, 400)
+            },
+            onChange() {
+                this.item.single = !this.item.single
+                this.$emit('on-changes')
+            },
+            // 删除
+            onDelete() {
+                this.$request({
+                    url: '/album/modify_photos',
+                    method: 'post',
+                    data: {
+                        'photo_id_list': [this.item.id],
+                        action: 'delete'
+                    }
+                }).then(res => {
+                    if(res.code == 200) {
+                        this.$Message.info({
+                            content: res.message,
+                            duration: 3
+                        })
+                        this.$emit('on-getData')
+                    }else {
+                        this.$Message.error({
+                            content: res.message,
+                            duration: 3
+                        })
+                    }
+                }).catch(err => {
+                    return false
+                })
             }
         },
         components: {
