@@ -1583,7 +1583,7 @@ url:http://域名/api/album/edit_album
 
 27.获取相册中的图片列表
 ```
-url:http://域名/api/album/edit_album
+url:http://域名/api/album/album_photo_list
 
 请求方法:get
 请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
