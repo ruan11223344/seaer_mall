@@ -1510,8 +1510,8 @@ url:http://域名/api/album/save_img_to_album
 请求头参数:"Authorization",值:"Bearer空格+token" //必填
 
 以下是普通参数 ↓
-参数:"photo_name_url_list[图片1]",值:"https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg"   //关联数组格式 可以多个或者单个 但必须是关联数组 以 自定义图片名->图片url的格式  （图片url从22号接口获取)
-参数:"album_id",值:"6"   //相册id
+json参数:"photo_name_url_list",值:"[{"image1":"/mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg"},{"image1":"/mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg"},{"image3":"/mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg"}]"   //关联数组格式 可以多个或者单个 但必须是关联数组 以 自定义图片名->图片url的格式  （图片url从22号接口获取)
+"album_id",值:"6"   //相册id
 
 返回：
 {
