@@ -2477,7 +2477,7 @@ url:http://域名/api/shop/delete_shop_banner
 
 51.获取系统配置
 ```
-url:http://域名/api/shop/delete_shop_banner
+url:http://域名/api/get_sys_config
 请求方法:get
 请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
 请求头参数:"Authorization",值:"Bearer空格+token" //必填
