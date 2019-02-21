@@ -77,7 +77,7 @@ const getData = {
         } else if (window.webkitURL != undefined) {  
         url = window.webkitURL.createObjectURL(file);  
         }  
-        return url;  
+        return url;
     }
 }
 

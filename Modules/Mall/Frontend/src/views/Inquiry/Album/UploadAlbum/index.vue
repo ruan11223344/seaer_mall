@@ -9,8 +9,8 @@
                                 <span class="uploadAlbum-text">Select album</span>
                             </Col>
                             <Col span="16">
-                                <Select v-model="model1" :style="{ width: '100%' }" :transfer="true" placeholder="Default  Album">
-                                    <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                                <Select v-model="formLeft.model" :style="{ width: '100%' }" placeholder="Default  Album">
+                                    <Option v-for="(item, index) in AlbumListId" :value="item.value" :key="index">{{ item.label }}</Option>
                                 </Select>
                             </Col>
                         </Row>
@@ -26,7 +26,8 @@
                                         <template>
                                             <Upload
                                                 multiple
-                                                action="//jsonplaceholder.typicode.com/posts/"
+                                                action=""
+                                                :before-upload="onBeforeUpload"
                                                 >
                                                 <button type="button" class="uploadAlbum-sub">Upload</button>
                                             </Upload>
@@ -52,46 +53,98 @@
         data () {
             return {
                 formLeft: {
-
+                    model: '',
+                    files: []
                 },
-                cityList: [
-                    {
-                        value: 'New York',
-                        label: 'New York'
-                    },
-                    {
-                        value: 'London',
-                        label: 'London'
-                    },
-                    {
-                        value: 'Sydney',
-                        label: 'Sydney'
-                    },
-                    {
-                        value: 'Ottawa',
-                        label: 'Ottawa'
-                    },
-                    {
-                        value: 'Paris',
-                        label: 'Paris'
-                    },
-                    {
-                        value: 'Canberra',
-                        label: 'Canberra'
-                    }
-                ],
-                model1: ''
+            }
+        },
+        props: {
+            AlbumListId: {
+                type: Array,
             }
         },
         methods: {
             // 隐藏模态框
             onShow() {
                 this.$emit('on-show', false)
+            },
+            onBeforeUpload(files) {
+                const arr = (files.name.split('.'))
+                const name = arr[arr.length - 1]
+                // 判断上传图片是否符合格式
+                if(files.size > 1048576 || !(['jpg','gif','png'].includes(name))) { // 图片大于1M
+                    this.onShow()
+                    this.$Message.warning('I supports jpg, gif, png format, which does not exceed 1MB. ')
+                }else {
+                    // 获取图片
+                    this.formLeft.files = files
+                    this.onUpload()
+                }
+                // 阻止默认上传
+                return false;
+            },
+            // 上传图片到阿里云
+            onUpload() {
+                let formData = new FormData();
+
+                formData.append('images[]', this.formLeft.files);
+
+                this.$request({
+                    url: '/album/upload_img_to_album',
+                    method: 'post',
+                    data: formData,
+                    headers:{'Content-Type':'multipart/form-data'}
+                }).then(res => {
+                    if(res.code == 200) {
+                        this.onPreservation(res.data)
+                    }else {
+                        this.$Message.error({
+                            content: res.message,
+                            duration: 3
+                        })
+                    }
+                }).catch(err => {
+                    return false
+                })
+            },
+            // 保存上传图片到目录
+            onPreservation(data) {
+                console.log(data);
+                
+                const name = data.name
+
+                this.$request({
+                    url: '/album/save_img_to_album',
+                    method: 'post',
+                    data: {
+                        "photo_name_url_list": [data],
+                        "album_id": this.formLeft.model
+                    }
+                }).then(res => {
+                    if(res.code == 200) {
+                        this.onShow()
+                        this.$Message.info({
+                            content: name + ',' + res.message,
+                            duration: 3
+                        })
+                    }else {
+                        this.onShow()
+                        this.$Message.error({
+                            content: name + ',' + res.message,
+                            duration: 3
+                        })
+                    }
+                }).catch(err => {
+                    return false
+                })
             }
+        },
+        mounted() {
+            
         },
         components: {
             "v-modality-template": ModalityTemplateVue
-        }   
+        },
     }
 </script>
 
