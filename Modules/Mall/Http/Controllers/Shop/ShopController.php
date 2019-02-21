@@ -101,14 +101,42 @@ class ShopController extends Controller
         }
     }
 
+    public function deleteShopBanner(){
+        $company_id = Auth::user()->company->id;
+        $shop_obj = Shop::where('company_id',$company_id);
+
+        if($shop_obj->exists()){
+            $shop_obj  = $shop_obj->get()->first();
+            $shop_obj->banner_url = null;
+            $shop_obj->save();
+        }
+
+        return $this->echoSuccessJson('删除banner成功!');
+    }
+
     public function setSlides(Request $request){
         $data = $request->all();
 
-        Validator::extend('slide_list_check', function($attribute, $value, $parameters)
+        Validator::extend('slide_list_check', function($attribute, $value, $parameters,$validator)
         {
             if(is_array($value)){
+                $path = UtilsController::getUserShopDirectory();
+                $site_domain = env('MALL_DOMAIN');
                 foreach ($value as $v){
-                    if(!(isset($v['url_path']) && isset($v['sort']))){
+                    if($v['url_path'] !== null){
+                        if(stripos($v['url_path'],$path) === false){
+                            $validator->setCustomMessages(['slide_list_check' => 'image path error']);
+                            return false;
+                        }
+                    }
+
+                    if(stripos($v['url_jump'],$site_domain) === false){
+                        $validator->setCustomMessages(['slide_list_check' => 'Cannot set other domain!']);
+                        return false;
+                    }
+
+                    if(!(isset($v['url_path']) && isset($v['sort']) && isset($v['url_jump']))){
+                        $validator->setCustomMessages(['slide_list_check' => 'The lack of object!']);
                         return false;
                     }
                 }
