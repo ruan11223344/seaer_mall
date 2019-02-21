@@ -189,7 +189,7 @@ class AlbumController extends Controller
         $insert_data = [];
 
         foreach ($input_data as $key=>$value){
-            if(AlbumPhoto::where(['photo_name'=>$key,'photo_url'=>$value])->count() == 0){
+            if(AlbumPhoto::where(['photo_name'=>$key,'photo_url'=>$value,'album_id'=>$data['album_id']])->count() == 0){
                 $tmp = [];
                 $tmp['album_id'] = $data['album_id'];
                 $tmp['created_at'] = $carbon;
