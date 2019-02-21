@@ -123,21 +123,21 @@ class ShopController extends Controller
                 $path = UtilsController::getUserShopDirectory();
                 $site_domain = env('MALL_DOMAIN');
                 foreach ($value as $v){
-                    if($v['url_path'] !== null){
-                        if(stripos($v['url_path'],$path) === false){
-                            $validator->setCustomMessages(['slide_list_check' => 'image path error']);
-                            return false;
-                        }
-                    }
-
-                    if(stripos($v['url_jump'],$site_domain) === false){
-                        $validator->setCustomMessages(['slide_list_check' => 'Cannot set other domain!']);
-                        return false;
-                    }
-
-                    if(!(isset($v['url_path']) && isset($v['sort']) && isset($v['url_jump']))){
+                    if(!(isset($v['url_path']) && isset($v['sort']))){
                         $validator->setCustomMessages(['slide_list_check' => 'The lack of object!']);
                         return false;
+                    }
+
+                    if(stripos($v['url_path'],$path) === false){
+                        $validator->setCustomMessages(['slide_list_check' => 'image path error']);
+                        return false;
+                    }
+
+                    if($v['url_jump'] != null){
+                        if(stripos($v['url_jump'],$site_domain) === false){
+                            $validator->setCustomMessages(['slide_list_check' => 'Cannot set other domain!']);
+                            return false;
+                        }
                     }
                 }
                 return true;
