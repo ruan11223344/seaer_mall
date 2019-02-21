@@ -154,7 +154,7 @@ class UtilsController extends Controller
 
     public static function uploadFilesByBase64($base64_arr,$to_path = false){
         $file_url_list = [];
-        $to_path = self::getUserShopDirectory(Auth::user()->usersExtends->af_id);
+        $to_path = self::getUserShopDirectory();
         if(is_array($base64_arr)){
             $oss = Oss::getInstance();
             foreach ($base64_arr as $v){

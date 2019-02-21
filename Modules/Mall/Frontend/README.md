@@ -2358,7 +2358,7 @@ url:http://域名/api/shop/set_slides
 
 json参数: 
 {
-"slides_list":[{"sort":1,"url_path":"mall/djwkw/dsd/sbs12.jpg"},{"sort":2,"url_path":"mall/djwkw/dsd/d3335.jpg"}]   //数组对象  sort为排序 url_path 为图片路径
+"slides_list":[{"sort":1,"url_path":"mall/djwkw/dsd/sbs12.jpg","url_jump":"http://www.qq.com"},{"sort":2,"url_path":"mall/djwkw/dsd/d3335.jpg","url_jump":"http://www.qq.com"}]   //数组对象  sort为排序 url_path 为图片路径   url_jump 没有就传null!
 }
 返回:
 {
@@ -2411,7 +2411,7 @@ json参数
 }
 ```
 
-47.获取店铺幻灯图片列表
+49.获取店铺幻灯图片列表
 
 ```
 url:http://域名/api/shop/get_slides_list
@@ -2455,3 +2455,41 @@ url:http://域名/api/shop/get_slides_list
 }
 ```
 
+
+50.删除店铺banner图片
+
+```
+url:http://域名/api/shop/delete_shop_banner
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+无参数
+
+返回:
+{
+    "code": 200,
+    "message": "删除banner成功!",
+    "data": []
+}
+```
+
+
+51.获取系统配置
+```
+url:http://域名/api/get_sys_config
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+无参数
+
+返回:
+{
+    "code": 200,
+    "message": "成功!",
+    "data": {
+        "oss_url_prefix": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/"
+    }
+}
+```
