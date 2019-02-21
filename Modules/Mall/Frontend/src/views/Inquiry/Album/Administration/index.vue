@@ -2,13 +2,7 @@
     <div class="administration">
         <v-title title="Manage Photos"></v-title>
 
-        <section class="administration-screening">
-            <div class="administration-screening-text administration-screening-text-active">My Album</div>
-
-            <!-- <div :class="'Send-main-screening-text ' + (bool == 0 ? 'Send-main-screening-text-active' : '')" @click="bool=0, filterAll(inboxData)">Inbox <span>{{ inboxData.length }}</span></div>
-            <div class="Send-main-screening-hr"></div>
-            <div :class="'Send-main-screening-text ' + (bool == 1 ? 'Send-main-screening-text-active' : '')" @click="bool=1, filterAll(outboxData)">Sent <span>{{ outboxData.length }}</span></div> -->
-        </section>
+        <v-table-switch title="My Album" style="marginBottom: 20px;"></v-table-switch>
 
         <div>
             <button type="button" class="administration-btn" style="marginRight: 10px;" @click="uploadShow=true">Upload Picture</button>
@@ -17,7 +11,7 @@
 
         <template>
             <div class="administration-main">
-                <v-card-template  v-for="(item, index) in 8" :key="index" class="administration-main-card"></v-card-template>
+                <v-card-template :fromData="item" @on-get="onGetAlbumList" v-for="(item, index) in fromAlbum" :key="index" class="administration-main-card"></v-card-template>
             </div>
         </template>
 
@@ -34,6 +28,7 @@
 <script>
     import Img from "@/components/Img"
     import Title from "../../components/Title"
+    import TableSwitch from "../../components/TableSwitch/index.vue"
     import CardTemplateVue from '../components/Card-template.vue';
     import CreateAlbum from '../CreateAlbum/index.vue'
     import UploadAlbum from '../UploadAlbum/index.vue'
@@ -43,23 +38,46 @@
             return {
                 createShow: false,
                 uploadShow: false,
+                fromAlbum: []
             }
         },
         methods: {
             onCreateShow(index) {
+                this.onGetAlbumList()
                 this.createShow = false
             },
             onUploadShow(index) {
                 
                 this.uploadShow = false
+            },
+            onGetAlbumList() {
+                this.$request(
+                    {
+                        url: '/album/album_list',
+                        method: 'get',
+                    }
+                ).then(res => {
+                    if(res.code == 200) {
+                        this.fromAlbum = res.data
+                    }
+                }).catch(err => {
+                    return false
+                })
+                console.log(1);
+                
             }
+        },
+        mounted() {
+            // 获取相册列表
+            this.onGetAlbumList()
         },
         components: {
             "v-title": Title,
             "v-img": Img,
             "v-card-template": CardTemplateVue,
             "v-create": CreateAlbum,
-            "v-upload": UploadAlbum
+            "v-upload": UploadAlbum,
+            "v-table-switch": TableSwitch
         }
     }
 </script>
@@ -72,35 +90,6 @@
         min-height: 772px;
         .bg-color(white);
         padding: 21px 30px;
-
-        &-screening {
-            .width(886px, 47px);
-            background-color: #f5f5f9;
-            margin: 20px 0px;
-            .flex(flex-start, center);
-            padding-left: 27px;
-
-            &-text {
-                .lineHeight(47px);
-                font-size: 14px;
-                color: #666666;
-
-                & > span {
-                    color: #d72b2b;
-                }
-                cursor: pointer;
-            }
-            &-text-active {
-                border-bottom: 2px solid #f0883a;
-            }
-
-            &-hr {
-                width: 1px;
-                height: 11px;
-                background-color: #cccccc;
-                margin: 0px 18px;
-            }
-        }
 
         &-btn {
             width: 105px;

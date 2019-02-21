@@ -9,7 +9,7 @@
                                 <span class="createAlbum-text">Album name</span>
                             </Col>
                             <Col span="16">
-                                <Input v-model="formLeft.input1"></Input>
+                                <Input v-model="formLeft.name"></Input>
                             </Col>
                         </Row>
                     </FormItem>
@@ -19,13 +19,13 @@
                                 <span class="createAlbum-text">Description</span>
                             </Col>
                             <Col span="16">
-                                <Input v-model="formLeft.input1" type="textarea" :autosize="{minRows: 8,maxRows: 8}" placeholder=""></Input>
+                                <Input v-model="formLeft.info" type="textarea" :autosize="{minRows: 8,maxRows: 8}" placeholder=""></Input>
                             </Col>
                         </Row>
                     </FormItem>
                 </Form>
 
-                <button type="button" class="createAlbum-sub">Submit</button>
+                <button type="button" class="createAlbum-sub" @click="onCreate">Submit</button>
             </section>
         </v-modality-template>
     </div>
@@ -38,7 +38,8 @@
         data() {
             return {
                 formLeft: {
-
+                    name: '',
+                    info: ''
                 }
             }
         },
@@ -48,6 +49,36 @@
             // 隐藏模态框
             onShow() {
                 this.$emit('on-show', false)
+            },
+            onCreate() {
+                if(this.formLeft.name != '' && this.formLeft.info != '') {
+                    this.$request({
+                        url: '/album/create_album',
+                        method: 'post',
+                        data: {
+                            album_name: this.formLeft.name,
+                            album_descriptiond: this.formLeft.info
+                        }
+                    }).then(res => {
+                        if(res.code == 200) {
+                            this.$Message.info({
+                                content: res.message,
+                                duration: 3
+                            })
+                            this.onShow()
+                        }else {
+                            this.$Message.error({
+                                content: res.message,
+                                duration: 3
+                            })
+                            this.onShow()
+                        }
+                    }).catch(err => {
+                        return false
+                    })
+                }else {
+                    return false
+                }
             }
         },
         components: {

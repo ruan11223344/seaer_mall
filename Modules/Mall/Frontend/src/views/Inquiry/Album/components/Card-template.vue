@@ -2,10 +2,10 @@
     <div class="card">
         <figure>
             <!-- <img src="" alt=""> -->
-            <v-img width="211" height="167" imgSrc=""></v-img>
+            <v-img style="margin: 40px 60px;" width="91" height="81" :imgSrc="require('@/assets/img/wenjianj.png')"></v-img>
             <figcaption class="card-footer">
-                <div class="card-footer-title">Default Album</div>
-                <div class="card-footer-subheading">Total {{ '1754' }} photos</div>
+                <div class="card-footer-title">{{ fromData.album_name }}</div>
+                <div class="card-footer-subheading">Total {{ len }} photos</div>
             </figcaption>
         </figure>
         <button type="button" class="card-edit" @click="editShow=true">Edit</button>
@@ -20,7 +20,7 @@
                                 <span class="createAlbum-text">Album name</span>
                             </Col>
                             <Col span="16">
-                                <Input v-model="formLeft.input1" placeholder="Default  Album"></Input>
+                                <Input v-model="formLeft.name" placeholder="Default  Album"></Input>
                             </Col>
                         </Row>
                     </FormItem>
@@ -30,13 +30,13 @@
                                 <span class="createAlbum-text">Description</span>
                             </Col>
                             <Col span="16">
-                                <Input v-model="formLeft.input1" type="textarea" :autosize="{minRows: 8,maxRows: 8}" placeholder=""></Input>
+                                <Input v-model="formLeft.info" type="textarea" :autosize="{minRows: 8,maxRows: 8}" placeholder=""></Input>
                             </Col>
                         </Row>
                     </FormItem>
                 </Form>
 
-                <button type="button" class="createAlbum-sub">Submit</button>
+                <button type="button" class="createAlbum-sub" @click="onEdit">Submit</button>
             </section>
         </v-modality-template>
     </div>
@@ -51,15 +51,70 @@
         data() {
             return {
                 formLeft: {
-
+                    name: '',
+                    info: '',
                 },
+                len: 0,
                 editShow: false
+            }
+        },
+        props: {
+            fromData: {
+                type: Object
             }
         },
         methods: {
             onShow() {
                 this.editShow = false
+            },
+            // 获取图片列表
+            onGetAlbumList() {
+                this.$request({
+                    url: '/album/album_photo_list',
+                    method: 'get',
+                    params: {
+                        album_id: this.fromData.id
+                    }
+                }).then(res => {
+                    if(res.code == 200) {
+                        this.len = this.res.data.length
+                    }
+                }).catch(err => {
+                    return false
+                })
+            },
+            // 修改相册
+            onEdit() {
+                this.$request({
+                    url: '/album/edit_album',
+                    method: 'post',
+                    data: {
+                        album_id: this.fromData.id,
+                        album_name: this.formLeft.name,
+                        album_description: this.formLeft.info
+                    }
+                }).then(res => {
+                    if(res.code == 200) {
+                        this.$emit('on-get')
+                        this.$Message.info({
+                            content: res.message,
+                            duration: 3
+                        })
+                        this.onShow()
+                    }else {
+                        this.$Message.error({
+                            content: res.message,
+                            duration: 3
+                        })
+                        this.onShow()
+                    }
+                }).catch(err => {
+                    return false
+                })
             }
+        },
+        mounted() {
+            this.onGetAlbumList()
         },
         components: {
             "v-img": Img,
@@ -73,7 +128,7 @@
 
     .card {
         width: 211px;
-        border:1px solid #ccc;
+        // border:1px solid #ccc;
         display: inline-block;
         
         &-footer {
@@ -81,7 +136,7 @@
             flex-direction: column;
             width: 211px;
             height: 54px;
-            border: solid 1px #eeeeee;
+            // border: solid 1px #eeeeee;
             // border-top: 0px;
 
             &-title {

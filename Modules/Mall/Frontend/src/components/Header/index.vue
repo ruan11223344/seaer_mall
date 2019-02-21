@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <nav class="nav">
-            <div>Sign In</div>
+            <router-link tag="div" to="/login">Sign In</router-link>
             <div>Join Free</div>
             <div class="Customer">
                 <!-- 下拉 -->
