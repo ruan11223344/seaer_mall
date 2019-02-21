@@ -23,7 +23,14 @@
                             <Col span="16">
                                 <Row>
                                     <Col span="24">
-                                        <button type="button" class="uploadAlbum-sub">Upload</button>
+                                        <template>
+                                            <Upload
+                                                multiple
+                                                action="//jsonplaceholder.typicode.com/posts/"
+                                                >
+                                                <button type="button" class="uploadAlbum-sub">Upload</button>
+                                            </Upload>
+                                        </template>
                                     </Col>
                                     <Col span="24">
                                         <p class="uploadAlbum-tips">I supports jpg, gif, png format, which does not exceed 1MB. </p>
