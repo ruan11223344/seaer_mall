@@ -76,6 +76,7 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
             Route::get('get_slides_list', 'Shop\ShopController@getSlidesList')->name('shop.getSlidesList');
             Route::get('get_shop_banner', 'Shop\ShopController@getShopBanner')->name('shop.getShopBanner');
             Route::post('set_shop_banner', 'Shop\ShopController@setShopBanner')->name('shop.setShopBanner');
+            Route::post('delete_shop_banner', 'Shop\ShopController@deleteShopBanner')->name('shop.deleteShopBanner');
         });
 
         //商品分类
@@ -116,5 +117,7 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
         Route::get('get_provinces_list','UtilsController@getProvincesList')->name('get_provinces_list');
         Route::get('get_city_list','UtilsController@getCityList')->name('get_city_list');
     });
+
+    Route::get('get_sys_config', 'SystemController@sysConfig');
 });
 
