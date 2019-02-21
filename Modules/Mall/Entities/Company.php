@@ -37,4 +37,12 @@ class Company extends Model
     {
         return $this->belongsTo('Modules\Mall\Entities\User','user_id','id');
     }
+
+    public function favorites(){
+        return $this->hasMany('Modules\Mall\Entities\Favorites','company_id','id');
+    }
+
+    public function shop(){
+        return $this->hasOne('Modules\Mall\Entities\Shop','company_id','id');
+    }
 }

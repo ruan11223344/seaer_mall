@@ -251,7 +251,7 @@ class ProductsController extends Controller
         }
 
         $img = UtilsController::uploadFile($data['product_img'],UtilsController::getUserProductDirectory(),true);
-        return $this->echoSuccessJson('上传成功!',['img_path'=>$img,'img_url'=>UtilsController::getPathFileUrl(array_values($img)[0]),'where'=>$request->input('where')]);
+        return $this->echoSuccessJson('上传成功!',['img_path'=>$img['path'],'img_url'=>$img['url'],'where'=>$request->input('where')]);
     }
 
     public function editProduct(Request $request){

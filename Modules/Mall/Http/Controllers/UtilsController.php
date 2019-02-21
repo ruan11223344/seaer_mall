@@ -83,8 +83,9 @@ class UtilsController extends Controller
         return $this->echoSuccessJson('成功!',$data);
     }
 
-    public static function uploadMultipleFile($files,$to_path,$return_name = false){
+    public static function uploadMultipleFile($files,$to_path,$return_name = false,$return_path = false){
             $file_url_list = [];
+            $file_path_list = [];
             $oss = Oss::getInstance();
             foreach ($files  as $value){
                 if (!$value->isValid()) {
@@ -102,11 +103,20 @@ class UtilsController extends Controller
                     continue;
                 }
                 if($return_name){
-                    array_push($file_url_list,[$value->getClientOriginalName()=>$oss->url($to_path.$key)]);
+                    array_push($file_url_list,['name'=>$value->getClientOriginalName(),'url'=>$oss->url($to_path.$key),'path'=>$to_path.$key]);
                 }else{
                     array_push($file_url_list,$oss->url($to_path.$key));
                 }
+
+                if($return_path){
+                    array_push($file_path_list,$to_path.$key);
+                }
             }
+
+            if($return_path){
+                return $file_path_list;
+            }
+
             return $file_url_list;
         }
 
@@ -126,11 +136,36 @@ class UtilsController extends Controller
             if (!$result){
                 return false;
             }
+
             if($return_name){
-               return [$file->getClientOriginalName()=>$to_path.$key];
+               return ['name'=>$file->getClientOriginalName(),'url'=>$oss->url($to_path.$key),'path'=>$to_path.$key];
             }else{
                 return $to_path.$key;
             }
+    }
+
+    public static function getBase64ImgTypeBinary($base64){
+        $img_data  = explode( ',', $base64 );
+        $file_type = explode(';',explode('/',$img_data[0])[1])[0];
+        $file_binary = base64_decode($img_data[1]);
+
+        return compact('file_type','file_binary');
+    }
+
+    public static function uploadFilesByBase64($base64_arr,$to_path = false){
+        $file_url_list = [];
+        $to_path = self::getUserShopDirectory(Auth::user()->usersExtends->af_id);
+        if(is_array($base64_arr)){
+            $oss = Oss::getInstance();
+            foreach ($base64_arr as $v){
+                $type_binary = self::getBase64ImgTypeBinary($v);
+                $key = time() . rand(10000, 99999999) . '.'.$type_binary['file_type'];
+                $oss->put($to_path.$key, $type_binary['file_binary']);
+                array_push($file_url_list,['file_url'=>$oss->url($to_path.$key),'path'=>$to_path.$key]);
+            }
+
+            return $file_url_list;
+        }
     }
 
     public static function getAfId(){
@@ -156,8 +191,14 @@ class UtilsController extends Controller
         return self::OSS_FILE_PATH.'/users/'.$af_id.'/private/';
     }
 
-    public static function getUserProtectedDirectory($af_id){
+    public static function getUserProtectedDirectory(){
+        $af_id = self::getAfId();
         return self::OSS_FILE_PATH.'/users/'.$af_id.'/private/';
+    }
+
+    public static function getUserShopDirectory(){
+        $af_id = self::getAfId();
+        return self::OSS_FILE_PATH.'/users/'.$af_id.'/shop/';
     }
 
     public static function getUserIdFormAfId($af_id){

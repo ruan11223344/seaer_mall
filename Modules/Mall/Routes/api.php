@@ -69,6 +69,15 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
 
     //商品模块
     Route::prefix('shop')->group(function() {
+        //店铺管理
+        Route::group(['middleware' => ['client.credentials','auth:api']], function(){
+            Route::post('upload_slide', 'Shop\ShopController@uploadSlide')->name('shop.uploadSlide');
+            Route::post('set_slides', 'Shop\ShopController@setSlides')->name('shop.setSlide');
+            Route::get('get_slides_list', 'Shop\ShopController@getSlidesList')->name('shop.getSlidesList');
+            Route::get('get_shop_banner', 'Shop\ShopController@getShopBanner')->name('shop.getShopBanner');
+            Route::post('set_shop_banner', 'Shop\ShopController@setShopBanner')->name('shop.setShopBanner');
+        });
+
         //商品分类
         Route::prefix('category')->group(function (){
             Route::get('get_category', 'Shop\ProductsCategoriesController@getProductsCategories')->name('shop.get.category');

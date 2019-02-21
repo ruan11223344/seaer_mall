@@ -258,7 +258,7 @@ class MessagesController extends Controller
         $files = $request->file('attachment_list');
 
         if($files != null){
-            $attachments = UtilsController::uploadMultipleFile($files,UtilsController::getUserAttachmentDirectory(),true);
+            $attachments = UtilsController::uploadMultipleFile($files,UtilsController::getUserAttachmentDirectory(),true,true);
         }else{
             $attachments = [];
         }
@@ -379,7 +379,7 @@ class MessagesController extends Controller
             $files = $request->file('attachment_list');
 
             if($files != null){
-                $attachments = UtilsController::uploadMultipleFile($files,UtilsController::getUserAttachmentDirectory(),true);
+                $attachments = UtilsController::uploadMultipleFile($files,UtilsController::getUserAttachmentDirectory(),true,true);
             }else{
                 $attachments = [];
             }
