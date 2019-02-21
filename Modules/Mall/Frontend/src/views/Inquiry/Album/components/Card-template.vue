@@ -1,8 +1,9 @@
 <template>
     <div class="card">
         <figure>
-            <!-- <img src="" alt=""> -->
-            <v-img style="margin: 40px 60px;" width="91" height="81" :imgSrc="require('@/assets/img/wenjianj.png')"></v-img>
+            <router-link :to="'/inquiryList/Album/listalbum?id=' + fromData.id" tag='div' style="margin: 40px 60px;cursor: pointer;">
+                <v-img width="91" height="81" :imgSrc="require('@/assets/img/wenjianj.png')"></v-img>
+            </router-link>
             <figcaption class="card-footer">
                 <div class="card-footer-title">{{ fromData.album_name }}</div>
                 <div class="card-footer-subheading">Total {{ len }} photos</div>
@@ -142,6 +143,7 @@
             &-title {
                 font-size: 16px;
                 color: #666666;
+                cursor: pointer;
             }
 
             &-subheading {

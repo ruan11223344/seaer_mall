@@ -20,7 +20,7 @@
         </template>
 
         <template>
-            <v-upload @on-show="onUploadShow" v-show="uploadShow"></v-upload>
+            <v-upload @on-show="onUploadShow" v-show="uploadShow" :AlbumListId="fromAlbum | FiltersAlbumListId"></v-upload>
         </template>
     </div>
 </template>
@@ -38,7 +38,17 @@
             return {
                 createShow: false,
                 uploadShow: false,
-                fromAlbum: []
+                fromAlbum: [],
+            }
+        },
+        filters: {
+            FiltersAlbumListId(data) {
+                const AlbumId = []
+                
+                for(let i of data) {
+                    AlbumId.push({ label: i.album_name, value: i.id })
+                }
+                return AlbumId
             }
         },
         methods: {
@@ -63,8 +73,6 @@
                 }).catch(err => {
                     return false
                 })
-                console.log(1);
-                
             }
         },
         mounted() {
