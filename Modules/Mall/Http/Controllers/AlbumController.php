@@ -13,7 +13,6 @@ use App\Utils\EchoJson;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
 use Modules\Mall\Entities\AlbumPhoto;
 use Modules\Mall\Entities\AlbumUser;
 use Illuminate\Support\Facades\Validator;
@@ -226,6 +225,7 @@ class AlbumController extends Controller
 
         foreach ($data as $k=>$v){
             $data[$k]['photo_url'] = UtilsController::getPathFileUrl($v['photo_url']);
+            $data[$k]['photo_path'] = $v['photo_url'];
         }
 
         return $this->echoSuccessJson('获取相册图片列表成功!',$data);

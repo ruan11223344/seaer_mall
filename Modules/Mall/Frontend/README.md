@@ -1598,30 +1598,42 @@ url:http://域名/api/album/album_photo_list
     "message": "获取相册图片列表成功!",
     "data": [
         {
-            "id": 3,
+            "id": 1,
             "album_id": 3,
-            "photo_name": "dd3",
-            "photo_url": "https://iocaffcdn.phphub.org/uploads/banners/5LNCgFww4UqiB4Jf4yPl.jpg!/both/554x132",
+            "photo_name": "dsds",
+            "photo_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg",
             "created_at": null,
-            "updated_at": "2019-02-11 16:11:46"
-        },
-        {
-            "id": 4,
-            "album_id": 3,
-            "photo_name": "dd4",
-            "photo_url": "https://iocaffcdn.phphub.org/uploads/banners/5LNCgFww4UqiB4Jf4yPl.jpg!/both/554x132",
-            "created_at": "2019-02-11 14:12:40",
-            "updated_at": null
+            "updated_at": "2019-02-11 16:11:46",
+            "photo_path": "mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg"
         },
         {
             "id": 5,
             "album_id": 3,
             "photo_name": "dd4",
-            "photo_url": "https://iocaffcdn.phphub.org/uploads/banners/5LNCgFww4UqiB4Jf4yPl.jpg!/both/554x132",
+            "photo_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg",
             "created_at": "2019-02-11 14:35:01",
-            "updated_at": null
+            "updated_at": null,
+            "photo_path": "mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg"
         }
     ]
+}
+
+PS: 图片尺寸与文件大小的获取方法 : 图片链接后+?x-oss-process=image/info   例如:https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/155073297759109572.png?x-oss-process=image/info
+
+返回一个json
+{
+"FileSize": {
+"value": "498973"
+},
+"Format": {
+"value": "png"
+},
+"ImageHeight": {
+"value": "1137"
+},
+"ImageWidth": {
+"value": "1920"
+}
 }
 ```
 
