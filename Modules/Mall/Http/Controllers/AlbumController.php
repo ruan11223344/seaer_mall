@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Redis;
 use Modules\Mall\Entities\AlbumPhoto;
 use Modules\Mall\Entities\AlbumUser;
 use Illuminate\Support\Facades\Validator;
@@ -49,6 +48,15 @@ class AlbumController extends Controller
             return $this->echoErrorJson('album name 不能是 Default Album!');
         }
 
+        if(AlbumUser::where(
+            [
+                ['album_name','=',$data['album_name']],
+                ['user_id','=',Auth::id()]
+            ]
+        )->exists()){
+            return $this->echoErrorJson('错误!存在相同名称相册!不能创建!');
+        }
+
         $data['user_id'] = Auth::id();
         AlbumUser::create(
             $data
@@ -80,6 +88,16 @@ class AlbumController extends Controller
 
         if($album->alnum_name == 'Default Album'){
             return $this->echoErrorJson('错误!不能修改默认相册!');
+        }
+
+        if(AlbumUser::where(
+            [
+                ['album_name','=',$data['album_name']],
+                ['id','!=',$data['album_id']],
+                ['user_id','=',Auth::id()]
+            ]
+        )->exists()){
+            return $this->echoErrorJson('错误!存在相同名称相册!不能修改!');
         }
 
         unset($data['album_id']);
@@ -138,19 +156,7 @@ class AlbumController extends Controller
         if(count($images) == 1){
            $res = UtilsController::uploadFile($images[0],UtilsController::getUserAlbumDirectory(),true);
         }else{
-           $res = UtilsController::uploadMultipleFile($images,UtilsController::getUserAlbumDirectory(),true);
-        }
-
-        $expiresAt = Carbon::now()->addHour(2);
-        foreach ($res as $value){
-            if(is_array($value)){
-                foreach ($value as $v){
-                    Cache::store('redis')->put($v,1,$expiresAt);
-                }
-            }else{
-                Cache::store('redis')->put($value,1,$expiresAt);
-                $res = [$res];
-            }
+           $res = UtilsController::uploadMultipleFile($images,UtilsController::getUserAlbumDirectory(),true,true);
         }
 
         return $this->echoSuccessJson('成功!',$res);
@@ -160,22 +166,8 @@ class AlbumController extends Controller
 
         $data = $request->all();
 
-        Validator::extend('check_photo', function($attribute, $value){
-            if(is_array($value) && count($value) >= 1){
-                $mark = true;
-                foreach ($value as $v){
-                    if(!Cache::store('redis')->has($v)){
-                        $mark = false;
-                    }
-                }
-                return $mark;
-            }else{
-                return false;
-            }
-        }); //检测
-
         $validator = Validator::make($data,[
-            'photo_name_url_list'=>'required|array|check_photo',
+            'photo_name_url_list'=>'required|array',
             'album_id'=>'required|exists:album_user,id',
         ]);
 
