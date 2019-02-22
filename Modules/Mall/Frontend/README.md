@@ -2620,3 +2620,70 @@ image:上传文件  //格式file 键image 单个文件
     }
 }
 ```
+
+
+55.获取图片信息
+```
+url:http://域名/api/album/get_img_info
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+参数: 
+{
+"image_path":"mall/users/AF_CN_c1dce03043/album/155073297759109572.png"
+}  //图片路径,
+
+返回:
+{
+    "FileSize": {
+        "value": "498973"
+    },
+    "Format": {
+        "value": "png"
+    },
+    "ImageHeight": {
+        "value": "1137"
+    },
+    "ImageWidth": {
+        "value": "1920"
+    }
+}
+```
+
+56.位于商品推荐页面的搜索调用
+```
+url:http://域名/api/shop/search_recommend_product
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+json参数: 
+{
+	"product_name":null,  //商品名称 模糊搜索 不填为空
+	"sku":100025,   //商品编号 不填为空
+	"product_origin_id":null  //商品原始id 不填为空  //例子 PD_CN_a49b34079_8f538e50  商品原始id
+}
+
+返回:
+{
+    "code": 200,
+    "message": "获取搜索结果成功!",
+    "data": {
+        "search_res_product_info_list": [
+            {
+                "product_id": 33,
+                "product_name": "超级无敌大飞车玩具13fffxxx333",
+                "product_sku": "100025",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-22 09:17:02",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_8f538e50"
+            }
+        ]
+    }
+}
+```
+

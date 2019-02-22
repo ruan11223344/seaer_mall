@@ -270,6 +270,59 @@ class ShopController extends Controller
         return $this->echoSuccessJson('获取商品推荐列表成功!',['product_info_list'=>$res,'recommend_product_id_list'=>$product_id_list]);
     }
 
+    public function searchRecommendProduct(Request $request){
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'product_name'=>'nullable',
+            'sku'=>'nullable',
+            'product_origin_id'=>'nullable',
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+        }
+        $company_id = Auth::user()->company->id;
+
+        $orm_obj = Products::where('company_id',$company_id);
+
+        $product_name = $request->input('product_name');
+        $product_id = $request->input('product_origin_id');
+        $sku = $request->input('sku');
+
+        if($product_name != null){
+            $product_name_obj = $orm_obj->where('product_name', 'like','%'.$product_name.'%')->get()->toArray();
+        }else{
+            $product_name_obj = [];
+        }
+
+        if($product_id != null){
+            $product_id_obj = $orm_obj->where('product_origin_id', $product_id)->get()->toArray();
+        }else{
+            $product_id_obj = [];
+        }
+
+        if($sku != null){
+            $product_sku_no = $orm_obj->where('product_sku_no', $sku)->get()->toArray();
+        }else{
+            $product_sku_no = [];
+        }
+
+        $product_id_res = array_merge($product_name_obj,$product_id_obj,$product_sku_no);
+
+        $unique_product_id = array_unique(array_column($product_id_res,'id'));
+
+        $product_obj = Products::whereIn('id',$unique_product_id);
+
+        if($product_obj->count() > 0){
+            $res = ProductsController::getProductFormatInfo($product_obj);
+        }else{
+            return $this->echoErrorJson('没有搜索到结果!');
+        }
+
+        return $this->echoSuccessJson('获取搜索结果成功!',['search_res_product_info_list'=>$res]);
+    }
+
     public function setRecommendProductList(Request $request){
         $data = $request->all();
 

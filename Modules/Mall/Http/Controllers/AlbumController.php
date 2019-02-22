@@ -8,14 +8,17 @@
 
 namespace Modules\Mall\Http\Controllers;
 
+use function foo\func;
 use Illuminate\Support\Facades\Auth;
 use App\Utils\EchoJson;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Response;
 use Modules\Mall\Entities\AlbumPhoto;
 use Modules\Mall\Entities\AlbumUser;
 use Illuminate\Support\Facades\Validator;
+use GuzzleHttp\Client;
 
 class AlbumController extends Controller
 {
@@ -316,6 +319,15 @@ class AlbumController extends Controller
         $photo_obj->save();
 
         return $this->echoSuccessJson('替换图片成功!',$photo_obj->toArray());
+    }
+
+    public function getImgInfo(Request $request){
+        $image_path = $request->input('image_path');
+        $client = new Client();
+        $ali_url = env('OSS_URL');
+        $response = $client->get($ali_url.$image_path.'?x-oss-process=image/info');
+        return Response::json(json_decode($response->getBody()));
+
     }
 
 }

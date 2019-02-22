@@ -66,6 +66,7 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
             Route::get('album_list', 'AlbumController@albumList');
             Route::post('replace_img_to_album', 'AlbumController@replaceImgToAlbum');
         });
+        Route::get('get_img_info', 'AlbumController@getImgInfo');
     });
 
     //商品模块
@@ -80,6 +81,7 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
             Route::post('delete_shop_banner', 'Shop\ShopController@deleteShopBanner')->name('shop.deleteShopBanner');
             Route::get('get_recommend_product_list', 'Shop\ShopController@getRecommendProductList')->name('shop.getRecommendProductList');
             Route::post('set_recommend_product_list', 'Shop\ShopController@setRecommendProductList')->name('shop.setRecommendProductList');
+            Route::get('search_recommend_product', 'Shop\ShopController@searchRecommendProduct')->name('shop.searchRecommendProduct');
         });
 
         //商品分类
