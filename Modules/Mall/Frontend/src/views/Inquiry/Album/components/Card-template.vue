@@ -78,7 +78,7 @@
                     }
                 }).then(res => {
                     if(res.code == 200) {
-                        this.len = this.res.data.length
+                        this.len = res.data.length
                     }
                 }).catch(err => {
                     return false
