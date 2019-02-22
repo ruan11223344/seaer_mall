@@ -80,7 +80,9 @@
                                 path: 'Album'
                             },
                             {
-                                name:'Group & Sort Products'
+                                name:'Group & Sort Products',
+                                url: '/inquiryList/SortProducts',
+                                path: 'SortProducts'
                             }
                         ]
                     },

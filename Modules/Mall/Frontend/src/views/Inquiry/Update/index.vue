@@ -3,90 +3,80 @@
         <v-head :imgSrc="require('@/assets/img/login/bg1.png')"></v-head>
         <v-title title="Upload Product" subtitle="(1 added, maximum 200）"></v-title>
 
-        <section class="Send-main-screening" style="marginBottom: 20px;">
-            <div :class="bool ? 'Send-main-screening-text Send-main-screening-text-active' : 'Send-main-screening-text'" @click="bool = true">Search</div>
-            <div class="Send-main-screening-hr"></div>
-            <div :class="bool == false ? 'Send-main-screening-text Send-main-screening-text-active' : 'Send-main-screening-text'" @click="bool = false">Latest Selected</div>
-        </section>
+         <!-- 切换 -->
+        <v-table-switch title="Search" :num="num" :tableSwitch="['Latest Selected']" style="marginBottom: 20px;" @on-click="onTableSwitch"></v-table-switch>
+
 
         <section class="product-search" v-show="bool != false">
-            <input type="text" class="product-search-input">
-            <button type="button" class="product-search-btn">Search</button>
+            <input type="text" v-model="search" class="product-search-input" @keyup.enter="onSearch">
+            <button type="button" class="product-search-btn" @click="onSearch">Search</button>
+        </section>
+
+        <!-- 模糊搜索 -->
+        <section class="product-blurry" v-show="search.length">
+            <span class="product-blurry-title">All Categories</span>
+
+            <!-- 分类一 -->
+            <swiper :options="swiperOption" class="product-blurry-item">
+                <swiper-slide style="height: auto;">
+                    <Card shadow style="width: 863px;border:none;boxShadow: none;">
+                        <CellGroup @on-click="onClickActive">
+                            <Cell
+                                :title="item.name + ''"
+                                :class="SearchActive.id == item.categories_id ? 'product-blurry-item-list product-blurry-item-active' : 'product-blurry-item-list'"
+                                v-for="(item, index) in SearchData"
+                                :key="index"
+                                :name="item.categories_id + '/' + item.name"
+                                />
+                        </CellGroup>
+                    </Card>
+                </swiper-slide>
+                <div class="swiper-scrollbar" slot="scrollbar"></div>
+            </swiper>
         </section>
 
         <!-- 地址 -->
-        <!-- <section class="product-category">
-            <div class="product-category-item">
-                <happy-scroll
-                    size="6"
-                    :hide-horizontal="true"
-                    :min-length-v="10"
-                    color="#dddddd"
-                    >
-                   <Card shadow style="width: 260px;border:none;boxShadow: none;">
-                        <CellGroup>
-                            <Cell title="Construction" class="product-category-item-list product-category-item-active"/>
-                            <Cell title="Only show titles" class="product-category-item-list" v-for="(item, index) in [0,1,2,3,4,5,3,6,7,8,1,1,1,1,1,1,1,1,11,1,1]" :key="index"/>
-                        </CellGroup>
-                    </Card>
-                </happy-scroll>
-            </div>
-            <div class="product-category-item" style="borderLeft: none;">
-                <happy-scroll
-                    size="6"
-                    :hide-horizontal="true"
-                    :min-length-v="10"
-                    color="#dddddd"
-                    >
-                        <Card shadow style="width: 260px;border:none;boxShadow: none;">
-                            <CellGroup>
-                                <Cell title="Home improvement building materials" class="product-category-item-list product-category-item-active"/>
-                                <Cell title="Only show titles" class="product-category-item-list" v-for="(item, index) in [0,1,2]" :key="index"/>
-                            </CellGroup>
-                        </Card>
-                </happy-scroll>
-            </div>
-            <div class="product-category-item" style="borderLeft: none;">
-                <happy-scroll
-                    size="6"
-                    :hide-horizontal="true"
-                    :min-length-v="10"
-                    color="#dddddd"
-                    >
+        <section class="product-category" v-show="!search.length">
+            <!-- 分类一 -->
+            <swiper :options="swiperOption" class="product-category-item">
+                <swiper-slide style="height: auto;">
                     <Card shadow style="width: 260px;border:none;boxShadow: none;">
                         <CellGroup>
-                            <Cell title="Floor" class="product-category-item-list product-category-item-active"/>
-                            <Cell title="Only show titles" class="product-category-item-list" v-for="(item, index) in [0,1,2,3,4,5,3,6,7,8,1,1,1,1,1,1,1,1,11,1,1]" :key="index"/>
+                            <Cell title="Construction" class="product-category-item-list product-category-item-active"/>
+                            <Cell title="Only show titles" class="product-category-item-list" v-for="(item, index) in 100" :key="index"/>
                         </CellGroup>
                     </Card>
-                </happy-scroll>
-            </div>
-        </section> -->
-
-        <!-- 模糊搜索 -->
-        <section class="product-blurry">
-            <span class="product-blurry-title" v-show="bool != false">All Categories</span>
-
-            <div class="product-blurry-item">
-                <happy-scroll
-                    size="6"
-                    :hide-horizontal="true"
-                    :min-length-v="10"
-                    color="#dddddd"
-                    >
-                    <Card shadow style="width: 863px;border:none;boxShadow: none;">
+                </swiper-slide>
+                <div class="swiper-scrollbar" slot="scrollbar"></div>
+            </swiper>
+            <!-- 分类二 -->
+            <swiper :options="swiperOption" class="product-category-item">
+                <swiper-slide style="height: auto;">
+                    <Card shadow style="width: 260px;border:none;boxShadow: none;">
                         <CellGroup>
-                            <Cell title="Construction" class="product-blurry-item-list product-blurry-item-active"/>
-                            <Cell title="Only show titles" class="product-blurry-item-list" v-for="(item, index) in [0,1,2,3,4,5,3,6,7,8,1,1,1,1,1,1,1,1,11,1,1]" :key="index"/>
+                            <Cell title="Home improvement building materials" class="product-category-item-list product-category-item-active"/>
+                            <Cell title="Only show titles" class="product-category-item-list" v-for="(item, index) in 10" :key="index"/>
                         </CellGroup>
                     </Card>
-                </happy-scroll>
-            </div>
+                </swiper-slide>
+                <div class="swiper-scrollbar" slot="scrollbar"></div>
+            </swiper>
+            <!-- 分类三 -->
+            <swiper :options="swiperOption" class="product-category-item" style="borderRight: none;">
+                <swiper-slide style="height: auto;">
+                    <Card shadow style="width: 260px;border:none;boxShadow: none;">
+                        <CellGroup>
+                            <Cell title="Home improvement building materials" class="product-category-item-list product-category-item-active"/>
+                            <Cell title="Only show titles" class="product-category-item-list" v-for="(item, index) in 10" :key="index"/>
+                        </CellGroup>
+                    </Card>
+                </swiper-slide>
+                <div class="swiper-scrollbar" slot="scrollbar"></div>
+            </swiper>
         </section>
-
         <!-- 选择的地址 -->
         <section class="product-footer">
-
+            {{ SearchActive.name }}
         </section>
 
         <button type="button" class="product-btn">Select</button>
@@ -98,20 +88,86 @@
     import Img from "@/components/Img"
     import Head from "../components/Head"
     // 滚动条
-    import { HappyScroll } from 'vue-happy-scroll'
+    // import { HappyScroll } from 'vue-happy-scroll'
+    import { swiper, swiperSlide } from 'vue-awesome-swiper'
+    import 'swiper/dist/css/swiper.css'
+
+    // 切换
+    import TableSwitch from "../components/TableSwitch/index.vue"
 
     export default {
         data() {
             return {
+                num: 0,
                 switchValue: true,
-                bool: true
+                bool: true,
+                swiperOption: {
+                    direction: 'vertical',
+                    slidesPerView: 'auto',
+                    freeMode: true,
+                    scrollbar: {
+                        el: '.swiper-scrollbar',
+                        hide: false, //滚动条是否自动隐藏。默认：false，不会自动隐藏。
+                        draggable: true, //该参数设置为true时允许拖动滚动条。
+                        snapOnRelease: true, //如果设置为false，释放滚动条时slide不会自动贴合。
+                        dragSize: 30, //设置滚动条指示的尺寸。默认'auto': 自动，或者设置num(px)。
+                    },
+                    mousewheel: true
+                },
+                search: '',
+                SearchData: [],
+                SearchActive: {
+                    id: null,
+                    name: ''
+                }
+            }
+        },
+        methods: {
+            // 切换
+            onTableSwitch(num) {
+                this.num = num
+                switch (num) {
+                    case 0:
+
+                        break
+                    case 1:
+                        
+                        break
+                }
+            },
+            // 搜索关键词获取分类列表
+            onSearch() {
+                this.$request({
+                    url: '/shop/category/search_category',
+                    params: {
+                        keywords: this.search
+                    }
+                }).then(res => {
+                    console.log(res);
+                    if(res.code == 200) {
+                        this.SearchData = res.data
+                    }else {
+                        this.$Message.error(res.message)
+                    }
+                }).catch(err => {
+                    return false
+                })
+            },
+            // 选中搜索列表
+            onClickActive(name) {
+                const arr = name.split('/')
+                this.$set(this.SearchActive, 'id', arr[0])
+                this.$set(this.SearchActive, 'name', arr[1])
             }
         },
         components: {
             "v-title": Title,
             "v-img": Img,
             "v-head": Head,
-            "happy-scroll": HappyScroll
+            // "happy-scroll": HappyScroll,
+            "v-table-switch": TableSwitch,
+            swiper,
+            swiperSlide
         }
     }
 </script>
@@ -146,13 +202,17 @@
 
         &-category {
             width: 885px;
-            .flex();
-            
+            font-size: 0px;
+            border: solid 1px #dddddd;
+            border-bottom: none;
+
             &-item {
-                width: 885px / 3;
+                width:( 885px - 2px) / 3;
                 height: 462px;
-                border: solid 1px #dddddd;
+                border-right: solid 1px #dddddd;
                 padding: 0px 10px;
+                display: inline-block;
+                z-index: 0px;
 
                 &-list {
                     height: 36px;
@@ -208,7 +268,6 @@
             width: 885px;
             height: 40px;
             border: solid 1px #dddddd;
-            border-top: none;
         }
 
         &-btn {
@@ -221,36 +280,6 @@
             display: block;
             margin: 0px auto;
             margin-top: 40px;
-        }
-    }
-
-    .Send-main-screening {
-        width: 885px;
-        height: 47px;
-        background-color: #f5f5f9;
-        margin-top: 19px;
-        .flex(flex-start, center);
-        padding-left: 20px;
-
-        &-text {
-            .lineHeight(47px);
-            font-size: 14px;
-            color: #666666;
-
-            & > span {
-                color: #d72b2b;
-            }
-            cursor: pointer;
-        }
-        &-text-active {
-            border-bottom: 2px solid #f0883a;
-        }
-
-        &-hr {
-            width: 1px;
-            height: 11px;
-            background-color: #cccccc;
-            margin: 0px 18px;
         }
     }
 </style>
