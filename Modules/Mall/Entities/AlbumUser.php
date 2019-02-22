@@ -22,4 +22,9 @@ class AlbumUser extends Model
     protected $hidden = [
         'soft_delete',
     ];
+
+    public function album_photo(){
+        return $this->hasMany('Modules\Mall\Entities\AlbumPhoto','album_id','id');
+    }
+
 }

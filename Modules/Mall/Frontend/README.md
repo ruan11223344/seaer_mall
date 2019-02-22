@@ -1598,30 +1598,42 @@ url:http://域名/api/album/album_photo_list
     "message": "获取相册图片列表成功!",
     "data": [
         {
-            "id": 3,
+            "id": 1,
             "album_id": 3,
-            "photo_name": "dd3",
-            "photo_url": "https://iocaffcdn.phphub.org/uploads/banners/5LNCgFww4UqiB4Jf4yPl.jpg!/both/554x132",
+            "photo_name": "dsds",
+            "photo_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg",
             "created_at": null,
-            "updated_at": "2019-02-11 16:11:46"
-        },
-        {
-            "id": 4,
-            "album_id": 3,
-            "photo_name": "dd4",
-            "photo_url": "https://iocaffcdn.phphub.org/uploads/banners/5LNCgFww4UqiB4Jf4yPl.jpg!/both/554x132",
-            "created_at": "2019-02-11 14:12:40",
-            "updated_at": null
+            "updated_at": "2019-02-11 16:11:46",
+            "photo_path": "mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg"
         },
         {
             "id": 5,
             "album_id": 3,
             "photo_name": "dd4",
-            "photo_url": "https://iocaffcdn.phphub.org/uploads/banners/5LNCgFww4UqiB4Jf4yPl.jpg!/both/554x132",
+            "photo_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg",
             "created_at": "2019-02-11 14:35:01",
-            "updated_at": null
+            "updated_at": null,
+            "photo_path": "mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg"
         }
     ]
+}
+
+PS: 图片尺寸与文件大小的获取方法 : 图片链接后+?x-oss-process=image/info   例如:https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/155073297759109572.png?x-oss-process=image/info
+
+返回一个json
+{
+"FileSize": {
+"value": "498973"
+},
+"Format": {
+"value": "png"
+},
+"ImageHeight": {
+"value": "1137"
+},
+"ImageWidth": {
+"value": "1920"
+}
 }
 ```
 
@@ -2490,6 +2502,121 @@ url:http://域名/api/get_sys_config
     "message": "成功!",
     "data": {
         "oss_url_prefix": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/"
+    }
+}
+```
+
+
+52.获取商品推荐列表详情
+
+```
+url:http://域名/api/shop/get_recommend_product_list
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+无参数
+
+返回:
+{
+    "code": 200,
+    "message": "获取商品推荐列表成功!",
+    "data": {
+        "product_info_list": [
+            {
+                "product_id": 31,
+                "product_name": "超级无敌大飞车玩具13fff",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-19 14:16:22",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_e11d6910"
+            },
+            {
+                "product_id": 32,
+                "product_name": "超级无敌大飞车玩具13fffxxxx",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-21 17:37:47",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_58ccc0f0"
+            },
+            {
+                "product_id": 33,
+                "product_name": "超级无敌大飞车玩具13fffxxx333",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-22 09:17:02",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_8f538e50"
+            }
+        ],
+        "product_id_list": [
+            31,
+            32,
+            33
+        ]
+    }
+}
+```
+
+
+53.设置商品推荐列表
+
+```
+url:http://域名/api/shop/get_recommend_product_list
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+json参数: 
+{
+"product_id_list":[31,32,33]   //商品id的数组
+}
+返回:
+{
+    "code": 200,
+    "message": "更新成功!",
+    "data": []
+}
+```
+
+54.替换相册图片接口
+```
+url:http://域名/api/album/replace_img_to_album
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+form-data参数: 
+photo_id:14  //图片id,
+image:上传文件  //格式file 键image 单个文件
+
+返回:
+{
+    "code": 200,
+    "message": "替换图片成功!",
+    "data": {
+        "id": 14,
+        "album_id": 3,
+        "photo_name": "dsdds",
+        "photo_url": "mall/users/AF_CN_7a49b34079/album/15508059343838416.jpeg",
+        "created_at": "2019-02-12 11:15:46",
+        "updated_at": "2019-02-22 11:25:35",
+        "album_user": {
+            "id": 3,
+            "album_name": "f",
+            "album_description": null,
+            "user_id": 13,
+            "created_at": null,
+            "updated_at": null
+        }
     }
 }
 ```

@@ -13,7 +13,6 @@ use App\Utils\EchoJson;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
 use Modules\Mall\Entities\AlbumPhoto;
 use Modules\Mall\Entities\AlbumUser;
 use Illuminate\Support\Facades\Validator;
@@ -226,6 +225,7 @@ class AlbumController extends Controller
 
         foreach ($data as $k=>$v){
             $data[$k]['photo_url'] = UtilsController::getPathFileUrl($v['photo_url']);
+            $data[$k]['photo_path'] = $v['photo_url'];
         }
 
         return $this->echoSuccessJson('获取相册图片列表成功!',$data);
@@ -286,6 +286,36 @@ class AlbumController extends Controller
                 return $this->echoErrorJson('删除图片失败!');
             }
         }
+    }
+
+    public function replaceImgToAlbum(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data,[
+            'image'=>'required|image|max:1024',
+            'photo_id'=>'required|exists:album_photo,id'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+        }
+
+        $photo_id = $request->input('photo_id');
+
+        $photo_obj= AlbumPhoto::where('id',$photo_id)->get()->first();
+
+        if($photo_obj->album_user->user_id != Auth::id()){
+            return $this->echoErrorJson('错误!这张图片不属于你的相册中!');
+        }
+
+        $image = $request->file('image');
+
+        $res = UtilsController::uploadFile($image,UtilsController::getUserAlbumDirectory(),true);
+
+        $photo_obj->photo_url = $res['path'];
+
+        $photo_obj->save();
+
+        return $this->echoSuccessJson('替换图片成功!',$photo_obj->toArray());
     }
 
 }
