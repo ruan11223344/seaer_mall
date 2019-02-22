@@ -55,17 +55,17 @@ class ProductsGroupsController extends Controller
         return $arr;
     }
 
-    public function productsGroupsList(){
+    public static function getProductGroupInfo(){
         $product_group = ProductsGroup::where('user_id',Auth::id())->get()->toArray();
         if($product_group == null){
-            return $this->echoErrorJson('商品分组数据为空!');
+            return [];
         }
         $product_group_list = [];
         foreach ($product_group as $v){
             if($v['parent_id'] == 0){
                 $v['children'] = null;
                 $product_group_list[] = $v;
-           }else{
+            }else{
                 foreach ($product_group_list as $k=>$vv){
                     if($vv['id'] == $v['parent_id']){
                         $v['children'] = null;
@@ -76,7 +76,11 @@ class ProductsGroupsController extends Controller
         }
 
         $group_list = self::arr_sort($product_group_list,'sort');
+        return $group_list;
+    }
 
+    public function productsGroupsList(){
+        $group_list = elf::getProductGroupInfo();
         return $this->echoSuccessJson('获取商品分组成功!',$group_list);
 
     }
@@ -118,7 +122,9 @@ class ProductsGroupsController extends Controller
             ]
         );
 
-        return $this->echoSuccessJson('更新商品分组成功!');
+        $group_list = elf::getProductGroupInfo();
+
+        return $this->echoSuccessJson('更新商品分组成功!',$group_list);
     }
 
     public function createProductsGroup(Request $request){
@@ -174,7 +180,9 @@ class ProductsGroupsController extends Controller
             ]
         );
 
-        return $this->echoSuccessJson('创建分组成功!');
+        $group_list = self::getProductGroupInfo();
+
+        return $this->echoSuccessJson('创建分组成功!',$group_list);
 
     }
 
@@ -197,7 +205,9 @@ class ProductsGroupsController extends Controller
              return redirect()->back()->with('danger', '分组删除失败，分组ID：'.$product_group->id);
          }
 
-         return $this->echoSuccessJson('分组删除成功! 分组ID：'.$product_group->id);
+        $group_list = self::getProductGroupInfo();
+
+        return $this->echoSuccessJson('分组删除成功! 分组ID：'.$product_group->id,$group_list);
     }
 
 }
