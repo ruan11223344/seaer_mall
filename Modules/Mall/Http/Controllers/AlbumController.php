@@ -8,7 +8,7 @@
 
 namespace Modules\Mall\Http\Controllers;
 
-use function foo\func;
+use App\Utils\Oss;
 use Illuminate\Support\Facades\Auth;
 use App\Utils\EchoJson;
 use Illuminate\Http\Request;
@@ -19,6 +19,7 @@ use Modules\Mall\Entities\AlbumPhoto;
 use Modules\Mall\Entities\AlbumUser;
 use Illuminate\Support\Facades\Validator;
 use GuzzleHttp\Client;
+use OSS\OssClient;
 
 class AlbumController extends Controller
 {
@@ -226,9 +227,25 @@ class AlbumController extends Controller
 
         $data = AlbumPhoto::where(['album_id'=>$album->id,'soft_delete'=>false])->get()->toArray();
 
+        $oss = Oss::getInstance();
+
+        $bucket = env('OSS_BUCKET');
+        $ossClient = new OssClient(env('OSS_ACCESS_KEY'),env('OSS_SECRET_KEY') , env('OSS_ENDPOINT'));
+        $ossClient->setUseSSL(true);
+
+        $options = array(OssClient::OSS_PROCESS => "image/info" );
+
         foreach ($data as $k=>$v){
-            $data[$k]['photo_url'] = UtilsController::getPathFileUrl($v['photo_url']);
-            $data[$k]['photo_path'] = $v['photo_url'];
+            try{
+                $file_info = json_decode($ossClient->getObject($bucket, $v['photo_url'], $options));
+                $data[$k]['photo_url'] = UtilsController::getPathFileUrl($v['photo_url']);
+                $data[$k]['photo_path'] = $v['photo_url'];
+                $data[$k]['photo_file_size'] = round($oss->size($v['photo_url'])/1024,2).'kb';
+                $data[$k]['photo_size'] = $file_info->ImageWidth->value.'x'.$file_info->ImageHeight->value;
+            }catch (Exception $e){
+                continue;
+            }
+
         }
 
         return $this->echoSuccessJson('获取相册图片列表成功!',$data);

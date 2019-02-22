@@ -1604,36 +1604,44 @@ url:http://域名/api/album/album_photo_list
             "photo_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg",
             "created_at": null,
             "updated_at": "2019-02-11 16:11:46",
-            "photo_path": "mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg"
+            "photo_path": "mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg",
+            "photo_file_size": "178.94kb",
+            "photo_size": "540x960"
         },
         {
-            "id": 5,
+            "id": 14,
             "album_id": 3,
-            "photo_name": "dd4",
+            "photo_name": "dsdds",
+            "photo_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/album/155081439085949045.jpeg",
+            "created_at": "2019-02-12 11:15:46",
+            "updated_at": "2019-02-22 13:46:30",
+            "photo_path": "mall/users/AF_CN_7a49b34079/album/155081439085949045.jpeg",
+            "photo_file_size": "69.87kb",
+            "photo_size": "540x960"
+        },
+        {
+            "id": 15,
+            "album_id": 3,
+            "photo_name": "谁说的",
             "photo_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg",
-            "created_at": "2019-02-11 14:35:01",
+            "created_at": "2019-02-12 11:15:46",
             "updated_at": null,
-            "photo_path": "mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg"
+            "photo_path": "mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg",
+            "photo_file_size": "178.94kb",
+            "photo_size": "540x960"
+        },
+        {
+            "id": 17,
+            "album_id": 3,
+            "photo_name": "1546929116144.jpg",
+            "photo_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/155072760131454729.jpg",
+            "created_at": "2019-02-21 13:46:42",
+            "updated_at": null,
+            "photo_path": "mall/users/AF_CN_c1dce03043/album/155072760131454729.jpg",
+            "photo_file_size": "508.64kb",
+            "photo_size": "1920x1080"
         }
     ]
-}
-
-PS: 图片尺寸与文件大小的获取方法 : 图片链接后+?x-oss-process=image/info   例如:https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/155073297759109572.png?x-oss-process=image/info
-
-返回一个json
-{
-"FileSize": {
-"value": "498973"
-},
-"Format": {
-"value": "png"
-},
-"ImageHeight": {
-"value": "1137"
-},
-"ImageWidth": {
-"value": "1920"
-}
 }
 ```
 
