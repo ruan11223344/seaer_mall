@@ -7,8 +7,8 @@
                 </div>
                 <div class="deleteAlbum-main-text">Are you sure you want to delete this category?</div>
                 <div class="deleteAlbum-main-btn">
-                    <button type="button">Cancel</button>
-                    <button type="button">OK</button>
+                    <button type="button" @click="onShow">Cancel</button>
+                    <button type="button" @click="onClick">OK</button>
                 </div>
             </section>
         </v-modality-template>
@@ -24,6 +24,9 @@
         methods: {
             onShow() {
                 this.$emit('on-show')
+            },
+            onClick() {
+                this.$emit('on-delete')
             }
         },
         components: {

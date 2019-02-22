@@ -80,7 +80,7 @@ class ProductsGroupsController extends Controller
     }
 
     public function productsGroupsList(){
-        $group_list = elf::getProductGroupInfo();
+        $group_list = self::getProductGroupInfo();
         return $this->echoSuccessJson('获取商品分组成功!',$group_list);
 
     }

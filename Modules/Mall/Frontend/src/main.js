@@ -16,7 +16,7 @@ Vue.use(VueLazyLoad)
 // 滚动条
 //  import { HappyScroll } from 'vue-happy-scroll'
  // 引入css，推荐将css放入main入口中引入一次即可。
- import 'vue-happy-scroll/docs/happy-scroll.css'
+// import 'vue-happy-scroll/docs/happy-scroll.css'
  
 // 引入验证插件
 import verify from "vue-verify-plugin"

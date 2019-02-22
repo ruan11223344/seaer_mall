@@ -3,36 +3,36 @@
         <v-modality-template :title="title" @on-show="onShow">
             <section slot="main" class="deleteAlbum-main">
                 <div class="deleteAlbum-main-body">
-                    <Form ref="" :model="FormData" :rules="FormData">
+                    <Form ref="" :model="FormData" :rules="RuleData">
                         <FormItem>
                             <Row :gutter="20">
                                 <Col span="6" class-name="deleteAlbum-main-body-name">
                                     Name
                                 </Col>
                                 <Col span="14">
-                                    <Input v-model="FormData.value" size="large" placeholder="large size" />
+                                    <Input v-model="FormData.name" size="large" placeholder="large size" />
                                 </Col>
                             </Row>
                         </FormItem>
-                        <FormItem>
                             <Row :gutter="20">
                                 <Col span="6" class-name="deleteAlbum-main-body-name">
                                     Sort
                                 </Col>
                                 <Col span="14">
-                                    <Input v-model="FormData.value" size="large" placeholder="large size" />
+                                    <FormItem prop="sort">
+                                        <Input type="text" :number="true" v-model="FormData.sort" size="large" placeholder="large size" />
+                                    </FormItem>
                                 </Col>
                             </Row>
-                        </FormItem>
                         <FormItem>
                             <Row :gutter="20">
                                 <Col span="6" class-name="deleteAlbum-main-body-name">
                                     Display Status
                                 </Col>
                                 <Col span="14">
-                                     <RadioGroup v-model="disabledGroup">
-                                        <Radio label="Yes"></Radio>
-                                        <Radio label="No"></Radio>
+                                     <RadioGroup v-model="FormData.active">
+                                        <Radio :label="1">{{ 'Yes' }}</Radio>
+                                        <Radio :label="0">{{ 'No' }}</Radio>
                                     </RadioGroup>
                                 </Col>
                             </Row>
@@ -40,7 +40,7 @@
                     </Form>
                 </div>
                 <div class="deleteAlbum-main-btn">
-                    <button type="button">Submit</button>
+                    <button type="button" @click="onClick">Submit</button>
                 </div>
             </section>
         </v-modality-template>
@@ -53,11 +53,25 @@
 
     export default {
         data() {
+            const validateSort =  (rule, value, callback) => {
+                if (value > 128 || value < 0) {
+                    callback(new Error());
+                }else {
+                    callback()
+                }
+            }
             return {
                 FormData: {
-                    value: ''
+                    name: '',
+                    sort: '',
+                    active: 1,
+                    id: null
                 },
-                disabledGroup: 'Yes'
+                RuleData: {
+                    sort: [
+                        { type: 'number', message: 'Must be number type || Enter only numbers under 128', validator: validateSort, trigger: 'blur' }
+                    ],
+                }
             }
         },
         props: {
@@ -66,6 +80,14 @@
         methods: {
             onShow() {
                 this.$emit('on-show')
+            },
+            onClick() {
+                this.$refs[name].validate((valid) => {
+                    if (valid) {
+                        this.$emit('on-create', this.FormData)
+                        this.$emit('on-show')
+                    }
+                })
             }
         },
         components: {
@@ -86,6 +108,8 @@
             width: 800px;
 
             &-name {
+                height: 36px;
+                line-height: 36px;
                 font-size: 16px;
                 color: #333333;
                 text-align: right;
