@@ -33,6 +33,11 @@ import request from '@/utils/request.js'
 // 挂载axios
 Vue.prototype.$request = request
 
+// copy
+import VueClipboard from 'vue-clipboard2'
+
+Vue.use(VueClipboard)
+
 // 注册 iView
 Vue.use(iView, {
   transfer: true,

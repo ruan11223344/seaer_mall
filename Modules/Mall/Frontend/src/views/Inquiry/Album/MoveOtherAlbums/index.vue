@@ -7,13 +7,13 @@
                         Select Album
                     </Col>
                     <Col span="18" class-name="deleteAlbum-main-select">
-                        <Select v-model="model1" style="width:483px" placeholder="Default  Album">
-                            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        <Select v-model="model" style="width:483px" placeholder="Default  Album">
+                            <Option v-for="item in fromAlbum" :value="item.id" :key="item.id">{{ item.album_name }}</Option>
                         </Select>
                     </Col>
                 </Row>
                 <div class="deleteAlbum-main-btn">
-                    <button type="button">Submit</button>
+                    <button type="button" @click="onSub">Submit</button>
                 </div>
             </section>
         </v-modality-template>
@@ -27,39 +27,74 @@
     export default {
         data() {
             return {
-                cityList: [
-                    {
-                        value: 'New York',
-                        label: 'New York'
-                    },
-                    {
-                        value: 'London',
-                        label: 'London'
-                    },
-                    {
-                        value: 'Sydney',
-                        label: 'Sydney'
-                    },
-                    {
-                        value: 'Ottawa',
-                        label: 'Ottawa'
-                    },
-                    {
-                        value: 'Paris',
-                        label: 'Paris'
-                    },
-                    {
-                        value: 'Canberra',
-                        label: 'Canberra'
-                    }
-                ],
-                model1: ''
+                fromAlbum: [],
+                model: ''
+            }
+        },
+        props: {
+            dataId: {
+                type: Array
             }
         },
         methods: {
-            onShow() {
-                this.$emit('on-show')
+            onShow(bool) {
+                this.$emit('on-show', bool)
+            },
+            onSub() {
+                this.onMove()
+            },
+            // 移动图片到其他文件夹
+            onMove() {
+                if(this.model > 0 && this.dataId != false) {
+                    this.$request({
+                        url: '/album/modify_photos',
+                        method: 'post',
+                        data: {
+                            'photo_id_list': this.dataId,
+                            action: 'move',
+                            to_album_id: this.model
+                        }
+                    }).then(res => {
+                        if(res.code == 200) {
+                            this.onShow(true)
+
+                            this.$Message.info({
+                                content: res.message,
+                                duration: 3
+                            })
+                        }else {
+                            this.onShow(false)
+
+                            this.$Message.error({
+                                content: res.message,
+                                duration: 3
+                            })
+                        }
+                    }).catch(err => {
+                        return false
+                    })
+                }else {
+                    this.onShow(false)
+                }
+            },
+            // 获取相册文件夹列表
+            onGetAlbumList() {
+                this.$request(
+                    {
+                        url: '/album/album_list',
+                        method: 'get',
+                    }
+                ).then(res => {
+                    if(res.code == 200) {
+                        this.fromAlbum = res.data
+                    }
+                }).catch(err => {
+                    return false
+                })
             }
+        },
+        mounted() {
+            this.onGetAlbumList()
         },
         components: {
             "v-modality-template": ModalityTemplateVue

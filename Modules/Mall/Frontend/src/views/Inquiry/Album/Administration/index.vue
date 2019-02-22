@@ -11,7 +11,13 @@
 
         <template>
             <div class="administration-main">
-                <v-card-template :fromData="item" @on-get="onGetAlbumList" v-for="(item, index) in fromAlbum" :key="index" class="administration-main-card"></v-card-template>
+                <v-card-template
+                    :fromData="item"
+                    @on-get="onGetAlbumList"
+                    v-for="(item, index) in fromAlbum"
+                    :key="index"
+                    class="administration-main-card">
+                </v-card-template>
             </div>
         </template>
 
@@ -22,6 +28,12 @@
         <template>
             <v-upload @on-show="onUploadShow" v-show="uploadShow" :AlbumListId="fromAlbum | FiltersAlbumListId"></v-upload>
         </template>
+
+        <section style="marginTop:20px;">
+            <template>
+                <Page :total="total.total" :page-size="8" style="textAlign: center" @on-change="onPages"/>
+            </template>
+        </section>
     </div>
 </template>
 
@@ -39,6 +51,12 @@
                 createShow: false,
                 uploadShow: false,
                 fromAlbum: [],
+                total: {
+                    size: 8,
+                    total: 0,
+                    num: 1
+                },
+                data: []
             }
         },
         filters: {
@@ -57,7 +75,6 @@
                 this.createShow = false
             },
             onUploadShow(index) {
-                
                 this.uploadShow = false
             },
             onGetAlbumList() {
@@ -68,12 +85,27 @@
                     }
                 ).then(res => {
                     if(res.code == 200) {
-                        this.fromAlbum = res.data
+                        this.data = res.data
+                        this.filterAll(this.data)
                     }
                 }).catch(err => {
                     return false
                 })
-            }
+            },
+            filterAll(data) {
+                this.fromAlbum = []
+                const { num, size } = this.total
+                const dataFrom = data.slice(num * size - 8, num * size)
+                this.total.total = data.length
+                dataFrom.forEach((value, index) => {
+                    this.fromAlbum.push({ value })
+                })
+            },
+            // 分页
+            onPages(index) {
+                this.$set(this.total, 'num', index)
+                this.filterAll(this.data)
+            },
         },
         mounted() {
             // 获取相册列表

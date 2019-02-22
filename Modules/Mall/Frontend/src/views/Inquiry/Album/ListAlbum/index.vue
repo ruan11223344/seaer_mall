@@ -9,7 +9,7 @@
             <v-img width="63" height="50" imgSrc="" style="border: 1px solid #ccc;"></v-img>
             <div class="albumlist-title-right">
                 <div>{{ $route.query.name }}</div>
-                <div v-show="$route.query.description">{{ $route.query.description }}</div>
+                <div>{{ $route.query.description ? $route.query.description : '' }}</div>
             </div>
         </section>
 
@@ -23,12 +23,12 @@
                 <button type="button" class="albumlist-buttonAggregate-left-btn" @click="deletAlbum=true">Delete</button>
                 <button type="button" class="albumlist-buttonAggregate-left-btn" @click="moveAlbum=true">Move to other ablum</button>
             </div>
-            <div class="albumlist-buttonAggregate-right">
+            <!-- <div class="albumlist-buttonAggregate-right">
                 <span class="albumlist-buttonAggregate-right-sort">Sort by</span>
                 <Select v-model="model1" style="width:200px" placeholder="Descending date">
                     <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
-            </div>
+            </div> -->
         </section>
 
         <!-- 提示 -->
@@ -41,22 +41,30 @@
             <div style="marginTop: 13px;" class="albumlist-card">
                 <v-card-info :item="item" v-for="(item, index) in formData" :key="index" @on-changes="onChanges" @on-getData="onGetAlbumList" class="albumlist-card-list"></v-card-info>
             </div>
+
+            
         </template>
 
         <!-- 删除图片 -->
         <template>
             <v-deletealbum :dataId="formData | GetAlbumId" v-show="deletAlbum" @on-show="onDeleteShow"></v-deletealbum>
         </template>
-        
+
         <!-- 移动到其他相册 -->
         <!-- <template>
-            <v-move-other-album></v-move-other-album>
+            <v-move-other-album v-show="AlbumTips"></v-move-other-album>
         </template> -->
 
         <!-- 移动到其他相册操作 -->
         <template>
-            <v-move-other-albums v-show="moveAlbum" @on-show="onMoveAlbum"></v-move-other-albums>
+            <v-move-other-albums :dataId="formData | GetAlbumId" v-show="moveAlbum" @on-show="onMoveAlbum"></v-move-other-albums>
         </template>
+
+        <section style="marginTop:20px;">
+            <template>
+                <Page :total="total.total" :page-size="10" style="textAlign: center" @on-change="onPages"/>
+            </template>
+        </section>
     </div>
 </template>
 
@@ -107,11 +115,18 @@
                         label: 'Canberra'
                     }
                 ],
+                AlbumTips: false,
                 model1: '',
                 single: false,
                 deletAlbum: false,
                 moveAlbum: false,
-                formData: []
+                formData: [],
+                data: [],
+                total: {
+                    size: 10,
+                    total: 0,
+                    num: 1
+                }
             }
         },
         filters: {
@@ -126,7 +141,7 @@
                 }
 
                 return arr
-            }
+            },
         },
         methods: {
             onDeleteShow(bool) {
@@ -135,8 +150,11 @@
                     this.onGetAlbumList()
                 }
             },
-            onMoveAlbum() {
+            onMoveAlbum(bool) {
                 this.moveAlbum = false
+                if(bool) {
+                    this.onGetAlbumList()
+                }
             },
             // 切换
             onTableSwitch(num) {
@@ -161,11 +179,25 @@
                     }
                 ).then(res => {
                     if(res.code == 200) {
-                        this.formData = this.filterFormData(res.data)
+                        this.filterAll(res.data)
+                        this.data = this.filterFormData(res.data)
                     }
                 }).catch(err => {
                     return false
                 })
+            },
+            // 显示对应数据
+            filterAll(data) {
+                this.total.total = data.length
+                this.formData = []
+                const { num, size } = this.total
+                const dataFrom = data.slice(num * size - 10, num * size)
+
+                dataFrom.forEach((value, index) => {
+                    this.formData.push(value)
+                })
+
+                this.filterFormData(this.formData)
             },
             // 过滤
             filterFormData(data) {
@@ -176,6 +208,7 @@
                 }
                 return datas
             },
+            
             // 全选
             onSelect(bool) {
                 for(let index in this.formData) {
@@ -197,7 +230,11 @@
                 
                 return false
             },
-            
+            // 分页
+            onPages(index) {
+                this.$set(this.total, 'num', index)
+                this.filterAll(this.data)
+            }
         },
         mounted() {
             if(!this.$route.query.id) {
