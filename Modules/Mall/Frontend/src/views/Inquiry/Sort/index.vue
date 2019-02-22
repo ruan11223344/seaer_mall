@@ -62,7 +62,7 @@
                             <dd class="products-table-body-dl-text products-table-body-dl-operation">
                                 <template>
                                     <section class="products-table-body-dl-operation-btns">
-                                        <button type="button" @click="deletAlbum=true">Delete</button>
+                                        <button type="button" @click="id=item.id,delAlbum=true">Delete</button>
                                         <button type="button" @click="EditCategory=true,onEdit,ListId=item.id">Edit</button>
                                     </section>
                                 </template>
@@ -121,9 +121,14 @@
                 </template>
             </section>
 
-            <!-- 删除 -->
+            <!-- 删除多个 -->
             <template>
                 <v-deletealbum v-show="deletAlbum" @on-show="onDeleteShow" @on-delete="onDelete"></v-deletealbum>
+            </template>
+
+            <!-- 删除单个 -->
+            <template>
+                <v-deletealbum v-show="delAlbum" @on-show="onDelShow" @on-delete="onDel"></v-deletealbum>
             </template>
 
             <!-- 排序----新类别 -->
@@ -161,6 +166,7 @@
             return {
                 single: false,
                 deletAlbum: false,
+                delAlbum: false,
                 NewCategory: false,
                 SubCategory: false,
                 EditCategory: false,
@@ -187,12 +193,16 @@
                 ProductsDataList: [],
                 active: -1,
                 ListId: null,
-                ActiveId: []
+                ActiveId: [],
+                id: null
             }
         },
         methods: {
             onDeleteShow() {
                 this.deletAlbum = false
+            },
+            onDelShow() {
+                this.delAlbum = false
             },
             onNewCategory() {
                 this.NewCategory = false
@@ -277,7 +287,7 @@
                     return false
                 })
             },
-            // 删除商品分组
+            // 删除多个商品分组
             onDelete() {
                 const ArrId = []
 
@@ -302,11 +312,36 @@
                         this.$Message.error(res.message)
                     }
                     this.single = false
+                    this.active = -1
+                }).catch(err => {
+                    return false
+                })
+                this.onDeleteShow()
+            },
+            // 删除单个商品分组
+            onDel() {
+                this.$request({
+                    url: '/shop/product_group/delete_products_group',
+                    method: 'post',
+                    data: {
+                        product_group_id: [ this.id ]
+                    }
+                }).then(res => {
+                    if(res.code == 200) {
+                        this.data = res.data
+                        this.filterAll(this.data)
+                        this.$Message.info(res.message)
+                    }else {
+                        this.$Message.error(res.message)
+                    }
+                    this.single = false
+                    this.id = null
+                    this.active = -1
                 }).catch(err => {
                     return false
                 })
 
-                this.onDeleteShow()
+                this.onDelShow()
             },
             // 创建新类别
             onCreate(data) {
