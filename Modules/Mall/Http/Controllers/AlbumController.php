@@ -35,6 +35,10 @@ class AlbumController extends Controller
         });
     }
 
+    public static function getAlbumInfo(){
+        return AlbumUser::where(['user_id'=>Auth::id(),'soft_delete'=>false])->get()->toArray();
+    }
+
     public function createAlbum(Request $request){
         $data = $request->all();
 
@@ -64,7 +68,10 @@ class AlbumController extends Controller
         AlbumUser::create(
             $data
         );
-        return $this->echoSuccessJson('创建相册成功!');
+
+        $res_data = self::getAlbumInfo();
+
+        return $this->echoSuccessJson('创建相册成功!',$res_data);
     }
 
     public function editAlbum(Request $request){
@@ -109,7 +116,9 @@ class AlbumController extends Controller
             $data
         );
 
-        return $this->echoSuccessJson('更新相册成功!');
+        $res_data = self::getAlbumInfo();
+
+        return $this->echoSuccessJson('更新相册成功!',$res_data);
     }
 
     public function deleteAlbum(Request $request){
@@ -137,7 +146,10 @@ class AlbumController extends Controller
             'soft_delete'=>true
         ]);
 
-        return $this->echoSuccessJson('删除相册成功!');
+        $res_data = self::getAlbumInfo();
+
+
+        return $this->echoSuccessJson('删除相册成功!',$res_data);
 
     }
 
@@ -252,7 +264,7 @@ class AlbumController extends Controller
     }
 
     public function albumList(){
-        $data = AlbumUser::where(['user_id'=>Auth::id(),'soft_delete'=>false])->get()->toArray();
+        $data = self::getAlbumInfo();
         return $this->echoSuccessJson('成功!',$data);
     }
 

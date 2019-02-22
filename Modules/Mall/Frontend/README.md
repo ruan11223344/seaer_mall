@@ -1744,7 +1744,32 @@ url:http://域名/api/shop/product_group/product_group_list
             "created_at": "2019-02-14 16:40:45",
             "updated_at": "2019-02-14 16:40:45",
             "deleted_at": null,
-            "children": null
+            "children": [
+                {
+                    "id": 18,
+                    "user_id": 13,
+                    "group_name": "dd",
+                    "parent_id": 15,
+                    "show_home_page": true,
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null,
+                    "deleted_at": null,
+                    "children": null
+                },
+                {
+                    "id": 19,
+                    "user_id": 13,
+                    "group_name": "ff",
+                    "parent_id": 15,
+                    "show_home_page": true,
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null,
+                    "deleted_at": null,
+                    "children": null
+                }
+            ]
         },
         {
             "id": 16,
