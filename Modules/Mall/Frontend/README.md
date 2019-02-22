@@ -2505,3 +2505,118 @@ url:http://域名/api/get_sys_config
     }
 }
 ```
+
+
+52.获取商品推荐列表详情
+
+```
+url:http://域名/api/shop/get_recommend_product_list
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+无参数
+
+返回:
+{
+    "code": 200,
+    "message": "获取商品推荐列表成功!",
+    "data": {
+        "product_info_list": [
+            {
+                "product_id": 31,
+                "product_name": "超级无敌大飞车玩具13fff",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-19 14:16:22",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_e11d6910"
+            },
+            {
+                "product_id": 32,
+                "product_name": "超级无敌大飞车玩具13fffxxxx",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-21 17:37:47",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_58ccc0f0"
+            },
+            {
+                "product_id": 33,
+                "product_name": "超级无敌大飞车玩具13fffxxx333",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-22 09:17:02",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_8f538e50"
+            }
+        ],
+        "product_id_list": [
+            31,
+            32,
+            33
+        ]
+    }
+}
+```
+
+
+53.设置商品推荐列表
+
+```
+url:http://域名/api/shop/get_recommend_product_list
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+json参数: 
+{
+"product_id_list":[31,32,33]   //商品id的数组
+}
+返回:
+{
+    "code": 200,
+    "message": "更新成功!",
+    "data": []
+}
+```
+
+54.替换相册图片接口
+```
+url:http://域名/api/album/replace_img_to_album
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+form-data参数: 
+photo_id:14  //图片id,
+image:上传文件  //格式file 键image 单个文件
+
+返回:
+{
+    "code": 200,
+    "message": "替换图片成功!",
+    "data": {
+        "id": 14,
+        "album_id": 3,
+        "photo_name": "dsdds",
+        "photo_url": "mall/users/AF_CN_7a49b34079/album/15508059343838416.jpeg",
+        "created_at": "2019-02-12 11:15:46",
+        "updated_at": "2019-02-22 11:25:35",
+        "album_user": {
+            "id": 3,
+            "album_name": "f",
+            "album_description": null,
+            "user_id": 13,
+            "created_at": null,
+            "updated_at": null
+        }
+    }
+}
+```

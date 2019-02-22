@@ -9,9 +9,9 @@ class AlbumPhoto extends Model
 
     protected $fillable = [
         'id',
-        'album_name',
-        'album_description',
-        'user_id',
+        'album_id',
+        'photo_name',
+        'photo_url',
         'soft_delete',
     ];
 
@@ -22,4 +22,8 @@ class AlbumPhoto extends Model
     protected $hidden = [
         'soft_delete',
     ];
+
+    public function album_user(){
+        return $this->belongsTo('Modules\Mall\Entities\AlbumUser','album_id','id');
+    }
 }

@@ -8,15 +8,11 @@
 
 namespace Modules\Mall\Http\Controllers\Shop;
 use App\Utils\EchoJson;
-use DeepCopy\f001\A;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Intervention\Image\Facades\Image;
-use Modules\Mall\Entities\Products;
-use Modules\Mall\Entities\ProductsAttr;
-use Modules\Mall\Entities\ProductsCategories;
 use Illuminate\Support\Facades\Validator;
+use Modules\Mall\Entities\Products;
 use Modules\Mall\Entities\Shop;
 use Modules\Mall\Http\Controllers\UtilsController;
 
@@ -237,7 +233,7 @@ class ShopController extends Controller
         return $this->echoSuccessJson('上传成功!',['img_path'=>$img[0]['path'],'img_url'=>$img[0]['file_url']]);
     }
 
-    public function getSlidesList(Request $request){
+    public function getSlidesList(){
         $company_id = Auth::user()->company->id;
         $shop_obj = Shop::where('company_id',$company_id);
         if($shop_obj->exists()){
@@ -253,6 +249,83 @@ class ShopController extends Controller
             }
         }else{
             return $this->echoErrorJson('获取店铺幻灯片失败!未设置幻灯片!');
+        }
+    }
+
+    public function getRecommendProductList(){
+        $company_id = Auth::user()->company->id;
+        $shop = Shop::where('company_id',$company_id);
+        $res = [];
+        if($shop->exists()){
+           $shop_obj =  $shop->get()->first();
+           if($shop_obj->recommend_product != null){
+               $product_arr = $shop_obj->recommend_product;
+               $product_obj= Products::where('company_id',$company_id)->whereIn('id',$product_arr);
+               if($product_obj->count() > 0){
+                   $res = ProductsController::getProductFormatInfo($product_obj);
+                   $product_id_list = $product_obj->get()->pluck('id')->toArray();
+               }
+           }
+        }
+        return $this->echoSuccessJson('获取商品推荐列表成功!',['product_info_list'=>$res,'recommend_product_id_list'=>$product_id_list]);
+    }
+
+    public function setRecommendProductList(Request $request){
+        $data = $request->all();
+
+        Validator::extend('product_id_list_check', function($attribute, $value, $parameters,$validator)
+        {
+            foreach ($value as $v){
+                $p_item = Products::find($v);
+                if($p_item == null){
+                    $validator->setCustomMessages(['product_id_list_check' => 'can\'t found product_id id:'.$v]);
+                    return false;
+                }
+
+                if($p_item->company_id != Auth::user()->company->id){
+                    $validator->setCustomMessages(['product_id_list_check' => 'product_id not your company id:'.$v]);
+                    return false;
+                }
+
+                if($p_item->product_status != 1 || $p_item->product_audit_status !=1){
+                    $validator->setCustomMessages(['product_id_list_check' => 'product_id not sell id:'.$v]);
+                    return false;
+                }
+
+            }
+            return true;
+        });
+
+        $validator = Validator::make($data, [
+            'product_id_list'=>'required|array|product_id_list_check',
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+        }
+
+        $product_id_list = $request->input('product_id_list');
+
+        $company_id = Auth::user()->company->id;
+        $shop_obj = Shop::where('company_id',$company_id);
+
+
+
+        if($shop_obj->exists()){
+            $res = $shop_obj->get()->first()->update([
+                'recommend_product'=>$product_id_list
+            ]);
+        }else{
+            $res = Shop::create([
+                'company_id'=>$company_id,
+                'recommend_product'=>$product_id_list,
+            ]);
+        }
+
+        if($res){
+            return $this->echoSuccessJson('更新成功!');
+        }else{
+            return $this->echoErrorJson('更新失败!');
         }
     }
 

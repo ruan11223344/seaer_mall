@@ -496,8 +496,40 @@ class ProductsController extends Controller
             return $this->echoErrorJson('没有任何记录');
         }
 
-        $res = [];
+        $res = self::getProductFormatInfo($products_orm);
 
+
+        return $this->echoSuccessJson('获取商品列表成功!',['data_list'=>$res,'total'=>count($res)]);
+    }
+
+    public function getProductDetail(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'product_id'=>'required|exists:products,id',
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+        }
+
+        $product_id = $request->input('product_id');
+
+        $product_obj = Products::find($product_id);
+
+        if($product_obj == null){
+            return $this->echoErrorJson('该商品不存在!');
+        }
+
+        $products_attr = $product_obj->products_attr;
+        $products_price = $product_obj->products_price;
+
+        $res = ['product_info'=>$product_obj->toArray(),'product_attr'=>$products_attr->toArray(),'product_price'=>$products_price->toArray()];
+
+        return $this->echoSuccessJson('获取商品详情成功!',$res);
+    }
+
+    public static function getProductFormatInfo($products_orm){
+        $res = [];
         $products_orm->get()->map(function ($v,$k) use (&$res){
 
             $price_type = $v->products_price->price_type;
@@ -538,36 +570,7 @@ class ProductsController extends Controller
             array_push($res,$item);
         });
 
-        return $this->echoSuccessJson('获取商品列表成功!',['data_list'=>$res,'total'=>count($res)]);
-    }
-
-    public function getProductDetail(Request $request){
-        $data = $request->all();
-        $validator = Validator::make($data, [
-            'product_id'=>'required|exists:products,id',
-        ]);
-
-        if ($validator->fails()){
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
-        }
-
-        $product_id = $request->input('product_id');
-
-        $product_obj = Products::find($product_id);
-
-        if($product_obj == null){
-            return $this->echoErrorJson('该商品不存在!');
-        }
-
-        $products_attr = $product_obj->products_attr;
-        $products_price = $product_obj->products_price;
-
-        $res = ['product_info'=>$product_obj->toArray(),'product_attr'=>$products_attr->toArray(),'product_price'=>$products_price->toArray()];
-
-        return $this->echoSuccessJson('获取商品详情成功!',$res);
-
-
-
+        return $res;
     }
 
 }
