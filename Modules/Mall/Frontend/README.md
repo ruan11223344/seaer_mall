@@ -1805,7 +1805,7 @@ json参数:
 
 33.删除商品分组
 ```
-url:http://域名/api/shop/product_group/edit_products_group
+url:http://域名/api/shop/product_group/delete_products_group
 
 请求方法:post
 请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
