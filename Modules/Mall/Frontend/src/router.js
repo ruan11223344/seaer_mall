@@ -200,6 +200,7 @@ const newRouter = new Router({
               component: () => import("./views/Inquiry/Album/ListAlbum/index.vue")
             },
             {
+              // 预览图片信息
               path: "PicturePreview",
               component: () => import("./views/Inquiry/Album/PicturePreview/index.vue")
             }

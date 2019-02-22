@@ -62,10 +62,12 @@
         filters: {
             FiltersAlbumListId(data) {
                 const AlbumId = []
+                console.log(data);
                 
                 for(let i of data) {
                     AlbumId.push({ label: i.album_name, value: i.id })
                 }
+                
                 return AlbumId
             }
         },
@@ -98,7 +100,7 @@
                 const dataFrom = data.slice(num * size - 8, num * size)
                 this.total.total = data.length
                 dataFrom.forEach((value, index) => {
-                    this.fromAlbum.push({ value })
+                    this.fromAlbum.push(value)
                 })
             },
             // 分页

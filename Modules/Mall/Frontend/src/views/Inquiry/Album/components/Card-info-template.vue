@@ -2,7 +2,20 @@
     <div>
         <div class="cardInfo" @mouseleave="onLeave" @mouseover="onOver">
             <template>
-                <v-img width="174" height="180" :imgSrc="item.photo_url"></v-img>
+                <!-- <span @click="$router.push({ path:'/inquiryList/Album/PicturePreview', query:{ item, NodeAlbum:$route.query }})"> -->
+                <span @click="$router.push({ path:'/inquiryList/Album/PicturePreview', query:{ 
+                        album_id: item.album_id,
+                        created_at: item.created_at,
+                        id: item.id,
+                        photo_name: item.photo_name,
+                        photo_path: item.photo_path,
+                        photo_url: item.photo_url,
+                        description: $route.query.description,
+                        name: $route.query.name
+                }})">
+                    <!-- <v-img  :imgSrc="item.photo_url"></v-img> -->
+                    <img :src="item.photo_url" style="width: 174px; height:180px" alt="">
+                </span>
             </template>
             <template>
                 <div class="cardInfo-info cardInfo-body">
@@ -18,7 +31,7 @@
                             {{ item.created_at }}
                         </div>
                         <div class="cardInfo-body-block">
-                            Originai size: 800x800
+                            Originai size: {{ info.ImageWidth.value  + ' x ' + info.ImageHeight.value }}
                         </div>
                     </template>
 
@@ -76,16 +89,27 @@
     import DeletAlbum from "../DeleteAlbum/index.vue"
     import { mapState  } from 'vuex'
 
-    // import Clipboard from 'clipboard'
-    // let clipboard = new Clipboard('.cardInfo-info-block-content-span')
-
     export default {
         data() {
             return {
                 bool: true,
                 clear: null,
                 deletAlbum: false,
-                moveAlbum: false
+                moveAlbum: false,
+                info: {
+                    FileSize: {
+                        value: ''
+                    },
+                    Format: {
+                        value: ''
+                    },
+                    ImageWidth: {
+                        value: ''
+                    },
+                    ImageHeight: {
+                        value: ''
+                    }
+                }
             }
         },
         computed: {
@@ -97,6 +121,19 @@
             }
         },
         methods: {
+            onGetImgInfo(image_path) {
+                this.$request({
+                    url: '/album/get_img_info',
+                    method: 'get',
+                    params: {
+                        image_path: image_path
+                    }
+                }).then(res => {
+                    this.info = res
+                    console.log(res);
+                    
+                })
+            },
             onCopy() {
                 this.$Message.info('Success copy')
             },
@@ -130,7 +167,10 @@
             onChange() {
                 this.item.single = !this.item.single
                 this.$emit('on-changes')
-            },
+            }
+        },
+        mounted() {
+            this.onGetImgInfo(this.item.photo_path)
         },
         components: {
             "v-img": Img,
@@ -151,7 +191,7 @@
         position: relative;
         overflow: hidden;
         cursor: pointer;
-        z-index: 1;
+        z-index: 0;
 
         &-info {
             width: 173px;

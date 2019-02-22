@@ -6,7 +6,7 @@
         <v-table-switch title="My Album" :num="num" :tableSwitch="['List of Image']" style="marginBottom: 20px;" @on-click="onTableSwitch"></v-table-switch>
 
         <section class="albumlist-title">
-            <v-img width="63" height="50" imgSrc="" style="border: 1px solid #ccc;"></v-img>
+            <v-img width="63" height="50" :imgSrc="require('@/assets/img/wenjianj.png')"></v-img>
             <div class="albumlist-title-right">
                 <div>{{ $route.query.name }}</div>
                 <div>{{ $route.query.description ? $route.query.description : '' }}</div>
@@ -32,16 +32,15 @@
         </section>
 
         <!-- 提示 -->
-        <section class="albumlist-Tips">
+        <!-- <section class="albumlist-Tips">
             When use 'Replace' function, please make sure you upload the same image format.
-        </section>
+        </section> -->
 
         <!-- 图片 -->
         <template>
             <div style="marginTop: 13px;" class="albumlist-card">
                 <v-card-info :item="item" v-for="(item, index) in formData" :key="index" @on-changes="onChanges" @on-getData="onGetAlbumList" class="albumlist-card-list"></v-card-info>
             </div>
-
             
         </template>
 
@@ -129,6 +128,19 @@
                 }
             }
         },
+        computed: {
+            filterData() {
+                const arr = []
+
+                for(let item of this.formData) {
+                    if(item.single == true) {
+                        arr.push(item.id)
+                    }
+                }
+
+                return arr
+            }
+        },
         filters: {
             // 图片id列表
             GetAlbumId(data) {
@@ -179,8 +191,9 @@
                     }
                 ).then(res => {
                     if(res.code == 200) {
+                        this.data = res.data
                         this.filterAll(res.data)
-                        this.data = this.filterFormData(res.data)
+                        // this.filterFormData(res.data)
                     }
                 }).catch(err => {
                     return false
@@ -194,20 +207,24 @@
                 const dataFrom = data.slice(num * size - 10, num * size)
 
                 dataFrom.forEach((value, index) => {
+                    // console.log(value.photo_url);
+                    
                     this.formData.push(value)
                 })
 
-                this.filterFormData(this.formData)
+                // this.filterFormData(this.formData)
             },
             // 过滤
-            filterFormData(data) {
+            // filterFormData(data) {
+            //     console.log(data);
                 
-                const datas = data
-                for(let item of datas) {
-                    item.single = false
-                }
-                return datas
-            },
+            //     const datas = data
+            //     for(let item of datas) {
+            //         item.single = false
+            //     }
+
+            //     return datas
+            // },
             
             // 全选
             onSelect(bool) {
