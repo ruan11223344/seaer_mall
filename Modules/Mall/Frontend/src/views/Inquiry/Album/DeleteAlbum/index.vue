@@ -7,7 +7,7 @@
                 </div>
                 <div class="deleteAlbum-main-text">Are you sure you are going to do this? note: the picture in use will also be deleted.</div>
                 <div class="deleteAlbum-main-btn">
-                    <button type="button">Cancel</button>
+                    <button type="button" @click="onShow(false)">Cancel</button>
                     <button type="button" @click="onDelete">OK</button>
                 </div>
             </section>

@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <figure>
-            <router-link :to="'/inquiryList/Album/listalbum?id=' + fromData.id + '&name=' + fromData.album_name + '&description=' + album_description" tag='div' style="margin: 40px 60px;cursor: pointer;">
+            <router-link :to="'/inquiryList/Album/listalbum?id=' + fromData.id + '&name=' + fromData.album_name + '&description=' + fromData.album_description" tag='div' style="margin: 40px 60px;cursor: pointer;">
                 <v-img width="91" height="81" :imgSrc="require('@/assets/img/wenjianj.png')"></v-img>
             </router-link>
             <figcaption class="card-footer">
@@ -77,8 +77,6 @@
                         album_id: this.fromData.id
                     }
                 }).then(res => {
-                    console.log(res);
-
                     if(res.code == 200) {
                         this.len = this.res.data.length
                     }
@@ -97,7 +95,6 @@
                         album_description: this.formLeft.info
                     }
                 }).then(res => {
-                    
                     if(res.code == 200) {
                         this.$emit('on-get')
                         this.$Message.info({

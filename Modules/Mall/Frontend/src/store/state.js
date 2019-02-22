@@ -5,7 +5,9 @@ const state = {
     // 注册邮箱
     RegEmail: '',
     // 收件箱所有数据
-    Inbox_From: ''
+    Inbox_From: '',
+    // 阿里云oss前缀
+    Oss_Url_Config: ''
 }
 
 export default state

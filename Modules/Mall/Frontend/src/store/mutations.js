@@ -11,7 +11,12 @@ const mutations = {
     // 设置收件箱所有数据
     SET_INBOX_FROM(state, From) {
         state.Inbox_From = From
+    },
+    // 阿里云oss url前缀
+    SET_OSS_URL_CONFIG(state, url) {
+        state.Oss_Url_Config = url
     }
+
 }
 
 export default mutations
