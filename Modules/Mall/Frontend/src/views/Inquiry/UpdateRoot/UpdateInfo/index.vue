@@ -114,7 +114,7 @@
                         </Row>
                     </FormItem>
                     <!-- Product Attributes -->
-                    <FormItem prop="">
+                    <FormItem>
                         <Row :gutter="20">
                             <Col span="6" class-name="updateInfo-lable">
                                 <span>
@@ -181,7 +181,7 @@
                                                         <span class="updateInfo-main-Price-text" style="marginLeft: 0px;">≥</span>
                                                         <!-- 数字输入框 -->
                                                         <template>
-                                                            <InputNumber class="updateInfo-main-Price-input" :min="1" v-model="item.number"></InputNumber>
+                                                            <InputNumber class="updateInfo-main-Price-input" :min="0" v-model="item.number"></InputNumber>
                                                         </template>
                                                         <!--下拉 -->
                                                         <template>
@@ -194,12 +194,22 @@
                                                         <span class="updateInfo-main-Price-text">KSh</span>
                                                         <!-- 数字输入框 -->
                                                         <template>
-                                                            <InputNumber :max="10" :min="1" v-model="item.number"></InputNumber>
+                                                            <InputNumber 
+                                                                :max="99999999"
+                                                                :min="1"
+                                                                :step="10000"
+                                                                v-model="item.ksh1">
+                                                            </InputNumber>
                                                         </template>
                                                         <span class="updateInfo-main-Price-text">-</span>
                                                         <!-- 数字输入框 -->
                                                         <template>
-                                                            <InputNumber :max="10" :min="1" v-model="item.number"></InputNumber>
+                                                            <InputNumber
+                                                                :max="99999999"
+                                                                :min="1"
+                                                                :step="10000"
+                                                                v-model="item.ksh2">
+                                                            </InputNumber>
                                                         </template>
                                                     </div>
                                                     <div v-show="formItem.Price.Ladder.length != 1">
@@ -234,12 +244,12 @@
                                                         <span class="updateInfo-main-Price-text">KSh</span>
                                                         <!-- 数字输入框 -->
                                                         <template>
-                                                            <InputNumber :max="10" :min="1" v-model="formItem.Price.Base.number"></InputNumber>
+                                                            <InputNumber :max="10" :min="1" v-model="formItem.Price.Base.ksh1"></InputNumber>
                                                         </template>
                                                         <span class="updateInfo-main-Price-text">-</span>
                                                         <!-- 数字输入框 -->
                                                         <template>
-                                                            <InputNumber :max="10" :min="1" v-model="formItem.Price.Base.number"></InputNumber>
+                                                            <InputNumber :max="10" :min="1" v-model="formItem.Price.Base.ksh2"></InputNumber>
                                                         </template>
                                                     </div>
                                                 </div>
@@ -288,8 +298,15 @@
                                     </quill-editor>
                             </Col>
                             <Col span="24">
-                                <button type="button" class="updateInfo-main-add" style="marginRight: 10px;">Upload Picture</button>
-                                <button type="button" class="updateInfo-main-add">Select from album</button>
+                                <Upload
+                                    style="display: inline-block;"
+                                    action="//jsonplaceholder.typicode.com/posts/"
+                                    :before-upload="upPicture"
+                                    >
+                                        <button type="button" class="updateInfo-main-add" style="marginRight: 10px;">Upload Picture</button>
+                                </Upload>
+
+                                <!-- <button type="button" class="updateInfo-main-add">Select from album</button> -->
                             </Col>
                         </Row>
                         <Row>
@@ -420,6 +437,8 @@ legitimate, and does not infringe legitimate the rights and interests of third p
     import Img from "@/components/Img"
     import Head from "../../components/Head"
     import getData from "@/utils/getData"
+    import upData from "@/utils/upData"
+
     
     // 富文本编辑器
     import 'quill/dist/quill.core.css'
@@ -438,7 +457,7 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                     name: '', // Product Name
                     sku: '', // SKU No
                     keyword: [ '' ], // keyword
-                    Custom: [
+                    Custom: [ // Product Attributes
                         {
                             color: '',
                             value: ''
@@ -448,45 +467,66 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                         animal: 'Base',
                         Ladder: [
                             {
-                                number: 1,
-                                cityList: null
+                                number: 0,
+                                cityList: null,
+                                ksh1: 0,
+                                ksh2: 0,
                             }
                         ],
                         Base: {
-                            number: 1,
-                            cityList: null
+                            number: 0,
+                            cityList: null,
+                            ksh1: 0,
+                            ksh2: 0,
                         }
                     },
                     editor: null
                 },
                 uploadList: [], // Product Photo
-                // 下拉
+                // 价格单位下拉
                 cityList: [
                     {
-                        value: 'New York',
-                        label: 'New York'
+                        value: 'Pieces',
+                        label: 'Pieces'
                     },
                     {
-                        value: 'London',
-                        label: 'London'
+                        value: 'Bags',
+                        label: 'Bags'
                     },
                     {
-                        value: 'Sydney',
-                        label: 'Sydney'
+                        value: 'Boxes',
+                        label: 'Boxes'
                     },
                     {
-                        value: 'Ottawa',
-                        label: 'Ottawa'
+                        value: 'Foot',
+                        label: 'Foot'
                     },
                     {
-                        value: 'Paris',
-                        label: 'Paris'
+                        value: 'Meter',
+                        label: 'Meter'
                     },
                     {
-                        value: 'Canberra',
-                        label: 'Canberra'
-                    }
+                        value: 'Kg',
+                        label: 'Kg'
+                    },
+                    {
+                        value: 'Ton',
+                        label: 'Ton'
+                    },
+                    {
+                        value: 'm²',
+                        label: 'm²'
+                    },
+                    {
+                        value: 'm3',
+                        label: 'm3'
+                    },
+                    {
+                        value: 'Other',
+                        label: 'Other'
+                    },
                 ],
+                
                 model3: null,
                 imgName: '',
                 visible: false,
@@ -551,8 +591,9 @@ legitimate, and does not infringe legitimate the rights and interests of third p
             ...mapState(['Classification'])
         },
         methods: {
-            // // 获取图片路径
-            // getObjectURL: getData.getObjectURL,
+            upAlbumImg: upData.upAlbumImg,
+            upSaveAlbumImg: upData.upSaveAlbumImg,
+            onGetalbumIdList: getData.onGetalbumIdList,
             handleView (name) {
                 this.imgName = name;
                 this.visible = true;
@@ -598,6 +639,7 @@ legitimate, and does not infringe legitimate the rights and interests of third p
             onEditorFocus(editor) {
                 // console.log('editor focus!', editor)
             },
+            // 5张图片
             UpProductImg(file, id) {
                 const fromData = new FormData()
 
@@ -620,7 +662,27 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                         return false
                     })
                 })
-            }
+            },
+            upPicture(file) {
+                const formData = new FormData()
+
+                formData.append('images[]', file)
+
+                this.upAlbumImg(formData)
+                    .then(res => {
+                        if(res.code == 200) {
+                            const data = res.data
+                            this.upSaveAlbumImg({ photo_name_url_list:[ res.data], upload_to_default_album: true })
+                                .then(res => {
+                                    console.log(res);
+                                })
+                        }else {
+                            this.$Message.error('Failed to add pictures')
+                        }
+                    })
+
+                return false
+            },
         },
         mounted () {
             

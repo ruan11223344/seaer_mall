@@ -78,7 +78,20 @@ const getData = {
         url = window.webkitURL.createObjectURL(file);  
         }  
         return url;
-    }
+    },
+
+    // 29.获取相册id列表
+    async onGetalbumIdList() {  // 
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/album/album_list',
+            }).then(res => {
+                resolve(res)
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    },
 }
 
 export default getData
