@@ -86,7 +86,7 @@ class ProductsGroupsController extends Controller
     }
 
     public function editProductsGroup(Request $request){
-         $data = $request->all();
+        $data = $request->all();
 
         $validator = Validator::make($data,[
             'product_group_id'=>'required|exists:products_group,id',
@@ -94,7 +94,6 @@ class ProductsGroupsController extends Controller
             'show_home_page'=>'boolean|required',
             'sort'=>'integer|required',
         ]);
-
 
         if ($validator->fails()) {
             return $this->echoErrorJson('表单验证失败!'.$validator->messages());
@@ -122,7 +121,7 @@ class ProductsGroupsController extends Controller
             ]
         );
 
-        $group_list = elf::getProductGroupInfo();
+        $group_list = self::getProductGroupInfo();
 
         return $this->echoSuccessJson('更新商品分组成功!',$group_list);
     }
