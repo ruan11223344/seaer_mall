@@ -2720,3 +2720,172 @@ json参数:
 }
 ```
 
+57.添加收藏
+```
+url:http://域名/api/favorites/set_favorites
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+json参数: 
+均为必填
+{
+	"product_or_company_id":31,  //商品id或者公司id。
+	"type":"product"  //分类的类别 product 或 company
+}
+
+返回:
+{
+    "code": 200,
+    "message": "加入收藏成功!",
+    "data": {
+        "product": [
+            {
+                "id": 1,
+                "type": "product",
+                "product_or_company_id": 31,
+                "created_at": "2019-02-23 10:06:24",
+                "updated_at": "2019-02-23 10:06:24",
+                "deleted_at": null,
+                "product_name": "超级无敌大飞车玩具13fff1"
+            },
+            {
+                "id": 5,
+                "type": "product",
+                "product_or_company_id": 32,
+                "created_at": "2019-02-23 10:38:05",
+                "updated_at": "2019-02-23 10:38:05",
+                "deleted_at": null,
+                "product_name": "超级无敌大飞车玩具13fffxxxx"
+            }
+        ],
+        "company": [
+            {
+                "id": 2,
+                "type": "company",
+                "product_or_company_id": 7,
+                "created_at": null,
+                "updated_at": null,
+                "deleted_at": null,
+                "company_name": "Ningbo Associated Hydraulic Components Co.,LTD.",
+                "company_af_id": "AF_KE_c1dce03057"
+            }
+        ]
+    }
+}
+```
+
+58.删除收藏
+```
+url:http://域名/api/favorites/delete_favorites
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+json参数: 
+均为必填
+{
+	"product_or_company_id_list":[32],  //商品或公司 id的数组. 必须数组
+	"type":"product"  //分类的类别 product 或 company
+}
+
+返回:
+{
+    "code": 200,
+    "message": "操作成功!",
+    "data": {
+        "product": [
+            {
+                "id": 1,
+                "type": "product",
+                "product_or_company_id": 31,
+                "created_at": "2019-02-23 10:06:24",
+                "updated_at": "2019-02-23 10:06:24",
+                "deleted_at": null,
+                "product_name": "超级无敌大飞车玩具13fff1"
+            }
+        ],
+        "company": [
+            {
+                "id": 2,
+                "type": "company",
+                "product_or_company_id": 7,
+                "created_at": null,
+                "updated_at": null,
+                "deleted_at": null,
+                "company_name": "Ningbo Associated Hydraulic Components Co.,LTD.",
+                "company_af_id": "AF_KE_c1dce03057"
+            }
+        ]
+    }
+}
+```
+
+59.获取收藏
+```
+url:http://域名/api/favorites/get_favorites
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+无参数
+
+返回:
+{
+    "code": 200,
+    "message": "获取收藏数据成功!",
+    "data": {
+        "product": [
+            {
+                "id": 1,
+                "type": "product",
+                "product_or_company_id": 31,
+                "created_at": "2019-02-23 10:06:24",
+                "updated_at": "2019-02-23 10:06:24",
+                "deleted_at": null,
+                "product_name": "超级无敌大飞车玩具13fff1"
+            }
+        ],
+        "company": [
+            {
+                "id": 2,
+                "type": "company",
+                "product_or_company_id": 7,
+                "created_at": null,
+                "updated_at": null,
+                "deleted_at": null,
+                "company_name": "Ningbo Associated Hydraulic Components Co.,LTD.",
+                "company_af_id": "AF_KE_c1dce03057"
+            }
+        ]
+    }
+}
+```
+
+60.货币兑换
+```
+url:http://域名/api/utils/currency_converter
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+json参数
+{
+"from":"CNY",  //从什么货币转换？ CNY 是人民币  KES 是肯尼亚先令
+"to":"KES", //转换到哪个货币去？ CNY 是人民币  KES 是肯尼亚先令
+"amount":100
+}
+
+返回:
+{
+    "code": 200,
+    "message": "转换成功!",
+    "data": {
+        "form": "CNY",
+        "to": "KES",
+        "amount": 100,
+        "conversion": 1491.02  //转换的结果
+    }
+}
+```
+

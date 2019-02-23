@@ -10,6 +10,7 @@ namespace Modules\Mall\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
+use Modules\Mall\Http\Controllers\Shop\ProductsController;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response as Psr7Response;
 use League\OAuth2\Server\Exception\OAuthServerException;
@@ -107,6 +108,10 @@ class AuthorizationsController extends Controller
         $user = $user_obj->toArray();
         $company = $user_obj->company->toArray();
         $user_extends = $user_obj->usersExtends->toArray();
-        return $this->echoSuccessJson('获取用户信息成功！',compact('user','company','user_extends'));
+        $publish_product = [];
+        $publishProductPermissions = ProductsController::getPublishProductPermissions();
+        $publish_product['status'] = $publishProductPermissions[0];
+        $publish_product['message'] = $publishProductPermissions[1];
+        return $this->echoSuccessJson('获取用户信息成功！',compact('user','company','user_extends','publish_product'));
     }
 }

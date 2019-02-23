@@ -230,6 +230,10 @@ return [
          * 跨域支持
          */
         Barryvdh\Cors\ServiceProvider::class,
+        /*
+         * 货币转换
+         */
+        Swap\Laravel\SwapServiceProvider::class
     ],
 
     /*
@@ -307,6 +311,10 @@ return [
          * 权限管理
          */
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+        /*
+         * 货币转换
+         */
+        'Swap' => Swap\Laravel\Facades\Swap::class
     ],
 
 ];
