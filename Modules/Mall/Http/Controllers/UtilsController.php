@@ -10,11 +10,14 @@ namespace Modules\Mall\Http\Controllers;
 use App\Utils\City;
 use App\Utils\EchoJson;
 use App\Utils\Oss;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use Modules\Mall\Entities\UsersExtends;
+use Swap\Laravel\Facades\Swap;
 
 class UtilsController extends Controller
 {
@@ -213,5 +216,48 @@ class UtilsController extends Controller
         return env('OSS_URL').$path;
     }
 
+    public function currencyConverter(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'from'=>'in:KES,CNY',
+            'to'=>'in:CNY,KES',
+            'amount'=>'required|numeric',
+        ]);
 
+        if ($validator->fails()) {
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+        }
+
+        $from = $request->input('from');
+        $to = $request->input('to');
+        $amount = $request->input('amount');
+
+        if($from == $to){
+            return $this->echoErrorJson('错误!转换货币不能相同!');
+        }
+
+        $time_key = Carbon::now()->format('Y-m-d');
+
+        if(Cache::has($time_key)){
+            $rmb_ksh = Cache::get($time_key);
+        }else{
+            $rate_kes = Swap::latest('EUR/KES')->getValue();
+            $rate_cny = Swap::latest('EUR/CNY')->getValue();
+            $rmb_ksh = $rate_kes/$rate_cny;
+            $expiresAt = Carbon::now()->addHour(4);
+            Cache::put($time_key,$rmb_ksh,$expiresAt);
+        }
+
+        if($from == 'KES'){
+            $res = $amount/$rmb_ksh;
+        }elseif ($from == 'CNY'){
+            $res = $amount*$rmb_ksh;
+        }
+
+        $res = round($res,2);
+
+        return $this->echoSuccessJson('转换成功!',['form'=>$from,'to'=>$to,'amount'=>$amount,'conversion'=>$res]);
+
+
+    }
 }

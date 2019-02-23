@@ -2862,3 +2862,30 @@ url:http://域名/api/favorites/get_favorites
 }
 ```
 
+60.货币兑换
+```
+url:http://域名/api/utils/currency_converter
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+json参数
+{
+"from":"CNY",  //从什么货币转换？ CNY 是人民币  KES 是肯尼亚先令
+"to":"KES", //转换到哪个货币去？ CNY 是人民币  KES 是肯尼亚先令
+"amount":100
+}
+
+返回:
+{
+    "code": 200,
+    "message": "转换成功!",
+    "data": {
+        "form": "CNY",
+        "to": "KES",
+        "amount": 100,
+        "conversion": 1491.02  //转换的结果
+    }
+}
+```
+

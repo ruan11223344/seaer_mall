@@ -129,6 +129,7 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
         Route::post('check_captcha_url','UtilsController@checkCaptchaUrl')->name('check_captcha');
         Route::get('get_provinces_list','UtilsController@getProvincesList')->name('get_provinces_list');
         Route::get('get_city_list','UtilsController@getCityList')->name('get_city_list');
+        Route::post('currency_converter','UtilsController@currencyConverter');
     });
 
     Route::get('get_sys_config', 'SystemController@sysConfig');

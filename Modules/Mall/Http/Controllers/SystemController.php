@@ -28,6 +28,4 @@ class SystemController extends Controller
         $data['timestamp'] = time();
         return $this->echoSuccessJson('成功!',$data);
     }
-
-
 }
