@@ -204,6 +204,10 @@ class AlbumController extends Controller
 
         $input_data = $request->input('photo_name_url_list');
 
+        if(!is_array($input_data) || count($input_data) == 0){
+            return $this->echoErrorJson('photo_name_url_list必须是个数组');
+        }
+
         $carbon = new Carbon;
 
         $insert_data = [];
