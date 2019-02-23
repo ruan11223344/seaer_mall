@@ -16,13 +16,13 @@
             <section>
                 <Form ref="formInline" :model="formItem">
                     <!-- Product Name -->
-                    <FormItem prop="">
+                    <FormItem>
                         <Row :gutter="20">
                             <Col span="6" class-name="updateInfo-lable">
                                 <span>Product Name</span>
                             </Col>
                             <Col span="15">
-                                <Input placeholder="eg: Pure white garlic wholesale"></Input>
+                                <Input v-model="formItem.name" placeholder="eg: Pure white garlic wholesale"></Input>
                             </Col>
                         </Row>
                     </FormItem>
@@ -30,10 +30,10 @@
                     <FormItem prop="">
                         <Row :gutter="20">
                             <Col span="6" class-name="updateInfo-lable">
-                                <span>SKU No.</span>
+                                <span>SKU No</span>
                             </Col>
                             <Col span="15">
-                                <Input placeholder="SKU refers to the number of business management products, it is not visible to buyer."></Input>
+                                <Input v-model="formItem.sku" placeholder="SKU refers to the number of business management products, it is not visible to buyer."></Input>
                             </Col>
                         </Row>
                     </FormItem>
@@ -107,7 +107,7 @@
                                         </template>
                                     </Col>
                                     <Col span="24" class-name="updateInfo-main-font">
-                                        - Format : Jpeg、Jpg; Maximum: 100KB;
+                                        - Format : Jpeg、Jpg、Png; Maximum: 1M;
                                     </Col>
                                 </Row>
                             </Col>
@@ -416,9 +416,9 @@ legitimate, and does not infringe legitimate the rights and interests of third p
 </template>
 
 <script>
-    import Title from "../components/Title"
+    import Title from "../../components/Title"
     import Img from "@/components/Img"
-    import Head from "../components/Head"
+    import Head from "../../components/Head"
     import getData from "@/utils/getData"
     
     // 富文本编辑器
@@ -429,12 +429,15 @@ legitimate, and does not infringe legitimate the rights and interests of third p
     import { quillEditor } from 'vue-quill-editor'
     // 高亮
     // import hljs from 'highlight.js'
+    import { mapState } from 'vuex'
 
     export default {
         data() {
             return {
                 formItem: {
-                    keyword: [ '' ],
+                    name: '', // Product Name
+                    sku: '', // SKU No
+                    keyword: [ '' ], // keyword
                     Custom: [
                         {
                             color: '',
@@ -456,6 +459,7 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                     },
                     editor: null
                 },
+                uploadList: [], // Product Photo
                 // 下拉
                 cityList: [
                     {
@@ -486,7 +490,6 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                 model3: null,
                 imgName: '',
                 visible: false,
-                uploadList: [],
                 // 编辑器
                 editorOption: {
                     modules: {
@@ -544,9 +547,12 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                 single: false
             }
         },
+        computed: {
+            ...mapState(['Classification'])
+        },
         methods: {
-            // 获取图片路径
-            getObjectURL: getData.getObjectURL,
+            // // 获取图片路径
+            // getObjectURL: getData.getObjectURL,
             handleView (name) {
                 this.imgName = name;
                 this.visible = true;
@@ -557,8 +563,31 @@ legitimate, and does not infringe legitimate the rights and interests of third p
             },
             // 上传事件
             handleBeforeUpload (file) {
-                const path = this.getObjectURL(file)
-                this.uploadList.push({ path,  status: 'finished'})
+                let { name, size } = file
+
+                if(size > 1024 * 1024) {
+                    return false
+                }
+
+                const arr = name.split('.')
+                const type = arr[ arr.length - 1 ]
+                const types = ['jpg', 'jpeg', 'png']
+                const bool = types.includes(type.toLowerCase())
+
+                if(!bool) {
+                    console.log(false);
+                    return false
+                }
+                const len = this.uploadList.length
+
+                this.UpProductImg(file, len == 0 ? 'main' : len).then(res => {
+                    const path = res.img_url
+
+                    this.uploadList.push({ path,  status: 'finished', file: res})
+                }).catch(err => {
+                    this.$Message.error('Failed to add pictures')
+                })
+
                 return false;
             },
             // 失去焦点
@@ -569,10 +598,42 @@ legitimate, and does not infringe legitimate the rights and interests of third p
             onEditorFocus(editor) {
                 // console.log('editor focus!', editor)
             },
+            UpProductImg(file, id) {
+                const fromData = new FormData()
+
+                fromData.append('product_img', file)
+                fromData.append('where', id)
+
+                return new Promise((resolve, reject) => {
+                    this.$request({
+                        url: '/shop/product/upload_product_img',
+                        method: 'post',
+                        data: fromData,
+                        headers:{'Content-Type':'multipart/form-data'}
+                    }).then(res => {
+                        if(res.code == 200) {
+                            resolve(res.data)
+                        }else {
+                            reject(res.message)
+                        }
+                    }).catch(err => {
+                        return false
+                    })
+                })
+            }
         },
         mounted () {
-
+            
         },
+        // 跳转拦截
+        // beforeRouteEnter (to, from, next) {
+        //     next(vm => {
+        //         if(vm.Classification) {
+        //             return true
+        //         }
+        //         vm.$router.push('/inquiryList/uploadroot/uploadproduct')
+        //     })
+        // },
         components: {
             "v-title": Title,
             "v-img": Img,
@@ -583,7 +644,7 @@ legitimate, and does not infringe legitimate the rights and interests of third p
 </script>
 
 <style lang="less" scoped>
-    @import url('../../../assets/css/index.less');
+    @import url('../../../../assets/css/index.less');
 
     .updateInfo {
         width: 945px;

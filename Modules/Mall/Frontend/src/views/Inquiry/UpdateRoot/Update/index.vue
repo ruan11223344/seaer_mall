@@ -103,16 +103,16 @@
 </template>
 
 <script>
-    import Title from "../components/Title"
+    import Title from "../../components/Title"
     import Img from "@/components/Img"
-    import Head from "../components/Head"
+    import Head from "../../components/Head"
     // 滚动条
     // import { HappyScroll } from 'vue-happy-scroll'
     import { swiper, swiperSlide } from 'vue-awesome-swiper'
     import 'swiper/dist/css/swiper.css'
 
     // 切换
-    import TableSwitch from "../components/TableSwitch/index.vue"
+    import TableSwitch from "../../components/TableSwitch/index.vue"
     import { mapMutations } from "vuex"
 
     export default {
@@ -321,7 +321,6 @@
                         return false
                     })
                 })
-                
             },
             // 提交
             onSub() {
@@ -331,6 +330,8 @@
                             if(!bool) {
                                 // 存储在vuex
                                 this.SET_CLASSIFICATION(this.SelectId)
+
+                                this.$router.push('/inquiryList/uploadroot/uploadinfo')
                             }
                         })
                 }else {
@@ -365,7 +366,7 @@
 </script>
 
 <style lang="less" scoped>
-    @import url('../../../assets/css/index.less');
+    @import url('../../../../assets/css/index.less');
 
     .product {
         width: 945px;

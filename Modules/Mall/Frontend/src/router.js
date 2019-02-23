@@ -170,12 +170,18 @@ const newRouter = new Router({
           component: () => import("./views/Inquiry/Commodity/index.vue")
         },
         { // 上传商品
-          path: 'uploadproduct',
-          component: () => import("./views/Inquiry/Update/index.vue")
-        },
-        { // 上传商品----详细信息
-          path: 'uploadinfo',
-          component: () => import("./views/Inquiry/UpdateInfo/index.vue")
+          path: 'uploadroot',
+          component: () => import("./views/Inquiry/UpdateRoot/index.vue"),
+          children: [
+            { // 上传商品
+              path: 'uploadproduct',
+              component: () => import("./views/Inquiry/UpdateRoot/Update/index.vue")
+            },
+            { // 上传商品----详细信息
+              path: 'uploadinfo',
+              component: () => import("./views/Inquiry/UpdateRoot/UpdateInfo/index.vue")
+            },
+          ]
         },
         { // 审核
           path: 'examine',

@@ -66,8 +66,7 @@
                             {
                                 name:'Upload Product',
                                 url: '/inquiryList/uploadproduct',
-                                path: 'uploadproduct',
-
+                                path: 'uploadroot',
                             },
                             {
                                 name:'Manage Products',
