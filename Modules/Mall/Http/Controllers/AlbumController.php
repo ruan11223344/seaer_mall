@@ -9,11 +9,13 @@
 namespace Modules\Mall\Http\Controllers;
 
 use App\Utils\Oss;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use App\Utils\EchoJson;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Modules\Mall\Entities\AlbumPhoto;
 use Modules\Mall\Entities\AlbumUser;
@@ -183,7 +185,8 @@ class AlbumController extends Controller
 
         $validator = Validator::make($data,[
             'photo_name_url_list'=>'required|array',
-            'album_id'=>'required|exists:album_user,id',
+            'album_id'=>'nullable|exists:album_user,id',
+            'upload_to_default_album'=>'nullable|boolean'
         ]);
 
         if ($validator->fails()) {
@@ -203,21 +206,39 @@ class AlbumController extends Controller
 
         $insert_data = [];
 
+        $upload_to_default_album = $request->input('upload_to_default_album',false);
+
+        if($upload_to_default_album){
+            $data = ['album_name'=>'Default Album','user_id'=>Auth::id()];
+            $default_album_obj = AlbumUser::updateOrCreate($data,$data);
+            $data['album_id']= $default_album_obj->id;
+        }
+
+        $oss = Oss::getInstance();
+        $res_data = [];
+        $res_data['un_success'] = [];
         foreach ($input_data as $key=>$value){
+            try{
+                $oss->size($value['path']);
+            }catch (\Exception $e){
+                array_push($res_data['un_success'],[$value['name']=>$value['path']]);
+                Log::error($e->getMessage());
+                continue;
+            }
             if(AlbumPhoto::where(['photo_name'=>$value['name'],'photo_url'=>$value['path'],'album_id'=>$data['album_id']])->count() == 0){
                 $tmp = [];
                 $tmp['album_id'] = $data['album_id'];
                 $tmp['created_at'] = $carbon;
                 $tmp['photo_name'] = $value['name'];
                 $tmp['photo_url'] = $value['path'];
+                $res_data['success'] = [$value['name']=>$value['path']];
                 $insert_data[] = $tmp;
             }
         }
-        
 
         $res = AlbumPhoto::insert($insert_data);
         if($res){
-            return $this->echoSuccessJson('保存成功!');
+            return $this->echoSuccessJson('成功!',$res_data);
         }
     }
 

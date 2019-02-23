@@ -216,6 +216,20 @@ class UtilsController extends Controller
         return env('OSS_URL').$path;
     }
 
+    public static function getBaseCurrencyConverter(){
+        $time_key = Carbon::now()->format('Y-m-d');
+        if(Cache::has($time_key)){
+            $rmb_ksh = Cache::get($time_key);
+        }else{
+            $rate_kes = Swap::latest('EUR/KES')->getValue();
+            $rate_cny = Swap::latest('EUR/CNY')->getValue();
+            $rmb_ksh = $rate_kes/$rate_cny;
+            $expiresAt = Carbon::now()->addHour(4);
+            Cache::put($time_key,$rmb_ksh,$expiresAt);
+        }
+        return $rmb_ksh;
+    }
+
     public function currencyConverter(Request $request){
         $data = $request->all();
         $validator = Validator::make($data, [
@@ -236,17 +250,7 @@ class UtilsController extends Controller
             return $this->echoErrorJson('错误!转换货币不能相同!');
         }
 
-        $time_key = Carbon::now()->format('Y-m-d');
-
-        if(Cache::has($time_key)){
-            $rmb_ksh = Cache::get($time_key);
-        }else{
-            $rate_kes = Swap::latest('EUR/KES')->getValue();
-            $rate_cny = Swap::latest('EUR/CNY')->getValue();
-            $rmb_ksh = $rate_kes/$rate_cny;
-            $expiresAt = Carbon::now()->addHour(4);
-            Cache::put($time_key,$rmb_ksh,$expiresAt);
-        }
+        $rmb_ksh = self::getBaseCurrencyConverter();
 
         if($from == 'KES'){
             $res = $amount/$rmb_ksh;
@@ -259,5 +263,9 @@ class UtilsController extends Controller
         return $this->echoSuccessJson('转换成功!',['form'=>$from,'to'=>$to,'amount'=>$amount,'conversion'=>$res]);
 
 
+    }
+
+    public static function getMallNotice(Request $request){
+        //todo 获取个人中心页面的新闻。 等待后台建表后完成此方法
     }
 }

@@ -1510,15 +1510,37 @@ url:http://域名/api/album/save_img_to_album
 请求头参数:"Authorization",值:"Bearer空格+token" //必填
 
 以下是普通参数 ↓
-json参数:"photo_name_url_list",值:"[{"image1":"/mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg"},{"image1":"/mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg"},{"image3":"/mall/users/AF_CN_c1dce03043/album/154993909864833423.jpg"}]"   //关联数组格式 可以多个或者单个 但必须是关联数组 以 自定义图片名->图片url的格式  （图片url从22号接口获取)
-"album_id",值:"6"   //相册id
+json参数:
+{
+    "photo_name_url_list": [
+        {
+            "name": "15469291161445.jpg",  //文件名
+            "path": "mall/users/AF_CN_c1dce03043/album/15508176644133212.jpg"  //文件路径
+        },
+        {
+            "name": "1546929116143f.jpg",
+            "path": "mall/users/AF_CN_c1dce03043/album/155072760131454730.jpg"
+        }
+    ],
+    "album_id": 3,
+    "upload_to_default_album": false  //是否上传到默认相册  可为空 布尔类型
+}
 
 返回：
 {
     "code": 200,
-    "message": "保存成功!",
-    "data": []
-}
+    "message": "成功!",
+    "data": {
+        "un_success": [
+            {
+                "1546929116143f.jpg": "mall/users/AF_CN_c1dce03043/album/155072760131454730.jpg"
+            }
+        ],
+        "success": {
+            "154692911614435.jpg": "mall/users/AF_CN_c1dce03043/album/15508176644133212.jpg"
+        }
+    }
+}  //成功与未成功保存的列表。
 ```
 
 24.创建相册
