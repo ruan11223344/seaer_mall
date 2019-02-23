@@ -195,7 +195,7 @@ class AlbumController extends Controller
 
         $album_id = $request->input('album_id');
 
-        if($album_id == null){
+        if($album_id != null){
             $album = AlbumUser::find($album_id);
             if($album->user_id != Auth::id()){
                 return $this->echoErrorJson('错误!只能上传到用户自己的相册!');
