@@ -69,6 +69,15 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
         Route::get('get_img_info', 'AlbumController@getImgInfo');
     });
 
+    //收藏
+    Route::prefix('favorites')->group(function (){
+        Route::group(['middleware' => ['client.credentials','auth:api']], function(){
+            Route::post('set_favorites', 'FavoritesController@setFavorites')->name('favorites.set');
+            Route::get('get_favorites', 'FavoritesController@getFavorites')->name('favorites.get');
+            Route::post('delete_favorites', 'FavoritesController@deleteFavorites')->name('favorites.delete');
+        });
+    });
+
     //商品模块
     Route::prefix('shop')->group(function() {
         //店铺管理
