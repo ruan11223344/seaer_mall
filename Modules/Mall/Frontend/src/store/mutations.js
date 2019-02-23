@@ -15,6 +15,10 @@ const mutations = {
     // 阿里云oss url前缀
     SET_OSS_URL_CONFIG(state, url) {
         state.Oss_Url_Config = url
+    },
+    // 选择的分类Id
+    SET_CLASSIFICATION(state, id) {
+        state.Classification = id
     }
 
 }

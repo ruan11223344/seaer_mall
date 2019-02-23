@@ -7,7 +7,9 @@ const state = {
     // 收件箱所有数据
     Inbox_From: '',
     // 阿里云oss前缀
-    Oss_Url_Config: ''
+    Oss_Url_Config: '',
+    // 选择的分类Id
+    Classification: ''
 }
 
 export default state

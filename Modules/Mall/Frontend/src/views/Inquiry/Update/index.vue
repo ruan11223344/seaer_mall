@@ -13,7 +13,7 @@
         </section>
 
         <!-- 模糊搜索 -->
-        <section class="product-blurry" v-show="(search.length != 0) && (SearchData.length != 0)">
+        <section class="product-blurry" v-show="search.length != 0">
             <span class="product-blurry-title">All Categories</span>
 
             <!-- 分类一 -->
@@ -36,38 +36,53 @@
         </section>
 
         <!-- 地址 -->
-        <section class="product-category" v-show="(search.length != 0) && (SearchData.length != 0)">
+        <section class="product-category" v-show="search.length == 0">
             <!-- 分类一 -->
             <swiper :options="swiperOption" class="product-category-item">
                 <swiper-slide style="height: auto;">
                     <Card shadow style="width: 260px;border:none;boxShadow: none;">
-                        <CellGroup>
-                            <Cell title="Construction" class="product-category-item-list product-category-item-active"/>
-                            <Cell title="Only show titles" class="product-category-item-list" v-for="(item, index) in 100" :key="index"/>
+                        <CellGroup @on-click="onClickRootActive">
+                            <Cell
+                                :title="item.name + ''"
+                                :class="rootActive.id == item.id ? 'product-category-item-list product-category-item-active' : 'product-category-item-list'"
+                                v-for="(item, index) in rootData"
+                                :key="index"
+                                :name="item.id + '/' + item.name"
+                            />
                         </CellGroup>
                     </Card>
                 </swiper-slide>
                 <div class="swiper-scrollbar" slot="scrollbar"></div>
             </swiper>
             <!-- 分类二 -->
-            <swiper :options="swiperOption" class="product-category-item">
+            <swiper :options="swiperOption" class="product-category-item" v-show="parentData.length">
                 <swiper-slide style="height: auto;">
                     <Card shadow style="width: 260px;border:none;boxShadow: none;">
-                        <CellGroup>
-                            <Cell title="Home improvement building materials" class="product-category-item-list product-category-item-active"/>
-                            <Cell title="Only show titles" class="product-category-item-list" v-for="(item, index) in 10" :key="index"/>
+                        <CellGroup @on-click="onClickParentActive">
+                            <Cell
+                                :title="item.name + ''"
+                                :class="parentActive.id == item.id ? 'product-category-item-list product-category-item-active' : 'product-category-item-list'"
+                                v-for="(item, index) in parentData"
+                                :key="index"
+                                :name="item.id + '/' + item.name"
+                            />
                         </CellGroup>
                     </Card>
                 </swiper-slide>
                 <div class="swiper-scrollbar" slot="scrollbar"></div>
             </swiper>
             <!-- 分类三 -->
-            <swiper :options="swiperOption" class="product-category-item" style="borderRight: none;">
+            <swiper :options="swiperOption" class="product-category-item" style="borderRight: none;" v-show="childData.length">
                 <swiper-slide style="height: auto;">
                     <Card shadow style="width: 260px;border:none;boxShadow: none;">
-                        <CellGroup>
-                            <Cell title="Home improvement building materials" class="product-category-item-list product-category-item-active"/>
-                            <Cell title="Only show titles" class="product-category-item-list" v-for="(item, index) in 10" :key="index"/>
+                        <CellGroup @on-click="onClickChildActive">
+                            <Cell
+                                :title="item.name + ''"
+                                :class="childActive.id == item.id ? 'product-category-item-list product-category-item-active' : 'product-category-item-list'"
+                                v-for="(item, index) in childData"
+                                :key="index"
+                                :name="item.id + '/' + item.name"
+                            />
                         </CellGroup>
                     </Card>
                 </swiper-slide>
@@ -75,11 +90,15 @@
             </swiper>
         </section>
         <!-- 选择的地址 -->
-        <section class="product-footer">
+        <section class="product-footer" v-show="search">
             {{ SearchActive.name }}
         </section>
 
-        <button type="button" class="product-btn">Select</button>
+        <section class="product-footer" v-show="!search">
+            {{ (rootActive.id ? rootActive.name + '>' : '') + (parentActive.id ? parentActive.name + '>' : '') + childActive.name }}
+        </section>
+
+        <button type="button" class="product-btn" @click="onSub">Select</button>
     </div>
 </template>
 
@@ -94,6 +113,7 @@
 
     // 切换
     import TableSwitch from "../components/TableSwitch/index.vue"
+    import { mapMutations } from "vuex"
 
     export default {
         data() {
@@ -120,10 +140,29 @@
                     id: null,
                     name: ''
                 },
-                SearchBool: false
+                SearchBool: false,
+                // 分类
+                rootData: [],
+                rootActive: {
+                    id: null,
+                    name: ''
+                },
+                parentData: [],
+                parentActive: {
+                    id: null,
+                    name: ''
+                },
+                childData: [],
+                childActive: {
+                    id: null,
+                    name: ''
+                },
+
+                SelectId: null
             }
         },
         methods: {
+            ...mapMutations(['SET_CLASSIFICATION']),
             // 切换
             onTableSwitch(num) {
                 this.num = num
@@ -169,7 +208,138 @@
                 const arr = name.split('/')
                 this.$set(this.SearchActive, 'id', arr[0])
                 this.$set(this.SearchActive, 'name', arr[1])
+
+                this.SelectId = this.childActive.id
+            },
+            // 获取根分类列表
+            GetRootList() {
+                this.$request({
+                    url: '/shop/category/get_category_root'
+                }).then(res => {
+                    console.log(res);
+                    if(res.code == 200) {
+                        this.rootData = res.data
+                    }else {
+                        this.$Message.error(res.message)
+                    }
+                }).catch(err => {
+                    return false
+                })
+            },
+            onClickRootActive(name) {
+                const arr = name.split('/')
+                this.$set(this.rootActive, 'id', arr[0])
+                this.$set(this.rootActive, 'name', arr[1])
+
+                this.parentActive = {
+                    id: null,
+                    name: ''
+                }
+
+                this.childActive = {
+                    id: null,
+                    name: ''
+                }
+                this.SelectId = null
+                this.childData = []
+
+                this.GetChildList(this.rootActive.id, true)
+            },
+            // 获取分类的子分类列表
+            GetChildList(id, bool) {
+                this.$request({
+                    url: '/shop/category/get_category_child',
+                    params: {
+                        categories_id: id
+                    }
+                }).then(res => {
+                    if(res.code == 200) {
+                        if(bool) {
+                            this.parentData = res.data
+                        }else {
+                            this.childData = res.data
+                        }
+                    }else {
+                        this.$Message.error(res.message)
+                    }
+                }).catch(err => {
+                    return false
+                })
+            },
+            onClickChildActive(name) {
+                const arr = name.split('/')
+                this.$set(this.childActive, 'id', arr[0])
+                this.$set(this.childActive, 'name', arr[1])
+
+                this.SelectId = this.childActive.id
+            },
+            // 获取分类的父分类
+            // GetParentList() {
+            //     this.$request({
+            //         url: '/shop/category/get_category_parent',
+            //         params: {
+            //             categories_id: this.rootActive.id
+            //         }
+            //     }).then(res => {
+            //         if(res.code == 200) {
+            //             this.parentData = res.data
+            //         }else {
+            //             this.$Message.error(res.message)
+            //         }
+            //     }).catch(err => {
+            //         return false
+            //     })
+            // },
+            onClickParentActive(name) {
+                const arr = name.split('/')
+                this.$set(this.parentActive, 'id', arr[0])
+                this.$set(this.parentActive, 'name', arr[1])
+
+                this.childActive = {
+                    id: null,
+                    name: ''
+                }
+                this.GetChildList(this.parentActive.id, false)
+
+                this.SelectId = this.parentActive.id
+            },
+            // 查看选中的分类是否还有子分类
+            GetSeachList(id) {
+                return new Promise((resolve, reject) => {
+                    this.$request({
+                        url: '/shop/category/get_category_child',
+                        params: {
+                            categories_id: id
+                        }
+                    }).then(res => {
+                        if(res.code == 200) {
+                            resolve(true)
+                        }else {
+                            resolve(false)
+                        }
+                    }).catch(err => {
+                        return false
+                    })
+                })
+                
+            },
+            // 提交
+            onSub() {
+                if(this.SelectId) {
+                    this.GetSeachList(this.SelectId)
+                        .then(bool => {
+                            if(!bool) {
+                                // 存储在vuex
+                                this.SET_CLASSIFICATION(this.SelectId)
+                            }
+                        })
+                }else {
+                    this.$Message.error('Please choose the category')
+                }
             }
+        },
+        mounted() {
+            this.GetRootList()
         },
         components: {
             "v-title": Title,
@@ -180,8 +350,15 @@
             swiperSlide
         },
         watch: {
-            search() {
-                this.SearchData = []
+            search(add) {
+                if(add == '') {
+                    this.SearchActive = {
+                        id: null,
+                        name: ''
+                    }
+
+                    this.SelectId = this.childActive.id
+                }
             }
         },
     }
@@ -232,6 +409,7 @@
                 &-list {
                     height: 36px;
                     font-size: 14px;
+                    .textHidden();
                 }
 
                 &-list:hover {
@@ -266,6 +444,7 @@
                 &-list {
                     height: 36px;
                     font-size: 14px;
+                    .textHidden();
                 }
 
                 &-list:hover {
@@ -283,6 +462,12 @@
             width: 885px;
             height: 40px;
             border: solid 1px #dddddd;
+            font-size: 14px;
+            line-height: 40px;
+            color: #666666;
+            padding-left: 42px;
+            padding-right: 20px;
+            .textHidden();
         }
 
         &-btn {
