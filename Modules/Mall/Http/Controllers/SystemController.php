@@ -25,6 +25,7 @@ class SystemController extends Controller
     public function sysConfig(){
         $data = [];
         $data['oss_url_prefix']  = env('OSS_URL');
+        $data['timestamp'] = time();
         return $this->echoSuccessJson('成功!',$data);
     }
 
