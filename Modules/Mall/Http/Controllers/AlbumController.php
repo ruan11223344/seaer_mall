@@ -193,11 +193,13 @@ class AlbumController extends Controller
             return $this->echoErrorJson('表单验证失败!'.$validator->messages());
         }
 
+        $album_id = $request->input('album_id');
 
-        $album = AlbumUser::find($data['album_id']);
-
-        if($album->user_id != Auth::id()){
-            return $this->echoErrorJson('错误!只能上传到用户自己的相册!');
+        if($album_id == null){
+            $album = AlbumUser::find($album_id);
+            if($album->user_id != Auth::id()){
+                return $this->echoErrorJson('错误!只能上传到用户自己的相册!');
+            }
         }
 
         $input_data = $request->input('photo_name_url_list');
