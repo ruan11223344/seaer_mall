@@ -13,7 +13,7 @@
         </section>
 
         <!-- 模糊搜索 -->
-        <section class="product-blurry" v-show="search.length">
+        <section class="product-blurry" v-show="(search.length != 0) && (SearchData.length != 0)">
             <span class="product-blurry-title">All Categories</span>
 
             <!-- 分类一 -->
@@ -36,7 +36,7 @@
         </section>
 
         <!-- 地址 -->
-        <section class="product-category" v-show="!search.length">
+        <section class="product-category" v-show="(search.length != 0) && (SearchData.length != 0)">
             <!-- 分类一 -->
             <swiper :options="swiperOption" class="product-category-item">
                 <swiper-slide style="height: auto;">
@@ -119,7 +119,8 @@
                 SearchActive: {
                     id: null,
                     name: ''
-                }
+                },
+                SearchBool: false
             }
         },
         methods: {
@@ -137,21 +138,31 @@
             },
             // 搜索关键词获取分类列表
             onSearch() {
-                this.$request({
-                    url: '/shop/category/search_category',
-                    params: {
-                        keywords: this.search
-                    }
-                }).then(res => {
-                    console.log(res);
-                    if(res.code == 200) {
-                        this.SearchData = res.data
-                    }else {
-                        this.$Message.error(res.message)
-                    }
-                }).catch(err => {
-                    return false
-                })
+                if(this.SearchBool) {
+                    
+                    return
+                }else {
+                    this.$request({
+                        url: '/shop/category/search_category',
+                        params: {
+                            keywords: this.search
+                        }
+                    }).then(res => {
+                        if(res.code == 200) {
+                            this.SearchData = res.data
+                        }else {
+                            this.$Message.error(res.message)
+                        }
+                    }).catch(err => {
+                        return false
+                    })
+
+                    this.SearchBool = true
+
+                    setTimeout(() => {
+                        this.SearchBool = false
+                    }, 500)
+                }
             },
             // 选中搜索列表
             onClickActive(name) {
@@ -164,11 +175,15 @@
             "v-title": Title,
             "v-img": Img,
             "v-head": Head,
-            // "happy-scroll": HappyScroll,
             "v-table-switch": TableSwitch,
             swiper,
             swiperSlide
-        }
+        },
+        watch: {
+            search() {
+                this.SearchData = []
+            }
+        },
     }
 </script>
 

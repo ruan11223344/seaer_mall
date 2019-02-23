@@ -39,7 +39,7 @@
                                     <div
                                         class="products-table-body-dl-name-open"
                                         :class="active == index ? 'products-table-body-dl-name-open-add' : 'products-table-body-dl-name-open-remove'"
-                                        @click="active==index ? ( ProductsDataList = [], active = -1) : (active = index, GetProductList(item.id))">
+                                        @click="active==index ? active = -1 : active = index">
                                     </div>
                                     <span class="products-table-body-dl-name-text">{{ item.group_name }} </span>
                                     <button type="button" class="products-table-body-dl-name-btn" @click="SubCategory=true,ListId=item.id">Add Sub-category</button>
@@ -55,7 +55,7 @@
                             <dd class="products-table-body-dl-text products-table-body-dl-display">
                                 <template>
                                     <span>
-                                        Yes
+                                        {{ item.show_home_page ? "Yes" : 'No' }}
                                     </span>
                                 </template>
                             </dd>
@@ -73,38 +73,45 @@
                         <div class="products-table-body-content" :style="active == index ? 'height: 250px;' : ''">
                             <swiper :options="swiperOption" style="height: 250px;overflow: hidden;zIndex: 0">
                                 <swiper-slide style="height: auto;">
-                                    <dl class="products-table-body-dl" v-for="(item, index) in ProductsDataList" :key="index">
-                                        <dd class="products-table-body-dl-checkbox">
-                                        </dd>
-                                        <dd class="products-table-body-dl-text products-table-body-dl-name ">
-                                            <template>
-                                                <div class="products-table-body-dl-name-seat"></div>
-                                                <span class="products-table-body-dl-name-text products-table-body-dl-name-dot">{{ item.name }} </span>
-                                            </template>
-                                        </dd>
-                                        <dd class="products-table-body-dl-text products-table-body-dl-sort">
-                                            <template>
-                                                <span>
-                                                    {{ item.sort }}
-                                                </span>
-                                            </template>
-                                        </dd>
-                                        <dd class="products-table-body-dl-text products-table-body-dl-display">
-                                            <template>
-                                                <span>
-                                                    Yes
-                                                </span>
-                                            </template>
-                                        </dd>
-                                        <dd class="products-table-body-dl-text products-table-body-dl-operation">
-                                            <template>
-                                                <section class="products-table-body-dl-operation-btns">
-                                                    <button type="button">Delete</button>
-                                                    <button type="button">Edit</button>
-                                                </section>
-                                            </template>
-                                        </dd>
-                                    </dl>
+                                    <template v-if="item.children">
+                                        <dl class="products-table-body-dl" v-for="(list, i) in item.children" :key="i">
+                                            <dd class="products-table-body-dl-checkbox">
+                                            </dd>
+                                            <dd class="products-table-body-dl-text products-table-body-dl-name ">
+                                                <template>
+                                                    <div class="products-table-body-dl-name-seat"></div>
+                                                    <span class="products-table-body-dl-name-text products-table-body-dl-name-dot">{{ list.group_name }} </span>
+                                                </template>
+                                            </dd>
+                                            <dd class="products-table-body-dl-text products-table-body-dl-sort">
+                                                <template>
+                                                    <span>
+                                                        {{ list.sort }}
+                                                    </span>
+                                                </template>
+                                            </dd>
+                                            <dd class="products-table-body-dl-text products-table-body-dl-display">
+                                                <template>
+                                                    <span>
+                                                        {{ list.show_home_page ? "Yes" : 'No' }}
+                                                    </span>
+                                                </template>
+                                            </dd>
+                                            <dd class="products-table-body-dl-text products-table-body-dl-operation">
+                                                <template>
+                                                    <section class="products-table-body-dl-operation-btns">
+                                                        <button type="button" @click="id=list.id,delAlbum=true">Delete</button>
+                                                        <button type="button" @click="EditCategory=true,onEdit,ListId=list.id">Edit</button>
+                                                    </section>
+                                                </template>
+                                            </dd>
+                                        </dl>
+                                    </template>
+                                    <template v-else>
+                                        <div style="textAlign: center;lineHeight: 250px;fontSize: 30px;">
+                                            No subcategories, please create
+                                        </div>
+                                    </template>
                                 </swiper-slide>
                                 <div class="swiper-scrollbar" slot="scrollbar"></div>
                             </swiper>
@@ -173,7 +180,7 @@
                 swiperOption: {
                     direction: 'vertical',
                     slidesPerView: 'auto',
-                    // freeMode: true,
+                    freeMode: true,
                     scrollbar: {
                         el: '.swiper-scrollbar',
                         hide: false, //滚动条是否自动隐藏。默认：false，不会自动隐藏。
@@ -190,7 +197,7 @@
                 },
                 data: [],
                 ProductsData: [],
-                ProductsDataList: [],
+                // ProductsDataList: [],
                 active: -1,
                 ListId: null,
                 ActiveId: [],
@@ -221,26 +228,6 @@
                     if(res.code == 200) {
                         this.data = res.data
                         this.filterAll(this.data)
-                    }
-                }).catch(err => {
-                    return false
-                })
-            },
-            // 获取商品分组子分类
-            GetProductList(index) {
-                this.ProductsDataList = []
-                this.$request({
-                    url: '/shop/category/get_category_child',
-                    params: {
-                        categories_id: index
-                    }
-                }).then(res => {
-                    if(res.code == 200) {
-                        this.ProductsDataList = res.data
-                        console.log(res.data);
-                        
-                    }else {
-                        this.$Message.error(res.message)
                     }
                 }).catch(err => {
                     return false
@@ -282,7 +269,14 @@
                         sort: item.sort ? item.sort : 0  //必填 排序 数字 不排序 填0
                     }
                 }).then(res => {
-                    console.log(res);
+                    if(res.code == 200) {
+                        this.$Message.info(res.message)
+                        this.data = res.data
+                        this.filterAll(this.data)
+                    }else {
+                        this.$Message.error(res.message)
+                    }
+                    this.ListId = null
                 }).catch(err => {
                     return false
                 })
