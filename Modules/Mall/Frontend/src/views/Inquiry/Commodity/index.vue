@@ -2,18 +2,12 @@
     <div class="commodity">
         <v-title title="Manage Products"></v-title>
         <!-- 切换 -->
-        <section class="Send-main-screening">
-            <div :class="actives[0] ? 'Send-main-screening-text Send-main-screening-text-active' : 'Send-main-screening-text'" @click="onClick(0)">Selling</div>
-            <div class="Send-main-screening-hr"></div>
-            <div :class="actives[1] ? 'Send-main-screening-text Send-main-screening-text-active' : 'Send-main-screening-text'" @click="onClick(1)">Check Pending</div>
-            <div class="Send-main-screening-hr"></div>
-            <div :class="actives[2] ? 'Send-main-screening-text Send-main-screening-text-active' : 'Send-main-screening-text'" @click="onClick(2)">Unapprove</div>
-            <div class="Send-main-screening-hr"></div>
-            <div :class="actives[3] ? 'Send-main-screening-text Send-main-screening-text-active' : 'Send-main-screening-text'" @click="onClick(3)">In the warehouse</div>
-        </section>
+        <v-table-switch title="Selling" :num="num" :tableSwitch="['Check Pending', 'Unapprove', 'In the warehouse']" style="marginBottom: 20px;" @on-click="onTableSwitch"></v-table-switch>
+
+
         <!-- 点击功能 -->
         <div class="Send-main-btn">
-            <button type="button" v-show="actives[3]">Resume</button> 
+            <button type="button" v-show="actives[3]">Resume</button>
             <button type="button">Delete</button> 
             <button type="button" v-show="actives[0]">Pause</button>
             <span>Total 4</span>
@@ -38,26 +32,26 @@
                     Operation
                 </Col>
             </Row>
-            <Row>
+            <Row v-for="(list, index) in pendingActiveData" :key="index" v-show="pendingActiveData.length">
                 <Col span="24" class-name="commodity-table-title">
                     <Checkbox v-model="single"></Checkbox>
-                    <div class="commodity-table-title-text">Product ID:100001457 </div>
+                    <div class="commodity-table-title-text">Product ID:{{ list.product_id }}</div>
                 </Col>
                 <Col span="24" class-name="commodity-table-content">
                     <Row>
                         <Col span="11" offset="1" class-name="commodity-table-content-title">
-                            <v-img width="74" height="74" imgSrc="" style="border: 1px solid #eeeeee;"></v-img>
+                            <img style="width: 74px; height: 74px; border: 1px solid #eeeeee; " :src="list.product_main_pic_url" alt="">
                             <section class="commodity-table-content-title-text">
-                                <p>Fresh Pure White Garlic in Double Corrugated Carton Medium Pure white garlic wholesale</p>
-                                <p>SKU:KE3587412</p>
+                                <p>{{ list.product_name }}</p>
+                                <p>SKU:{{ list.product_sku }}</p>
                             </section>
                         </Col>
                         <Col span="4" class-name="commodity-table-content-price">
-                            <p class="commodity-table-content-title-price-ksh">KSh 76000-84000</p>
-                            <p class="commodity-table-content-title-price-moq">MOQ 26 Tons</p>
+                            <p class="commodity-table-content-title-price-ksh">{{ list.product_price }}</p>
+                            <p class="commodity-table-content-title-price-moq">{{ list.product_moq }}</p>
                         </Col>
                         <Col span="4" class="commodity-table-content-date">
-                            <p>Dec,28 2018</p>
+                            <p>{{ dayjs( list.publish_time ).format('MMM DD,YYYY HH:mm') }}</p>
                         </Col>
                         <Col span="4" class="commodity-table-content-select">
                             <Select v-model="model1" style="width:127px">
@@ -67,11 +61,16 @@
                     </Row>
                 </Col>
             </Row>
+            <Row>
+                <Col span="24" class-name="commodity-table-content" v-show="!pendingActiveData.length">
+                    <Spin style="width: 30px;margin: 0px auto;" size="large"></Spin>
+                </Col>
+            </Row>
         </section>
         <!-- 分页 -->
         <section style="marginTop:20px;">
             <template>
-                <Page :total="100" style="textAlign: center"/>
+                <Page :total="total.total" :page-size="total.size" style="textAlign: center" @on-change="onPages"/>
             </template>
         </section>
     </div>
@@ -80,42 +79,85 @@
 <script>
     import Title from "../components/Title"
     import Img from "@/components/Img"
+    import getData from "@/utils/getData.js"
+    import utils from "@/utils/utils.js"
+    
+    // 切换
+    import TableSwitch from "../components/TableSwitch/index.vue"
+    import dayjs from "dayjs"
 
     export default {
         data() {
             return {
+                num: 0,
+                total: {
+                    size: 5,
+                    total: 0,
+                    num: 1
+                },
                 actives: [ true, false, false, false ],
                 cityList: [
                     {
-                        value: 'New York',
-                        label: 'New York'
+                        value: 'Edit',
+                        label: 'Edit'
                     },
                     {
-                        value: 'London',
-                        label: 'London'
+                        value: 'Delete',
+                        label: 'Delete'
                     },
                     {
-                        value: 'Sydney',
-                        label: 'Sydney'
-                    },
-                    {
-                        value: 'Ottawa',
-                        label: 'Ottawa'
-                    },
-                    {
-                        value: 'Paris',
-                        label: 'Paris'
-                    },
-                    {
-                        value: 'Canberra',
-                        label: 'Canberra'
+                        value: 'Pause',
+                        label: 'Pause'
                     }
                 ],
                 model1: '',
-                single: false
+                single: false,
+                // 数据
+                pendingData: [],
+                pendingActiveData: []
             }
         },
         methods: {
+            dayjs: dayjs,
+            onGetReleaseProductList: getData.onGetReleaseProductList,
+            filterAll: getData.filterAll,
+            sleep: utils.sleep,
+            // 切换
+            onTableSwitch(num) {
+                this.pendingData = []
+                this.pendingActiveData = []
+
+                this.num = num
+                let path = 'selling'
+                
+                switch (num) {
+                    case 0:
+                        path = 'selling'
+                        break
+                    case 1:
+                        path = 'check_pending'
+                        break
+                    case 2:
+                        path = 'unapprove'
+                        break
+                    case 3:
+                        path = 'in_the_warehouse'
+                        break
+                }
+
+                this.onGetReleaseProductList({ status: path })
+                    .then(async res => {
+                        
+                        this.pendingData = res.data_list
+                        // 暂停2秒
+                        await this.sleep(2000)
+                        this.total.total = res.total
+                        this.filterAll(this.pendingData, this.total).then(res => this.pendingActiveData = res)
+                    }
+                )
+
+                this.onClick(this.num)
+            },
             onClick(i) {
                 for (let index = 0; index < this.actives.length; index++) {
                     if(index == i) {
@@ -124,11 +166,29 @@
                         this.$set(this.actives, index, false)
                     }
                 }
-            }
+            },
+            // 分页
+            onPages(index) {
+                this.$set(this.total, 'num', index)
+                this.filterAll(this.pendingData, this.total).then(res => this.pendingActiveData = res)
+            },
+        },
+        mounted() {
+            this.onGetReleaseProductList({ status: 'selling' })
+                .then(async res => {
+                    this.pendingData = res.data_list
+
+                    // 暂停2秒
+                    await this.sleep(2000)
+                    this.total.total = res.total
+                    this.filterAll(this.pendingData, this.total).then(res => this.pendingActiveData = res)
+                }
+            )
         },
         components: {
             "v-title": Title,
-            "v-img": Img
+            "v-img": Img,
+            "v-table-switch": TableSwitch,
         }
     }
 </script>
@@ -225,36 +285,6 @@
                     color: #666666;
                 }
             }
-        }
-    }
-
-    .Send-main-screening {
-        width: 882px;
-        height: 47px;
-        background-color: #f5f5f9;
-        margin-top: 19px;
-        .flex(flex-start, center);
-        padding-left: 27px;
-
-        &-text {
-            .lineHeight(47px);
-            font-size: 14px;
-            color: #666666;
-
-            & > span {
-                color: #d72b2b;
-            }
-            cursor: pointer;
-        }
-        &-text-active {
-            border-bottom: 2px solid #f0883a;
-        }
-
-        &-hr {
-            width: 1px;
-            height: 11px;
-            background-color: #cccccc;
-            margin: 0px 18px;
         }
     }
 

@@ -136,7 +136,23 @@ const getData = {
                 reject(err)
             })
         })
+    },
+    // 62.获取商品列表
+    async onGetReleaseProductList(data) {
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/shop/product/get_product_list',
+                params: data
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            })
+        })
     }
+
 }
 
 export default getData

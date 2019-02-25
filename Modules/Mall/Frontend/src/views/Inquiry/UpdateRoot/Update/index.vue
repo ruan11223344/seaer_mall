@@ -216,7 +216,6 @@
                 this.$request({
                     url: '/shop/category/get_category_root'
                 }).then(res => {
-                    console.log(res);
                     if(res.code == 200) {
                         this.rootData = res.data
                     }else {
@@ -358,7 +357,7 @@
         padding: 21px 30px;
         position: relative;
         z-index: 1;
-        
+
         &-search {
             margin-bottom: 20px;
 
