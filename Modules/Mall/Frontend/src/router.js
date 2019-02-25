@@ -167,7 +167,17 @@ const newRouter = new Router({
         },
         { // 商品管理
           path: 'commodity',
-          component: () => import("./views/Inquiry/Commodity/index.vue")
+          component: () => import("./views/Inquiry/Commodity/index.vue"),
+          children: [
+            { //商品操作
+              path: 'operation',
+              component: () => import("./views/Inquiry/Commodity/Operation/index.vue")
+            },
+            { // 商品编辑
+              path: 'edit',
+              component: () => import("./views/Inquiry/Commodity/Edit/index.vue")
+            }
+          ]
         },
         { // 上传商品
           path: 'uploadroot',

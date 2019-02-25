@@ -4,12 +4,12 @@
             <div class="box-cropper-block-cropper">
                 <vue-cropper
                 ref="cropper"
-                :img="option.url"
+                :img="url"
                 :outputSize="option.size"
                 :outputType="option.outputType"
                 :autoCrop="option.autoCrop"
-                :autoCropWidth="option.autoCropWidth"
-                :autoCropHeight="option.autoCropHeight"
+                :autoCropWidth="autoCropWidth"
+                :autoCropHeight="autoCropHeight"
                 :info="option.info"
                 :canScale="option.canScale"
                 :fixedBox="option.fixedBox"
@@ -38,7 +38,7 @@
         data() {
             return {
                 option: {
-                    url: 'http://c.hiphotos.baidu.com/image/pic/item/34fae6cd7b899e518d7259df4fa7d933c9950d78.jpg',
+                    // url: 'http://c.hiphotos.baidu.com/image/pic/item/34fae6cd7b899e518d7259df4fa7d933c9950d78.jpg',
                     size: 1,
                     outputType: 'png',
                     autoCrop: true,
@@ -47,11 +47,22 @@
                     info: true,
                     canScale: true,
                     fixedBox: true,
-                    canMoveBox: true,
+                    canMoveBox: false,
                     centerBox: true,
                     infoTrue: true,
                     mode: 'cover'
                 },
+            }
+        },
+        props: {
+            url: {
+                type: String
+            },
+            autoCropWidth: {
+                type: Number
+            },
+            autoCropHeight: {
+                type: Number
             }
         },
         methods: {
@@ -59,14 +70,14 @@
             onTailoring() {
                 this.$refs.cropper.startCrop()
 
-                this.$refs.cropper.getCropData((data) => {
-                    // do something
-                    console.log(data);
+                this.$refs.cropper.getCropData(async (data) => {
+                    await this.$emit('on-cropper', data)
+                    this.$emit('on-show', false)
                 })
             },
             // 清除关闭
             onClose() {
-
+                this.$emit('on-show', false)
             },
             // 旋转
             onRotate() {
@@ -89,19 +100,20 @@
     @import url('../../assets/css/index.less');
 
     .box-cropper {
-        width: 100vw;
+        width: 100vw !important;
         height: 100vh;
         position: fixed;
         top: 0px;
         left: 0px;
         background-color: rgba(0, 0, 0, 0.1);
         .flex(center, center);
+        z-index: 10001;
 
         &-block {
             background-color: #ffffff;
             padding: 20px;
             &-cropper {
-                width: 1220px;
+                width: 1920px;
                 height: 500px;
             }
 

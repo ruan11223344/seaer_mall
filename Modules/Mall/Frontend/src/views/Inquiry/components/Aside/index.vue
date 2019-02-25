@@ -70,7 +70,7 @@
                             },
                             {
                                 name:'Manage Products',
-                                url: '/inquiryList/commodity',
+                                url: '/inquiryList/commodity/operation',
                                 path: 'commodity'
                             },
                             {
@@ -140,10 +140,14 @@
                         isSubShow:false,
                         subItems:[
                             {
-                                name:'Shop Settings'
+                                name:'Shop Settings',
+                                url: '/inquiryList/management/bannerset',
+                                path: 'bannerset',
                             },
                             {
-                                name:'Store Dynamics'
+                                name:'Store Dynamics',
+                                url: '/inquiryList/management/dynamics',
+                                path: 'dynamics'
                             }
                         ]
                     },

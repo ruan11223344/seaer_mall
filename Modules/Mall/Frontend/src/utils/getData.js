@@ -137,6 +137,35 @@ const getData = {
             })
         })
     },
+    // 42.获取单个商品的详情
+    async onGetProductInfo(id) {
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/shop/product/get_product_detail',
+                params: {
+                    "product_id": id
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    },
+    // 47.获取店铺banner图片
+    async onGetBanner() {
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/shop/get_shop_banner',
+            }).then(res => {
+                resolve(res)
+            })
+        })
+    },
     // 62.获取商品列表
     async onGetReleaseProductList(data) {
         return await new Promise(async (resolve, reject) => {

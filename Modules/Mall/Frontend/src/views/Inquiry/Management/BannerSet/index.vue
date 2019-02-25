@@ -3,22 +3,22 @@
         <v-title title="Shop Settings"></v-title>
         
         <div style="marginTop: 20px;">
-            <v-table-switch title="Banner Setting" :tableSwitch="['Slide Setting', 'Shop Information Setting']"></v-table-switch>
+            <v-table-switch title="Banner Setting" :num="num" :tableSwitch="['Slide Setting', 'Shop Information Setting']" @on-click="onTableSwitch"></v-table-switch>
         </div>
         
         <template>
             <!-- banner设置 -->
-            <!-- <v-banner-template></v-banner-template> -->
+            <v-banner-template v-show="num == 0"></v-banner-template>
         </template>
 
         <template>
             <!-- 幻灯片广告位设置 -->
-            <!-- <v-slide-template></v-slide-template> -->
+            <v-slide-template v-show="num == 1"></v-slide-template>
         </template>
 
         <template>
             <!-- 导航列表设置 -->
-            <v-nav-list></v-nav-list>
+            <v-nav-list v-show="num == 2"></v-nav-list>
         </template>
     </div>
 </template>
@@ -28,17 +28,43 @@
     import TableSwitch from "../../components/TableSwitch"
     import BannerTemplate from "./Banner-template.vue"
     import SlideTemplate from "./Slide-template.vue"
-    import NavList from './NavList-template.vue'
-
+    import NavList from "./NavList-template.vue"
+    import getData from "@/utils/getData.js"
 
     export default {
+        data() {
+            return {
+                num: 0
+            }
+        },
+        methods: {
+            onGetBanner: getData.onGetBanner,
+            // 切换
+            onTableSwitch(num) {
+                this.num = num
+
+                switch (num) {
+                    case 0:
+
+                        break
+                    case 1:
+                        break
+                    case 2:
+                        break
+                }
+            }
+        },
+        mounted() {
+            this.onGetBanner().then(res => {
+                console.log(res);
+            })
+        },
         components: {
             "v-title": Title,
             "v-table-switch": TableSwitch,
             "v-banner-template": BannerTemplate,
             "v-slide-template": SlideTemplate,
             "v-nav-list": NavList
-            // "v-img": Img
         }
     }
 </script>

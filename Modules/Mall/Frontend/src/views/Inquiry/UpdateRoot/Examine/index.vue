@@ -9,7 +9,7 @@
             <div class="examine-main-text">You have submitted the product successfully ！</div>
             <div>
                 <button type="button" class="examine-main-btn" style="marginRight: 35px;" @click="$router.push('/inquiryList/uploadroot/uploadproduct')">Add a new product</button>
-                <button type="button" class="examine-main-btn" @click="$router.push('/inquiryList/commodity')">Manage all products</button>
+                <button type="button" class="examine-main-btn" @click="$router.push('/inquiryList/commodity/operation')">Manage all products</button>
             </div>
         </section>
     </div>

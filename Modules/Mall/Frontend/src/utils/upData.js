@@ -92,8 +92,62 @@ const upData = {
                 return false
             })
         })
+    },
+    // 44.编辑商品
+    async upEditProduct(data) {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/shop/product/edit_product',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res.message)
+                }
+            }).catch(err => {
+                return false
+            })
+        })
+    },
+    // 48.设置店铺banner图片
+    async onSetBanner(base64) {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/shop/set_shop_banner',
+                method: 'post',
+                data: {
+                    banner_img_base64: base64
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    this.$Message.info(res.message)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            }).catch(err => {
+                return false
+            })
+        })
+    },
+    // 50.删除店铺banner图片
+    async onDelBanner() {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/shop/delete_shop_banner',
+                method: 'post',
+            }).then(res => {
+                if(res.code == 200) {
+                    this.$Message.info(res.message)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            }).catch(err => {
+                return false
+            })
+        })
     }
-    
 }
 
 export default upData
