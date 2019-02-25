@@ -9,6 +9,7 @@
                 action="//jsonplaceholder.typicode.com/posts/"
                 style="display: inline-block;"
                 :before-upload="onUpload"
+                :show-upload-list="false"
                 >
                 <button type="button" class="BannerSetting-btns-up">Upload</button>
             </Upload>
@@ -41,9 +42,9 @@
             onDelBanner: upData.onDelBanner,
             onSetBanner: upData.onSetBanner,
             getObjectURL: getData.getObjectURL,
+            onGetBanner: getData.onGetBanner,
             // 截图
             onCropper(data) {
-                console.log(data);
                 this.path = data
             },
             // 阻止默认上传
@@ -68,6 +69,15 @@
                     this.$Message.warning('Please upload the banner picture of the store')
                 }
             }
+        },
+        mounted() {
+            this.onGetBanner().then(res => {
+                if(res.code == 200) {
+                    this.path = res.data.banner_url
+                }else {
+                    this.$Message.warning("You haven't set up banner yet")
+                }
+            })
         },
         components: {
             "v-cropper": Cropper
@@ -101,11 +111,15 @@
             height: 103px;
             background-color: #f2f6f9;
             margin-top: 22px;
+            // display: flex;
+            // justify-content: flex-start;
+            // align-items: flex-start;
 
             & > img {
                 width: 100%;
                 height: 100%;
                 display: block;
+                // transform: scale(0.25261, 0.6866) translateX(-2840px) translateY(-35px);
             }
         }
 
