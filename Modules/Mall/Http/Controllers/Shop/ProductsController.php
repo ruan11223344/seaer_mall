@@ -582,5 +582,5 @@ class ProductsController extends Controller
 
         return $res;
     }
-    
+
 }

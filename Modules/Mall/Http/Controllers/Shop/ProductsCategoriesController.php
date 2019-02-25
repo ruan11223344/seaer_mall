@@ -10,6 +10,7 @@ namespace Modules\Mall\Http\Controllers\Shop;
 use App\Utils\EchoJson;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Modules\Mall\Entities\Products;
 use Modules\Mall\Entities\ProductsAttr;
 use Modules\Mall\Entities\ProductsCategories;
@@ -171,6 +172,16 @@ class ProductsCategoriesController extends Controller
             return $this->echoErrorJson('获取商品分类成功!',$res_data);
         }
 
+    }
+
+    public function getLastProductsCategories(){
+        $product_categories_id_list = Products::where('company_id',Auth::user()->company->id)->get()->pluck('product_categories_id')->unique()->toArray();
+        if($product_categories_id_list == null){
+            return $this->echoErrorJson('失败,没有最近选择的分类!');
+        }else{
+            $res_str_list = self::getCategoriesParentTreeStr($product_categories_id_list);
+            return $this->echoSuccessJson('获取最近选择的分类成功!',$res_str_list);
+        }
     }
 
 

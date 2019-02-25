@@ -101,6 +101,9 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
             Route::get('get_category_parent', 'Shop\ProductsCategoriesController@getCategoriesParent')->name('shop.search.category.parent');
             Route::get('get_category_root', 'Shop\ProductsCategoriesController@getCategoriesRoot')->name('shop.search.category.root');
             Route::get('get_category_product', 'Shop\ProductsCategoriesController@getCategoriesProduct')->name('shop.category.product');
+            Route::group(['middleware' => ['client.credentials','auth:api']], function(){
+                Route::get('get_last_products_categories', 'Shop\ProductsCategoriesController@getLastProductsCategories')->name('shop.category.last.product');
+            });
         });
         //商品产品
         Route::prefix('product')->group(function (){
