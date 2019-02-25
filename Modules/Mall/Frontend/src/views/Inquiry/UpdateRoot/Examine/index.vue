@@ -8,8 +8,8 @@
             </div>
             <div class="examine-main-text">You have submitted the product successfully ！</div>
             <div>
-                <button type="button" class="examine-main-btn" style="marginRight: 35px;">Add a new product</button>
-                <button type="button" class="examine-main-btn">Manage all products</button>
+                <button type="button" class="examine-main-btn" style="marginRight: 35px;" @click="$router.push('/inquiryList/uploadroot/uploadproduct')">Add a new product</button>
+                <button type="button" class="examine-main-btn" @click="$router.push('/inquiryList/commodity')">Manage all products</button>
             </div>
         </section>
     </div>
@@ -17,9 +17,26 @@
 
 <script>
     import Img from "@/components/Img"
-    import Head from "../components/Head"
+    import Head from "../../components/Head"
+    import { mapState } from 'vuex'
 
     export default {
+        computed: {
+            ...mapState(['Classification'])
+        },
+        methods: {
+        },
+        // 跳转拦截
+        beforeRouteEnter (to, from, next) {
+            next(vm => {
+                if(vm.Classification) {
+                    return true
+                }
+                vm.$router.push('/inquiryList/uploadroot/uploadproduct')
+            })
+        },
+        mounted() {
+        },
         components: {
             "v-img": Img,
             "v-head": Head,
@@ -28,7 +45,7 @@
 </script>
 
 <style lang="less" scoped>
-    @import url('../../../assets/css/index.less');
+    @import url('../../../../assets/css/index.less');
 
     .examine {
         width: 944px;

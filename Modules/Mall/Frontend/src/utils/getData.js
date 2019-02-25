@@ -67,8 +67,8 @@ const getData = {
             })
         })
     },
-
-    getObjectURL(file) {  // 获取图片本地地址
+    // 获取图片本地地址
+    getObjectURL(file) {
         let url = null;  
         if (window.createObjcectURL != undefined) {  
         url = window.createOjcectURL(file);  
@@ -79,19 +79,64 @@ const getData = {
         }  
         return url;
     },
+    // 显示对应的数据
+    filterAll(data, total) {
+        return new Promise(resolve => {
+            const { num, size } = total
+            const dataFrom = data.slice(num * size - size, num * size)
 
-    // 29.获取相册id列表
-    async onGetalbumIdList() {  // 
+            resolve(dataFrom)
+        })
+    },
+    // 27.获取相册中的图片列表
+    async onGetalbumPhotoList(params) {
         return await new Promise(async (resolve, reject) => {
             await request({
-                url: '/album/album_list',
+                url: '/album/album_photo_list',
+                params: params
             }).then(res => {
-                resolve(res)
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
             }).catch(err => {
                 reject(err)
             })
         })
     },
+    // 29.获取相册id列表
+    async onGetalbumIdList() {
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/album/album_list',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    },
+    // 30.获取商品分组列表
+    async onGetProductGroup() {
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/shop/product_group/product_group_list',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    }
 }
 
 export default getData

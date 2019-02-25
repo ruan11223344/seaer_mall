@@ -60,6 +60,7 @@
         right: 0px;
 	    border: solid 1px #eeeeee;
         display: block;
+        z-index: 10000;
 
         &-item {
             .flex(center, center, column);

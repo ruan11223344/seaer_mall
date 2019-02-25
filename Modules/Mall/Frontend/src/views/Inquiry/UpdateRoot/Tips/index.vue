@@ -21,7 +21,7 @@
 </script>
 
 <style lang="less" scoped>
-    @import url('../../../assets/css/index.less');
+    @import url('../../../../assets/css/index.less');
 
     .tips-main {
         .flex(center, center);

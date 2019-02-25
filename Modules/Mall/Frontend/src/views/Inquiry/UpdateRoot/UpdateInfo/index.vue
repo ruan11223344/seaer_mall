@@ -127,11 +127,11 @@
                                     <Col span="24" v-for="(item, index) in formItem.Custom" :key="index" style="marginBottom: 20px;">
                                         <Row type="flex" justify="space-between">
                                             <Col span="10">
-                                                <Input placeholder="Color" v-model="item.color"></Input>
+                                                <Input placeholder="Attribute Name" v-model="item.name"></Input>
                                             </Col>
 
                                             <Col span="10">
-                                                <Input placeholder="Attribute Name" v-model="item.value"></Input>
+                                                <Input placeholder="Attribute Value" v-model="item.value"></Input>
                                             </Col>
                                             <Col span="2" style="textAlign: right;" v-show="formItem.Custom.length != 1">
                                                 <button type="button" class="updateInfo-main-del" @click="$delete(formItem.Custom, index)">
@@ -140,7 +140,7 @@
                                         </Row>
                                     </Col>
                                     <Col span="24">
-                                        <button type="button" class="updateInfo-main-add" @click=" formItem.Custom.length < 3 ? formItem.Custom.push({ value: '', color: '' }) : ''">+ Add a new price </button>
+                                        <button type="button" class="updateInfo-main-add" @click=" formItem.Custom.length < 3 ? formItem.Custom.push({ name: '', color: '' }) : ''">+ Add a new price </button>
                                     </Col>
                                 </Row>
                             </Col>
@@ -168,25 +168,25 @@
                                 <Row>
                                     <Col span="24">
                                         <RadioGroup v-model="formItem.Price.animal">
-                                            <Radio label="Ladder">Ladder Price</Radio>
-                                            <Radio label="Base">Base Price</Radio>
+                                            <Radio label="ladder">Ladder Price</Radio>
+                                            <Radio label="base">Base Price</Radio>
                                         </RadioGroup>
                                     </Col>
                                     <Col span="24">
                                         <!-- Ladder Price -->
-                                        <Row v-show="formItem.Price.animal != 'Base'">
+                                        <Row v-show="formItem.Price.animal != 'base'">
                                             <Col span="24" class-name="updateInfo-main-Price"  style="marginBottom: 20px;">
                                                 <div class="updateInfo-main-Price-display"  v-for="(item, index) in formItem.Price.Ladder" :key="index" :style="index != 0 ? 'marginTop: 12px;' : ''">
                                                     <div>
                                                         <span class="updateInfo-main-Price-text" style="marginLeft: 0px;">≥</span>
                                                         <!-- 数字输入框 -->
                                                         <template>
-                                                            <InputNumber class="updateInfo-main-Price-input" :min="0" v-model="item.number"></InputNumber>
+                                                            <InputNumber class="updateInfo-main-Price-input" :min="0" v-model="item.min_order"></InputNumber>
                                                         </template>
                                                         <!--下拉 -->
                                                         <template>
-                                                            <Select v-model="item.cityList" size="large" style="width:100px">
-                                                                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                                                            <Select v-model="item.unit" size="large" style="width:100px">
+                                                                <Option v-for="list in cityList" :value="list.value" :key="list.value">{{ list.label }}</Option>
                                                             </Select>
                                                         </template>
                                                     </div>
@@ -198,17 +198,7 @@
                                                                 :max="99999999"
                                                                 :min="1"
                                                                 :step="10000"
-                                                                v-model="item.ksh1">
-                                                            </InputNumber>
-                                                        </template>
-                                                        <span class="updateInfo-main-Price-text">-</span>
-                                                        <!-- 数字输入框 -->
-                                                        <template>
-                                                            <InputNumber
-                                                                :max="99999999"
-                                                                :min="1"
-                                                                :step="10000"
-                                                                v-model="item.ksh2">
+                                                                v-model="item.ksh">
                                                             </InputNumber>
                                                         </template>
                                                     </div>
@@ -219,23 +209,23 @@
                                                 </div>
                                             </Col>
                                             <Col span="24">
-                                                <button type="button" class="updateInfo-main-add" @click="formItem.Price.Ladder.length < 4 ? formItem.Price.Ladder.push({ value: '', color: '' }) : ''">+ Add Custom Attributes</button>
+                                                <button type="button" class="updateInfo-main-add" @click="formItem.Price.Ladder.length < 4 ? formItem.Price.Ladder.push({ min_order: 0, unit: null, order_price: 0, }) : ''">+ Add Custom Attributes</button>
                                                 <span style="color: #999999;fontSize: 14px;">&nbsp;&nbsp;(Maximum 4)</span>
                                             </Col>
                                         </Row>
                                         <!-- Base Price -->
-                                        <Row  v-show="formItem.Price.animal == 'Base'">
+                                        <Row  v-show="formItem.Price.animal == 'base'">
                                             <Col span="24" class-name="updateInfo-main-Price"  style="marginBottom: 20px;">
                                                 <div class="updateInfo-main-Price-display">
                                                     <div>
                                                         <span class="updateInfo-main-Price-text" style="marginLeft: 0px;">≥</span>
                                                         <!-- 数字输入框 -->
                                                         <template>
-                                                            <InputNumber class="updateInfo-main-Price-input" :min="1" v-model="formItem.Price.Base.number"></InputNumber>
+                                                            <InputNumber class="updateInfo-main-Price-input" :min="1" v-model="formItem.Price.Base.min_order"></InputNumber>
                                                         </template>
                                                         <!--下拉 -->
                                                         <template>
-                                                            <Select v-model="formItem.Price.Base.cityList" size="large" style="width:100px">
+                                                            <Select v-model="formItem.Price.Base.unit" size="large" style="width:100px">
                                                                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                                                             </Select>
                                                         </template>
@@ -244,12 +234,20 @@
                                                         <span class="updateInfo-main-Price-text">KSh</span>
                                                         <!-- 数字输入框 -->
                                                         <template>
-                                                            <InputNumber :max="10" :min="1" v-model="formItem.Price.Base.ksh1"></InputNumber>
+                                                            <InputNumber
+                                                                :max="99999999"
+                                                                :min="1"
+                                                                :step="10000"
+                                                                v-model="formItem.Price.Base.min_order_price"></InputNumber>
                                                         </template>
                                                         <span class="updateInfo-main-Price-text">-</span>
                                                         <!-- 数字输入框 -->
                                                         <template>
-                                                            <InputNumber :max="10" :min="1" v-model="formItem.Price.Base.ksh2"></InputNumber>
+                                                            <InputNumber
+                                                                :max="99999999"
+                                                                :min="1"
+                                                                :step="10000"
+                                                                v-model="formItem.Price.Base.max_order_price"></InputNumber>
                                                         </template>
                                                     </div>
                                                 </div>
@@ -315,41 +313,41 @@
                                     {{ 'Album Uuser' }} > {{ 'Pictures All' }}
                                 </div>
                                 <template>
-                                    <Select v-model="model3" style="width:135px">
-                                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                                    <Select
+                                    v-model="ActiveAlbumListId" style="width:135px"
+                                    @on-change="onChangeAlbumList"
+                                    >
+                                        <Option v-for="item in AlbumIdlList" :value="item.id" :key="item.value">{{ item.album_name }}</Option>
                                     </Select>
                                 </template>
                             </Col>
-                            <Col span="24" style="fontSize: 0px;">
-                                <figure class="updateInfo-main-figure">
-                                    <!-- img -->
-                                </figure>
-                                <figure class="updateInfo-main-figure">
-                                    <!-- img -->
-                                </figure>
-                                <figure class="updateInfo-main-figure">
-                                    <!-- img -->
-                                </figure>
-                                <figure class="updateInfo-main-figure">
-                                    <!-- img -->
-                                </figure>
-                                <figure class="updateInfo-main-figure">
-                                    <!-- img -->
-                                </figure>
-                                <figure class="updateInfo-main-figure">
-                                    <!-- img -->
-                                </figure>
-                                <figure class="updateInfo-main-figure">
-                                    <!-- img -->
-                                </figure>
-                                <figure class="updateInfo-main-figure">
-                                    <!-- img -->
-                                </figure>
+                            <Col span="24"
+                                style="fontSize: 0px;"
+                                v-show="ActiveAlbumListId"
+                                >
+                                <div v-show="PhotoList.length">
+                                    <figure
+                                        class="updateInfo-main-figure"
+                                        v-for="(item, index) in PhotoList"
+                                        :key="index"
+                                        @click="onAddImg(item.photo_url)"
+                                        >
+                                        <img style="width: 100%; height: 100%;display: block;" :src="item.photo_url" alt="">
+                                    </figure>
+                                </div>
+
+                                <div class="updateInfo-main-figure" v-show="!PhotoList.length">
+                                    <Spin fix></Spin>
+                                </div>
                             </Col>
-                            <Col span="24" style="borderBottom: 1px solid #eeeeee;paddingBottom: 15px;">
+                            <Col
+                                span="24"
+                                style="borderBottom: 1px solid #eeeeee;paddingBottom: 15px;"
+                                v-show="ActiveAlbumListId"
+                                >
                                 <section style="marginTop:20px;">
                                     <template>
-                                        <Page :total="100" :page-size="8" style="textAlign: center"/>
+                                        <Page :total="total.total" :page-size="total.size" style="textAlign: center" @on-change="onPages"/>
                                     </template>
                                 </section>
                             </Col>
@@ -374,19 +372,18 @@
                     <Col span="15">
                         <Row>
                             <Col span="24" class-name="updateInfo-main-Category">
-                                <Select v-model="model3" style="width:170px">
-                                    <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                </Select>
-                                <Select v-model="model3" style="width:170px">
-                                    <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                </Select>
-                                <Select v-model="model3" style="width:170px">
-                                    <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                </Select>
+                                <!-- <Select v-model="model3" style="width:170px">
+                                    <Option v-for="item in ProductGroup" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                                </Select> -->
+                                <Cascader
+                                    :data="ProductGroup"
+                                    change-on-select
+                                    @on-change="onChangeCascader"
+                                    ></Cascader>
                             </Col>
-                            <Col span="24">
+                            <!-- <Col span="24">
                                 <button type="button" class="updateInfo-main-add" style="margin: 10px 0px;">New Category</button>
-                            </Col>
+                            </Col> -->
                             <Col span="24">
                                 <div class="updateInfo-main-Category-text">
                                     Products can be subordinated to multiple categories of stores, and store categories can be customized by <span class="updateInfo-main-Category-text-span">Products > Group & Sort Products</span>
@@ -401,17 +398,22 @@
                         <span>Release</span>
                     </Col>
                     <Col span="15">
-                        <RadioGroup v-model="disabledGroup" class="updateInfo-main-Release">
+                        <RadioGroup v-model="formItem.disabledGroup" class="updateInfo-main-Release">
                             <Radio label="Release">Release</Radio>
                             <Radio label="Time">
                                 <span style="marginRight: 10px;">Time</span>
                                 <template>
                                     <span>
-                                        <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="Select date and time(Excluding seconds)" style="width: 200px"></DatePicker>
+                                        <DatePicker 
+                                        type="datetime"
+                                        format="yyyy-MM-dd HH:mm:ss"
+                                        placeholder="Select date and time(Excluding seconds)"
+                                        @on-change="onChnageDate"
+                                        style="width: 200px"></DatePicker>
                                     </span>
                                 </template>
                             </Radio>
-                            <Radio label="Put in Warehouse">Put in Warehouse</Radio>
+                            <Radio label="Put">Put in Warehouse</Radio>
                         </RadioGroup>
                     </Col>
                 </Row>
@@ -428,7 +430,7 @@ legitimate, and does not infringe legitimate the rights and interests of third p
             </Col>
         </Row>
 
-        <button type="button" class="updateInfo-sub">Submit</button>
+        <button type="button" class="updateInfo-sub" @click="onSub">Submit</button>
     </div>
 </template>
 
@@ -453,34 +455,41 @@ legitimate, and does not infringe legitimate the rights and interests of third p
     export default {
         data() {
             return {
+                total: {
+                    size: 10,
+                    total: 0,
+                    num: 1
+                },
                 formItem: {
                     name: '', // Product Name
                     sku: '', // SKU No
                     keyword: [ '' ], // keyword
                     Custom: [ // Product Attributes
                         {
-                            color: '',
+                            name: '',
                             value: ''
                         }
                     ],
                     Price: {
-                        animal: 'Base',
+                        animal: 'base',
                         Ladder: [
                             {
-                                number: 0,
-                                cityList: null,
-                                ksh1: 0,
-                                ksh2: 0,
+                                min_order: 0,
+                                unit: null,
+                                order_price: 0,
                             }
                         ],
                         Base: {
-                            number: 0,
-                            cityList: null,
-                            ksh1: 0,
-                            ksh2: 0,
+                            min_order: 0,
+                            unit: null,
+                            min_order_price: 0,
+                            max_order_price: 0,
                         }
                     },
-                    editor: null
+                    editor: '',
+                    disabledGroup: "Release",
+                    product_publishing_time: null,
+                    product_group_id: []
                 },
                 uploadList: [], // Product Photo
                 // 价格单位下拉
@@ -526,8 +535,19 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                         label: 'Other'
                     },
                 ],
-                
-                model3: null,
+                // 相册文件id列表
+                AlbumIdlList: [],
+                // 选中相册文件id列表
+                ActiveAlbumListId: null,
+                PhotoData: [],
+                PhotoList: [],
+                // 分组列表
+                ProductGroup: [
+                    {
+                        value: 1,
+                        lable: 2
+                    }
+                ],
                 imgName: '',
                 visible: false,
                 // 编辑器
@@ -583,9 +603,11 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                         // }
                     }
                 },
-                disabledGroup: null,
-                single: false
+                single: false,
             }
+        },
+        filters: {
+            
         },
         computed: {
             ...mapState(['Classification'])
@@ -593,7 +615,12 @@ legitimate, and does not infringe legitimate the rights and interests of third p
         methods: {
             upAlbumImg: upData.upAlbumImg,
             upSaveAlbumImg: upData.upSaveAlbumImg,
+            UpProductImg: upData.UpProductImg,
+            upSaveproduct: upData.upSaveproduct,
             onGetalbumIdList: getData.onGetalbumIdList,
+            onGetalbumPhotoList: getData.onGetalbumPhotoList,
+            onGetProductGroup: getData.onGetProductGroup,
+            filterAll: getData.filterAll,
             handleView (name) {
                 this.imgName = name;
                 this.visible = true;
@@ -607,6 +634,7 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                 let { name, size } = file
 
                 if(size > 1024 * 1024) {
+                    this.$Message.error('- Format : Jpeg、Jpg、Png; Maximum: 1M;')
                     return false
                 }
 
@@ -616,7 +644,7 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                 const bool = types.includes(type.toLowerCase())
 
                 if(!bool) {
-                    console.log(false);
+                    this.$Message.error('- Format : Jpeg、Jpg、Png; Maximum: 1M;')
                     return false
                 }
                 const len = this.uploadList.length
@@ -628,41 +656,16 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                 }).catch(err => {
                     this.$Message.error('Failed to add pictures')
                 })
-
+                
                 return false;
             },
             // 失去焦点
             onEditorBlur(editor) {
-                // console.log('editor blur!', editor)
             },
             // 获取焦点
             onEditorFocus(editor) {
-                // console.log('editor focus!', editor)
             },
-            // 5张图片
-            UpProductImg(file, id) {
-                const fromData = new FormData()
-
-                fromData.append('product_img', file)
-                fromData.append('where', id)
-
-                return new Promise((resolve, reject) => {
-                    this.$request({
-                        url: '/shop/product/upload_product_img',
-                        method: 'post',
-                        data: fromData,
-                        headers:{'Content-Type':'multipart/form-data'}
-                    }).then(res => {
-                        if(res.code == 200) {
-                            resolve(res.data)
-                        }else {
-                            reject(res.message)
-                        }
-                    }).catch(err => {
-                        return false
-                    })
-                })
-            },
+            // 上传到默认相册
             upPicture(file) {
                 const formData = new FormData()
 
@@ -672,9 +675,10 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                     .then(res => {
                         if(res.code == 200) {
                             const data = res.data
+                            
                             this.upSaveAlbumImg({ photo_name_url_list:[ res.data], upload_to_default_album: true })
                                 .then(res => {
-                                    console.log(res);
+                                    this.$Message.info('Uploaded to default album')
                                 })
                         }else {
                             this.$Message.error('Failed to add pictures')
@@ -683,19 +687,136 @@ legitimate, and does not infringe legitimate the rights and interests of third p
 
                 return false
             },
+            // 相册文件夹选择
+            onChangeAlbumList(value) {
+                this.onGetalbumPhotoList({ album_id: value })
+                    .then(data => {
+                        this.PhotoData = data
+                        this.total.total = data.length
+                        // 过滤
+                        this.filterAll(this.PhotoData, this.total)
+                            .then(data => {
+                                this.PhotoList = data
+                            }
+                        )
+                    })
+            },
+            // 分页
+            onPages(index) {
+                this.$set(this.total, 'num', index)
+
+                this.PhotoList = []
+                // 过滤
+                this.filterAll(this.PhotoData, this.total)
+                    .then(data => {
+                        this.PhotoList = data
+                    }
+                )
+            },
+            // 副文本编辑器添加图片
+            onAddImg(url) {
+                this.$set(this.formItem, 'editor', this.formItem.editor + `<p><img src="${url}"></p>`)
+            },
+            onChangeCascader(value) {
+                this.formItem.product_group_id = value
+            },
+            onChnageDate(date) {
+                this.$set(this.formItem, 'product_publishing_time', date)
+            },
+            // 过滤
+            filterGroup(data) {
+                if(data.length == 0) {
+                    return 
+                }
+                const arr = []
+
+                data.forEach((value, index) => {
+                    const arrChild = []
+
+                    if(value.children) {
+                        value.children.forEach((v, i) => {
+                            arrChild.push({ value: v.id, label: v.group_name })
+                        })
+                    }
+
+                    arr.push({ value: value.id, label: value.group_name, children: arrChild })
+                })
+                this.ProductGroup = arr
+            },
+            // 发布
+            onSub() {
+                if(this.formItem.disabledGroup == "Time" && this.formItem.product_publishing_time == '') {
+                    this.$Message.warning('Publishing time cannot be empty')
+
+                    return false
+                }
+
+                const imagePaths = []
+
+                for(let item of this.uploadList) {
+                    let obj = {}
+                    obj[ item.file.where ] = item.file.img_path
+                    imagePaths.push( obj )
+                }
+                
+                const Custom = []
+
+                for(let item of this.formItem.Custom) {
+                    let obj = {}
+                    obj[item.name] = item.value
+                    Custom.push( obj )
+                }
+                
+                
+
+                if(this.single) {
+                        this.upSaveproduct({
+                            product_attr: Custom,
+                            product_name: this.formItem.name,
+                            product_sku_no: this.formItem.sku,
+                            product_keywords: this.formItem.keyword,
+                            product_images: imagePaths,
+                            product_price_type: this.formItem.Price.animal,
+                            product_price: this.formItem.Price.animal == "ladder" ? this.formItem.Price.Ladder : [ this.formItem.Price.Base ],
+                            product_details: this.formItem.editor,
+                            product_publishing_time:this.formItem.disabledGroup == "Time" ? this.formItem.product_publishing_time : null,
+                            product_put_warehouse: this.formItem.disabledGroup == "Release" ? true : false,
+                            product_categories_id: this.Classification,
+                            product_group_id: this.formItem.product_group_id[this.formItem.product_group_id.length - 1]
+                        }).then(res => {
+                            this.$router.push('/inquiryList/uploadroot/examine')
+                        }).catch(err => {
+                            this.$Message.warning(err)
+                        })
+                }else {
+                    this.$Message.warning('Please follow the Information Publishing Rules, and ensure that your information is accurate, legitimate, and does not infringe legitimate the rights and interests of third parties.')
+                }
+            }
+        },
+        created() {
+            this.onGetProductGroup()
+                .then(data => {
+                    this.filterGroup(data)
+                }
+            )
         },
         mounted () {
-            
+            // 获取图片文件列表
+            this.onGetalbumIdList()
+                .then(data => {
+                    this.AlbumIdlList = data
+                }
+            )
         },
         // 跳转拦截
-        // beforeRouteEnter (to, from, next) {
-        //     next(vm => {
-        //         if(vm.Classification) {
-        //             return true
-        //         }
-        //         vm.$router.push('/inquiryList/uploadroot/uploadproduct')
-        //     })
-        // },
+        beforeRouteEnter (to, from, next) {
+            next(vm => {
+                if(vm.Classification) {
+                    return true
+                }
+                vm.$router.push('/inquiryList/uploadroot/uploadproduct')
+            })
+        },
         components: {
             "v-title": Title,
             "v-img": Img,
@@ -818,13 +939,14 @@ legitimate, and does not infringe legitimate the rights and interests of third p
             }
 
             &-figure {
-                width: 545px / 6;
-                height: 545px / 6;
+                width: 545px / 5;
+                height: 545px / 5;
                 background-color: #ffffff;
                 border: solid 1px #eeeeee;
                 border-top: 0px;
                 border-left: 0px;
                 display: inline-block;
+                cursor: pointer;
             }
             &-figure:nth-child(1) {
                 border-left: solid 1px #eeeeee;

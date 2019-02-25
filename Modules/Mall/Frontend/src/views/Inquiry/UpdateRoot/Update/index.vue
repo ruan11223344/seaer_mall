@@ -273,23 +273,6 @@
 
                 this.SelectId = this.childActive.id
             },
-            // 获取分类的父分类
-            // GetParentList() {
-            //     this.$request({
-            //         url: '/shop/category/get_category_parent',
-            //         params: {
-            //             categories_id: this.rootActive.id
-            //         }
-            //     }).then(res => {
-            //         if(res.code == 200) {
-            //             this.parentData = res.data
-            //         }else {
-            //             this.$Message.error(res.message)
-            //         }
-            //     }).catch(err => {
-            //         return false
-            //     })
-            // },
             onClickParentActive(name) {
                 const arr = name.split('/')
                 this.$set(this.parentActive, 'id', arr[0])
@@ -373,7 +356,9 @@
         height: 931px;
         background-color: #ffffff;
         padding: 21px 30px;
-
+        position: relative;
+        z-index: 1;
+        
         &-search {
             margin-bottom: 20px;
 
