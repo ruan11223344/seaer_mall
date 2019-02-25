@@ -2911,3 +2911,36 @@ json参数
 }
 ```
 
+61.获取分类商品的列表
+```
+url:http://域名/api/shop/category/get_category_product
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+json参数
+{
+"categories_id":31  //商品分类ID 必填
+}
+
+返回:
+{
+    "code": 400,
+    "message": "获取商品分类成功!",
+    "data": [
+        {
+            "product_id": 31,
+            "product_name": "超级无敌大飞车玩具13fff1",
+            "product_sku": "100023",
+            "product_price": "KSh 100-2010",
+            "price_type": "base",
+            "product_moq": "MOQ 150 Pieces",
+            "publish_time": "2019-02-19 14:16:22",
+            "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+            "product_origin_id": "PD_CN_a49b34079_e11d6910"
+        }
+    ]
+}   注意 ：data中是一个数组 有多个商品的存在。
+```
+
+

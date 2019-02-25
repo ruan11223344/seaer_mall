@@ -100,6 +100,7 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
             Route::get('get_category_child', 'Shop\ProductsCategoriesController@getCategoriesChild')->name('shop.search.category.child');
             Route::get('get_category_parent', 'Shop\ProductsCategoriesController@getCategoriesParent')->name('shop.search.category.parent');
             Route::get('get_category_root', 'Shop\ProductsCategoriesController@getCategoriesRoot')->name('shop.search.category.root');
+            Route::get('get_category_product', 'Shop\ProductsCategoriesController@getCategoriesProduct')->name('shop.category.product');
         });
         //商品产品
         Route::prefix('product')->group(function (){

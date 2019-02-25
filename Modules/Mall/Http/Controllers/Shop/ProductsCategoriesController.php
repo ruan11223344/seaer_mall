@@ -145,6 +145,34 @@ class ProductsCategoriesController extends Controller
         return $this->echoSuccessJson('搜索关键词分类成功!',$res_str_list);
     }
 
+    public function getCategoriesProduct(Request $request){
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'categories_id'=>'required|exists:products_categories,id',
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+        }
+
+        $categories_id = $request->input('categories_id');
+
+        $products_orm = Products::where([
+            ['product_categories_id',$categories_id],
+            ['product_status',ProductsController::PRODUCT_STATUS_SALE],
+            ['product_audit_status',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS],
+        ]);
+
+        if($products_orm->get()->isEmpty()){
+            return $this->echoErrorJson('该分类没有商品!');
+        }else{
+            $res_data = ProductsController::getProductFormatInfo($products_orm);
+            return $this->echoErrorJson('获取商品分类成功!',$res_data);
+        }
+
+    }
+
 
 
 }
