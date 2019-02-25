@@ -523,21 +523,17 @@ class ProductsController extends Controller
         $products_attr = $product_obj->products_attr;
         $products_price = $product_obj->products_price;
         $attr_arr = $products_attr->toArray()['attr_specs'];
+        $product_attr_array = array();
+
         if(count($attr_arr) > 0){
-            $attr_res_arr = [];
-            foreach ($attr_arr as $v){
-                $tmp = [];
-                $tmp_key = array_keys($v)[0];
-                $tmp_value = array_values($v)[0];
-                $tmp[$tmp_key] = [];
-                array_push($tmp[$tmp_key],$tmp_value);
-                array_push($attr_res_arr,)
+            foreach($attr_arr as $item) {
+                $attr = array_values($item)[0];
+                $attr_key = array_keys($item)[0];
+                array_key_exists($attr_key,$product_attr_array) ? array_push($product_attr_array[$attr_key],$attr) : $product_attr_array[$attr_key] = [];
             }
         }
 
-        $product_attr_array = 1;
-
-        $res = ['product_info'=>$product_obj->toArray(),'product_attr'=>$products_attr->toArray(),'product_price'=>$products_price->toArray()];
+        $res = ['product_info'=>$product_obj->toArray(),'product_attr'=>$products_attr->toArray(),'product_price'=>$products_price->toArray(),'product_attr_array'=>$product_attr_array];
 
         return $this->echoSuccessJson('获取商品详情成功!',$res);
     }
@@ -586,5 +582,5 @@ class ProductsController extends Controller
 
         return $res;
     }
-
+    
 }
