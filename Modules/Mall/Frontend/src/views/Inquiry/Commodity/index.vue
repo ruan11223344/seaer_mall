@@ -17,7 +17,7 @@
         <section class="commodity-table">
             <Row class-name="commodity-header">
                 <Col span="1" class-name="commodity-table-checkboxs">
-                    <Checkbox v-model="single"></Checkbox>
+                    <Checkbox v-model="single" @on-change="onChange"></Checkbox>
                 </Col>
                 <Col span="11" class-name="commodity-table-head">
                     Product Title
@@ -34,7 +34,7 @@
             </Row>
             <Row v-for="(list, index) in pendingActiveData" :key="index" v-show="pendingActiveData.length">
                 <Col span="24" class-name="commodity-table-title">
-                    <Checkbox v-model="single"></Checkbox>
+                    <Checkbox v-model="list.single" @on-change="onChanges"></Checkbox>
                     <div class="commodity-table-title-text">Product ID:{{ list.product_id }}</div>
                 </Col>
                 <Col span="24" class-name="commodity-table-content">
@@ -114,7 +114,8 @@
                 single: false,
                 // 数据
                 pendingData: [],
-                pendingActiveData: []
+                pendingActiveData: [],
+                activeProductId: []
             }
         },
         methods: {
@@ -149,6 +150,8 @@
                     .then(async res => {
                         
                         this.pendingData = res.data_list
+
+                        this.onSelectKey(res.data_list)
                         // 暂停2秒
                         await this.sleep(2000)
                         this.total.total = res.total
@@ -172,6 +175,44 @@
                 this.$set(this.total, 'num', index)
                 this.filterAll(this.pendingData, this.total).then(res => this.pendingActiveData = res)
             },
+            // 添加全选key
+            onSelectKey(data) {
+                const arr = []
+
+                data.forEach((element) => {
+                    const obj = element
+                    obj.single = false
+                    arr.push(obj)
+                })
+
+                this.pendingData = arr
+            },
+            onChange(bool) {
+                this.activeProductId = []
+
+                this.pendingActiveData.forEach((element, index )=> {
+                    this.$set(this.pendingActiveData[index], 'single', bool)
+
+                    if(element.single) {
+                        this.activeProductId.push(element.product_id)
+                    }
+                })
+            },
+            onChanges(bool) {
+                this.activeProductId = []
+                const arr = []
+
+
+                this.pendingActiveData.forEach((element, index )=> {
+                    arr.push(element.single)
+
+                    if(element.single) {
+                        this.activeProductId.push(element.product_id)
+                    }
+                })
+
+                arr.includes(false) ? this.single = false : this.single = true
+            }
         },
         mounted() {
             this.onGetReleaseProductList({ status: 'selling' })
