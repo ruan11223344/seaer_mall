@@ -181,15 +181,15 @@ const newRouter = new Router({
               path: 'uploadinfo',
               component: () => import("./views/Inquiry/UpdateRoot/UpdateInfo/index.vue")
             },
+            { // 审核
+              path: 'examine',
+              component: () => import("./views/Inquiry/UpdateRoot/Examine/index.vue")
+            },
+            { // 上传前审核
+              path: 'tips',
+              component: () => import("./views/Inquiry/UpdateRoot/Tips/index.vue")
+            },
           ]
-        },
-        { // 审核
-          path: 'examine',
-          component: () => import("./views/Inquiry/Examine/index.vue")
-        },
-        { // 上传前审核
-          path: 'tips',
-          component: () => import("./views/Inquiry/Tips/index.vue")
         },
         { // 相册
           path: 'album',
