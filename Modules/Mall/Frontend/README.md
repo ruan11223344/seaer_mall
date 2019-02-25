@@ -2946,7 +2946,7 @@ json参数
 62.获取商品列表
 ```
 url:http://域名/api/shop/product/get_product_list
-请求方法:post
+请求方法:get
 请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
 请求头参数:"Authorization",值:"Bearer空格+token" //必填
 
