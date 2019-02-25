@@ -115,6 +115,7 @@ Route::group(['domain'=>env('MALL_DOMAIN'),'middleware' => 'cors'],function () {
                 Route::get('get_product_detail', 'Shop\ProductsController@getProductDetail')->name('shop.product.productDetail');
                 Route::post('delete_product', 'Shop\ProductsController@deleteProduct')->name('shop.product.delete');
                 Route::post('edit_product', 'Shop\ProductsController@editProduct')->name('shop.product.edit');
+                Route::post('change_products_warehouse', 'Shop\ProductsController@changeProductsWarehouse')->name('shop.product.change.warehouse');
             });
         });
         //商品分组

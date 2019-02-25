@@ -477,7 +477,7 @@ class ProductsController extends Controller
                 $products_orm->where('product_status',self::PRODUCT_STATUS_SALE)->where('product_audit_status',self::PRODUCT_AUDIT_STATUS_SUCCESS);
                 break;
             case 'check_pending':
-                $products_orm->where('product_audit_status',self::PRODUCT_AUDIT_STATUS_CHECKING);
+                $products_orm->where('product_audit_status',self::PRODUCT_AUDIT_STATUS_CHECKING)->where('product_status',self::PRODUCT_STATUS_SALE);
                 break;
             case 'unapprove':
                 $products_orm->where('product_audit_status',self::PRODUCT_AUDIT_STATUS_FAIL);
@@ -592,6 +592,52 @@ class ProductsController extends Controller
         });
 
         return $res;
+    }
+
+    public function changeProductsWarehouse(Request $request){
+        $data = $request->all();
+
+        Validator::extend('check_product_id_list', function($attribute, $value, $parameters,$validator)
+        {
+            if(is_array($value)){
+                foreach ($value as $v){
+                    if(Products::find($v) == null){
+                        $validator->setCustomMessages(['check_product_id_list' => "dot't exits !id:".$v]);
+                        return false;
+                    }
+                }
+            }else{
+                $validator->setCustomMessages(['check_product_id_list' => 'product_id_list must be a array!']);
+                return false;
+            }
+            return true;
+        });
+
+        $validator = Validator::make($data, [
+            'product_id_list'=>'required|check_product_id_list',
+            'status'=>'required|in:selling,in_the_warehouse',
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+        }
+        $product_id_list = $request->input('product_id_list');
+
+        $product_obj = Products::where('company_id',Auth::user()->company->id)->whereIn('id',$product_id_list)->get();
+
+        foreach ($product_obj as $v){
+            if($v->product_status == self::PRODUCT_STATUS_SALE){
+                $v->product_status = self::PRODUCT_STATUS_WAREHOUSE; //放入仓库
+            }elseif ($v->product_status == self::PRODUCT_STATUS_WAREHOUSE){
+                $v->product_status = self::PRODUCT_STATUS_SALE;
+                $v->product_audit_status = self::PRODUCT_AUDIT_STATUS_CHECKING;
+            }
+            $v->save();
+        }
+
+        $status = $request->input('status');
+        $res_data = self::getStatusProductData($status);
+        return $this->echoSuccessJson('操作成功!',['data_list'=>$res_data,'total'=>count($res_data)]);
     }
 
 }
