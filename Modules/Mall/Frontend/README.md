@@ -2911,7 +2911,7 @@ json参数
 }
 ```
 
-61.获取分类商品的列表
+61.获取分类商品的列表  //商城分类
 ```
 url:http://域名/api/shop/category/get_category_product
 请求方法:post

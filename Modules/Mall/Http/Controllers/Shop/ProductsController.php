@@ -114,8 +114,6 @@ class ProductsController extends Controller
                     return true;
                 }
             }
-
-
         });
 
         $validator = Validator::make($data,[
@@ -184,6 +182,10 @@ class ProductsController extends Controller
                 foreach ($product_price as $v){
                     if(!(isset($v['unit']) && isset($v['min_order']) && isset($v['max_order_price']) && isset($v['min_order_price']))){
                         return $this->echoErrorJson('基本价价格格式错误!缺少对象!');
+                    }
+
+                    if($v['max_order_price'] < $v['min_order_price']){
+                        return $this->echoErrorJson('基本价最大价格不能小于最小价格!');
                     }
                 }
             }
