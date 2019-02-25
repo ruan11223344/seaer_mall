@@ -73,6 +73,25 @@ const upData = {
                 return false
             })
         })
+    },
+    // 43.删除商品
+    async upDelProduct(data) {
+        return new Promise((resolve, reject) => {
+            request({
+                url: '/shop/product/delete_product',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    this.$Message.info(res.message)
+                    resolve(res.data)
+                }else {
+                    reject(res.message)
+                }
+            }).catch(err => {
+                return false
+            })
+        })
     }
     
 }

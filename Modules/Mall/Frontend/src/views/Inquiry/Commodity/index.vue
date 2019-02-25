@@ -8,7 +8,7 @@
         <!-- 点击功能 -->
         <div class="Send-main-btn">
             <button type="button" v-show="actives[3]">Resume</button>
-            <button type="button">Delete</button> 
+            <button type="button" @click="onDelete(activeProductId)">Delete</button> 
             <button type="button" v-show="actives[0]">Pause</button>
             <span>Total 4</span>
         </div>
@@ -79,6 +79,7 @@
 <script>
     import Title from "../components/Title"
     import Img from "@/components/Img"
+    import upData from "@/utils/upData.js"
     import getData from "@/utils/getData.js"
     import utils from "@/utils/utils.js"
     
@@ -120,6 +121,7 @@
         },
         methods: {
             dayjs: dayjs,
+            upDelProduct: upData.upDelProduct,
             onGetReleaseProductList: getData.onGetReleaseProductList,
             filterAll: getData.filterAll,
             sleep: utils.sleep,
@@ -212,6 +214,33 @@
                 })
 
                 arr.includes(false) ? this.single = false : this.single = true
+            },
+            // 删除
+            onDelete(data) {
+                let path = 'selling'
+                
+                switch (this.num) {
+                    case 0:
+                        path = 'selling'
+                        break
+                    case 1:
+                        path = 'check_pending'
+                        break
+                    case 2:
+                        path = 'unapprove'
+                        break
+                    case 3:
+                        path = 'in_the_warehouse'
+                        break
+                }
+
+                this.upDelProduct({ product_id_list: data, status: path }).then(async res => {
+                    this.pendingData = res.data_list
+
+                    this.onSelectKey(res.data_list)
+                    this.total.total = res.total
+                    this.filterAll(this.pendingData, this.total).then(res => this.pendingActiveData = res)
+                }).catch(err => this.$Message.error(err))
             }
         },
         mounted() {
