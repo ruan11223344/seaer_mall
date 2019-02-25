@@ -65,7 +65,7 @@
                         subItems:[
                             {
                                 name:'Upload Product',
-                                url: '/inquiryList/uploadproduct',
+                                url: '/inquiryList/uploadroot/uploadproduct',
                                 path: 'uploadroot',
                             },
                             {
