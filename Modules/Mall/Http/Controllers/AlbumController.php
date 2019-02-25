@@ -383,7 +383,6 @@ class AlbumController extends Controller
         $ali_url = env('OSS_URL');
         $response = $client->get($ali_url.$image_path.'?x-oss-process=image/info');
         return Response::json(json_decode($response->getBody()));
-
     }
 
 }

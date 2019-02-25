@@ -435,6 +435,7 @@ class ProductsController extends Controller
 
         $validator = Validator::make($data, [
             'product_id_list'=>'required|product_id_list',
+            'status'=>'required|in:selling,check_pending,unapprove,in_the_warehouse',
         ]);
 
         if ($validator->fails()){
@@ -461,25 +462,17 @@ class ProductsController extends Controller
             $v->delete();
         }
 
-        return $this->echoSuccessJson('删除商品成功!');
+        $status = $request->input('status');
+
+        $res = self::getStatusProductData($status);
+
+        return $this->echoSuccessJson('删除商品成功!',['data_list'=>$res,'total'=>count($res)]);
 
     }
 
-    public function getProductList(Request $request){
-        $data = $request->all();
-        $validator = Validator::make($data, [
-            'status'=>'required|in:selling,check_pending,unapprove,in_the_warehouse',
-        ]);
-
-        if ($validator->fails()){
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
-        }
-
-        $status = $request->input('status');
+    public static function getStatusProductData($status_str){
         $products_orm = Products::where('company_id',Auth::user()->company->id);
-
-
-        switch ($status){
+        switch ($status_str){
             case 'selling':
                 $products_orm->where('product_status',self::PRODUCT_STATUS_SALE)->where('product_audit_status',self::PRODUCT_AUDIT_STATUS_SUCCESS);
                 break;
@@ -495,11 +488,27 @@ class ProductsController extends Controller
         }
 
         if($products_orm->count() == 0){
-            return $this->echoErrorJson('没有任何记录');
+            return [];
         }
 
         $res = self::getProductFormatInfo($products_orm);
 
+        return $res;
+    }
+
+    public function getProductList(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'status'=>'required|in:selling,check_pending,unapprove,in_the_warehouse',
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+        }
+
+        $status = $request->input('status');
+
+        $res = self::getStatusProductData($status);
 
         return $this->echoSuccessJson('获取商品列表成功!',['data_list'=>$res,'total'=>count($res)]);
     }

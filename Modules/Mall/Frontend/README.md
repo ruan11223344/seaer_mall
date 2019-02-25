@@ -2347,14 +2347,40 @@ url:http://域名/api/shop/product/delete_product
 
 json参数:
 {
-"product_id_list":[28,30]  //必填 数组格式 商品id的列表
+"product_id_list":[32],  // 必填 要删除的商品id 列表 数组 必填
+"status":"check_pending"  //必填  最后获取哪个状态的商品列表 selling,check_pending,unapprove,in_the_warehouse 其中一个
 }
-
 返回:
 {
     "code": 200,
     "message": "删除商品成功!",
-    "data": []
+    "data": {
+        "data_list": [
+            {
+                "product_id": 33,
+                "product_name": "超级无敌大飞车玩具13fffxxx333",
+                "product_sku": "100025",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-22 09:17:02",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_8f538e50"
+            },
+            {
+                "product_id": 34,
+                "product_name": "超级无敌大飞车玩具13fffxxx33xx3",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120"
+            }
+        ],
+        "total": 2
+    }
 }
 ```
 
