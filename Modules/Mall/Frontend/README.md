@@ -3047,3 +3047,76 @@ url:http://域名/api/shop/category/get_last_products_categories
     ]
 }
 ```
+
+
+64.更改商品上架（放入审核中列表) 下架（放入仓库） 翻转接口
+```
+url:http://域名/api/shop/category/get_last_products_categories
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+ 
+如果是在仓库列表中访问 那么 选中的商品全部会变为 正在审核的状态
+如果是在正常售卖的商品列表中 那么 选中的商品全部会到 仓库列表中
+
+json参数
+{
+"product_id_list":[38,40],  //商品id列表
+"status":"selling"  //要返回data的状态。
+}
+
+返回:
+{
+    "code": 200,
+    "message": "操作成功!",
+    "data": {
+        "data_list": [
+            {
+                "product_id": 34,
+                "product_name": "csdfs",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120"
+            },
+            {
+                "product_id": 35,
+                "product_name": "ddwrewew",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120"
+            },
+            {
+                "product_id": 36,
+                "product_name": "rerrr",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120"
+            },
+            {
+                "product_id": 37,
+                "product_name": "ffff",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120"
+            }
+        ],
+        "total": 4
+    }
+}
+```
