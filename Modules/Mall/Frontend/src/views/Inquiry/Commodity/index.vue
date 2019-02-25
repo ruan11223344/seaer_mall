@@ -10,7 +10,7 @@
             <button type="button" v-show="actives[3]">Resume</button>
             <button type="button" @click="onDelete(activeProductId)">Delete</button> 
             <button type="button" v-show="actives[0]">Pause</button>
-            <span>Total 4</span>
+            <span>Total {{ this.activeProductId.length }}</span>
         </div>
 
         <!-- 表格 -->
@@ -240,6 +240,8 @@
                     this.onSelectKey(res.data_list)
                     this.total.total = res.total
                     this.filterAll(this.pendingData, this.total).then(res => this.pendingActiveData = res)
+
+                    this.activeProductId = []
                 }).catch(err => this.$Message.error(err))
             }
         },

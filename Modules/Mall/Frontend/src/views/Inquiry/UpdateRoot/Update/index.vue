@@ -6,96 +6,123 @@
          <!-- 切换 -->
         <v-table-switch title="Search" :num="num" :tableSwitch="['Latest Selected']" style="marginBottom: 20px;" @on-click="onTableSwitch"></v-table-switch>
 
+        <section v-show="num == 0">
+            <section class="product-search" v-show="bool != false">
+                <input type="text" v-model="search" class="product-search-input" @keyup.enter="onSearch">
+                <button type="button" class="product-search-btn" @click="onSearch">Search</button>
+            </section>
 
-        <section class="product-search" v-show="bool != false">
-            <input type="text" v-model="search" class="product-search-input" @keyup.enter="onSearch">
-            <button type="button" class="product-search-btn" @click="onSearch">Search</button>
-        </section>
+            <!-- 模糊搜索 -->
+            <section class="product-blurry" v-show="search.length != 0">
+                <span class="product-blurry-title">All Categories</span>
 
-        <!-- 模糊搜索 -->
-        <section class="product-blurry" v-show="search.length != 0">
-            <span class="product-blurry-title">All Categories</span>
+                <!-- 分类一 -->
+                <swiper :options="swiperOption" class="product-blurry-item">
+                    <swiper-slide style="height: auto;">
+                        <Card shadow style="width: 863px;border:none;boxShadow: none;">
+                            <CellGroup @on-click="onClickActive">
+                                <Cell
+                                    :title="item.name + ''"
+                                    :class="SearchActive.id == item.categories_id ? 'product-blurry-item-list product-blurry-item-active' : 'product-blurry-item-list'"
+                                    v-for="(item, index) in SearchData"
+                                    :key="index"
+                                    :name="item.categories_id + '/' + item.name"
+                                    />
+                            </CellGroup>
+                        </Card>
+                    </swiper-slide>
+                    <div class="swiper-scrollbar" slot="scrollbar"></div>
+                </swiper>
+            </section>
 
-            <!-- 分类一 -->
-            <swiper :options="swiperOption" class="product-blurry-item">
-                <swiper-slide style="height: auto;">
-                    <Card shadow style="width: 863px;border:none;boxShadow: none;">
-                        <CellGroup @on-click="onClickActive">
-                            <Cell
-                                :title="item.name + ''"
-                                :class="SearchActive.id == item.categories_id ? 'product-blurry-item-list product-blurry-item-active' : 'product-blurry-item-list'"
-                                v-for="(item, index) in SearchData"
-                                :key="index"
-                                :name="item.categories_id + '/' + item.name"
+            <!-- 地址 -->
+            <section class="product-category" v-show="search.length == 0">
+                <!-- 分类一 -->
+                <swiper :options="swiperOption" class="product-category-item">
+                    <swiper-slide style="height: auto;">
+                        <Card shadow style="width: 260px;border:none;boxShadow: none;">
+                            <CellGroup @on-click="onClickRootActive">
+                                <Cell
+                                    :title="item.name + ''"
+                                    :class="rootActive.id == item.id ? 'product-category-item-list product-category-item-active' : 'product-category-item-list'"
+                                    v-for="(item, index) in rootData"
+                                    :key="index"
+                                    :name="item.id + '/' + item.name"
                                 />
-                        </CellGroup>
-                    </Card>
-                </swiper-slide>
-                <div class="swiper-scrollbar" slot="scrollbar"></div>
-            </swiper>
+                            </CellGroup>
+                        </Card>
+                    </swiper-slide>
+                    <div class="swiper-scrollbar" slot="scrollbar"></div>
+                </swiper>
+                <!-- 分类二 -->
+                <swiper :options="swiperOption" class="product-category-item" v-show="parentData.length">
+                    <swiper-slide style="height: auto;">
+                        <Card shadow style="width: 260px;border:none;boxShadow: none;">
+                            <CellGroup @on-click="onClickParentActive">
+                                <Cell
+                                    :title="item.name + ''"
+                                    :class="parentActive.id == item.id ? 'product-category-item-list product-category-item-active' : 'product-category-item-list'"
+                                    v-for="(item, index) in parentData"
+                                    :key="index"
+                                    :name="item.id + '/' + item.name"
+                                />
+                            </CellGroup>
+                        </Card>
+                    </swiper-slide>
+                    <div class="swiper-scrollbar" slot="scrollbar"></div>
+                </swiper>
+                <!-- 分类三 -->
+                <swiper :options="swiperOption" class="product-category-item" style="borderRight: none;" v-show="childData.length">
+                    <swiper-slide style="height: auto;">
+                        <Card shadow style="width: 260px;border:none;boxShadow: none;">
+                            <CellGroup @on-click="onClickChildActive">
+                                <Cell
+                                    :title="item.name + ''"
+                                    :class="childActive.id == item.id ? 'product-category-item-list product-category-item-active' : 'product-category-item-list'"
+                                    v-for="(item, index) in childData"
+                                    :key="index"
+                                    :name="item.id + '/' + item.name"
+                                />
+                            </CellGroup>
+                        </Card>
+                    </swiper-slide>
+                    <div class="swiper-scrollbar" slot="scrollbar"></div>
+                </swiper>
+            </section>
+            <!-- 选择的地址 -->
+            <section class="product-footer" v-show="search">
+                {{ SearchActive.name }}
+            </section>
+
+            <section class="product-footer" v-show="!search">
+                {{ (rootActive.id ? rootActive.name + '>' : '') + (parentActive.id ? parentActive.name + '>' : '') + childActive.name }}
+            </section>
         </section>
 
-        <!-- 地址 -->
-        <section class="product-category" v-show="search.length == 0">
-            <!-- 分类一 -->
-            <swiper :options="swiperOption" class="product-category-item">
-                <swiper-slide style="height: auto;">
-                    <Card shadow style="width: 260px;border:none;boxShadow: none;">
-                        <CellGroup @on-click="onClickRootActive">
-                            <Cell
-                                :title="item.name + ''"
-                                :class="rootActive.id == item.id ? 'product-category-item-list product-category-item-active' : 'product-category-item-list'"
-                                v-for="(item, index) in rootData"
-                                :key="index"
-                                :name="item.id + '/' + item.name"
-                            />
-                        </CellGroup>
-                    </Card>
-                </swiper-slide>
-                <div class="swiper-scrollbar" slot="scrollbar"></div>
-            </swiper>
-            <!-- 分类二 -->
-            <swiper :options="swiperOption" class="product-category-item" v-show="parentData.length">
-                <swiper-slide style="height: auto;">
-                    <Card shadow style="width: 260px;border:none;boxShadow: none;">
-                        <CellGroup @on-click="onClickParentActive">
-                            <Cell
-                                :title="item.name + ''"
-                                :class="parentActive.id == item.id ? 'product-category-item-list product-category-item-active' : 'product-category-item-list'"
-                                v-for="(item, index) in parentData"
-                                :key="index"
-                                :name="item.id + '/' + item.name"
-                            />
-                        </CellGroup>
-                    </Card>
-                </swiper-slide>
-                <div class="swiper-scrollbar" slot="scrollbar"></div>
-            </swiper>
-            <!-- 分类三 -->
-            <swiper :options="swiperOption" class="product-category-item" style="borderRight: none;" v-show="childData.length">
-                <swiper-slide style="height: auto;">
-                    <Card shadow style="width: 260px;border:none;boxShadow: none;">
-                        <CellGroup @on-click="onClickChildActive">
-                            <Cell
-                                :title="item.name + ''"
-                                :class="childActive.id == item.id ? 'product-category-item-list product-category-item-active' : 'product-category-item-list'"
-                                v-for="(item, index) in childData"
-                                :key="index"
-                                :name="item.id + '/' + item.name"
-                            />
-                        </CellGroup>
-                    </Card>
-                </swiper-slide>
-                <div class="swiper-scrollbar" slot="scrollbar"></div>
-            </swiper>
-        </section>
-        <!-- 选择的地址 -->
-        <section class="product-footer" v-show="search">
-            {{ SearchActive.name }}
-        </section>
-
-        <section class="product-footer" v-show="!search">
-            {{ (rootActive.id ? rootActive.name + '>' : '') + (parentActive.id ? parentActive.name + '>' : '') + childActive.name }}
+        <section v-show="num == 1">
+            <!-- 模糊搜索 -->
+            <section class="product-blurry">
+                <swiper :options="swiperOption" class="product-blurry-item">
+                    <swiper-slide style="height: auto;">
+                        <Card shadow style="width: 863px;border:none;boxShadow: none;">
+                            <CellGroup @on-click="onClickActive">
+                                <Cell
+                                    :title="item.name + ''"
+                                    :class="SearchActive.id == item.categories_id ? 'product-blurry-item-list product-blurry-item-active' : 'product-blurry-item-list'"
+                                    v-for="(item, index) in SearchData"
+                                    :key="index"
+                                    :name="item.categories_id + '/' + item.name"
+                                    />
+                            </CellGroup>
+                        </Card>
+                    </swiper-slide>
+                    <div class="swiper-scrollbar" slot="scrollbar"></div>
+                </swiper>
+            </section>
+            <!-- 选择的地址 -->
+            <section class="product-footer">
+                {{ SearchActive.name }}
+            </section>
         </section>
 
         <button type="button" class="product-btn" @click="onSub">Select</button>
@@ -106,6 +133,8 @@
     import Title from "../../components/Title"
     import Img from "@/components/Img"
     import Head from "../../components/Head"
+    import getData from "@/utils/getData.js"
+
     // 滚动条
     // import { HappyScroll } from 'vue-happy-scroll'
     import { swiper, swiperSlide } from 'vue-awesome-swiper'
@@ -162,6 +191,7 @@
             }
         },
         methods: {
+            onGetLastProductsCategories: getData.onGetLastProductsCategories,
             ...mapMutations(['SET_CLASSIFICATION']),
             // 切换
             onTableSwitch(num) {
@@ -171,7 +201,7 @@
 
                         break
                     case 1:
-                        
+                        this.onGetLastProductsCategories().then(res => this.SearchData = res)
                         break
                 }
             },
@@ -209,7 +239,7 @@
                 this.$set(this.SearchActive, 'id', arr[0])
                 this.$set(this.SearchActive, 'name', arr[1])
 
-                this.SelectId = this.childActive.id
+                this.SelectId = this.SearchActive.id
             },
             // 获取根分类列表
             GetRootList() {

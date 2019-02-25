@@ -151,6 +151,20 @@ const getData = {
                 }
             })
         })
+    },
+    // 63.获取最近发布的商品分类
+    async onGetLastProductsCategories() {
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/shop/category/get_last_products_categories',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            })
+        })
     }
 
 }
