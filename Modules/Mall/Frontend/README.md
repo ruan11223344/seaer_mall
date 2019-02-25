@@ -2911,7 +2911,7 @@ json参数
 }
 ```
 
-61.获取分类商品的列表
+61.获取分类商品的列表  //商城分类
 ```
 url:http://域名/api/shop/category/get_category_product
 请求方法:post
@@ -3000,4 +3000,24 @@ json参数
 }
 ```
 
+63.获取最近发布的商品分类
+```
+url:http://域名/api/shop/category/get_last_products_categories
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
 
+无参数
+
+返回:
+{
+    "code": 200,
+    "message": "获取最近选择的分类成功!",
+    "data": [
+        {
+            "name": "Auto & Transportation > Transmission Parts > Intermediate Gear",
+            "categories_id": 31
+        }
+    ]
+}
+```
