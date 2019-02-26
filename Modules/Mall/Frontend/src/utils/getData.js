@@ -96,8 +96,6 @@ const getData = {
             }).then(res => {
                 if(res.code == 200) {
                     resolve(res.data)
-                }else {
-                    this.$Message.error(res.message)
                 }
             }).catch(err => {
                 reject(err)
