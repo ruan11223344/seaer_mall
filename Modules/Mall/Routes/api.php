@@ -18,6 +18,8 @@ Route::group(['domain' => env('MALL_DOMAIN'), 'middleware' => 'cors'], function 
             Route::post('change_password', 'Auth\PasswordController@changePassword');
             Route::post('upload_avatar_img', 'Auth\AuthorizationsController@uploadAvatarImg');
             Route::get('get_avatar', 'Auth\AuthorizationsController@getAvatar');
+            Route::get('get_account_info', 'Auth\AuthorizationsController@getAccountInfo');
+            Route::post('set_account_info', 'Auth\AuthorizationsController@setAccountInfo');
         });
         Route::post('get_access_token', 'Auth\AuthorizationsController@getAccessToken');
         Route::post('login', 'Auth\LoginController@login');

@@ -3187,3 +3187,78 @@ json参数
     }
 }
 ```
+
+
+68.获取账户信息
+```
+url:http://域名/api/auth/get_account_info
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+无参数
+
+返回:
+{
+    "code": 200,
+    "message": "获取账户信息成功!",
+    "data": {
+        "member_id": "tests",
+        "email_address": "421566927@qq.com",
+        "contact_full_name": "QWEQE",
+        "mobile_phone": null,
+        "country": "Kenya",
+        "province/city": "Nairobi Nairobi",
+        "address": null
+    }
+}
+```
+
+69.设置账户信息
+```
+url:http://域名/api/auth/set_account_info
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+json参数:
+{
+"sex":"Miss", //非必填
+"contact_full_name":"王飞飞", //非必填
+"mobile_phone":"+8613672009476", //非必填
+"province_id":23, //非必填
+"city_id":323,   //非必填
+"detailed_address":"湖北省黄石市西塞山去王子大战飞机温度计的时间23后 手动" //非必填
+}
+
+
+返回:
+{
+    "code": 200,
+    "message": "更新成功!",
+    "data": {
+        "id": 7,
+        "user_id": 13,
+        "af_id": "AF_CN_7a49b34079",
+        "publish_product_status": 1,
+        "account_type": 0,
+        "company_id": 10,
+        "chinese_name": null,
+        "country_id": 56,
+        "province_id": 23,
+        "city_id": 323,
+        "mobile_phone": "+8613672009476",
+        "sex": "Miss",
+        "contact_full_name": "王飞飞",
+        "detailed_address": "湖北省黄石市西塞山去王子大战飞机温度计的时间23后 手动",
+        "id_card_name": null,
+        "id_card_num": null,
+        "id_card_positive_pic_url": null,
+        "id_card_negative_pic_url": null,
+        "email_notification": true,
+        "avatar_url": "mall/users/AF_CN_7a49b34079/avatar/155116115555708014.png",
+        "created_at": "2019-01-18 16:25:28",
+        "updated_at": "2019-02-26 14:46:54"
+    }
+}
+```
