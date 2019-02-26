@@ -18,17 +18,8 @@
                 :trigger="setting.trigger"
                 :arrow="setting.arrow"
                 :height="setting.height">
-                <CarouselItem>
-                    <div class="demo-carousel">1</div>
-                </CarouselItem>
-                <CarouselItem>
-                    <div class="demo-carousel">2</div>
-                </CarouselItem>
-                <CarouselItem>
-                    <div class="demo-carousel">3</div>
-                </CarouselItem>
-                <CarouselItem>
-                    <div class="demo-carousel">4</div>
+                <CarouselItem v-for="(item, index) in slideLists" :key="index" style="width: 741px;height: 193px;">
+                    <img :src="item.url" alt="" style="display: block;width: 741px;height: 193px;">
                 </CarouselItem>
             </Carousel>
         </div>
@@ -77,7 +68,7 @@
                 value3: 0,
                 setting: {
                     autoplay: true,
-                    autoplaySpeed: 2000,
+                    autoplaySpeed: 3000,
                     dots: 'inside',
                     radiusDot: false,
                     trigger: 'click',
@@ -92,7 +83,8 @@
                         img_url: '',
                         img_path: ''
                     }
-                ]
+                ],
+                slideLists: []
             }
         },
         methods: {
@@ -156,18 +148,20 @@
 
                     this.upSetSlides(arr).then(res => {
                         res.code == 200 ? this.$Message.info(res.message) : this.$Message.error(res.message)
+
+                        this.onGetSlidesList().then(res => {
+                            this.slideLists = res
+                        })
                     })
                 }
             }
         },
         created() {
-            this.onGetSlidesList().then(res => {
-                console.log(res);
-            })
+            
         },
         mounted() {
             this.onGetSlidesList().then(res => {
-                console.log(res);
+                this.slideLists = res
             })
         },
         components: {

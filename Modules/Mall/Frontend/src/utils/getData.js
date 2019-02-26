@@ -172,7 +172,11 @@ const getData = {
             await request({
                 url: '/shop/get_slides_list',
             }).then(res => {
-                resolve(res.data)
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
             })
         })
     },
