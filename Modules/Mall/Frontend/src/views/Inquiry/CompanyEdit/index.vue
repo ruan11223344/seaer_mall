@@ -167,7 +167,7 @@
                     <Col span="18">
                         <textarea class="edit-from-textarea"></textarea>
                         <div>- Tell us your company history, business scope, certification, future development and etc.</div>
-                        <div>- 100 - 4,000 characters (Including spaces and other special characters).</div>
+                        <div>- 100 - 40,000 characters (Including spaces and other special characters).</div>
                     </Col>
                 </Row>
             </Col>

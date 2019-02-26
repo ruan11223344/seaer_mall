@@ -3,7 +3,7 @@
         <v-title title="Shop Settings"></v-title>
         
         <div style="marginTop: 20px;">
-            <v-table-switch title="Banner Setting" :num="num" :tableSwitch="['Slide Setting', 'Shop Information Setting']" @on-click="onTableSwitch"></v-table-switch>
+            <v-table-switch title="Banner Setting" :num="num" :tableSwitch="['Slide Setting']" @on-click="onTableSwitch"></v-table-switch>
         </div>
         
         <template>
@@ -16,10 +16,10 @@
             <v-slide-template v-show="num == 1"></v-slide-template>
         </template>
 
-        <template>
-            <!-- 导航列表设置 -->
+        <!-- 导航列表设置 -->
+        <!-- <template>
             <v-nav-list v-show="num == 2"></v-nav-list>
-        </template>
+        </template> -->
     </div>
 </template>
 
@@ -38,7 +38,6 @@
             }
         },
         methods: {
-            onGetBanner: getData.onGetBanner,
             // 切换
             onTableSwitch(num) {
                 this.num = num
@@ -55,9 +54,7 @@
             }
         },
         mounted() {
-            this.onGetBanner().then(res => {
-                console.log(res);
-            })
+           
         },
         components: {
             "v-title": Title,

@@ -181,7 +181,7 @@ const upData = {
         })
     },
     // 64.更改商品上架（放入审核中列表) 下架（放入仓库） 翻转接口
-    async onChangeWarehouse() {
+    async onChangeWarehouse(data) {
         return await new Promise((resolve, reject) => {
             request({
                 url: '/shop/product/change_products_warehouse',
