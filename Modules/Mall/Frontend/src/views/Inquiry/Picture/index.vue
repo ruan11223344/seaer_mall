@@ -47,6 +47,8 @@
         },
         methods: {
             getObjectURL: getData.getObjectURL,
+            onGetAvatar: getData.onGetAvatar,
+            UpAvatarBase64: upData.UpAvatarBase64,
              // 截图
             onCropper(data) {
                 this.path = data
@@ -63,8 +65,17 @@
                 return false
             },
             onSave(base64) {
-                
+                this.UpAvatarBase64(base64).then(res => {
+                    this.path = res.avatar_img_url
+                })
             }
+        },
+        mounted() {
+            this.onGetAvatar().then(res => {
+                this.path = res.avatar_url
+            }).catch(err => {
+
+            })
         },
         components: {
             "v-title": Title,
@@ -93,6 +104,7 @@
             height: 145px;
             border: 1px solid #f5f5f5;
             display: block;
+            border-radius: 50%;
         }
 
         &-btn {

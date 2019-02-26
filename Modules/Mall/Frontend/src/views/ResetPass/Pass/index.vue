@@ -102,7 +102,6 @@
         },
         mounted() {
             this.token = this.$route.query.token
-            
             this.onGetNumId(this.token).then(res => {
                 this.member_id = res.member_id
             })

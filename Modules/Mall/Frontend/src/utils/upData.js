@@ -231,7 +231,26 @@ const upData = {
                 }
             })
         })
-    }
+    },
+    // 67.设置用户头像
+    async UpAvatarBase64(avatar_img_base64) {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/auth/upload_avatar_img',
+                method: 'post',
+                data: {
+                    avatar_img_base64: avatar_img_base64
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    this.$Message.info(res.message)
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            })
+        })
+    },
 }
 
 export default upData

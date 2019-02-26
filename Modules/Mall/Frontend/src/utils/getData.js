@@ -239,8 +239,22 @@ const getData = {
                 }
             })
         })
+    },
+    // 66.获取用户头像
+    async onGetAvatar() {
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/auth/get_avatar',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                    reject(res.data)
+                }
+            })
+        })
     }
-
 }
 
 export default getData
