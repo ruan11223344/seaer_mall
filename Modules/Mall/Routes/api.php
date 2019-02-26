@@ -20,6 +20,8 @@ Route::group(['domain' => env('MALL_DOMAIN'), 'middleware' => 'cors'], function 
             Route::get('get_avatar', 'Auth\AuthorizationsController@getAvatar');
             Route::get('get_account_info', 'Auth\AuthorizationsController@getAccountInfo');
             Route::post('set_account_info', 'Auth\AuthorizationsController@setAccountInfo');
+            Route::get('get_company_info', 'Auth\AuthorizationsController@getCompanyInfo');
+            Route::post('set_company_info', 'Auth\AuthorizationsController@setCompanyInfo');
         });
         Route::post('get_access_token', 'Auth\AuthorizationsController@getAccessToken');
         Route::post('login', 'Auth\LoginController@login');
@@ -138,6 +140,11 @@ Route::group(['domain' => env('MALL_DOMAIN'), 'middleware' => 'cors'], function 
         Route::get('get_provinces_list', 'UtilsController@getProvincesList')->name('get_provinces_list');
         Route::get('get_city_list', 'UtilsController@getCityList')->name('get_city_list');
         Route::post('currency_converter', 'UtilsController@currencyConverter');
+
+        Route::group(['middleware' => ['client.credentials', 'auth:api']], function () {
+            Route::post('upload_business_license', 'UtilsController@uploadBusinessLicense');
+        });
+
     });
 
     Route::get('get_sys_config', 'SystemController@sysConfig');

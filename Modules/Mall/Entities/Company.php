@@ -31,6 +31,7 @@ class Company extends Model
         'company_sales_platform', //销售平台
         'company_main_products',  //主营产品
         'company_logo_url', //公司logo url
+        'company_business_range_ids'
     ];
 
     public function user()

@@ -12,6 +12,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Khsing\World\Models\City;
 use Khsing\World\Models\Division;
+use Modules\Mall\Entities\BusinessRange;
+use Modules\Mall\Entities\BusinessType;
+use Modules\Mall\Entities\Company;
 use Modules\Mall\Http\Controllers\MessagesController;
 use Modules\Mall\Http\Controllers\Shop\ProductsController;
 use Modules\Mall\Http\Controllers\UtilsController;
@@ -199,6 +202,7 @@ class AuthorizationsController extends Controller
         $city = City::find($user_obj->usersExtends->city_id);
         $data['province/city'] =  $province == null ?  null : $province->name .' '.$city->name;
         $data['address'] = $user_obj->usersExtends->detailed_address;
+        $data['sex'] = $user_obj->usersExtends->sex;
 
         return $this->echoSuccessJson('获取账户信息成功!',$data);
     }
@@ -257,5 +261,154 @@ class AuthorizationsController extends Controller
         if($res){
             return $this->echoSuccessJson('更新成功!',Auth::user()->usersExtends->toArray());
         }
+    }
+
+    public static function getCompanyInfoData(){
+        $company = Auth::user()->company;
+        $data = [];
+        $data['basic_info'] = [];
+        $data['business_info'] = [];
+
+        $data['basic_info']['business_type'] = $company->company_business_type_id == null ? null : BusinessType::find($company->company_business_type_id)->name;
+        $data['basic_info']['business_type_id'] = $company->company_business_type_id == null ? null : $company->company_business_type_id;
+        $data['basic_info']['company_name'] = $company->company_name;
+        $data['basic_info']['company_name_in_china'] = $company->company_name_in_china;
+        $data['basic_info']['country'] = $company->company_province_id;
+
+        $province = Division::find($company->company_province_id);
+        $city = City::find($company->company_city_id);
+
+        $data['basic_info']['province/city'] = $province == null ? null : $province->name.' '.$city->name;
+        $data['basic_info']['address'] = $company->company_detailed_address;
+        $data['basic_info']['telephone'] = $company->company_mobile_phone;
+        $data['basic_info']['website'] = $company->company_website;
+        $business_range = $company->company_business_range_ids;
+
+        $business_range_str = '';
+        if($business_range != null){
+            $business_range_arr = explode(',',$business_range);
+            BusinessRange::whereIn('id',$business_range_arr)->get()->map(function ($v,$k) use(&$business_range_str){
+                $business_range_str.= ' '.$v->name.'、';
+            });
+            $business_range_str = mb_substr($business_range_str,0,mb_strlen($business_range_str)-1);
+        }
+        $data['business_info']['business_range'] = $business_range_str;
+        $data['business_info']['business_range_id_arr'] = $business_range_arr;
+
+        $main_products = $company->company_main_products;
+        $main_products_str = '';
+        $main_products_arr = [];
+        if($main_products != null){
+            $main_products_arr = explode(',',$main_products);
+            if(count($main_products_arr > 1)){
+                foreach ($main_products_arr as $v){
+                    $main_products_str .= $v .'、';
+                }
+                $main_products_str = mb_substr($main_products_str,0,mb_strlen($main_products_str)-1);
+            }
+        }
+
+        $data['business_info']['main_products'] = $main_products_str;
+        $data['business_info']['main_products_arr'] = $main_products_arr;
+        $data['business_info']['company_profile'] = $company->company_profile;
+        $data['business_info']['business_license'] = $company->company_business_license;
+        $data['business_info']['business_license_path'] = $company->company_business_license_pic_url;
+        $data['business_info']['business_license_url'] = UtilsController::getPathFileUrl($company->company_business_license_pic_url);
+
+        $data['other_info'] = [];
+
+        $data['other_info']['business_type_list'] = BusinessRange::all()->toArray();
+        $data['other_info']['business_range_list'] = BusinessType::all()->toArray();
+        return $data;
+    }
+
+    public function getCompanyInfo(){
+        $data = self::getCompanyInfoData();
+        return $this->echoSuccessJson('获取公司信息成功!',$data);
+    }
+
+    public function setCompanyInfo(R $request){
+        $data = $request->all();
+
+        Validator::extend('business_type_check', function($attribute, $value,$parameters,$validator){
+            if(BusinessType::find($value) == null){
+                $validator->setCustomMessages(['business_type_check' => 'business_type id don\'t exists! id:'.$value]);
+                return false;
+            }
+            return true;
+        });
+
+        Validator::extend('business_range_arr_check', function($attribute, $value,$parameters,$validator){
+            if(!is_array($value)){
+                $validator->setCustomMessages(['business_range_arr_check' => 'business_range must be a array']);
+                return false;
+            }else{
+                if(count($value) > 5){
+                    $validator->setCustomMessages(['business_range_arr_check' => 'business_range max 5 item']);
+                    return false;
+                }
+            }
+            foreach ($value as $v){
+                if(BusinessRange::find($v) == null){
+                    $validator->setCustomMessages(['business_range_arr_check' => 'business_range id don\'t exists! id:'.$v]);
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        Validator::extend('oss_path', function($attribute, $value,$parameters,$validator){
+            if($value != null){
+                if(stripos($value,UtilsController::getUserPrivateDirectory(Auth::user()->usersExtends->af_id)) === false){
+                    $validator->setCustomMessages(['oss_path' => 'oss_path error']);
+                    return false;
+                }
+            }
+            return true;
+        });
+
+
+        $validator = Validator::make($data, [
+            'company_business_type_id' => 'nullable|business_type_check',
+            'company_name' => 'nullable',
+            'company_name_in_china' => 'nullable',
+            'company_province_id' => 'nullable|exists:world_divisions,id',
+            'company_city_id' => 'nullable|exists:world_cities,id',
+            'company_detailed_address' => 'nullable',
+            'company_mobile_phone' => 'nullable',
+            'company_website' => 'nullable|url',
+            'company_business_range_ids' => 'nullable|business_range_arr_check',
+            'company_main_products' => 'nullable|array|max:5',
+            'business_license' => 'nullable',
+            'company_business_license_pic_url' => 'nullable|oss_path',
+            'company_profile' => 'nullable',
+        ]);
+
+
+        if ($validator->fails()) {
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+        }
+
+        $company = Auth::user()->company;
+
+        foreach ($data as $k=>$v){
+            if(($k == 'company_business_range_ids' && $v != null) || ($k == 'company_main_products' && $v != null)){
+                if(is_array($v)){
+                    $data[$k] = implode(',',$v);
+                }
+            }
+        }
+
+        $res = $company->update($data);
+
+        if($res){
+            $data = self::getCompanyInfoData();
+            return $this->echoSuccessJson('设置公司信息成功!',$data);
+        }else{
+            return $this->echoErrorJson('入库失败!');
+        }
+
+
+
     }
 }

@@ -281,6 +281,24 @@ class UtilsController extends Controller
 
     }
 
+    public function uploadBusinessLicense(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'business_license_img'=>'max:2048|image',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+        }
+
+        $pic = $request->file('business_license_img');
+        $af_id = self::getAfId();
+        $res = self::uploadFile($pic,UtilsController::getUserPrivateDirectory($af_id),true);
+        return $this->echoSuccessJson('上传营业执照成功',$res);
+    }
+
+
+
     public static function getMallNotice(Request $request){
         //todo 获取个人中心页面的新闻。 等待后台建表后完成此方法
     }
