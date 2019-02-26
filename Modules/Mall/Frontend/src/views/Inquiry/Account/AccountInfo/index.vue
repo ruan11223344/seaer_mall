@@ -36,15 +36,26 @@
             </article>
         </section>
 
-        <button type="button" class="accountInfo-btn">Edit</button>
+        <button type="button" class="accountInfo-btn" @click="$router.push('/inquiryList/account/accountedit')">Edit</button>
     </div>
 </template>
 
 <script>
     import Title from "../../components/Title"
     import Img from "@/components/Img"
+    import getData from "@/utils/getData.js"
 
     export default {
+        methods: {
+            onGetUser: getData.onGetUser,
+
+        },
+        mounted() {
+            this.onGetUser().then(res => {
+                console.log(res);
+                
+            })
+        },
         components: {
             "v-title": Title,
             "v-img": Img

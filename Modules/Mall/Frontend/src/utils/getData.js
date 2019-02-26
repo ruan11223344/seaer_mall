@@ -88,6 +88,22 @@ const getData = {
             resolve(dataFrom)
         })
     },
+    // 3.获取用户信息
+    async onGetUser() {
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/auth/get_user_info',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    },
     // 27.获取相册中的图片列表
     async onGetalbumPhotoList(params) {
         return await new Promise(async (resolve, reject) => {
@@ -132,6 +148,21 @@ const getData = {
                 }else {
                     this.$Message.error(res.message)
                 }
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    },
+    // 38.获取重置密码的member_id
+    async onGetNumId(token) {
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/auth/get_reset_password_member_id',
+                params: {
+                    "token": token
+                }
+            }).then(res => {
+                resolve(res.data)
             }).catch(err => {
                 reject(err)
             })

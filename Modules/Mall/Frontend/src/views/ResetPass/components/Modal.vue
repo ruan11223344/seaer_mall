@@ -4,7 +4,7 @@
             <v-img width="99" height="101" :imgSrc="require('@/assets/img/success.png')"></v-img>
             <div class="resetPass-modal-title">Password Sussfully Rest.</div>
             <div class="resetPass-modal-text">Please remember your new password and keep it safe.</div>
-            <button type="button" class="resetPass-modal-btn">Sign In Now</button>
+            <button type="button" class="resetPass-modal-btn" @click="$router.push('/login')">Sign In Now</button>
         </div>
     </div>
 </template>

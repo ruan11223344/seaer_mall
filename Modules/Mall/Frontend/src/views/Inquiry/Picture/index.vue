@@ -3,9 +3,13 @@
         <v-title title="Edit My Photo"></v-title>
         
         <section class="avatar">
-            <v-img class="avatar-img" width="149" height="147" :imgSrc="require('@/assets/img/home/mr1.png')"></v-img>
+            <img class="avatar-img" :src="path" alt="">
 
-            <Upload action="//jsonplaceholder.typicode.com/posts/">
+            <Upload
+                action="//jsonplaceholder.typicode.com/posts/"
+                :show-upload-list="false"
+                :before-upload="onBefore"
+                >
                 <button type="button" class="avatar-btn">Upload Photo</button>
             </Upload>
 
@@ -17,21 +21,55 @@
             </article>
 
             <div class="avatar-btns">
-                <button type="button" class="avatar-btns-cancel">Cancel</button>
-                <button type="button" class="avatar-btns-save">Save</button>
+                <button type="button" class="avatar-btns-cancel" @click="path=''">Cancel</button>
+                <button type="button" class="avatar-btns-save" @click="onSave(path)">Save</button>
             </div>
         </section>
+
+        <v-cropper :url="url" :autoCropWidth="145" :autoCropHeight="145" @on-cropper="onCropper" @on-show="onShow" v-show="show"></v-cropper>
     </div>
 </template>
 
 <script>
     import Title from "../components/Title"
     import Img from "@/components/Img"
+    import Cropper from "@/components/Cropper"
+    import upData from "@/utils/upData.js"
+    import getData from "@/utils/getData.js"
 
     export default {
+        data() {
+            return {
+                url: '',
+                show: false,
+                path: ''
+            }
+        },
+        methods: {
+            getObjectURL: getData.getObjectURL,
+             // 截图
+            onCropper(data) {
+                this.path = data
+            },
+            onShow(bool) {
+                this.show = bool
+            },
+            onBefore(file) {
+
+                this.url = this.getObjectURL(file)
+
+                this.show = true
+
+                return false
+            },
+            onSave(base64) {
+                
+            }
+        },
         components: {
             "v-title": Title,
-            "v-img": Img
+            "v-img": Img,
+            "v-cropper": Cropper
         }
     }
 </script>
@@ -51,7 +89,10 @@
         height: 772px - 42px - 29px;
 
         &-img {
+            width: 145px;
+            height: 145px;
             border: 1px solid #f5f5f5;
+            display: block;
         }
 
         &-btn {

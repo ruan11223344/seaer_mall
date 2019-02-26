@@ -4,7 +4,7 @@
             <v-img width="99" height="101" :imgSrc="require('@/assets/img/login/chengg.png')"></v-img>
             <div class="resetPass-modal-title">
                 We have sent an email to
-                <mark class="resetPass-modal-title-mark">wjcharles@163.com</mark>
+                <mark class="resetPass-modal-title-mark">{{ email }}</mark>
             </div>
             <div class="resetPass-modal-text">Follow the instructions in the email to reset your passwod.</div>
             <p class="resetPass-modal-content">
@@ -20,6 +20,7 @@ please check your spam folder or <router-link to="" class="resetPass-modal-conte
     import Img from '@/components/Img'
 
     export default {
+        props: ['email'],
         components: {
             'v-img': Img
         }

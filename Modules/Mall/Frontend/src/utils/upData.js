@@ -31,7 +31,42 @@ const upData = {
             })
         })
     },
-
+    // 38.发送重置密码邮件
+    async onSendReset(data) {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/auth/send_reset_password_email',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res.message)
+                }
+            }).catch(err => {
+                return false
+            })
+        })
+    },
+    // 39.提交重置密码 
+    UpResetPass(data) {
+        return new Promise((resolve, reject) => {
+            request({
+                url: '/auth/reset_password',
+                method: 'post',
+                data: data,
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            }).catch(err => {
+                return false
+            })
+        })
+    },
     // 40.上传发布商品的图片
     UpProductImg(file, id) {
         const fromData = new FormData()

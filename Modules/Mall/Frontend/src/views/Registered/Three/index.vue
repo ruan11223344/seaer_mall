@@ -391,7 +391,7 @@
                         this.$set(this.formItem, 'id', data.member_id)
                     }else {
                         // 此处 跳转过期提醒页面！
-                        this.$router.push('/registered/one')
+                        // this.$router.push('/registered/one')
                     }
                 }).catch(err => {
                     return false
@@ -405,7 +405,6 @@
                 }else {
                     this.SET_COUNTRIES(false)
                 }
-
                 const Province = this.getProvinceAddress(this.$route.query.u_from)
                 Province.then(res => { // 省份地址
                     this.Province = res.data

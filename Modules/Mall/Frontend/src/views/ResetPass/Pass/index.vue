@@ -8,15 +8,17 @@
                     <dl class="resetPass-box-block-item">
                         <dd class="resetPass-box-block-item-list">
                             <div>Member ID</div>
-                            <div class="resetPass-box-block-item-list-last">wjcharles</div>
+                            <div class="resetPass-box-block-item-list-last">{{ member_id }}</div>
                         </dd>
                         <dd class="resetPass-box-block-item-list">
                             <div>New Password</div>
                             <input type="password" placeholder="Enter 6-20 characters（Case Sensitive A-Z，a-z，0-9 only）" v-model="rulesFrom.password" v-verify="rulesFrom.password" />
+                            <div class="resetPass-box-block-item-list-title" v-remind="rulesFrom.password">Enter 6-20 characters（Case Sensitive A-Z，a-z，0-9 only）</div>
                         </dd>
                         <dd class="resetPass-box-block-item-list">
                             <div>Confirm New Password</div>
                             <input type="password" placeholder="Enter 6-20 characters（Case Sensitive A-Z，a-z，0-9 only）" v-model="rulesFrom.passwordCheck" v-verify="rulesFrom.passwordCheck" />
+                            <div class="resetPass-box-block-item-list-title" v-remind="rulesFrom.passwordCheck">Enter 6-20 characters（Case Sensitive A-Z，a-z，0-9 only）</div>
                         </dd>
                     </dl>
                     <button type="button" class="resetPass-box-block-btn" @click="onSubmit">Submit</button>
@@ -24,12 +26,14 @@
             </div>
         </main>
         <!-- 模态框 -->
-        <v-modal v-show="false"></v-modal>
+        <v-modal v-show="bool"></v-modal>
     </div>
 </template>
 
 <script>
     import Modal from '../components/Modal'
+    import getData from "@/utils/getData"
+    import upData from "@/utils/upData"
 
     export default {
         data() {
@@ -38,6 +42,9 @@
                     password: '',
                     passwordCheck: ''
                 },
+                token: '',
+                member_id: '',
+                bool: false
             }
         },
         verify: {
@@ -59,7 +66,7 @@
                                 return true
                             }
                         },
-                        message: 'Please enter your Email Address or Member ID.',
+                        message: 'Enter 6-20 characters（Case Sensitive A-Z，a-z，0-9 only）',
                     }
                 ],
                 passwordCheck: [
@@ -73,23 +80,32 @@
                                 return true
                             }
                         },
-                        message: 'Please enter your Email Address or Member ID.',
+                        message: 'Enter 6-20 characters（Case Sensitive A-Z，a-z，0-9 only）',
                     }
                 ]
             }
         },
         methods: {
+            UpResetPass: upData.UpResetPass,
+            onGetNumId: getData.onGetNumId,
             onSubmit() {
                 if(this.$verify.check()) {
-                    this.$Message.info('true')
-
-                    // setTimeout(() => {
-                    //     this.$router.push('/')
-                    // }, 3000)
-                }else {
-                    this.$Message.info('false')
+                    this.UpResetPass({
+                        token: this.token,
+                        password: this.rulesFrom.password,  //新密码
+                        password_confirmation: this.rulesFrom.passwordCheck  //新重复密码
+                    }).then(res => {
+                        this.bool = true
+                    })
                 }
             },
+        },
+        mounted() {
+            this.token = this.$route.query.token
+            
+            this.onGetNumId(this.token).then(res => {
+                this.member_id = res.member_id
+            })
         },
         components: {
             'v-modal': Modal
@@ -148,6 +164,7 @@
                     }
                     &-list {
                         .flex();
+                        position: relative;
 
                         & > div:first-child {
                             .color(blackDark);
@@ -171,6 +188,13 @@
                             border: solid 2px #eeeeee;
                             text-indent: 2em;
                             font-size: 16px;
+                        }
+
+                        &-title {
+                            position: absolute;
+                            bottom: -25px;
+                            left: 200px;
+                            .color(red);
                         }
                     }
                 }

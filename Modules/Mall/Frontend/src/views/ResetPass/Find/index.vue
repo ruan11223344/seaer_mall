@@ -9,64 +9,74 @@
                         <dd class="resetFind-block-item-list">
                             <div>Account</div>
                             <input type="text" placeholder="Please enter Member ID or Email Address" v-model="rulesFrom.username" v-verify="rulesFrom.username" />
+                            <div class="resetFind-block-item-list-title" v-remind="rulesFrom.username">Please enter your Email Address or Member ID.</div>
                         </dd>
                         <dd class="resetFind-block-item-list">
                             <div>Verification Code</div>
                             <input type="text" placeholder="Please input verification code." v-model="rulesFrom.code" v-verify="rulesFrom.code" />
                             <div class="resetFind-block-item-list-code">
-                                <Icon type="md-sync" size="28"/>
+                                <Icon type="md-sync" size="28" @click="onCode"/>
+                                <img :src="path" alt="">
                             </div>
+                            <div class="resetFind-block-item-list-title" v-remind="rulesFrom.username">Please enter the validation code</div>
                         </dd>
                     </dl>
                     <button type="button" class="resetFind-block-btn" @click="onSubmit">Continue</button>
                 </section>
             </div>
         </main>
-        <v-Modal></v-Modal>
+        <v-Modal :email="rulesFrom.username" v-show="bool"></v-Modal>
     </div>
 </template>
 
 <script>
     import FindModal from "../components/Find-Modal"
+    import getData from "@/utils/getData"
+    import upData from "@/utils/upData"
 
     export default {
         data() {
             return {
                 rulesFrom: {
                     username: '',
+                    key: '',
                     code: ''
                 },
+                path: '',
+                bool: false
             }
         },
         verify: {
             // 验证
             rulesFrom: {
                 username: [
-                    {
-                        test: function (value) { // 自定义正则
-                            if (value === '') {
-                                return false
-                            } else {
-                                return true
-                            }
-                        },
-                        message: 'Please enter your Email Address or Member ID.',
-                    }
+                    'LoginUserId'
                 ]
             }
         },
         methods: {
+            getCode: getData.getCode,
+            onSendReset: upData.onSendReset,
+            onCode() {
+                this.getCode().then(res => {
+                    this.$set(this.rulesFrom, 'key', res.data.key)
+                    this.path = res.data.img
+                })
+            },
             onSubmit() {
                 if(this.$verify.check()) {
-                    this.$Message.info('true')
-
-                    // setTimeout(() => {
-                    //     this.$router.push('/')
-                    // }, 3000)
-                }else {
-                    this.$Message.info('false')
+                    const rulesFrom = this.rulesFrom
+                    this.onSendReset({ member_id_or_email: rulesFrom.username, key: rulesFrom.key, captcha: rulesFrom.code })
+                        .then(res => {
+                            this.bool = true
+                            window.open(res.redirect_to)
+                        })
+                    this.onCode()
                 }
             },
+        },
+        mounted() {
+            this.onCode()
         },
         components: {
             'v-Modal': FindModal
@@ -153,6 +163,13 @@
                         right: 0px;
                         cursor: pointer;
                         padding: 0px 15px;
+                    }
+
+                    &-title {
+                        position: absolute;
+                        bottom: -25px;
+                        left: 150px;
+                        .color(red);
                     }
                 }
             }

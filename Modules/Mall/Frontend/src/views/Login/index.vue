@@ -16,7 +16,7 @@
                 </section>
                 <section class="box-title">
                     <span>Password:</span>
-                    <router-link to="/" tag="div" class="box-title-link">Forgot your password?</router-link>
+                    <router-link to="/reset/find" tag="div" class="box-title-link">Forgot your password?</router-link>
                 </section>
                 <!-- 用户密码 -->
                 <section class="box-useId">
@@ -31,13 +31,13 @@
                     <div class="box-code-rex" @click="getCodes">
                         <div>
                             <!-- 验证码图片 -->
-                           <img :src="imgCode" alt="">
+                            <img :src="imgCode" alt="">
                         </div>
                         <Icon type="md-refresh" size="30"/>
                     </div>
                 </section>
                 <div class="box-btn" @click="onSubmit" id="Login-btn">Sign In</div>
-                <router-link to="/" tag="div" class="box-registered">New User ？Join In</router-link>
+                <router-link to="/registered/one" tag="div" class="box-registered">New User ？Join In</router-link>
             </div>
         </main>
         <footer>Copyright © 2018-2019  Afriby.com  All Rights Reserved.</footer>
