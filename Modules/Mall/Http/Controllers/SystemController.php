@@ -25,6 +25,8 @@ class SystemController extends Controller
     public function sysConfig(){
         $data = [];
         $data['oss_url_prefix']  = env('OSS_URL');
+        $data['domain']  = env('MALL_DOMAIN');
+        $data['home_page_url']  = env('APP_URL');
         $data['timestamp'] = time();
         $data['ksh100_to_cny'] = round(100/UtilsController::getBaseCurrencyConverter(),2);
         return $this->echoSuccessJson('成功!',$data);

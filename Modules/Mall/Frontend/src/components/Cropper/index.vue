@@ -38,7 +38,6 @@
         data() {
             return {
                 option: {
-                    // url: 'http://c.hiphotos.baidu.com/image/pic/item/34fae6cd7b899e518d7259df4fa7d933c9950d78.jpg',
                     size: 1,
                     outputType: 'png',
                     autoCrop: true,
@@ -84,10 +83,8 @@
                 this.$refs.cropper.rotateRight()
             },
             onImgMoving(data) {
-                // console.log(data);
             },
             onCropMoving(data) {
-                // console.log(data);
             }
         },
         components: {

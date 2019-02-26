@@ -166,6 +166,20 @@ const getData = {
             })
         })
     },
+    // 49.获取店铺幻灯图片列表
+    async onGetSlidesList() {
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/shop/get_slides_list',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            })
+        })
+    },
     // 62.获取商品列表
     async onGetReleaseProductList(data) {
         return await new Promise(async (resolve, reject) => {
