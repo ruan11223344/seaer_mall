@@ -3120,3 +3120,27 @@ json参数
     }
 }
 ```
+65.更改用户密码
+```
+url:http://域名/api/auth/change_password
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+ 
+如果是在仓库列表中访问 那么 选中的商品全部会变为 正在审核的状态
+如果是在正常售卖的商品列表中 那么 选中的商品全部会到 仓库列表中
+
+json参数
+{
+    "old_password":654321,
+    "password_confirmation":123456,
+    "password":123456
+}
+
+返回:
+{
+    "code": 200,
+    "message": "更改密码成功",
+    "data": []
+}
+```
