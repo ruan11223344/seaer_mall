@@ -7,9 +7,9 @@
 
         <!-- 点击功能 -->
         <div class="Send-main-btn">
-            <button type="button" v-show="actives[3]">Resume</button>
+            <button type="button" v-show="actives[3]" @click="onReversal('selling')">Resume</button>
             <button type="button" @click="onDelete(activeProductId)">Delete</button> 
-            <button type="button" v-show="actives[0]">Pause</button>
+            <button type="button" v-show="actives[0]" @click="onReversal('in_the_warehouse')">Pause</button>
             <span>Total {{ this.activeProductId.length }}</span>
         </div>
 
@@ -106,6 +106,7 @@
         methods: {
             dayjs: dayjs,
             upDelProduct: upData.upDelProduct,
+            onChangeWarehouse: upData.onChangeWarehouse,
             onGetReleaseProductList: getData.onGetReleaseProductList,
             filterAll: getData.filterAll,
             sleep: utils.sleep,
@@ -224,9 +225,18 @@
                     this.onSelectKey(res.data_list)
                     this.total.total = res.total
                     this.filterAll(this.pendingData, this.total).then(res => this.pendingActiveData = res)
-
-                    this.activeProductId = []
+                    this.single = false
                 }).catch(err => this.$Message.error(err))
+            },
+            onReversal(path) {
+                this.onChangeWarehouse({ product_id_list: this.activeProductId, status: path }).then(res => {
+                    this.pendingData = res.data_list
+
+                    this.onSelectKey(res.data_list)
+                    this.total.total = res.total
+                    this.filterAll(this.pendingData, this.total).then(res => this.pendingActiveData = res)
+                    this.single = false
+                })
             }
         },
         mounted() {
