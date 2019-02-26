@@ -42,7 +42,7 @@
             return {
                 url: '',
                 show: false,
-                path: ''
+                path: require('@/assets/img/login/avatar.png')
             }
         },
         methods: {

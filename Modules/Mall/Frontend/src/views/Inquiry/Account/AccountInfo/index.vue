@@ -7,36 +7,36 @@
             <article class="accountInfo-block-article">
                 <div class="accountInfo-block-article-list">
                     <label for="" class="accountInfo-block-article-list-label">Member ID:</label>
-                    <span class="accountInfo-block-article-list-text">wjcharles</span>
+                    <span class="accountInfo-block-article-list-text">{{ formData.member_id }}</span>
                 </div>
                 <div class="accountInfo-block-article-list">
                     <label for="" class="accountInfo-block-article-list-label">Emali Address:</label>
-                    <span class="accountInfo-block-article-list-text">wjcharles@163.com</span>
+                    <span class="accountInfo-block-article-list-text">{{ formData.email_address }}</span>
                 </div>
                 <div class="accountInfo-block-article-list">
                     <label for="" class="accountInfo-block-article-list-label">Contact Full Name:</label>
-                    <span class="accountInfo-block-article-list-text">Mr. Charles Wang</span>
+                    <span class="accountInfo-block-article-list-text">{{ formData.contact_full_name }}</span>
                 </div>
                 <div class="accountInfo-block-article-list">
                     <label for="" class="accountInfo-block-article-list-label">Mobilephone:</label>
-                    <span class="accountInfo-block-article-list-text">+86 13476159398</span>
+                    <span class="accountInfo-block-article-list-text">+86 {{ formData.mobile_phone }}</span>
                 </div>
                 <div class="accountInfo-block-article-list">
                     <label for="" class="accountInfo-block-article-list-label">Country:</label>
-                    <span class="accountInfo-block-article-list-text">China</span>
+                    <span class="accountInfo-block-article-list-text">{{ formData.country }}</span>
                 </div>
                 <div class="accountInfo-block-article-list">
                     <label for="" class="accountInfo-block-article-list-label">Province/City:</label>
-                    <span class="accountInfo-block-article-list-text">HuBei WuHan</span>
+                    <span class="accountInfo-block-article-list-text">{{ formData["province/city"] }}</span>
                 </div>
                 <div class="accountInfo-block-article-list">
                     <label for="" class="accountInfo-block-article-list-label">Address:</label>
-                    <span class="accountInfo-block-article-list-text">Room 605,Building A,No.777,Optical Valley three Road,East Lake High-tech Development Zone</span>
+                    <span class="accountInfo-block-article-list-text">{{ formData.address }}</span>
                 </div>
             </article>
         </section>
 
-        <button type="button" class="accountInfo-btn" @click="$router.push('/inquiryList/account/accountedit')">Edit</button>
+        <button type="button" class="accountInfo-btn" @click="onRouter">Edit</button>
     </div>
 </template>
 
@@ -46,14 +46,22 @@
     import getData from "@/utils/getData.js"
 
     export default {
+        data() {
+            return {
+                formData: {}
+            }
+        },
         methods: {
-            onGetUser: getData.onGetUser,
+            onGetAccountInfo: getData.onGetAccountInfo,
+            onRouter() {
+                // this.$router.push(`/inquiryList/account/accountedit?email_address=${this.formData.email_address}&contact_full_name=${this.formData.contact_full_name}&country=${this.formData.country}&member_id=${this.formData.member_id}&mobile_phone=${this.formData.mobile_phone}&province/city=${this.formData['province/city']}&address=${this.formData.address}`)
 
+                this.$router.push(`/inquiryList/account/accountedit?formData=${JSON.stringify(this.formData)}`)
+            }
         },
         mounted() {
-            this.onGetUser().then(res => {
-                console.log(res);
-                
+            this.onGetAccountInfo().then(res => {
+                this.formData = res
             })
         },
         components: {

@@ -254,6 +254,20 @@ const getData = {
                 }
             })
         })
+    },
+    // 68.获取账户信息
+    async onGetAccountInfo() {
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/auth/get_account_info',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res.data)
+                }
+            })
+        })
     }
 }
 

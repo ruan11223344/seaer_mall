@@ -9,7 +9,7 @@
                             Member ID
                         </Col>
                         <Col span="18" class-name="edit-from-text">
-                            wjcharles
+                            {{ formData.member_id }}
                         </Col>
                     </Row>
                 </FormItem>
@@ -29,8 +29,10 @@
                             Contact Full Name
                         </Col>
                         <Col span="18" class-name="edit-from-text">
-                            <Select v-model="model1" style="width:187px">
-                                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            <Select v-model="formData.gender" style="width:187px">
+                                <Option value="Mr">Mr.</Option>
+                                <Option value="Miss">Miss.</Option>
+                                <Option value="Mrs">Mrs.</Option>
                             </Select>
                             <Select v-model="model1" style="width:355px;marginLeft: 20px;">
                                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -44,7 +46,7 @@
                             Mobilephone
                         </Col>
                         <Col span="18" class-name="edit-from-text">
-                            <Input type="text" style="width: 563px">
+                            <Input type="text" style="width: 563px" v-model="formData.mobile_phone">
                                 <span slot="prepend" style="display: inline-block;font-size: 18px;color: #333333;width: 95px;">+86</span>
                             </Input>
                         </Col>
@@ -56,7 +58,7 @@
                             Country
                         </Col>
                         <Col span="18" class-name="edit-from-text">
-                            china
+                            {{ formData.country }}
                         </Col>
                     </Row>
                 </FormItem>
@@ -126,11 +128,19 @@
                         label: 'Canberra'
                     }
                 ],
-                model1: ''
+                model1: '',
+                formData: {
+
+                }
             }
         },
         methods: {
-           
+        },
+        mounted() {
+            this.formData = JSON.parse(this.$route.query.formData)
+
+            console.log(this.formData);
+            
         },
         components: {
             "v-title": Title,
