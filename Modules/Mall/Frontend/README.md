@@ -3051,8 +3051,8 @@ url:http://域名/api/shop/category/get_last_products_categories
 
 64.更改商品上架（放入审核中列表) 下架（放入仓库） 翻转接口
 ```
-url:http://域名/api/shop/category/get_last_products_categories
-请求方法:get
+url:http://域名/api/shop/product/change_products_warehouse
+请求方法:post
 请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
 请求头参数:"Authorization",值:"Bearer空格+token" //必填
  
