@@ -19,7 +19,7 @@
                             Emali Address
                         </Col>
                         <Col span="18" class-name="edit-from-text">
-                            <Input type="email" placeholder="wjcharles@163.com" style="width: 563px" />
+                            <Input type="email" placeholder="wjcharles@163.com" v-model="formData.email_address" style="width: 563px" />
                         </Col>
                     </Row>
                 </FormItem>
@@ -29,14 +29,12 @@
                             Contact Full Name
                         </Col>
                         <Col span="18" class-name="edit-from-text">
-                            <Select v-model="formData.gender" style="width:187px">
+                            <Select v-model="formData.sex" style="width:187px">
                                 <Option value="Mr">Mr.</Option>
                                 <Option value="Miss">Miss.</Option>
                                 <Option value="Mrs">Mrs.</Option>
                             </Select>
-                            <Select v-model="model1" style="width:355px;marginLeft: 20px;">
-                                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                            </Select>
+                            <Input type="text" style="width:355px;marginLeft: 20px;" v-model="formData.contact_full_name" />
                         </Col>
                     </Row>
                 </FormItem>
@@ -68,11 +66,11 @@
                             Province/City
                         </Col>
                         <Col span="18" class-name="edit-from-text">
-                            <Select v-model="model1" style="width: 271px">
-                                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            <Select v-model="formData.province" style="width: 271px" @on-change="onProvince">
+                                <Option v-for="item in ProvinceAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
                             </Select>
-                            <Select v-model="model1" style="width: 271px;marginLeft: 20px;">
-                                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            <Select v-model="formData.city" style="width: 271px;marginLeft: 20px;">
+                                <Option v-for="item in CityAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
                             </Select>
                         </Col>
                     </Row>
@@ -83,21 +81,23 @@
                             Address
                         </Col>
                         <Col span="18">
-                            <Input style="width: 563px" type="textarea" :autosize="{minRows: 3,maxRows: 3}" placeholder="Please fill in the detailed address" />
+                            <Input v-model="formData.address" style="width: 563px" type="textarea" :autosize="{minRows: 3,maxRows: 3}" placeholder="Please fill in the detailed address" />
                         </Col>
                     </Row>
                 </FormItem>
             </Form>
         </template>
         <section class="edit-btn">
-            <button type="button">Cancel</button>
-            <button type="button">Save</button>
+            <button type="button" @click="$router.back(-1)">Cancel</button>
+            <button type="button" @click="onSave">Save</button>
         </section>
     </div>
 </template>
 
 <script>
     import Title from "../../components/Title"
+    import getData from "@/utils/getData.js"
+    import upData from "@/utils/upData.js"
 
     export default {
         data() {
@@ -128,16 +128,55 @@
                         label: 'Canberra'
                     }
                 ],
-                model1: '',
                 formData: {
 
-                }
+                },
+                ProvinceAddress: [],
+                CityAddress: []
             }
         },
         methods: {
+            getProvinceAddress: getData.getProvinceAddress,
+            getCityAddress: getData.getCityAddress,
+            UpSetAccountInfo: upData.UpSetAccountInfo,
+            onProvince(value) {
+                // 获取城市列表
+                this.getCityAddress(value).then(res => {
+                    res.data.forEach(element => {
+                        this.CityAddress.push({ value: element.city_id, label: element.name })
+                    })
+                })
+            },
+            // 设置账户信息
+            onSave() {
+                // {
+                // "sex":"Miss", //非必填
+                // "contact_full_name":"王飞飞", //非必填
+                // "mobile_phone":"+8613672009476", //非必填
+                // "province_id":23, //非必填
+                // "city_id":323,   //非必填
+                // }
+                const formData = this.formData
+                this.UpSetAccountInfo({
+                    sex: formData.sex,
+                    contact_full_name: formData.contact_full_name,
+                    mobile_phone: formData.mobile_phone,
+                    province_id: formData.province,
+                    city_id: formData.city,
+                    detailed_address: formData.address
+                }).then(res => {
+                    console.log(res);
+                })
+            }
         },
         mounted() {
             this.formData = JSON.parse(this.$route.query.formData)
+
+            this.getProvinceAddress(this.formData.country == 'China' ? 'cn' : 'ke ').then(res => {
+                res.data.forEach(element => {
+                    this.ProvinceAddress.push({ value: element.province_id, label: element.name })
+                })
+            })
 
             console.log(this.formData);
             

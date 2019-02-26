@@ -54,8 +54,6 @@
         methods: {
             onGetAccountInfo: getData.onGetAccountInfo,
             onRouter() {
-                // this.$router.push(`/inquiryList/account/accountedit?email_address=${this.formData.email_address}&contact_full_name=${this.formData.contact_full_name}&country=${this.formData.country}&member_id=${this.formData.member_id}&mobile_phone=${this.formData.mobile_phone}&province/city=${this.formData['province/city']}&address=${this.formData.address}`)
-
                 this.$router.push(`/inquiryList/account/accountedit?formData=${JSON.stringify(this.formData)}`)
             }
         },

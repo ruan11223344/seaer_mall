@@ -251,6 +251,23 @@ const upData = {
             })
         })
     },
+    // 69.设置账户信息
+    async UpSetAccountInfo(data) {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/auth/set_account_info',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    this.$Message.info(res.message)
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            })
+        })
+    },
 }
 
 export default upData
