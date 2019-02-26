@@ -155,15 +155,20 @@ const newRouter = new Router({
               component: () => import("./views/Inquiry/Account/AccountEdit/index.vue")
             }
           ]
-          
         },
-        { // 公司信息
-          path: 'companyinfo',
-          component: () => import("./views/Inquiry/CompanyInfo/index.vue")
-        },
-        { // 公司信息
-          path: 'companyedit',
-          component: () => import("./views/Inquiry/CompanyEdit/index.vue")
+        { // 公司
+          path: 'company',
+          component: () => import("./views/Inquiry/Company/index.vue"),
+          children: [
+            { // 公司信息
+              path: 'companyinfo',
+              component: () => import("./views/Inquiry/Company/CompanyInfo/index.vue")
+            },
+            { // 公司信息编辑
+              path: 'companyedit',
+              component: () => import("./views/Inquiry/Company/CompanyEdit/index.vue")
+            },
+          ]
         },
         { // 商品管理
           path: 'commodity',

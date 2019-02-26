@@ -34,7 +34,7 @@
     export default {
         data() {
             return {
-                num: 0
+                num: 0,
             }
         },
         methods: {
@@ -54,7 +54,6 @@
             }
         },
         mounted() {
-           
         },
         components: {
             "v-title": Title,

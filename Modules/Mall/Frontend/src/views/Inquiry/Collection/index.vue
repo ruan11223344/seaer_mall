@@ -2,36 +2,53 @@
     <div class="Send-main">
         <v-title title="Favorites"></v-title>
 
-        <section class="Send-main-screening">
+        <!-- <section class="Send-main-screening">
             <div class="Send-main-screening-text Send-main-screening-text-active">Products <span>10</span></div>
             <div class="Send-main-screening-hr"></div>
             <div class="Send-main-screening-text">Suppliers <span>10</span></div>
-        </section>
+        </section> -->
+
+        <v-table-switch title="Products" :num="num" :tableSwitch="['Suppliers']" style="marginTop: 20px;"  @on-click="onTableSwitch"></v-table-switch>
 
         <div class="Send-main-btn">
             <button>Delete</button>
             <span>Total 4</span>
-            <span style="color: #999999;">&nbsp;&nbsp;(Maximum:100)</span>
+            <span style="color: #999999;">&nbsp;&nbsp;(Maximum:{{ num == 0 ? product.length : company.length }})</span>
         </div>
 
-        <Table :height="data6.length > 8 ? 530 : ''" :columns="columns12" :data="data6">
+        <Table v-show="num == 0" :height="formData.length > 8 ? 530 : ''" :columns="columns12" :data="formData">
             <!-- 内容 -->
             <template slot-scope="{ row }" slot="Content">
                 <div class="Send-main-content">
-                    <span>{{ 'Re:' + row.ask.re }}</span>
+                    <span>{{ 'Re:' + row.product_name }}</span>
                 </div>
             </template>
             <!-- 时间 -->
             <template slot-scope="{ row }" slot="time">
                 <div>
-                    <time>{{ row.time }}</time>
+                    <time>{{ dayjs(row.updated_at ).format('MMM DD,YYYY HH:mm') }}</time>
+                </div>
+            </template>
+        </Table>
+
+        <Table v-show="num == 1" :height="formData.length > 8 ? 530 : ''" :columns="columns12" :data="formData">
+            <!-- 内容 -->
+            <template slot-scope="{ row }" slot="Content">
+                <div class="Send-main-content">
+                    <span>{{ 'Re:' + row.company_name }}</span>
+                </div>
+            </template>
+            <!-- 时间 -->
+            <template slot-scope="{ row }" slot="time">
+                <div>
+                    <time>{{ dayjs(row.updated_at ).format('MMM DD,YYYY HH:mm') }}</time>
                 </div>
             </template>
         </Table>
         
         <section style="marginTop:20px;">
             <template>
-                <Page :total="100" style="textAlign: center"/>
+                <Page :total="total.total" :page-size="8" style="textAlign: center" @on-change="onPages"/>
             </template>
         </section>
         
@@ -41,10 +58,20 @@
 <script>
     import Title from "../components/Title"
     import Img from "@/components/Img"
+    import getData from "@/utils/getData"
+    // 切换
+    import TableSwitch from "../components/TableSwitch/index.vue"
+    import dayjs from "dayjs"
 
     export default {
         data () {
             return {
+                num: 0,
+                total: {
+                    size: 8,
+                    total: 0,
+                    num: 1
+                },
                 columns12: [
                     {
                         type: 'selection',
@@ -66,85 +93,47 @@
                     },
                     
                 ],
-                data6: [
-                    {
-                        name: 'John Brown',
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        src: require('@/assets/img/china.png'),
-                        time: 'Dec 28,2018  09:20',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:20',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:21',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:20',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:20',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:25',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:20',
-                    },
-                    {
-                        name: 'Jim Green',
-                        src: require('@/assets/img/china.png'),
-                        ask: {
-                            re: 'Inquiry about...',
-                            Dear: 'Mary...'
-                        },
-                        time: 'Dec 28,2018  09:20',
-                    },
-                ]
+                formData: [],
+                product: [],
+                company: []
             }
+        },
+        methods: {
+            dayjs: dayjs,
+            onGetFavorites: getData.onGetFavorites,
+            filterAll: getData.filterAll,
+            // 切换
+            onTableSwitch(num) {
+                this.num = num
+                switch (num) {
+                    case 0:
+                        break
+                    case 1:
+                        
+                        break
+                }
+            },
+            // 分页
+            onPages(index) {
+                this.$set(this.total, 'num', index)
+                this.filterAll(this.num == 0 ? this.product : this.company, this.total).then(res => {
+                    this.formData = res
+                })
+            }
+        },
+        mounted() {
+            this.onGetFavorites().then(res => {
+                this.product = res.product
+                this.company = res.company
+                this.filterAll(this.num == 0 ? this.product : this.company, this.total).then(res => {
+                    this.formData = res
+                })
+            })
         },
         components: {
             "v-title": Title,
-            "v-img": Img
+            "v-img": Img,
+            "v-table-switch": TableSwitch
         }
     }
 </script>
@@ -157,35 +146,35 @@
         .bg-color(white);
         padding: 21px 30px;
 
-        &-screening {
-            width: 886px;
-            height: 47px;
-            background-color: #f5f5f9;
-            margin-top: 19px;
-            .flex(flex-start, center);
-            padding-left: 27px;
+        // &-screening {
+        //     width: 886px;
+        //     height: 47px;
+        //     background-color: #f5f5f9;
+        //     margin-top: 19px;
+        //     .flex(flex-start, center);
+        //     padding-left: 27px;
 
-            &-text {
-                .lineHeight(47px);
-                font-size: 14px;
-                color: #666666;
+        //     &-text {
+        //         .lineHeight(47px);
+        //         font-size: 14px;
+        //         color: #666666;
 
-                & > span {
-                    color: #d72b2b;
-                }
-                cursor: pointer;
-            }
-            &-text-active {
-                border-bottom: 2px solid #f0883a;
-            }
+        //         & > span {
+        //             color: #d72b2b;
+        //         }
+        //         cursor: pointer;
+        //     }
+        //     &-text-active {
+        //         border-bottom: 2px solid #f0883a;
+        //     }
 
-            &-hr {
-                width: 1px;
-                height: 11px;
-                background-color: #cccccc;
-                margin: 0px 18px;
-            }
-        }
+        //     &-hr {
+        //         width: 1px;
+        //         height: 11px;
+        //         background-color: #cccccc;
+        //         margin: 0px 18px;
+        //     }
+        // }
 
         &-btn {
             .flex();

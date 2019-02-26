@@ -1,97 +1,85 @@
 <template>
     <div class="Dynamics">
         <v-title title="Store Dynamics"></v-title>
-
+        
         <div style="marginTop: 20px;">
             <v-table-switch title="Recommended Settings"></v-table-switch>
         </div>
-        
-        <!-- 表格 -->
-        <transition name="fade">
-            <div v-show="boolShow">
-                <section class="Dynamics-table">
-                    <Row class-name="Dynamics-header">
-                        <Col span="1" class-name="Dynamics-table-checkboxs">
-                            <Checkbox v-model="single"></Checkbox>
-                        </Col>
-                        <Col span="11" class-name="Dynamics-table-head">
-                            Product Title
-                        </Col>
-                        <Col span="4" class-name="Dynamics-table-head">
-                            Price
-                        </Col>
-                        <Col span="4" class-name="Dynamics-table-head">
-                            Publish time
-                        </Col>
-                        <Col span="4" class-name="Dynamics-table-head">
-                            Operation
-                        </Col>
-                    </Row>
-                    <Row v-for="(item, index) in 5" :key="item">
-                        <Col span="24" class-name="Dynamics-table-title">
-                            <Checkbox v-model="single"></Checkbox>
-                            <div class="Dynamics-table-title-text">Product ID:100001457 </div>
-                        </Col>
-                        <Col span="24" class-name="Dynamics-table-content">
-                            <Row>
-                                <Col span="11" offset="1" class-name="Dynamics-table-content-title">
-                                    <v-img width="74" height="74" imgSrc="" style="border: 1px solid #eeeeee;"></v-img>
-                                    <section class="Dynamics-table-content-title-text">
-                                        <p>Fresh Pure White Garlic in Double Corrugated Carton Medium Pure white garlic wholesale</p>
-                                        <p>SKU:KE3587412</p>
-                                    </section>
-                                </Col>
-                                <Col span="4" class-name="Dynamics-table-content-price">
-                                    <p class="Dynamics-table-content-title-price-ksh">KSh 76000-84000</p>
-                                    <p class="Dynamics-table-content-title-price-moq">MOQ 26 Tons</p>
-                                </Col>
-                                <Col span="4" class="Dynamics-table-content-date">
-                                    <p>Dec,28 2018</p>
-                                </Col>
-                                <Col span="4" class="Dynamics-table-content-select">
-                                    <button type="button" class="Dynamics-table-content-select-active" ref="refSelect" @click="onSelect($event, index)">Select</button>
-                                    <!-- <Select v-model="model1" style="width:127px">
-                                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                    </Select> -->
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Row>
-                </section>
-
-                <!-- 分页 -->
-                <section style="marginTop:20px;">
-                    <template>
-                        <Page :total="100" style="textAlign: center"/>
-                    </template>
-                </section>
+        <div class="Dynamics-block">
+            <div class="Dynamics-upload" @click="boolShow=true"  v-show="!boolShow">
+                <img :src="require('@/assets/img/uploadAdd.png')" alt="" />
             </div>
-        </transition>
+        </div>
+        <template v-if="boolShow">
+                    
+            <!-- 表格 -->
+            <transition name="fade">
+                <div>
+                    <section class="Dynamics-table">
+                        <Row class-name="Dynamics-header">
+                            <Col span="1" class-name="Dynamics-table-checkboxs">
+                                <Checkbox v-model="single"></Checkbox>
+                            </Col>
+                            <Col span="11" class-name="Dynamics-table-head">
+                                Product Title
+                            </Col>
+                            <Col span="4" class-name="Dynamics-table-head">
+                                Price
+                            </Col>
+                            <Col span="4" class-name="Dynamics-table-head">
+                                Publish time
+                            </Col>
+                            <Col span="4" class-name="Dynamics-table-head">
+                                Operation
+                            </Col>
+                        </Row>
+                        <Row v-for="(item, index) in 5" :key="item">
+                            <Col span="24" class-name="Dynamics-table-title">
+                                <Checkbox v-model="single"></Checkbox>
+                                <div class="Dynamics-table-title-text">Product ID:100001457 </div>
+                            </Col>
+                            <Col span="24" class-name="Dynamics-table-content">
+                                <Row>
+                                    <Col span="11" offset="1" class-name="Dynamics-table-content-title">
+                                        <v-img width="74" height="74" imgSrc="" style="border: 1px solid #eeeeee;"></v-img>
+                                        <section class="Dynamics-table-content-title-text">
+                                            <p>Fresh Pure White Garlic in Double Corrugated Carton Medium Pure white garlic wholesale</p>
+                                            <p>SKU:KE3587412</p>
+                                        </section>
+                                    </Col>
+                                    <Col span="4" class-name="Dynamics-table-content-price">
+                                        <p class="Dynamics-table-content-title-price-ksh">KSh 76000-84000</p>
+                                        <p class="Dynamics-table-content-title-price-moq">MOQ 26 Tons</p>
+                                    </Col>
+                                    <Col span="4" class="Dynamics-table-content-date">
+                                        <p>Dec,28 2018</p>
+                                    </Col>
+                                    <Col span="4" class="Dynamics-table-content-select">
+                                        <button type="button" class="Dynamics-table-content-select-active" ref="refSelect" @click="onSelect($event, index)">Select</button>
+                                        <!-- <Select v-model="model1" style="width:127px">
+                                            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                                        </Select> -->
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
+                    </section>
 
-        <!-- 点击隐藏 -->
-        <!-- <transition name="fade" v-on:after-leave="afterLeave"> -->
-            <!-- <div class="Dynamics-upload" v-show="boolHide" @click="boolHide=false"> -->
+                    <!-- 分页 -->
+                    <section style="marginTop:20px;">
+                        <template>
+                            <Page :total="100" style="textAlign: center"/>
+                        </template>
+                    </section>
+                </div>
+            </transition>
+
             <div class="Dynamics-block">
-                <div class="Dynamics-upload" @click="boolShow=true">
-                    <img :src="require('@/assets/img/uploadAdd.png')" alt="" />
-                </div>
-                <div class="Dynamics-upload" @click="boolShow=true">
-                    <img :src="require('@/assets/img/uploadAdd.png')" alt="" />
-                </div>
-                <div class="Dynamics-upload" @click="boolShow=true">
-                    <img :src="require('@/assets/img/uploadAdd.png')" alt="" />
-                </div>
-                <div class="Dynamics-upload" @click="boolShow=true">
-                    <img :src="require('@/assets/img/uploadAdd.png')" alt="" />
-                </div>
-                <div class="Dynamics-upload" @click="boolShow=true">
-                    <img :src="require('@/assets/img/uploadAdd.png')" alt="" />
-                </div>
-                <div class="Dynamics-upload" @click="boolShow=true">
+                <div class="Dynamics-upload">
                     <img :src="require('@/assets/img/uploadAdd.png')" alt="" />
                 </div>
             </div>
-        <!-- </transition> -->
+        </template>
     </div>
 </template>
 
@@ -99,26 +87,28 @@
     import Title from "../../components/Title"
     import TableSwitch from "../../components/TableSwitch"
     import Img from "@/components/Img"
+    import getData from "@/utils/getData"
 
     export default {
         data() {
             return {
-                // boolHide: true,
                 boolShow: false,
                 single: false
             }
         },
         methods: {
-            // afterLeave() {
-            //     // console.log('离开后');
-            //     this.boolShow = true
-            // }
+            onGetRecommendList: getData.onGetRecommendList,
             onSelect(event, index) {
                 // console.log(event);
                 // const refSelect = this.$refs.refSelect[index]
                 // console.log(refSelect);
-                
             }
+        },
+        mounted() {
+            this.onGetRecommendList().then(res => {
+                console.log(res);
+            })
+            
         },
         components: {
             "v-title": Title,
