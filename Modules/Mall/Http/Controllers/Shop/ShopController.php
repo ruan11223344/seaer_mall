@@ -156,9 +156,9 @@ class ShopController extends Controller
         $input_slides_url_list = $request->input('slides_list');
         if($shop_obj->exists()){
             $slides_url_list = $shop_obj->get()->first()->slides_url_list;
-            $db_sort_list = array_column($slides_url_list,'sort');
 
             if($slides_url_list != null){
+                $db_sort_list = array_column($slides_url_list,'sort');
                 foreach ($input_slides_url_list as $k=>$v){
                     foreach ($slides_url_list as $kk=>$vv){
                         if($v['sort'] == $vv['sort']){
@@ -175,7 +175,7 @@ class ShopController extends Controller
             $re_order =array_column($slides_url_list,'sort');
             array_multisort($re_order,SORT_ASC, $slides_url_list);
 
-            $S = $shop_obj->get()->first()->update([
+            $shop_obj->get()->first()->update([
                 'slides_url_list'=>$slides_url_list
             ]);
         }else{
