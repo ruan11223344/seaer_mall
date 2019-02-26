@@ -170,11 +170,10 @@ class ShopController extends Controller
                         }
                     }
                 }
+                $re_order =array_column($slides_url_list,'sort');
+                array_multisort($re_order,SORT_ASC, $slides_url_list);
             }
-
-            $re_order =array_column($slides_url_list,'sort');
-            array_multisort($re_order,SORT_ASC, $slides_url_list);
-
+            
             $shop_obj->get()->first()->update([
                 'slides_url_list'=>$slides_url_list
             ]);
