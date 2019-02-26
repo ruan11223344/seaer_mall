@@ -18,6 +18,8 @@ export default {
                 this.$request({
                     url: "/get_sys_config"
                 }).then(res => {
+                    console.log(res);
+                    
                     if(res.code == 200) {
                         this.SET_OSS_URL_CONFIG(res.data.oss_url_prefix)
                     }

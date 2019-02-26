@@ -111,6 +111,38 @@ const upData = {
             })
         })
     },
+    // 45.上传幻灯图片
+    async upSlides(base64) {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/shop/upload_slide',
+                method: 'post',
+                data: {
+                    slide_img_base64: base64
+                }
+            }).then(res => {
+                resolve(res)
+            }).catch(err => {
+                return false
+            })
+        })
+    },
+    // 46.设置幻灯图片
+    async upSetSlides(data) {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/shop/set_slides',
+                method: 'post',
+                data: {
+                    slides_list: data
+                }
+            }).then(res => {
+                resolve(res)
+            }).catch(err => {
+                return false
+            })
+        })
+    },
     // 48.设置店铺banner图片
     async onSetBanner(base64) {
         return await new Promise((resolve, reject) => {
@@ -145,6 +177,23 @@ const upData = {
                 }
             }).catch(err => {
                 return false
+            })
+        })
+    },
+    // 64.更改商品上架（放入审核中列表) 下架（放入仓库） 翻转接口
+    async onChangeWarehouse() {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/shop/product/change_products_warehouse',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    this.$Message.info(res.message)
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
             })
         })
     }
