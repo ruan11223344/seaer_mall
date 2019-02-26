@@ -250,7 +250,12 @@ const newRouter = new Router({
         {
           path: 'set',
           component: () => import("./views/Inquiry/Set/index.vue")
-        } 
+        },
+        // 修改密码
+        {
+          path: 'changepass',
+          component: () => import("./views/Inquiry/ChangePassword/index.vue")
+        }
       ]
     },
     {

@@ -38,7 +38,9 @@
                                 url: '/inquiryList/company/companyinfo',
                             },
                             {
-                                name:'Change Password'
+                                name:'Change Password',
+                                path: 'changepass',
+                                url: '/inquiryList/changepass'
                             },
                             {
                                 name:'Edit My Photo',

@@ -215,11 +215,46 @@ const upData = {
             })
         })
     },
+    // 54.替换相册图片接口
+    async onReplaceAlbum(data) {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/album/replace_img_to_album',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    this.$Message.info(res.message)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            }).catch(err => {
+                return false
+            })
+        })
+    },
     // 64.更改商品上架（放入审核中列表) 下架（放入仓库） 翻转接口
     async onChangeWarehouse(data) {
         return await new Promise((resolve, reject) => {
             request({
                 url: '/shop/product/change_products_warehouse',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    this.$Message.info(res.message)
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            })
+        })
+    },
+    // 65.更改用户密码
+    async onChangePassword(data) {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/auth/change_password',
                 method: 'post',
                 data: data
             }).then(res => {

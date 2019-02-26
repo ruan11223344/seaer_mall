@@ -225,6 +225,23 @@ const getData = {
             })
         })
     },
+    // 55.获取图片信息
+    onGetImgInfo(path) {
+        return new Promise((resolve, reject) => {
+            request({
+                url: '/album/get_img_info',
+                params: {
+                    image_path: path
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            })
+        })
+    },
     // 59.获取收藏
     async onGetFavorites() {
         return await new Promise(async (resolve, reject) => {

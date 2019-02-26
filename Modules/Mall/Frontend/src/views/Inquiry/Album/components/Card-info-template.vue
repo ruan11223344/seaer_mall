@@ -88,6 +88,7 @@
     // 删除功能
     import DeletAlbum from "../DeleteAlbum/index.vue"
     import { mapState  } from 'vuex'
+    import getData from '@/utils/getData.js'
 
     export default {
         data() {
@@ -130,8 +131,6 @@
                     }
                 }).then(res => {
                     this.info = res
-                    console.log(res);
-                    
                 })
             },
             onCopy() {
