@@ -228,8 +228,8 @@ class ProductsController extends Controller
            if($product_group_id !== null){
                ProductsProductsGroup::create(
                    [
-                       ['product_id','=',$product_model->id],
-                       ['product_group_id','=',$product_group_id]
+                       'product_id'=>$product_model->id,
+                       'product_group_id'=>$product_group_id
                    ]
                );
            }
