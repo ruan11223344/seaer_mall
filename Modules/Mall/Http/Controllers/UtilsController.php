@@ -155,7 +155,7 @@ class UtilsController extends Controller
         return compact('file_type','file_binary');
     }
 
-    public static function uploadFilesByBase64($base64_arr,$to_path = false){
+    public static function uploadFilesByBase64($base64_arr){
         $file_url_list = [];
         $to_path = self::getUserShopDirectory();
         if(is_array($base64_arr)){
@@ -169,6 +169,15 @@ class UtilsController extends Controller
 
             return $file_url_list;
         }
+    }
+
+    public static function uploadAvatar($base64){
+        $to_path = self::getAvatarDirectory();
+            $oss = Oss::getInstance();
+            $type_binary = self::getBase64ImgTypeBinary($base64);
+            $key = time() . rand(10000, 99999999) . '.'.$type_binary['file_type'];
+            $oss->put($to_path.$key, $type_binary['file_binary']);
+            return ['file_url'=>$oss->url($to_path.$key),'path'=>$to_path.$key];
     }
 
     public static function getAfId(){
@@ -204,6 +213,12 @@ class UtilsController extends Controller
         return self::OSS_FILE_PATH.'/users/'.$af_id.'/shop/';
     }
 
+    public static function getAvatarDirectory(){
+        $af_id = self::getAfId();
+        return self::OSS_FILE_PATH.'/users/'.$af_id.'/avatar/';
+    }
+
+
     public static function getUserIdFormAfId($af_id){
         $user_ex = UsersExtends::where('af_id',$af_id)->first();
         if($user_ex != null){
@@ -211,6 +226,7 @@ class UtilsController extends Controller
         }
         return null;
     }
+
 
     public static function getPathFileUrl($path){
         return env('OSS_URL').$path;

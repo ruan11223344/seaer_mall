@@ -16,6 +16,8 @@ Route::group(['domain' => env('MALL_DOMAIN'), 'middleware' => 'cors'], function 
         Route::group(['middleware' => ['client.credentials', 'auth:api']], function () {
             Route::post('get_user_info', 'Auth\AuthorizationsController@getUserInfo');
             Route::post('change_password', 'Auth\PasswordController@changePassword');
+            Route::post('upload_avatar_img', 'Auth\AuthorizationsController@uploadAvatarImg');
+            Route::get('get_avatar', 'Auth\AuthorizationsController@getAvatar');
         });
         Route::post('get_access_token', 'Auth\AuthorizationsController@getAccessToken');
         Route::post('login', 'Auth\LoginController@login');

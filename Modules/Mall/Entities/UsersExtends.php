@@ -30,6 +30,7 @@ class UsersExtends extends Model
         'id_card_negative_pic_url',
         'email_notification',
         'publish_product_status', //0不可发布  1可发布  2审核中  3被封禁
+        'avatar_url'
     ];
 
     protected $casts = [
