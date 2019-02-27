@@ -256,6 +256,44 @@ const upData = {
             })
         })
     },
+    // 57.添加收藏
+    async onSetFavorites(data) {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/favorites/set_favorites',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    this.$Message.info(res.message)
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            }).catch(err => {
+                return false
+            })
+        })
+    },
+    // 58.删除收藏
+    async onDelFavorites(data) {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/favorites/delete_favorites',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    this.$Message.info(res.message)
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            }).catch(err => {
+                return false
+            })
+        })
+    },
     // 64.更改商品上架（放入审核中列表) 下架（放入仓库） 翻转接口
     async onChangeWarehouse(data) {
         return await new Promise((resolve, reject) => {

@@ -85,7 +85,6 @@
         mounted() {
             this.onGetCompanyInfo().then(res => {
                 console.log(res);
-                
             })
         },
         components: {

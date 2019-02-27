@@ -11,12 +11,12 @@
         <v-table-switch title="Products" :num="num" :tableSwitch="['Suppliers']" style="marginTop: 20px;"  @on-click="onTableSwitch"></v-table-switch>
 
         <div class="Send-main-btn">
-            <button>Delete</button>
-            <span>Total 4</span>
+            <button @click="onDel">Delete</button>
+            <span>Total {{ activeArr.length }}</span>
             <span style="color: #999999;">&nbsp;&nbsp;(Maximum:{{ num == 0 ? product.length : company.length }})</span>
         </div>
 
-        <Table v-show="num == 0" :height="formData.length > 8 ? 530 : ''" :columns="columns12" :data="formData">
+        <Table v-show="num == 0" :height="formData.length > 8 ? 530 : ''" :columns="columns12" :data="formData" @on-selection-change="onChange">
             <!-- 内容 -->
             <template slot-scope="{ row }" slot="Content">
                 <div class="Send-main-content">
@@ -48,7 +48,7 @@
         
         <section style="marginTop:20px;">
             <template>
-                <Page :total="total.total" :page-size="8" style="textAlign: center" @on-change="onPages"/>
+                <Page :total="total.total" :page-size="total.size" style="textAlign: center" @on-change="onPages"/>
             </template>
         </section>
         
@@ -59,6 +59,7 @@
     import Title from "../components/Title"
     import Img from "@/components/Img"
     import getData from "@/utils/getData"
+    import upData from "@/utils/upData"
     // 切换
     import TableSwitch from "../components/TableSwitch/index.vue"
     import dayjs from "dayjs"
@@ -95,23 +96,21 @@
                 ],
                 formData: [],
                 product: [],
-                company: []
+                company: [],
+                activeArr: []
             }
         },
         methods: {
             dayjs: dayjs,
             onGetFavorites: getData.onGetFavorites,
+            onSetFavorites: upData.onSetFavorites,
+            onDelFavorites: upData.onDelFavorites,
             filterAll: getData.filterAll,
             // 切换
             onTableSwitch(num) {
                 this.num = num
-                switch (num) {
-                    case 0:
-                        break
-                    case 1:
-                        
-                        break
-                }
+                
+                this.GetData()
             },
             // 分页
             onPages(index) {
@@ -119,16 +118,40 @@
                 this.filterAll(this.num == 0 ? this.product : this.company, this.total).then(res => {
                     this.formData = res
                 })
-            }
-        },
-        mounted() {
-            this.onGetFavorites().then(res => {
+            },
+            GetData() {
+                this.onGetFavorites().then(res => {
+                    this.onPage(res)
+                })
+            },
+            onChange(selection) {
+                const arr = []
+                selection.forEach((element, index) => {
+                    arr.push(element.product_or_company_id)
+                })
+
+                this.activeArr = arr
+            },
+            onDel() {
+                this.onDelFavorites({
+                    product_or_company_id_list: this.activeArr,
+                    type: this.num == 0 ? 'product' : 'company'
+                }).then(res => {
+                    this.onPage(res)
+                    this.activeArr = []
+                })
+            },
+            onPage(res) {
                 this.product = res.product
                 this.company = res.company
+                this.total.total = this.num == 0 ? this.product.length : this.company.length
                 this.filterAll(this.num == 0 ? this.product : this.company, this.total).then(res => {
                     this.formData = res
                 })
-            })
+            }
+        },
+        mounted() {
+            this.GetData()
         },
         components: {
             "v-title": Title,
