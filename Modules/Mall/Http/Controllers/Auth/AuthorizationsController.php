@@ -11,7 +11,9 @@ namespace Modules\Mall\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Khsing\World\Models\City;
+use Khsing\World\Models\Country;
 use Khsing\World\Models\Division;
+use Khsing\World\World;
 use Modules\Mall\Entities\BusinessRange;
 use Modules\Mall\Entities\BusinessType;
 use Modules\Mall\Entities\Company;
@@ -273,7 +275,8 @@ class AuthorizationsController extends Controller
         $data['basic_info']['business_type_id'] = $company->company_business_type_id == null ? null : $company->company_business_type_id;
         $data['basic_info']['company_name'] = $company->company_name;
         $data['basic_info']['company_name_in_china'] = $company->company_name_in_china;
-        $data['basic_info']['country'] = $company->company_province_id;
+        $data['basic_info']['country_id'] = $company->company_country_id;
+        $data['basic_info']['country_name'] = Country::find($company->company_country_id) == null ? null : Country::find($company->company_country_id)->name;
 
         $province = Division::find($company->company_province_id);
         $city = City::find($company->company_city_id);
