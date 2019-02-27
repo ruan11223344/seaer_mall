@@ -74,10 +74,20 @@
 </template>
 
 <script>
-    import Title from "../components/Title"
+    import Title from "../../components/Title"
     import Img from "@/components/Img"
+    import getData from "@/utils/getData.js"
 
     export default {
+        methods: {
+            onGetCompanyInfo: getData.onGetCompanyInfo
+        },
+        mounted() {
+            this.onGetCompanyInfo().then(res => {
+                console.log(res);
+                
+            })
+        },
         components: {
             "v-title": Title,
             "v-img": Img
@@ -86,7 +96,7 @@
 </script>
 
 <style lang="less" scoped>
-    @import url('../../../assets/css/index.less');
+    @import url('../../../../assets/css/index.less');
 
     .companyinfo {
         align-self: flex-start;

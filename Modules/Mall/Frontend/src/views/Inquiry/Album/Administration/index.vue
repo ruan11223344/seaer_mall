@@ -10,7 +10,7 @@
         </div>
 
         <template>
-            <div class="administration-main">
+            <div class="administration-main" v-show="fromAlbum.length">
                 <v-card-template
                     :fromData="item"
                     @on-get="onGetAlbumList"
@@ -18,6 +18,9 @@
                     :key="index"
                     class="administration-main-card">
                 </v-card-template>
+            </div>
+            <div v-show="!fromAlbum.length" style="display: flex;justify-content: center;align-items: center;height: 200px;">
+                <Spin size="large" style="display: inline-block;"></Spin>
             </div>
         </template>
 
@@ -62,7 +65,6 @@
         filters: {
             FiltersAlbumListId(data) {
                 const AlbumId = []
-                console.log(data);
                 
                 for(let i of data) {
                     AlbumId.push({ label: i.album_name, value: i.id })
@@ -132,7 +134,7 @@
         min-height: 772px;
         .bg-color(white);
         padding: 21px 30px;
-
+        
         &-btn {
             width: 105px;
             height: 25px;

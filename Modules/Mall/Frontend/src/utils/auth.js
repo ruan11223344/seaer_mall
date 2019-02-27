@@ -17,5 +17,8 @@ export default {
     },
     removeCookies() {
         return Cookies.remove(TokenKey)
+    },
+    removeRefreshKey() {
+        return Cookies.remove(RefreshKey)
     }
 }

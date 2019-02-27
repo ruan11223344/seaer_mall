@@ -424,8 +424,7 @@
             <Col span="24" class-name="updateInfo-Agreement">
                 <Checkbox v-model="single"></Checkbox>
                 <div class="updateInfo-Agreement-text">
-                    Please follow <span class="updateInfo-Agreement-text-pre">the Information Publishing Rules</span>, and ensure that your information is accurate,
-legitimate, and does not infringe legitimate the rights and interests of third parties.
+                    Please follow <span class="updateInfo-Agreement-text-pre">the Information Publishing Rules</span>, and ensure that your information is accurate,legitimate, and does not infringe legitimate the rights and interests of third parties.
                 </div>
             </Col>
         </Row>
@@ -796,6 +795,8 @@ legitimate, and does not infringe legitimate the rights and interests of third p
         created() {
             this.onGetProductGroup()
                 .then(data => {
+                    console.log(data);
+                    
                     this.filterGroup(data)
                 }
             )

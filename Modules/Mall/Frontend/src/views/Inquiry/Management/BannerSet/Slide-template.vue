@@ -9,24 +9,22 @@
             <p>Make sure the link of the image is valid.</p>
         </article>
         <div class="SlideSet-banner">
-            <Carousel
-                v-model="value3"
-                :autoplay="setting.autoplay"
-                :autoplay-speed="setting.autoplaySpeed"
-                :dots="setting.dots"
-                :radius-dot="setting.radiusDot"
-                :trigger="setting.trigger"
-                :arrow="setting.arrow"
-                :height="setting.height">
-                <CarouselItem v-for="(item, index) in slideLists" :key="index" style="width: 741px;height: 193px;">
-                    <img :src="item.url" alt="" style="display: block;width: 741px;height: 193px;">
-                </CarouselItem>
-            </Carousel>
+            <swiper :options="swiperOption" class="SlideSet-banner-list">
+                <template v-for="(item, index) in slideLists">
+                    <swiper-slide :key="index">
+                        <div :style="{ background: `url(${item})`}" alt="" class="SlideSet-banner-list-img"></div>
+                    </swiper-slide>
+                </template>
+                <div class="swiper-pagination" slot="pagination"></div>
+                <div class="swiper-button-prev" slot="button-prev"></div>
+                <div class="swiper-button-next" slot="button-next"></div>
+            </swiper>
+            
         </div>
         <hr class="SlideSet-hr">
         <div class="SlideSet-cards">
             <template v-for="(item, index) in slideData">
-                <section class="SlideSet-cards-list">
+                <section class="SlideSet-cards-list" :key="index">
                     <img class="SlideSet-cards-list-img" :src="item.img_url" alt="">
                     <div class="SlideSet-cards-list-title">URL Jump...</div>
                     <div class="SlideSet-cards-list-input">
@@ -51,8 +49,8 @@
         <div class="SlideSet-save">
             <button type="button" @click="onSave">Save</button>
         </div>
-
         <v-cropper :url="url" :autoCropWidth="940" :autoCropHeight="440" @on-cropper="onCropper" @on-show="onShow" v-show="show"></v-cropper>
+        
     </div>
 </template>
 
@@ -62,18 +60,28 @@
     import upData from "@/utils/upData.js"
     import getData from "@/utils/getData.js"
 
+    import { swiper, swiperSlide } from 'vue-awesome-swiper'
+    import 'swiper/dist/css/swiper.css'
+
     export default {
         data() {
             return {
-                value3: 0,
-                setting: {
-                    autoplay: true,
-                    autoplaySpeed: 3000,
-                    dots: 'inside',
-                    radiusDot: false,
-                    trigger: 'click',
-                    arrow: 'hover',
-                    height: 193
+                swiperOption: {
+                    spaceBetween: 30,
+                    centeredSlides: true,
+                    autoplay: {
+                        delay: 3000,
+                        disableOnInteraction: false,
+                        reverseDirection: true
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev'
+                    }
                 },
                 url: '',
                 show: false,
@@ -160,12 +168,16 @@
             
         },
         mounted() {
-            this.onGetSlidesList().then(res => {
-                this.slideLists = res
+            this.onGetSlidesList().then(async res => {
+                res.forEach(({ url }) => {
+                    this.slideLists.push(url)
+                })
             })
         },
         components: {
-            "v-cropper": Cropper
+            "v-cropper": Cropper,
+            swiper,
+            swiperSlide
         }
     }
 </script>
@@ -207,8 +219,20 @@
             background-color: #f2f6f9;
             margin: 0px auto;
             margin-top: 28px;
-        }
 
+            &-list {
+                display: inline-block;
+                width: 741px !important;
+                height: 193px;
+
+                &-img {
+                    width: 741px;
+                    height: 193px;
+                    background-size: 100% 100% !important;
+                }
+            }
+        }
+        
         &-hr {
             margin-top: 25px;
             margin-bottom: 20px;

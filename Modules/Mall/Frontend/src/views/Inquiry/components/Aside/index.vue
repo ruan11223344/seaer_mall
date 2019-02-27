@@ -34,11 +34,13 @@
                             },
                             {
                                 name:'Company Info',
-                                path: 'companyinfo',
-                                url: '/inquiryList/companyinfo',
+                                path: 'company',
+                                url: '/inquiryList/company/companyinfo',
                             },
                             {
-                                name:'Change Password'
+                                name:'Change Password',
+                                path: 'changepass',
+                                url: '/inquiryList/changepass'
                             },
                             {
                                 name:'Edit My Photo',
@@ -52,10 +54,14 @@
                         isSubShow:false,
                         subItems:[
                             {
-                                name:'Shop Settings'
+                                name:'Shop Settings',
+                                url: '/inquiryList/management/bannerset',
+                                path: 'bannerset'
                             },
                             {
-                                name:'Store Dynamics'
+                                name:'Store Dynamics',
+                                url: '/inquiryList/management/dynamics',
+                                path: 'dynamics'
                             }
                         ]
                     },
@@ -131,7 +137,7 @@
                                 path: 'collection',
                             },
                             {
-                                name:'Suppliers'
+                                name:'Suppliers',
                             }
                         ]
                     },
@@ -140,14 +146,10 @@
                         isSubShow:false,
                         subItems:[
                             {
-                                name:'Shop Settings',
-                                url: '/inquiryList/management/bannerset',
-                                path: 'bannerset',
+                                name:'Rule Center',
                             },
                             {
-                                name:'Store Dynamics',
-                                url: '/inquiryList/management/dynamics',
-                                path: 'dynamics'
+                                name:'Service Account Center',
                             }
                         ]
                     },

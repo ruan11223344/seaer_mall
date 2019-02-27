@@ -229,7 +229,7 @@
 </template>
 
 <script>
-    import Title from "../components/Title"
+    import Title from "../../components/Title"
     import Img from "@/components/Img"
     import Select from "@/components/Select"
     // 图片预览插件
@@ -346,7 +346,7 @@
 </script>
 
 <style lang="less" scoped>
-    @import url('../../../assets/css/index.less');
+    @import url('../../../../assets/css/index.less');
     .registered-main-form-content {
         .flex(flex-start, flex-end);
 

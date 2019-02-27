@@ -96,8 +96,6 @@ const getData = {
             }).then(res => {
                 if(res.code == 200) {
                     resolve(res.data)
-                }else {
-                    this.$Message.error(res.message)
                 }
             }).catch(err => {
                 reject(err)
@@ -211,6 +209,51 @@ const getData = {
             })
         })
     },
+    // 52.获取商品推荐列表详情
+    async onGetRecommendList() {
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/shop/get_recommend_product_list',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            })
+        })
+    },
+    // 55.获取图片信息
+    onGetImgInfo(path) {
+        return new Promise((resolve, reject) => {
+            request({
+                url: '/album/get_img_info',
+                params: {
+                    image_path: path
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            })
+        })
+    },
+    // 59.获取收藏
+    async onGetFavorites() {
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/favorites/get_favorites',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            })
+        })
+    },
     // 62.获取商品列表
     async onGetReleaseProductList(data) {
         return await new Promise(async (resolve, reject) => {
@@ -268,7 +311,21 @@ const getData = {
                 }
             })
         })
-    }
+    },
+    // 70.获取公司信息
+    async onGetCompanyInfo() {
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/auth/get_company_info',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res.data)
+                }
+            })
+        })
+    },
 }
 
 export default getData

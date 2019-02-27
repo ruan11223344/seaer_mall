@@ -1,7 +1,8 @@
 <template>
     <div class="container">
         <nav class="nav">
-            <router-link tag="div" to="/login">Sign In</router-link>
+            <router-link v-if="true" tag="div" to="/login">Sign In</router-link>
+            <div v-else>{{ '登录用户名' }}</div>
             <div>Join Free</div>
             <div class="Customer">
                 <!-- 下拉 -->
@@ -20,8 +21,20 @@
 </template>
 
 <script>
+    import getData from "@/utils/getData"
+
     export default {
-        
+        methods: {
+            onGetUser: getData.onGetUser
+        },
+        mounted() {
+            // this.onGetUser().then(res => {
+            //     console.log(res);
+                
+            // }).catch(err => {
+            //     console.log(err);
+            // })
+        },
     }
 </script>
 

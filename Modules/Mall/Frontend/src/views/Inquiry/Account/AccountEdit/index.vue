@@ -132,7 +132,9 @@
 
                 },
                 ProvinceAddress: [],
-                CityAddress: []
+                CityAddress: [],
+                province: '',
+                city: ''
             }
         },
         methods: {
@@ -144,6 +146,9 @@
                 this.getCityAddress(value).then(res => {
                     res.data.forEach(element => {
                         this.CityAddress.push({ value: element.city_id, label: element.name })
+                        if(element.name == this.city) {
+                            this.$set(this.formData, 'city', element.city_id)
+                        }
                     })
                 })
             },
@@ -165,20 +170,35 @@
                     city_id: formData.city,
                     detailed_address: formData.address
                 }).then(res => {
-                    console.log(res);
+                    // console.log(res);
                 })
             }
         },
         mounted() {
             this.formData = JSON.parse(this.$route.query.formData)
+            const name = this.formData['province/city'].split(' ')
+
+            this.province = name[0]
+            this.city = name[1]
+
 
             this.getProvinceAddress(this.formData.country == 'China' ? 'cn' : 'ke ').then(res => {
                 res.data.forEach(element => {
                     this.ProvinceAddress.push({ value: element.province_id, label: element.name })
+                    if(element.name == this.province) {
+                        this.$set(this.formData, 'province', element.province_id)
+                    }
+                })
+
+                this.getCityAddress(this.formData.province).then(res => {
+                    res.data.forEach(element => {
+                        this.CityAddress.push({ value: element.city_id, label: element.name })
+                        if(element.name == this.city) {
+                            this.$set(this.formData, 'city', element.city_id)
+                        }
+                    })
                 })
             })
-
-            console.log(this.formData);
             
         },
         components: {

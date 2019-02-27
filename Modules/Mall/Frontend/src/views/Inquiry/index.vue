@@ -78,6 +78,7 @@
     .inquiry {
         .flex(center, center);
         width: 100%;
+        min-width: 1220px;
         height: auto;
         background-color: #f0f1f5;
         padding-top: 20px;
