@@ -256,6 +256,7 @@ class ShopController extends Controller
         $company_id = Auth::user()->company->id;
         $shop = Shop::where('company_id',$company_id);
         $res = [];
+        $product_id_list = [];
         if($shop->exists()){
            $shop_obj =  $shop->get()->first();
            if($shop_obj->recommend_product != null){

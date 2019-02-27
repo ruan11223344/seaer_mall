@@ -291,6 +291,8 @@ class AuthorizationsController extends Controller
                 $business_range_str.= ' '.$v->name.'、';
             });
             $business_range_str = mb_substr($business_range_str,0,mb_strlen($business_range_str)-1);
+        }else{
+            $business_range_arr = [];
         }
         $data['business_info']['business_range'] = $business_range_str;
         $data['business_info']['business_range_id_arr'] = $business_range_arr;
