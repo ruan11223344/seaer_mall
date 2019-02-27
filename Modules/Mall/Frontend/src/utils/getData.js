@@ -196,9 +196,9 @@ const getData = {
         })
     },
     // 49.获取店铺幻灯图片列表
-    async onGetSlidesList() {
-        return await new Promise(async (resolve, reject) => {
-            await request({
+    onGetSlidesList() {
+        return new Promise((resolve, reject) => {
+            request({
                 url: '/shop/get_slides_list',
             }).then(res => {
                 if(res.code == 200) {

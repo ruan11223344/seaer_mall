@@ -9,17 +9,21 @@
             <p>Make sure the link of the image is valid.</p>
         </article>
         <div class="SlideSet-banner">
-            <swiper :options="swiperOption" class="SlideSet-banner-list">
+            <Carousel
+                :loop="true"
+                :autoplay="setting.autoplay"
+                :autoplay-speed="setting.autoplaySpeed"
+                :dots="setting.dots"
+                :radius-dot="setting.radiusDot"
+                :trigger="setting.trigger"
+                :arrow="setting.arrow"
+                :height="setting.height">
                 <template v-for="(item, index) in slideLists">
-                    <swiper-slide :key="index">
-                        <div :style="{ background: `url(${item})`}" alt="" class="SlideSet-banner-list-img"></div>
-                    </swiper-slide>
+                    <CarouselItem :key="index">
+                        <img style="width: 741px; height: 193px; display: block;" :src="item.url" alt="">
+                    </CarouselItem>
                 </template>
-                <div class="swiper-pagination" slot="pagination"></div>
-                <div class="swiper-button-prev" slot="button-prev"></div>
-                <div class="swiper-button-next" slot="button-next"></div>
-            </swiper>
-            
+            </Carousel>
         </div>
         <hr class="SlideSet-hr">
         <div class="SlideSet-cards">
@@ -82,6 +86,15 @@
                         nextEl: '.swiper-button-next',
                         prevEl: '.swiper-button-prev'
                     }
+                },
+                setting: {
+                    autoplay: true,
+                    autoplaySpeed: 2000,
+                    dots: 'inside',
+                    radiusDot: false,
+                    trigger: 'click',
+                    arrow: 'hover',
+                    height: 193
                 },
                 url: '',
                 show: false,
@@ -165,14 +178,12 @@
             }
         },
         created() {
-            
+            this.onGetSlidesList().then(res => {
+                this.slideLists = res
+            })
         },
         mounted() {
-            this.onGetSlidesList().then(async res => {
-                res.forEach(({ url }) => {
-                    this.slideLists.push(url)
-                })
-            })
+            
         },
         components: {
             "v-cropper": Cropper,

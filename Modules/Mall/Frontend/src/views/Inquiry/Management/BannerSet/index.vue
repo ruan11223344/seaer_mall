@@ -8,12 +8,12 @@
         
         <template>
             <!-- banner设置 -->
-            <v-banner-template v-show="num == 0"></v-banner-template>
+            <v-banner-template v-if="num == 0"></v-banner-template>
         </template>
 
         <template>
             <!-- 幻灯片广告位设置 -->
-            <v-slide-template v-show="num == 1"></v-slide-template>
+            <v-slide-template v-if="num == 1"></v-slide-template>
         </template>
 
         <!-- 导航列表设置 -->

@@ -14,7 +14,7 @@
         <v-nav></v-nav>
 
         <Carousel
-            v-model="value3"
+            :loop="true"
             :autoplay="setting.autoplay"
             :autoplay-speed="setting.autoplaySpeed"
             :dots="setting.dots"
@@ -22,18 +22,11 @@
             :trigger="setting.trigger"
             :arrow="setting.arrow"
             :height="setting.height">
-            <CarouselItem>
-                <div class="demo-carousel">1</div>
-            </CarouselItem>
-            <CarouselItem>
-                <div class="demo-carousel">2</div>
-            </CarouselItem>
-            <CarouselItem>
-                <div class="demo-carousel">3</div>
-            </CarouselItem>
-            <CarouselItem>
-                <div class="demo-carousel">4</div>
-            </CarouselItem>
+            <template v-for="(item, index) in slidesList">
+                <CarouselItem :key="index">
+                    <img style="width: 100%; height: 100%; display: block;" :src="item.url" alt="">
+                </CarouselItem>
+            </template>
         </Carousel>
 
         <v-main></v-main>
@@ -44,21 +37,36 @@
     import Header from "../components/Head/index"
     import Nav from '../components/Nav/index'
     import Main from './Main.vue'
+    import getData from '@/utils/getData'
+
 
     export default {
         data () {
             return {
-                value3: 0,
                 setting: {
-                    autoplay: false,
+                    autoplay: true,
                     autoplaySpeed: 2000,
                     dots: 'inside',
                     radiusDot: false,
                     trigger: 'click',
                     arrow: 'hover',
                     height: 500
-                }
+                },
+                slidesList: []
             }
+        },
+        methods: {
+            onGetSlidesList: getData.onGetSlidesList,
+            onGetBanner: getData.onGetBanner
+        },
+        mounted() {
+            this.onGetSlidesList().then(res => {
+                this.slidesList = res
+            })
+
+            // this.onGetBanner().then(res => {
+
+            // })
         },
         components: {
            "v-header": Header,

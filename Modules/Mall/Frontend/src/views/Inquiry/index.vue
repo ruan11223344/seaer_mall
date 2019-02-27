@@ -17,7 +17,7 @@
             <div class="container inquiry-main">
                 <section class="inquiry-main-title">
                     <Breadcrumb separator='<b style="color:#666666">></b>'>
-                        <BreadcrumbItem to="/">Home</BreadcrumbItem>
+                        <BreadcrumbItem to="/" class="inquiry-main-title-active">Home</BreadcrumbItem>
                         <BreadcrumbItem style="color:#666666">{{" $route.query.name" }}</BreadcrumbItem>
                     </Breadcrumb>
                 </section>
@@ -88,6 +88,12 @@
 
             &-title {
                 margin-bottom: 8px;
+
+                // &-avtive {
+                //     & > a:hover {
+                //         color: #f0883a !important;
+                //     }
+                // }
             }
 
             &-main {
