@@ -89,8 +89,9 @@
         methods: {
             onGetCompanyInfo: getData.onGetCompanyInfo,
             onEdit() {
-                const formData = JSON.stringify(this.formData)
-                this.$router.push('/inquiryList/company/companyedit?formData=' + formData)
+                // const formData = JSON.stringify(this.formData)
+                // this.$router.push('/inquiryList/company/companyedit?formData=' + formData)
+                this.$router.push('/inquiryList/company/companyedit')
             }
         },
         created() {
