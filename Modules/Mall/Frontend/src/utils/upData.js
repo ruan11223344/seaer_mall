@@ -240,6 +240,26 @@ const upData = {
             })
         })
     },
+    // 53.设置商品推荐列表
+    async onSetRecommendProductList(arr) {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/shop/set_recommend_product_list',
+                method: 'post',
+                data: {
+                    "product_id_list": arr
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    this.$Message.info(res.message)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            }).catch(err => {
+                return false
+            })
+        })
+    },
     // 54.替换相册图片接口
     async onReplaceAlbum(data) {
         return await new Promise((resolve, reject) => {
