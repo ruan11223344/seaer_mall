@@ -132,15 +132,14 @@
                         path = 'in_the_warehouse'
                         break
                 }
-
+                
                 this.onGetReleaseProductList({ status: path })
                     .then(async res => {
-                        
                         this.pendingData = res.data_list
-
+                        
                         this.onSelectKey(res.data_list)
                         // 暂停2秒
-                        await this.sleep(2000)
+                        // await this.sleep(2000)
                         this.total.total = res.total
                         this.filterAll(this.pendingData, this.total).then(res => this.pendingActiveData = res)
                     }
@@ -245,7 +244,7 @@
                     this.pendingData = res.data_list
 
                     // 暂停2秒
-                    await this.sleep(2000)
+                    // await this.sleep(2000)
                     this.total.total = res.total
                     this.filterAll(this.pendingData, this.total).then(res => this.pendingActiveData = res)
                 }

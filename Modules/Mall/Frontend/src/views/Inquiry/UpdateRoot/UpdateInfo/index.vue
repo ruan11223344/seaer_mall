@@ -4,7 +4,7 @@
         <v-title title="Selected Subcatalog: "  class="updateInfo-title">
             <template slot="content">
                 <span class="updateInfo-title-text">{{ 'Garlic' }}</span>
-                <button type="button" class="updateInfo-title-btn">Reselect</button>
+                <button type="button" class="updateInfo-title-btn" @click="$router.back(-1)">Reselect</button>
             </template>
         </v-title>
 

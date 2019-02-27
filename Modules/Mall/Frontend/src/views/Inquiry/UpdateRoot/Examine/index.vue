@@ -26,15 +26,15 @@
         },
         methods: {
         },
-        // 跳转拦截
-        beforeRouteEnter (to, from, next) {
-            next(vm => {
-                if(vm.Classification) {
-                    return true
-                }
-                vm.$router.push('/inquiryList/uploadroot/uploadproduct')
-            })
-        },
+        // // 跳转拦截
+        // beforeRouteEnter (to, from, next) {
+        //     next(vm => {
+        //         if(vm.Classification) {
+        //             return true
+        //         }
+        //         vm.$router.push('/inquiryList/uploadroot/uploadproduct')
+        //     })
+        // },
         mounted() {
         },
         components: {

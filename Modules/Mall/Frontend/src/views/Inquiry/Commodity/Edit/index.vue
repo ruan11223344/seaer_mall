@@ -1,12 +1,6 @@
 <template>
     <div class="updateInfo">
         <v-head :imgSrc="require('@/assets/img/login/bg2.png')"></v-head>
-        <v-title title="Selected Subcatalog: "  class="updateInfo-title">
-            <template slot="content">
-                <span class="updateInfo-title-text">{{ 'Garlic' }}</span>
-                <button type="button" class="updateInfo-title-btn">Reselect</button>
-            </template>
-        </v-title>
 
         <section class="Send-main-screening" style="marginBottom: 20px;">
             <div class="Send-main-screening-text">Basic Info</div>
@@ -367,7 +361,7 @@
                 <!-- Shop Category -->
                 <Row :gutter="20">
                     <Col span="6" class-name="updateInfo-lable">
-                        <span>Shop Category</span>
+                        <span>Group & Sort Products </span>
                     </Col>
                     <Col span="15">
                         <Row>
@@ -377,6 +371,7 @@
                                 </Select> -->
                                 <Cascader
                                     :data="ProductGroup"
+                                    v-model="formItem.product_group_id"
                                     change-on-select
                                     @on-change="onChangeCascader"
                                     ></Cascader>
@@ -398,18 +393,24 @@
                         <span>Release</span>
                     </Col>
                     <Col span="15">
-                        <RadioGroup v-model="formItem.disabledGroup" class="updateInfo-main-Release">
+                        <RadioGroup v-model="formItem.disabledGroup" class="updateInfo-main-Release" @on-change="onChangeRadio">
                             <Radio label="Release">Release</Radio>
                             <Radio label="Time">
                                 <span style="marginRight: 10px;">Time</span>
                                 <template>
                                     <span>
+                                        <!-- this.formItem.product_publishing_time -->
                                         <DatePicker 
                                         type="datetime"
                                         format="yyyy-MM-dd HH:mm:ss"
+                                        :open="time"
+                                        :confirm="true"
                                         placeholder="Select date and time(Excluding seconds)"
                                         @on-change="onChnageDate"
-                                        style="width: 200px"></DatePicker>
+                                        @on-ok="time = false"
+                                        style="width: 200px">
+                                            <div @click="time = true">{{ formItem.product_publishing_time }}</div>
+                                        </DatePicker>
                                     </span>
                                 </template>
                             </Radio>
@@ -450,11 +451,11 @@ legitimate, and does not infringe legitimate the rights and interests of third p
     import { quillEditor } from 'vue-quill-editor'
     // 高亮
     // import hljs from 'highlight.js'
-    import { mapState } from 'vuex'
 
     export default {
         data() {
             return {
+                time: false,
                 total: {
                     size: 10,
                     total: 0,
@@ -600,20 +601,19 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                         // }
                     }
                 },
-                single: false,
+                single: true,
             }
         },
         filters: {
             
         },
-        computed: {
-            ...mapState(['Classification'])
-        },
+        
         methods: {
             upAlbumImg: upData.upAlbumImg,
             upSaveAlbumImg: upData.upSaveAlbumImg,
             UpProductImg: upData.UpProductImg,
             upSaveproduct: upData.upSaveproduct,
+            upEditProduct: upData.upEditProduct,
             onGetalbumIdList: getData.onGetalbumIdList,
             onGetalbumPhotoList: getData.onGetalbumPhotoList,
             onGetProductGroup: getData.onGetProductGroup,
@@ -649,8 +649,10 @@ legitimate, and does not infringe legitimate the rights and interests of third p
 
                 this.UpProductImg(file, len == 0 ? 'main' : len).then(res => {
                     const path = res.img_url
+                    const obj = {}
+                    obj[res.where] = res.img_path
 
-                    this.uploadList.push({ path,  status: 'finished', file: res})
+                    this.uploadList.push({ path,  status: 'finished', file: obj })
                 }).catch(err => {
                     this.$Message.error('Failed to add pictures')
                 })
@@ -741,20 +743,20 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                 })
                 this.ProductGroup = arr
             },
+            // 单选
+            onChangeRadio(value) {
+                value == 'Time' ? this.time = true : this.time = false
+            },
             // 发布
             onSub() {
                 if(this.formItem.disabledGroup == "Time" && this.formItem.product_publishing_time == '') {
                     this.$Message.warning('Publishing time cannot be empty')
-
                     return false
                 }
-
                 const imagePaths = []
 
                 for(let item of this.uploadList) {
-                    let obj = {}
-                    obj[ item.file.where ] = item.file.img_path
-                    imagePaths.push( obj )
+                    imagePaths.push( item.file )
                 }
                 
                 const Custom = []
@@ -766,23 +768,22 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                 }
 
                 if(this.single) {
-                        this.upSaveproduct({
-                            product_attr: Custom,
-                            product_name: this.formItem.name,
-                            product_sku_no: this.formItem.sku,
-                            product_keywords: this.formItem.keyword,
-                            product_images: imagePaths,
-                            product_price_type: this.formItem.Price.animal,
-                            product_price: this.formItem.Price.animal == "ladder" ? this.formItem.Price.Ladder : [ this.formItem.Price.Base ],
-                            product_details: this.formItem.editor,
-                            product_publishing_time:this.formItem.disabledGroup == "Time" ? this.formItem.product_publishing_time : null,
-                            product_put_warehouse: this.formItem.disabledGroup == "Release" ? true : false,
-                            product_categories_id: this.Classification,
-                            product_group_id: this.formItem.product_group_id[this.formItem.product_group_id.length - 1]
+                        this.upEditProduct({
+                            "product_id": this.formItem.id,
+                            "product_images": imagePaths,
+                            "product_name": this.formItem.name,
+                            "product_sku_no": this.formItem.sku,
+                            "product_keywords": this.formItem.keyword,
+                            "product_attr": Custom,
+                            "product_price": this.formItem.Price.animal == "ladder" ? this.formItem.Price.Ladder : [ this.formItem.Price.Base ],
+                            "product_price_type": this.formItem.Price.animal,
+                            "product_details": this.formItem.editor,
+                            "product_publishing_time": this.formItem.disabledGroup == "Time" ? this.formItem.product_publishing_time : null,
+                            "product_categories_id": this.formItem.product_categories_id,
+                            "product_group_id": this.formItem.product_group_id[this.formItem.product_group_id.length - 1],
+                            "product_put_warehouse": this.formItem.disabledGroup == "Put" ? true : false
                         }).then(res => {
                             this.$router.push('/inquiryList/uploadroot/examine')
-                        }).catch(err => {
-                            this.$Message.warning(err)
                         })
                 }else {
                     this.$Message.warning('Please follow the Information Publishing Rules, and ensure that your information is accurate, legitimate, and does not infringe legitimate the rights and interests of third parties.')
@@ -790,11 +791,18 @@ legitimate, and does not infringe legitimate the rights and interests of third p
             },
             // 处理编辑数据
             filterEdit(data) {
-                console.log(data);
-                // product_images: imagePaths,
-                // product_publishing_time:this.formItem.disabledGroup == "Time" ? this.formItem.product_publishing_time : null,
-                // product_put_warehouse: this.formItem.disabledGroup == "Release" ? true : false,
-                
+
+                const imgPaths = data.product_info.product_images
+                const imgUrls = data.product_info.product_images_url
+
+                for (let index = 0; index < imgPaths.length; index++) {
+                    for(let obj in imgPaths[index]) {
+                        const Obj = {}
+                        Obj[obj] = imgPaths[index][obj]
+                        this.uploadList.push({ path: imgUrls[index][obj],  status: 'finished', file: Obj})
+                    }
+                }
+
                 data.product_attr.attr_specs.forEach((element, index) => {
                     const name = (Object.keys(element))[0]
                     this.$set(this.formItem.Custom, index, { name: name, value: element[name] })
@@ -819,12 +827,11 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                 ])
                 this.$set(this.formItem, 'editor', data.product_info.product_details)
                 this.$set(this.formItem, 'product_categories_id', data.product_info.product_categories_id)
-                this.$set(this.formItem, 'product_group_id', data.product_info.product_categories_id)
+                this.$set(this.formItem, 'product_group_id', data.product_info.product_group_parent_child_id)
                 this.$set(this.formItem, 'disabledGroup', data.product_info.product_categories_id)
-
-
-
-                // this.uploadList
+                this.$set(this.formItem, 'id', data.product_info.id)
+                this.$set(this.formItem, 'disabledGroup', data.product_info.status_str)
+                this.$set(this.formItem, 'product_publishing_time', data.product_info.product_publishing_time)
             }
         },
         created() {
