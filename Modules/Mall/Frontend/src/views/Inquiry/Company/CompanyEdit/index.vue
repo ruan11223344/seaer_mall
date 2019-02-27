@@ -56,12 +56,12 @@
                 </Col>
                 <!-- 国家 -->
                 <Col span="24">
-                    <Row :gutter="10">
+                    <Row :gutter="10" style="margin: 10px 0px;">
                         <Col span="6">
                             <div class="edit-from-title" style="lineHeight: 36px;" >Country</div>
                         </Col>
                         <Col span="15" class-name="edit-from-prompt">
-                            <div class="edit-from-title" style="lineHeight: 36px;textAlign: left;">{{ formData.basic_info.country }}</div>
+                            <div class="edit-from-title" style="lineHeight: 36px;textAlign: left;">{{ formData.basic_info.country_name }}</div>
                         </Col>
                     </Row>
                 </Col>
@@ -78,9 +78,6 @@
                             <Select v-model="formData.basic_info.company_city_id" style="width:250px">
                                 <Option v-for="item in CityAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
                             </Select>
-                            
-                            <!-- <v-select :select="select"></v-select>
-                            <v-select :select="select" style="marginLeft: 19px;"></v-select> -->
                         </Col>
                     </Row>
                 </Col>
@@ -380,7 +377,7 @@
                 
                 return res
             }).then(res => {
-                this.getProvinceAddress(this.formData.country == 'China' ? 'cn' : 'ke ').then(res => {
+                this.getProvinceAddress(this.formData.country_name == 'China' ? 'cn' : 'ke ').then(res => {
                 // this.getProvinceAddress('cn').then(res => {
                     res.data.forEach(element => {
                         this.ProvinceAddress.push({ value: element.province_id, label: element.name })

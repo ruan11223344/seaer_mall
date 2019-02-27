@@ -20,7 +20,7 @@
             <!-- 内容 -->
             <template slot-scope="{ row }" slot="Content">
                 <div class="Send-main-content">
-                    <span>{{ 'Re:' + row.product_name }}</span>
+                    <span>{{ row.product_name }}</span>
                 </div>
             </template>
             <!-- 时间 -->
@@ -35,7 +35,7 @@
             <!-- 内容 -->
             <template slot-scope="{ row }" slot="Content">
                 <div class="Send-main-content">
-                    <span>{{ 'Re:' + row.company_name }}</span>
+                    <span>{{ row.company_name }}</span>
                 </div>
             </template>
             <!-- 时间 -->

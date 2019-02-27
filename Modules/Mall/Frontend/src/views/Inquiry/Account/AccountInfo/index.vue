@@ -23,7 +23,7 @@
                 </div>
                 <div class="accountInfo-block-article-list">
                     <label for="" class="accountInfo-block-article-list-label">Country:</label>
-                    <span class="accountInfo-block-article-list-text">{{ formData.country }}</span>
+                    <span class="accountInfo-block-article-list-text">{{ formData.country_name }}</span>
                 </div>
                 <div class="accountInfo-block-article-list">
                     <label for="" class="accountInfo-block-article-list-label">Province/City:</label>
@@ -60,6 +60,8 @@
         mounted() {
             this.onGetAccountInfo().then(res => {
                 this.formData = res
+                console.log(res);
+                
             })
         },
         components: {

@@ -21,7 +21,7 @@
                     </div>
                     <div class="companyinfo-block-article-list">
                         <label for="" class="companyinfo-block-article-list-label">Country:</label>
-                        <span class="companyinfo-block-article-list-text">{{ formData.basic_info.country }}</span>
+                        <span class="companyinfo-block-article-list-text">{{ formData.basic_info.country_name }}</span>
                     </div>
                     <div class="companyinfo-block-article-list">
                         <label for="" class="companyinfo-block-article-list-label">Province/City:</label>
@@ -97,7 +97,6 @@
         created() {
             this.onGetCompanyInfo().then(res => {
                 this.formData = res
-                console.log(this.formData);
             })
         },
         mounted() {
