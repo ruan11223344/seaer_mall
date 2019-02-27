@@ -544,7 +544,31 @@ class ProductsController extends Controller
             }
         }
 
-        $res = ['product_info'=>$product_obj->toArray(),'product_attr'=>$products_attr->toArray(),'product_price'=>$products_price->toArray(),'product_attr_array'=>$product_attr_array];
+        $product_info = $product_obj->toArray();
+        $product_info['status_str'] = '';
+        if($product_info['product_status'] == self::PRODUCT_STATUS_SALE){
+            $product_info['status_str'] = 'Release';
+        }
+
+        if($product_info['product_status'] == self::PRODUCT_STATUS_WAREHOUSE){
+            $product_info['status_str'] = 'Put';
+        }
+
+        if($product_info['product_publishing_time'] != null){
+            $product_info['status_str'] = 'Time';
+        }
+        $product_group = ProductsProductsGroup::where('product_id',$product_id)->get()->first();
+        $product_info['product_group_id'] = $product_group != null ? $product_group->product_group_id : null;
+        $product_info['product_group_name'] = $product_group != null ? ProductsGroup::find($product_group->product_group_id)->group_name : null;
+        $product_group_p_id =  $product_group == null ? null:ProductsGroup::find($product_group->product_group_id)->parent_id;
+        $product_info['product_group_parent_id'] = $product_group == null ? null : $product_group_p_id == 0 ? null : $product_group_p_id;
+        $product_info['product_group_parent_name'] = $product_group_p_id == null ? null : ProductsGroup::find($product_group->product_group_id)->group_name;
+        $product_info['product_images_url'] = [];
+        foreach ($product_info['product_images'] as $v){
+            array_push($product_info['product_images_url'],[array_keys($v)[0]=>UtilsController::getPathFileUrl(array_values($v)[0])]);
+        }
+
+        $res = ['product_info'=>$product_info,'product_attr'=>$products_attr->toArray(),'product_price'=>$products_price->toArray(),'product_attr_array'=>$product_attr_array];
 
         return $this->echoSuccessJson('获取商品详情成功!',$res);
     }

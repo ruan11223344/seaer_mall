@@ -2187,12 +2187,12 @@ json参数:
     "message": "获取商品详情成功!",
     "data": {
         "product_info": {
-            "id": 27,
+            "id": 33,
             "company_id": "10",
-            "product_origin_id": "PD_CN_a49b34079_524b40b0",
+            "product_origin_id": "PD_CN_a49b34079_8f538e50",
             "product_categories_id": "1",
-            "product_name": "超级无敌大飞车玩具13赛2221",
-            "product_sku_no": "100023",
+            "product_name": "超级无敌大飞车玩具13fffxxx333",
+            "product_sku_no": "100025",
             "product_keywords": [
                 "玩具",
                 "赛车"
@@ -2217,14 +2217,14 @@ json参数:
             "product_status": 2,
             "product_audit_status": 0,
             "product_publishing_time": "2019-03-14 11:00:00",
-            "product_price_id": 48,
-            "product_details": "这里是描述描述再秒睡<div>大萨达撒多撒大萨达sad撒<div/>",
-            "created_at": "2019-02-19 09:47:31",
-            "updated_at": "2019-02-19 09:47:31",
+            "product_price_id": 56,
+            "product_details": "这里是描述描述再秒睡<div>大萨达撒多撒大萨达sad撒xxxx<div/>",
+            "created_at": "2019-02-22 09:17:02",
+            "updated_at": "2019-02-25 17:23:09",
             "deleted_at": null,
-            "product_attr_id": 49,
+            "product_attr_id": 57,
             "products_attr": {
-                "id": 49,
+                "id": 57,
                 "attr_specs": [
                     {
                         "颜色": "绿色"
@@ -2248,39 +2248,35 @@ json参数:
                         "尺寸": "超小"
                     }
                 ],
-                "created_at": "2019-02-19 09:47:31",
-                "updated_at": "2019-02-19 09:47:31",
+                "created_at": "2019-02-22 09:17:02",
+                "updated_at": "2019-02-22 09:17:02",
                 "deleted_at": null
             },
             "products_price": {
-                "id": 48,
-                "price_type": "ladder",
-                "base_price": null,
-                "ladder_price": [
+                "id": 56,
+                "price_type": "base",
+                "base_price": [
                     {
                         "unit": "Pieces",
-                        "min_order": "10",
-                        "order_price": "800"
-                    },
-                    {
-                        "unit": "Pieces",
-                        "min_order": "5",
-                        "order_price": "2"
-                    },
-                    {
-                        "unit": "Pieces",
-                        "min_order": "1",
-                        "order_price": "1"
+                        "min_order": "150",
+                        "max_order_price": "2010",
+                        "min_order_price": "100"
                     }
                 ],
+                "ladder_price": null,
                 "currency": "ksh",
-                "created_at": "2019-02-19 09:47:31",
-                "updated_at": "2019-02-19 09:47:31",
+                "created_at": "2019-02-22 09:17:02",
+                "updated_at": "2019-02-22 09:17:02",
                 "deleted_at": null
-            }
+            },
+            "status_str": "Time",
+            "product_group_id": 15,
+            "product_group_name": "嘿嘿嘿ddd",
+            "product_group_parent_id": 14,
+            "product_group_parent_name": "xx"
         },
         "product_attr": {
-            "id": 49,
+            "id": 57,
             "attr_specs": [
                 {
                     "颜色": "绿色"
@@ -2304,35 +2300,38 @@ json参数:
                     "尺寸": "超小"
                 }
             ],
-            "created_at": "2019-02-19 09:47:31",
-            "updated_at": "2019-02-19 09:47:31",
+            "created_at": "2019-02-22 09:17:02",
+            "updated_at": "2019-02-22 09:17:02",
             "deleted_at": null
         },
         "product_price": {
-            "id": 48,
-            "price_type": "ladder",
-            "base_price": null,
-            "ladder_price": [
+            "id": 56,
+            "price_type": "base",
+            "base_price": [
                 {
                     "unit": "Pieces",
-                    "min_order": "10",
-                    "order_price": "800"
-                },
-                {
-                    "unit": "Pieces",
-                    "min_order": "5",
-                    "order_price": "2"
-                },
-                {
-                    "unit": "Pieces",
-                    "min_order": "1",
-                    "order_price": "1"
+                    "min_order": "150",
+                    "max_order_price": "2010",
+                    "min_order_price": "100"
                 }
             ],
+            "ladder_price": null,
             "currency": "ksh",
-            "created_at": "2019-02-19 09:47:31",
-            "updated_at": "2019-02-19 09:47:31",
+            "created_at": "2019-02-22 09:17:02",
+            "updated_at": "2019-02-22 09:17:02",
             "deleted_at": null
+        },
+        "product_attr_array": {
+            "颜色": [
+                "黑色"
+            ],
+            "容量": [
+                "64G",
+                "128G"
+            ],
+            "尺寸": [
+                "超小"
+            ]
         }
     }
 }
