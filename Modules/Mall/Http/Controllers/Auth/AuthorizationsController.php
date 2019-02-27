@@ -279,6 +279,8 @@ class AuthorizationsController extends Controller
         $city = City::find($company->company_city_id);
 
         $data['basic_info']['province/city'] = $province == null ? null : $province->name.' '.$city->name;
+        $data['basic_info']['company_province_id'] = $company->company_province_id;
+        $data['basic_info']['company_city_id`'] = $company->company_city_id;
         $data['basic_info']['address'] = $company->company_detailed_address;
         $data['basic_info']['telephone'] = $company->company_mobile_phone;
         $data['basic_info']['website'] = $company->company_website;
