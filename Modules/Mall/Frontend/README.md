@@ -3567,7 +3567,7 @@ url:http://域名/api/auth/get_company_info
 
 71.上传营业执照
 ```
-url:http://域名/api/auth/get_company_info
+url:http://域名/api/utils/upload_business_license
 请求方法:post
 请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
 请求头参数:"Authorization",值:"Bearer空格+token" //必填
