@@ -403,6 +403,18 @@ class AuthorizationsController extends Controller
             }
         }
 
+        if(isset($data['company_business_range_ids']) && is_array($data['company_business_range_ids']) && count($data['company_business_range_ids']) == 0){
+            unset($data['company_business_range_ids']);
+        }
+
+        if(isset($data['company_main_products']) && is_array($data['company_main_products']) && count($data['company_main_products']) == 0){
+            unset($data['company_main_products']);
+        }
+
+        if(isset($data['company_business_range_ids']) && $data['company_business_range_ids'] == null){
+            unset($data['company_business_range_ids']);
+        }
+
         $res = $company->update($data);
 
         if($res){
