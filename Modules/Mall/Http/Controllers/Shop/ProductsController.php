@@ -563,7 +563,10 @@ class ProductsController extends Controller
         $product_group_p_id =  $product_group == null ? null:ProductsGroup::find($product_group->product_group_id)->parent_id;
         $product_info['product_group_parent_id'] = $product_group == null ? null : $product_group_p_id == 0 ? null : $product_group_p_id;
         $product_info['product_group_parent_name'] = $product_group_p_id == null ? null : ProductsGroup::find($product_group->product_group_id)->group_name;
-
+        $product_info['product_images_url'] = [];
+        foreach ($product_info['product_images'] as $v){
+            array_push($product_info['product_images_url'],[array_keys($v)[0]=>UtilsController::getPathFileUrl(array_values($v)[0])]);
+        }
 
         $res = ['product_info'=>$product_info,'product_attr'=>$products_attr->toArray(),'product_price'=>$products_price->toArray(),'product_attr_array'=>$product_attr_array];
 
