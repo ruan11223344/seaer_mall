@@ -3607,7 +3607,7 @@ json参数:  注意以下参数 如不更新则不传键名即可。
 "company_website":"http://www.qq.com/",
 "company_business_range_ids":["10","11","12","13"],
 "company_main_products":["飞机","毛线","军舰"],
-"business_license":"23828282813212328-32",
+"company_business_license":"23828282813212328-32",
 "company_business_license_pic_url":"mall/users/AF_CN_7a49b34079/private/155117078539651851.jpeg",
 "company_profile":"我们公司打手电阿萨德阿萨德奥术大师多阿萨德撒的撒的撒大声地打的阿萨德阿萨德撒的阿萨德 阿斯顿撒多撒打算打打"
 }
