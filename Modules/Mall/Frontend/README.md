@@ -2650,8 +2650,8 @@ url:http://域名/api/shop/get_recommend_product_list
 53.设置商品推荐列表
 
 ```
-url:http://域名/api/shop/get_recommend_product_list
-请求方法:get
+url:http://域名/api/shop/set_recommend_product_list
+请求方法:post
 请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
 请求头参数:"Authorization",值:"Bearer空格+token" //必填
 
