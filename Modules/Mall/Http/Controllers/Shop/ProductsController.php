@@ -568,6 +568,16 @@ class ProductsController extends Controller
             array_push($product_info['product_images_url'],[array_keys($v)[0]=>UtilsController::getPathFileUrl(array_values($v)[0])]);
         }
 
+        $product_info['product_group_parent_child_id'] = [];
+
+        if($product_info['product_group_parent_id'] != null){
+            array_push($product_info['product_group_parent_child_id'],$product_info['product_group_parent_id']);
+        }
+
+        if($product_info['product_group_id'] != null){
+            array_push($product_info['product_group_parent_child_id'],$product_info['product_group_id']);
+        }
+
         $res = ['product_info'=>$product_info,'product_attr'=>$products_attr->toArray(),'product_price'=>$products_price->toArray(),'product_attr_array'=>$product_attr_array];
 
         return $this->echoSuccessJson('获取商品详情成功!',$res);
