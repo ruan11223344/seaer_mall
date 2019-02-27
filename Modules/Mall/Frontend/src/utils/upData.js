@@ -364,6 +364,40 @@ const upData = {
             })
         })
     },
+    // 71.上传营业执照
+    async UpBusinessLicense(data) {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/utils/upload_business_license',
+                method: 'post',
+                data: data,
+                headers:{'Content-Type':'multipart/form-data'}
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            })
+        })
+    },
+    // 72.设置公司信息
+    async UpSetAccountInfo(data) {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/auth/set_company_info',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    this.$Message.info(res.message)
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            })
+        })
+    },
 }
 
 export default upData

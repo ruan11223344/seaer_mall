@@ -1,229 +1,243 @@
 <template>
-    <div class="edit">
+    <div class="edit" v-if="formData != null">
         <v-title title="Edit Company Info"></v-title>
+        
+        <Form ref="formInline" :model="formData" :rules="ruleInline">
+            <Row>
+                <Col span="24">
+                    <div class="edit-title">Basic Info</div>
+                </Col>
+            </Row>
+            <Row class-name="edit-from">
+                <!-- 公司业务类型 -->
+                <Col span="24" style="marginBottom: 20px;">
+                    <Row :gutter="10">
+                        <Col span="6">
+                            <div class="edit-from-title">Business Type</div>
+                        </Col>
+                        <Col span="15">
+                            <Row class-name="edit-from-checkbox">
+                                <Col span="24">
+                                    <RadioGroup v-model="formData.basic_info.business_type_id">
+                                        <Radio :label="`${id}`" v-for="({name, id}, index) in formData.other_info.business_type_list" :key="index" class="edit-from-checkbox-list">
+                                            <span>{{ name + id }}</span>
+                                        </Radio>
+                                    </RadioGroup>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                </Col>
+                <!-- 公司名称 -->
+                <Col span="24" style="marginBottom: 20px;"> 
+                    <Row :gutter="10">
+                        <Col span="6">
+                            <div class="edit-from-title" style="lineHeight: 36px;">Company Name</div>
+                        </Col>
+                        <Col span="15" class-name="edit-from-prompt">
+                            <!-- <input type="text" v-model="formData.basic_info.company_name"  placeholder="Wuhan Sier International Co.,LTD." class="edit-from-input"> -->
+                            <!-- <p class="edit-from-prompt-text">输入的信息有误</p> -->
+                            <Input type="text" v-model="formData.basic_info.company_name" placeholder="Wuhan Sier International Co.,LTD." />
+                        </Col>
+                    </Row>
+                </Col>
+                <!-- 公司中文名称 -->
+                <Col span="24">
+                    <Row :gutter="10">
+                        <Col span="6">
+                            <div class="edit-from-title" style="lineHeight: 36px;">Company Name In China</div>
+                        </Col>
+                        <Col span="15" class-name="edit-from-prompt">
+                            <!-- <input type="text" v-model="formData.basic_info.company_name_in_china" placeholder="武汉思迩电子商务有限公司" class="edit-from-input"> -->
+                            <!-- <p class="edit-from-prompt-text">输入的信息有误</p> -->
+                            <Input type="text" v-model="formData.basic_info.company_name_in_china" placeholder="武汉思迩电子商务有限公司" />
+                        </Col>
+                    </Row>
+                </Col>
+                <!-- 国家 -->
+                <Col span="24">
+                    <Row :gutter="10">
+                        <Col span="6">
+                            <div class="edit-from-title" style="lineHeight: 36px;" >Country</div>
+                        </Col>
+                        <Col span="15" class-name="edit-from-prompt">
+                            <div class="edit-from-title" style="lineHeight: 36px;textAlign: left;">{{ formData.basic_info.country }}</div>
+                        </Col>
+                    </Row>
+                </Col>
+                <!-- 省市 -->
+                <Col span="24" style="marginBottom: 20px;">
+                    <Row :gutter="10">
+                        <Col span="6">
+                            <div class="edit-from-title" style="lineHeight: 36px;">Province/City</div>
+                        </Col>
+                        <Col span="15" class-name="edit-from-prompt" style="display: flex;">
+                            <Select v-model="formData.basic_info.company_province_id"  @on-change="onProvince" style="width:250px;marginRight: 50px;">
+                                <Option v-for="item in ProvinceAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            </Select>
+                            <Select v-model="formData.basic_info.company_city_id" style="width:250px">
+                                <Option v-for="item in CityAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            </Select>
+                            
+                            <!-- <v-select :select="select"></v-select>
+                            <v-select :select="select" style="marginLeft: 19px;"></v-select> -->
+                        </Col>
+                    </Row>
+                </Col>
+                <!-- 详细地址 -->
+                <Col span="24" style="marginBottom: 20px;">
+                    <Row :gutter="10">
+                        <Col span="6">
+                            <div class="edit-from-title" style="lineHeight: 36px;">Address</div>
+                        </Col>
+                        <Col span="15" class-name="edit-from-prompt edit-from-phone">
+                            <Input v-model="formData.basic_info.address" type="textarea" :autosize="{minRows: 7,maxRows: 7}" placeholder="Enter something..." />
+                        </Col>
+                    </Row>
+                </Col>
+                <!-- 手机 -->
+                <Col span="24" style="marginBottom: 20px;">
+                    <Row :gutter="10">
+                        <Col span="6">
+                            <div class="edit-from-title" style="lineHeight: 36px;">Mobilephone</div>
+                        </Col>
+                        <Col span="15" class-name="edit-from-prompt edit-from-phone">
+                            <Input type="text" v-model="formData.basic_info.telephone" placeholder="" /> 
+                                <span slot="prepend">+86</span >
+                            </Input>
+                        </Col>
+                    </Row>
+                </Col>
+                <!-- 网站 -->
+                <Col span="24">
+                    <Row :gutter="10">
+                        <Col span="6">
+                            <div class="edit-from-title" style="lineHeight: 36px;">Website</div>
+                        </Col>
+                        <Col span="15" class-name="edit-from-prompt">
+                            <Input type="text" v-model="formData.basic_info.website" placeholder="" /> 
+                            </Input>
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
 
-        <Row>
-            <Col span="24">
-                <div class="edit-title">Basic Info</div>
-            </Col>
-        </Row>
-        <Row class-name="edit-from">
-            <!-- 公司业务类型 -->
-            <Col span="24">
-                <Row :gutter="10">
-                    <Col span="6">
-                        <div class="edit-from-title">Business Type</div>
-                    </Col>
-                    <Col span="18">
-                        <Row class-name="edit-from-checkbox">
-                            <Col span="12" class-name="edit-from-checkbox-list" v-for="({name, active}, index) in Business" :key="index">
-                                <template>
-                                    <Checkbox v-model="active" @on-change="onRadio(active, index)" size="large">
-                                        <span class="edit-from-checkbox-list-text" v-text="name"></span>
-                                    </Checkbox>
-                                </template>
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
-            </Col>
-            <!-- 公司名称 -->
-            <Col span="24" style="marginBottom: 20px;"> 
-                <Row :gutter="10">
-                    <Col span="6">
-                        <div class="edit-from-title" style="lineHeight: 52px;">Company Name</div>
-                    </Col>
-                    <Col span="18" class-name="edit-from-prompt">
-                        <input type="text" placeholder="Wuhan Sier International Co.,LTD." class="edit-from-input">
-                        <!-- <p class="edit-from-prompt-text">输入的信息有误</p> -->
-                    </Col>
-                </Row>
-            </Col>
-            <!-- 公司中文名称 -->
-            <Col span="24">
-                <Row :gutter="10">
-                    <Col span="6">
-                        <div class="edit-from-title" style="lineHeight: 52px;">Company Name In China</div>
-                    </Col>
-                    <Col span="18" class-name="edit-from-prompt">
-                        <input type="text" placeholder="武汉思迩电子商务有限公司" class="edit-from-input">
-                        <!-- <p class="edit-from-prompt-text">输入的信息有误</p> -->
-                    </Col>
-                </Row>
-            </Col>
-            <!-- 国家 -->
-            <Col span="24">
-                <Row :gutter="10">
-                    <Col span="6">
-                        <div class="edit-from-title" style="lineHeight: 52px;">Country</div>
-                    </Col>
-                    <Col span="18" class-name="edit-from-prompt">
-                        <div class="edit-from-title" style="lineHeight: 52px;textAlign: left;">China</div>
-                    </Col>
-                </Row>
-            </Col>
-            <!-- 省市 -->
-            <Col span="24" style="marginBottom: 20px;">
-                <Row :gutter="10">
-                    <Col span="6">
-                        <div class="edit-from-title" style="lineHeight: 52px;">Province/City</div>
-                    </Col>
-                    <Col span="18" class-name="edit-from-prompt" style="display: flex;">
-                        <v-select :select="select"></v-select>
-                        <v-select :select="select" style="marginLeft: 19px;"></v-select>
-                    </Col>
-                </Row>
-            </Col>
-            <!-- 详细地址 -->
-            <Col span="24" style="marginBottom: 20px;">
-                <Row :gutter="10">
-                    <Col span="6">
-                        <div class="edit-from-title" style="lineHeight: 52px;">Address</div>
-                    </Col>
-                    <Col span="18" class-name="edit-from-prompt edit-from-phone">
-                        <textarea style="resize:none;width: 561px;height: 88px;border: solid 2px #eeeeee;"></textarea>
-                    </Col>
-                </Row>
-            </Col>
-            <!-- 手机 -->
-            <Col span="24" style="marginBottom: 20px;">
-                <Row :gutter="10">
-                    <Col span="6">
-                        <div class="edit-from-title" style="lineHeight: 52px;">Mobilephone</div>
-                    </Col>
-                    <Col span="18" class-name="edit-from-prompt edit-from-phone">
-                        <div class="edit-from-phone-frs" style="borderRight: none;">+86</div>
-                        <input type="text" placeholder="027-65520870" class="edit-from-input">
-                    </Col>
-                </Row>
-            </Col>
-            <!-- 网站 -->
-            <Col span="24">
-                <Row :gutter="10">
-                    <Col span="6">
-                        <div class="edit-from-title" style="lineHeight: 52px;">Website</div>
-                    </Col>
-                    <Col span="18" class-name="edit-from-prompt">
-                        <input type="text" placeholder="https://www.seaer.com.cn" class="edit-from-input">
-                        <!-- <p class="edit-from-prompt-text">输入的信息有误</p> -->
-                    </Col>
-                </Row>
-            </Col>
-        </Row>
+            <Row>
+                <Col span="24">
+                    <div class="edit-title">Edit Business Info</div>
+                </Col>
+            </Row>
 
-        <Row>
-            <Col span="24">
-                <div class="edit-title">Edit Business Info</div>
-            </Col>
-        </Row>
-
-        <Row class-name="edit-from">
-            <!-- 公司业务类型 -->
-            <Col span="24">
-                <Row :gutter="10">
-                    <Col span="6">
-                        <div class="edit-from-title">Business Range</div>
-                    </Col>
-                    <Col span="18">
-                        <Row class-name="edit-from-checkbox">
-                            <Col span="12" class-name="edit-from-checkbox-list" v-for="({name, active}, index) in Business" :key="index">
-                                <template>
-                                    <Checkbox v-model="active" @on-change="onRadio(active, index)" size="large">
-                                        <span class="edit-from-checkbox-list-text" v-text="name"></span>
-                                    </Checkbox>
-                                </template>
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
-            </Col>
-            <!-- 主要产品 -->
-            <Col span="24" style="marginBottom: 20px;">
-                <Row :gutter="10">
-                    <Col span="6">
-                        <div class="edit-from-title" style="lineHeight: 52px;">Main Products</div>
-                    </Col>
-                    <Col span="18" class="edit-from-add">
-                        <Row>
-                            <Col span="24" v-for="(item, index) in Products" :key="index" style="marginBottom: 12px;">
-                                <input type="text" class="edit-from-add-input" v-model="Products[index]" />
-                                <button type="button" class="edit-from-add-remove" @click="onProductsRemove(index)">
-                                    <div class="edit-from-add-remove-hr"></div>
-                                </button>
-                            </Col>
-                            <Col span="24">
-                                <button type="button" class="edit-from-add-btn" @click="onProductsAdd">+ Add more </button>
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
-            </Col>
-            <!-- 公司简介 -->
-            <Col span="24" style="marginBottom: 20px;">
-                <Row :gutter="10">
-                    <Col span="6">
-                        <div class="edit-from-title">Company Profile</div>
-                    </Col>
-                    <Col span="18">
-                        <textarea class="edit-from-textarea"></textarea>
-                        <div>- Tell us your company history, business scope, certification, future development and etc.</div>
-                        <div>- 100 - 40,000 characters (Including spaces and other special characters).</div>
-                    </Col>
-                </Row>
-            </Col>
-            <!-- 营业执照 -->
-            <Col span="24" style="marginBottom: 20px;">
-                <Row :gutter="10">
-                    <Col span="6">
-                        <div class="edit-from-title" style="lineHeight: 52px;">Business License</div>
-                    </Col>
-                    <Col span="18" class-name="edit-from-prompt">
-                        <input type="text" placeholder="武汉思迩电子商务有限公司" class="edit-from-input">
-                        <!-- <p class="edit-from-prompt-text">输入的信息有误</p> -->
-                    </Col>
-                </Row>
-            </Col>
-            <!-- 营业执照照片 -->
-            <Col span="24" style="marginBottom: 20px;">
-                <Row :gutter="10">
-                    <Col span="6">
-                        <div class="edit-from-title">Attachment</div>
-                    </Col>
-                    <Col span="18">
-                        <Row>
-                            <Col span="24" class="registered-main-form-content">
-                                <div @click="openGallery(0)" style="cursor:zoom-in;">
-                                    <img style="width: 157px; height: 157px; display: block" :src="imgSrc" v-show="imgSrc" alt="">
-                                </div>
-                                <!-- 图片预览 -->
-                                <LightBox 
-                                    :images="imgSrc1"
-                                    ref="lightbox"
-                                    :show-light-box="false"
-                                    :showThumbs="false"
-                                ></LightBox>
-                                <Upload
-                                    class="registered-main-form-upload"
-                                    action="//jsonplaceholder.typicode.com/posts/"
-                                    :format="['jpg','jpeg','png']"
-                                    :max-size="1024"
-                                    type="drag"
-                                    :before-upload="onBeforeUpload"
-                                    :show-upload-list="false"
-                                    >
-                                    <v-img width="157" height="157" :imgSrc="require('@/assets/img/uploadAdd.png')"></v-img>
-                                </Upload>
-                                <span>Upload png, jpg,jpeg within 1M</span>
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
-            </Col>
-        </Row>
-
+            <Row class-name="edit-from">
+                <!-- 公司业务类型 -->
+                <Col span="24" style="marginBottom: 20px;">
+                    <Row :gutter="10">
+                        <Col span="6">
+                            <div class="edit-from-title">Business Range</div>
+                        </Col>
+                        <Col span="15">
+                            <Row class-name="edit-from-checkbox">
+                                <Col span="24">
+                                    <CheckboxGroup v-model="formData.business_info.business_range_id_arr">
+                                        <Checkbox :label="`${id}`" v-for="({name, id}, index) in formData.other_info.business_range_list" :key="index" class="edit-from-checkbox-list">
+                                            <span>{{ name }}</span>
+                                        </Checkbox>
+                                    </CheckboxGroup>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                </Col>
+                <!-- 主要产品 -->
+                <Col span="24" style="marginBottom: 20px;">
+                    <Row :gutter="10">
+                        <Col span="6">
+                            <div class="edit-from-title" style="lineHeight: 36px;">Main Products</div>
+                        </Col>
+                        <Col span="15" class="edit-from-add">
+                            <Row>
+                                <Col span="24" v-for="(item, index) in formData.business_info.main_products_arr" :key="index" style="marginBottom: 12px;">
+                                    <!-- <input type="text" class="edit-from-add-input" v-model="Products[index]" /> -->
+                                    <Input type="text" style="width: 500px;marginRight: 20px;" v-model="formData.business_info.main_products_arr[index]" placeholder="" /> 
+                                    </Input>
+                                    <button type="button" class="edit-from-add-remove" @click="onProductsRemove(index)">
+                                        <div class="edit-from-add-remove-hr"></div>
+                                    </button>
+                                </Col>
+                                <Col span="24">
+                                    <button type="button" class="edit-from-add-btn" @click="onProductsAdd">+ Add more </button>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                </Col>
+                <!-- 公司简介 -->
+                <Col span="24" style="marginBottom: 20px;">
+                    <Row :gutter="10">
+                        <Col span="6">
+                            <div class="edit-from-title">Company Profile</div>
+                        </Col>
+                        <Col span="15">
+                            <!-- <textarea class="edit-from-textarea"></textarea> -->
+                            <Input v-model="formData.business_info.company_profile" type="textarea" :autosize="{minRows: 7,maxRows: 7}" placeholder="" />
+                            <div>- Tell us your company history, business scope, certification, future development and etc.</div>
+                            <div>- 100 - 40,000 characters (Including spaces and other special characters).</div>
+                        </Col>
+                    </Row>
+                </Col>
+                <!-- 营业执照 -->
+                <Col span="24" style="marginBottom: 20px;">
+                    <Row :gutter="10">
+                        <Col span="6">
+                            <div class="edit-from-title" style="lineHeight: 36px;">Business License</div>
+                        </Col>
+                        <Col span="15" class-name="edit-from-prompt">
+                            <Input type="text" v-model="formData.business_info.business_license" placeholder="" /> 
+                            <!-- <p class="edit-from-prompt-text">输入的信息有误</p> -->
+                        </Col>
+                    </Row>
+                </Col>
+                <!-- 营业执照照片 -->
+                <Col span="24" style="marginBottom: 20px;">
+                    <Row :gutter="10">
+                        <Col span="6">
+                            <div class="edit-from-title">Attachment</div>
+                        </Col>
+                        <Col span="15">
+                            <Row>
+                                <Col span="24" class="registered-main-form-content">
+                                    <div @click="openGallery(0)" style="cursor:zoom-in;">
+                                        <img style="width: 157px; height: 157px; display: block" :src="formData.business_info.business_license_url" v-show="formData.business_info.business_license_path" alt="">
+                                    </div>
+                                    <!-- 图片预览 -->
+                                    <LightBox 
+                                        :images="imgSrc1"
+                                        ref="lightbox"
+                                        :show-light-box="false"
+                                        :showThumbs="false"
+                                    ></LightBox>
+                                    <Upload
+                                        class="registered-main-form-upload"
+                                        action="//jsonplaceholder.typicode.com/posts/"
+                                        :format="['jpg','jpeg','png']"
+                                        :max-size="1024"
+                                        type="drag"
+                                        :before-upload="onBeforeUpload"
+                                        :show-upload-list="false"
+                                        >
+                                        <v-img width="157" height="157" :imgSrc="require('@/assets/img/uploadAdd.png')"></v-img>
+                                    </Upload>
+                                    <span>Upload png, jpg,jpeg within 1M</span>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
+        </Form>
         <section class="edit-btn">
-            <button type="button">Cancel</button>
-            <button type="button">Save</button>
+            <button type="button" @click="$router.back(-1)">Cancel</button>
+            <button type="button" @click="onSave(formData)">Save</button>
         </section>
     </div>
 </template>
@@ -238,103 +252,157 @@
     
     // 公共方法
     import getData from '@/utils/getData'
-
+    import upData from '@/utils/upData'
 
     export default {
         data() {
             return {
-                Business: [
-                    {   
-                        name: 'Manufacturer / Factory',
-                        active: true,
-                    },
-                    {   
-                        name: 'Manufacturer / Factory',
-                        active: false,
-                    },
-                    {   
-                        name: 'Manufacturer / Factory',
-                        active: false,
-                    },
-                    {   
-                        name: 'Manufacturer / Factory',
-                        active: false,
-                    },
-                    {   
-                        name: 'Manufacturer / Factory',
-                        active: false,
-                    },
-                ],
-                select: [
-                    {
-                        address: 'a',
-                        id: 0
-                    },
-                    {
-                        address: 'b',
-                        id: 1
-                    },
-                ],
-                Products: [ '' ],
+                formData: null,
                 // 图片预览
-                imgSrc: '',
                 imgSrc1: [
                     {
                         thumb: '',
                         src: '',
                     }
                 ],
+                ProvinceAddress: [],
+                CityAddress: [],
+                ruleInline: {}
             }
         },
         methods: {
-            onRadio(active, index) { // 单选
-                if(active) {
-                    this.Business.forEach((element, i) => {
-                        if(i != index) {
-                            this.$set(this.Business[i], 'active', false)
-                        }else {
-                            this.$set(this.Business[index], 'active', true)
+            UpBusinessLicense: upData.UpBusinessLicense,
+            UpSetAccountInfo: upData.UpSetAccountInfo,
+            onGetCompanyInfo: getData.onGetCompanyInfo,
+            getProvinceAddress: getData.getProvinceAddress,
+            getCityAddress: getData.getCityAddress,
+            getObjectURL: getData.getObjectURL, // 获取图片本地地址
+            onProvince(value) {
+                // 获取城市列表
+                this.getCityAddress(value).then(res => {
+                    res.data.forEach(element => {
+                        this.CityAddress.push({ value: element.city_id, label: element.name })
+                        if(element.name == this.city) {
+                            this.$set(this.formData, 'city', element.city_id)
                         }
                     })
-                }
+                })
             },
             onProductsAdd() { // 添加主要产品
-                if(this.Products.length < 5) {
-                    this.Products.push('')
+                if(this.formData.business_info.main_products_arr.length < 5) {
+                    this.formData.business_info.main_products_arr.push('')
                 }
                 return false
             },
             onProductsRemove(index) { // 删除主要产品
-                if(this.Products.length > 1) {
-                    this.$delete(this.Products, index)
+                if(this.formData.business_info.main_products_arr.length > 1) {
+                    this.$delete(this.formData.business_info.main_products_arr, index)
                 }
                 return false
             },
-            getObjectURL: getData.getObjectURL, // 获取图片本地地址
             checkAllGroupChange(value) {
                 
             },
+            onProvince(value) {
+                // 获取城市列表
+                this.getCityAddress(value).then(res => {
+                    res.data.forEach(element => {
+                        this.CityAddress.push({ value: element.city_id, label: element.name })
+                        if(element.name == this.city) {
+                            this.$set(this.formData, 'city', element.city_id)
+                        }
+                    })
+                })
+            },
             onBeforeUpload(files) {
-                const type = (files.type.split('/'))[1]
+                let type = (files.type.split('/'))[1]
+                type = type.toLowerCase()
+
                 // 判断上传图片是否符合格式
                 if(files.size > 1048576 || !(['jpg','jpeg','png'].includes(type))) { // 图片大于1M
                     this.$Message.warning('Upload png, jpg,jpeg within 1M')
                 }else {
-                    // 获取图片路径
-                    this.imgSrc = this.getObjectURL(files)
-                    this.$set(this.imgSrc1[0], 'thumb', this.getObjectURL(files))
-                    this.$set(this.imgSrc1[0], 'src', this.getObjectURL(files))
+                    const formData = new FormData()
+                    formData.append('business_license_img', files)
+                    this.UpBusinessLicense(formData).then(({ name, path, url }) => {
+                        // name: "5a449a3004429.png"
+                        // path: "mall/users/AF_CN_c1dce03043/private/155123859271619548.png"
+                        // url: "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall
 
-                    // this.$set(this.formItem, 'file', files)
+                        // 获取图片路径
+                        this.$set(this.formData.business_info, 'business_license_path', path)
+                        this.$set(this.formData.business_info, 'business_license_url', url)
+                        this.$set(this.imgSrc1[0], 'thumb', url)
+                        this.$set(this.imgSrc1[0], 'src', url)
+                    })
+
                 }
                 // 阻止默认上传
                 return false;
             },
-
             // 图片预览
             openGallery(index) {
                 this.$refs.lightbox.showImage(index)
             },
+            // 设置公司信息
+            onSave(formData) {
+                
+                const obj = {
+                    company_business_type_id: this.type_id,
+                    company_name: formData.basic_info.company_name,
+                    company_name_in_china: formData.basic_info.company_name_in_china,
+                    company_province_id: formData.basic_info.company_province_id, // 省份
+                    company_city_id: formData.basic_info.company_city_id, //  城市
+                    company_detailed_address: formData.basic_info.address,
+                    company_mobile_phone: formData.basic_info.telephone,
+                    company_website: formData.basic_info.website,
+                    company_business_range_ids: formData.business_info.business_range_id_arr,
+                    company_main_products: formData.business_info.main_products_arr,
+                    company_business_license: formData.business_info.business_license,
+                    company_business_license_pic_url: formData.business_info.business_license_path,
+                    company_profile: formData.business_info.company_profile
+                }
+
+                this.UpSetAccountInfo(obj).then(res => {
+                })
+            }
+        },
+        mounted() {
+            // const formData = this.$route.query.formData
+            // this.formData = JSON.parse(formData)
+            // console.log(this.formData);
+
+            this.onGetCompanyInfo().then(res => {
+                this.formData = res
+                if(this.formData.business_info.main_products_arr.length == 0) {
+                    this.$set(this.formData.business_info.main_products_arr, 0, '')
+                }
+                
+                return res
+            }).then(res => {
+                this.getProvinceAddress(this.formData.country == 'China' ? 'cn' : 'ke ').then(res => {
+                // this.getProvinceAddress('cn').then(res => {
+                    res.data.forEach(element => {
+                        this.ProvinceAddress.push({ value: element.province_id, label: element.name })
+                    })
+                })
+
+                return res
+            }).then(res => {
+                this.getCityAddress(this.formData.basic_info.company_province_id).then(res => {
+                    res.data.forEach(element => {
+                        this.CityAddress.push({ value: element.city_id, label: element.name })
+                    })
+                })
+            })
+        },
+        watch: {
+            ['formData.business_info.business_range_id_arr'](val) {
+                const len = val.length
+                if(len > 5) {
+                    this.$delete(this.formData.business_info.business_range_id_arr, len - 1)
+                }
+            }
         },
         components: {
             "v-title": Title,
@@ -387,20 +455,18 @@
             &-title {
                 text-align: right;
                 font-size: 16px;
-                line-height: 1;
                 color: #333333;
             }
 
             &-checkbox {
-                
                 &-list {
+                    width: 45%;
                     margin-bottom: 24px;
-                    &-text {
-                        font-size: 16px;
-                        line-height: 1;
-                        color: #666666;
-                        margin-left: 11px;
-                    }
+                    .textHidden();
+                }
+
+                &-list:nth-child(2n) {
+                    margin-left: 5%;
                 }
             }
 
