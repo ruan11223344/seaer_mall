@@ -301,8 +301,15 @@ class ProductsController extends Controller
         $product_publishing_time = $request->input('product_publishing_time',null);
         $product_details = $request->input('product_details',null);
 
+
         try{
             DB::beginTransaction();
+
+            if($product_publishing_time == null){
+                DB::table('products')->where('id',$product_obj->id)->update([
+                    'product_publishing_time'=>null
+                ]);
+            }
 
             if($product_name !== null){
                 if(Products::where(
