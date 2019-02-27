@@ -9,6 +9,7 @@ import store from './store'
 import iView from 'iview'
 import locale from 'iview/dist/locale/en-US';
 import 'iview/dist/styles/iview.css'
+import '../my-theme/index.less';
 
 // 懒加载
 import VueLazyLoad from 'vue-lazyload'
