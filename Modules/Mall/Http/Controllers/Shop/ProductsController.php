@@ -547,6 +547,41 @@ class ProductsController extends Controller
         $attr_arr = $products_attr->toArray()['attr_specs'];
         $product_attr_array = array();
 
+
+        $product_price_array = $products_price->toArray();
+        $price_array = [];
+        if($product_price_array['price_type'] == 'base'){
+            $tmp = [];
+            $tmp['unit'] = $product_price_array['base_price'][0]['unit'];
+            $tmp['moq'] = 'MOQ: '.$product_price_array['base_price'][0]['min_order'].' '.$tmp['unit'];
+            $tmp['price'] = $product_price_array['base_price'][0]['min_order_price'];
+            array_push($price_array,$tmp);
+        }elseif ($product_price_array['price_type'] == 'ladder'){
+            foreach ($product_price_array['ladder_price'] as $v){
+                $re_order =array_column($product_price_array['ladder_price'],'min_order');
+                array_multisort($re_order,SORT_ASC, $product_price_array['ladder_price']);
+                for ($i=0;$i<count($product_price_array['ladder_price']);$i++){
+                        $tmp = [];
+                        if($i < count($product_price_array['ladder_price'])-1){
+                            $min_order = $product_price_array['ladder_price'][$i]['min_order'];
+                            $max_order = ($product_price_array['ladder_price'][$i+1]['min_order']);
+                            $tmp['moq'] = $i == 0 ? 'MOQ: '.$min_order.'-'.$max_order.' '. $product_price_array['ladder_price'][$i]['unit'] : 'MOQ: '.($min_order+1).'-'.$max_order.' '. $product_price_array['ladder_price'][$i]['unit'];
+                            $tmp['unit'] = $v['unit'];
+                            $tmp['price'] = $product_price_array['ladder_price'][$i]['order_price'];
+                        }else{
+                            $tmp['moq'] = 'MOQ: ≥'.''. ($product_price_array['ladder_price'][$i]['min_order']+1);
+                            $tmp['unit'] = $v['unit'];
+                            $tmp['price'] = $product_price_array['ladder_price'][$i]['order_price'];
+                        }
+                        if(!in_array($tmp,$price_array)){
+                            array_push($price_array,$tmp);
+                        }
+                }
+            }
+
+        }
+
+
         if(count($attr_arr) > 0){
             foreach($attr_arr as $item) {
                 $attr = array_values($item)[0];
@@ -557,6 +592,7 @@ class ProductsController extends Controller
 
         $product_info = $product_obj->toArray();
         $product_info['status_str'] = '';
+        $product_info['price_array'] = $price_array;
         if($product_info['product_status'] == self::PRODUCT_STATUS_SALE){
             $product_info['status_str'] = 'Release';
         }
@@ -594,18 +630,26 @@ class ProductsController extends Controller
         $user_id = $request->input('user_id',null);
 
         if($user_id == null){
-            $is_favorites = false;
+            $is_favorites_shop = false;
+            $is_favorites_product = false;
         }else{
-            $is_favorites = Favorites::where(
+            $is_favorites_shop = Favorites::where(
                 [
                     ['company_id','=',User::find($user_id)->company->id],
                     ['type','=','product'],
                     ['product_or_company_id','=',$product_id],
                 ]
             )->exists();
+            $is_favorites_product = Favorites::where(
+                [
+                    ['company_id','=',User::find($user_id)->company->id],
+                    ['type','=','company'],
+                    ['product_or_company_id','=',$product_info['company_id']],
+                ]
+            )->exists();
         }
 
-        $res = ['product_info'=>$product_info,'product_attr'=>$products_attr->toArray(),'product_price'=>$products_price->toArray(),'product_attr_array'=>$product_attr_array,'product_format_info'=>$product_format_info,'is_favorites'=>$is_favorites];
+        $res = ['product_info'=>$product_info,'product_attr'=>$products_attr->toArray(),'product_price'=>$products_price->toArray(),'product_attr_array'=>$product_attr_array,'product_format_info'=>$product_format_info,'is_favorites_shop'=>$is_favorites_shop,'is_favorites_product'=>$is_favorites_product];
 
         return $this->echoSuccessJson('获取商品详情成功!',$res);
     }
