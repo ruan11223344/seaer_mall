@@ -15,12 +15,14 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Modules\Mall\Entities\Favorites;
 use Modules\Mall\Entities\Products;
 use Modules\Mall\Entities\ProductsAttr;
 use Modules\Mall\Entities\ProductsCategories;
 use Modules\Mall\Entities\ProductsGroup;
 use Modules\Mall\Entities\ProductsPrice;
 use Modules\Mall\Entities\ProductsProductsGroup;
+use Modules\Mall\Entities\User;
 use Modules\Mall\Entities\UsersExtends;
 use Modules\Mall\Http\Controllers\UtilsController;
 use Webpatser\Uuid\Uuid;
@@ -525,6 +527,7 @@ class ProductsController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, [
             'product_id'=>'required|exists:products,id',
+            'user_id'=>'nullable|exists:users,id'
         ]);
 
         if ($validator->fails()){
@@ -573,7 +576,7 @@ class ProductsController extends Controller
         $product_info['product_group_parent_name'] = $product_group_p_id == null ? null : ProductsGroup::find($product_group->product_group_id)->group_name;
         $product_info['product_images_url'] = [];
         foreach ($product_info['product_images'] as $v){
-            array_push($product_info['product_images_url'],[array_keys($v)[0]=>UtilsController::getPathFileUrl(array_values($v)[0])]);
+            array_push($product_info['product_images_url'],UtilsController::getPathFileUrl(array_values($v)[0]));
         }
 
         $product_info['product_group_parent_child_id'] = [];
@@ -588,7 +591,21 @@ class ProductsController extends Controller
 
         $product_format_info = self::getProductFormatInfo(Products::where('id',$product_id));
 
-        $res = ['product_info'=>$product_info,'product_attr'=>$products_attr->toArray(),'product_price'=>$products_price->toArray(),'product_attr_array'=>$product_attr_array,'product_format_info'=>$product_format_info];
+        $user_id = $request->input('user_id',null);
+
+        if($user_id == null){
+            $is_favorites = false;
+        }else{
+            $is_favorites = Favorites::where(
+                [
+                    ['company_id','=',User::find($user_id)->company->id],
+                    ['type','=','product'],
+                    ['product_or_company_id','=',$product_id],
+                ]
+            )->exists();
+        }
+
+        $res = ['product_info'=>$product_info,'product_attr'=>$products_attr->toArray(),'product_price'=>$products_price->toArray(),'product_attr_array'=>$product_attr_array,'product_format_info'=>$product_format_info,'is_favorites'=>$is_favorites];
 
         return $this->echoSuccessJson('获取商品详情成功!',$res);
     }

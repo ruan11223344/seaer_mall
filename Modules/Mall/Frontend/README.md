@@ -2178,7 +2178,8 @@ url:http://域名/api/shop/product/get_product_detail
 
 json参数:
 {
-"product_id":29
+"product_id":29  //必填 商品id
+"user_id":13  //非必填 如果不填 is_favorites 字段就会是false
 }
 
 返回:
@@ -2191,7 +2192,7 @@ json参数:
             "company_id": "10",
             "product_origin_id": "PD_CN_a49b34079_8f538e50",
             "product_categories_id": "1",
-            "product_name": "超级无敌大飞车玩具13fffxxx333",
+            "product_name": "超级无敌玩毛车玩具13fffxxx333",
             "product_sku_no": "100025",
             "product_keywords": [
                 "玩具",
@@ -2272,8 +2273,18 @@ json参数:
             "status_str": "Time",
             "product_group_id": 15,
             "product_group_name": "嘿嘿嘿ddd",
-            "product_group_parent_id": 14,
-            "product_group_parent_name": "xx"
+            "product_group_parent_id": null,
+            "product_group_parent_name": null,
+            "product_images_url": [
+                "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/http://www.xx.com/2.jpg",
+                "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/http://www.xx.com/2.jpg",
+                "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/http://www.xx.com/2.jpg",
+                "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/http://www.xx.com/2.jpg"
+            ],
+            "product_group_parent_child_id": [
+                15
+            ]
         },
         "product_attr": {
             "id": 57,
@@ -2332,7 +2343,22 @@ json参数:
             "尺寸": [
                 "超小"
             ]
-        }
+        },
+        "product_format_info": [
+            {
+                "product_id": 33,
+                "product_name": "超级无敌玩毛车玩具13fffxxx333",
+                "product_sku": "100025",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 17:23:09",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_8f538e50",
+                "company_id": "10"
+            }
+        ],
+        "is_favorites": true
     }
 }
 ```

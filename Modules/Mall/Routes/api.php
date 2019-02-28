@@ -115,8 +115,8 @@ Route::group(['domain' => env('MALL_DOMAIN'), 'middleware' => 'cors'], function 
         });
         //商品产品
         Route::prefix('product')->group(function () {
-            Route::get('get_product_detail', 'Shop\ProductsController@getProductDetail')->name('shop.product.productDetail');
             Route::get('product_search', 'Shop\ProductsController@productSearch')->name('shop.product.productSearch');
+            Route::get('get_product_detail', 'Shop\ProductsController@getProductDetail')->name('shop.product.productDetail');
 
             Route::group(['middleware' => ['client.credentials', 'auth:api']], function () {
                 Route::post('publish_product', 'Shop\ProductsController@publishProduct')->name('shop.product.publish');
