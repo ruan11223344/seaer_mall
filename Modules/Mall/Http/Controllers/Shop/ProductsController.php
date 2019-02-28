@@ -633,14 +633,14 @@ class ProductsController extends Controller
             $is_favorites_shop = false;
             $is_favorites_product = false;
         }else{
-            $is_favorites_shop = Favorites::where(
+            $is_favorites_product = Favorites::where(
                 [
                     ['company_id','=',User::find($user_id)->company->id],
                     ['type','=','product'],
                     ['product_or_company_id','=',$product_id],
                 ]
             )->exists();
-            $is_favorites_product = Favorites::where(
+            $is_favorites_shop = Favorites::where(
                 [
                     ['company_id','=',User::find($user_id)->company->id],
                     ['type','=','company'],
