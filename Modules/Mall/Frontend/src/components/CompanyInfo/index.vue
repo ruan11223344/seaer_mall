@@ -1,31 +1,31 @@
 <template>
     <div class="main-goods-right">
         <figure class="main-goods-right-head">
-            <img :src="formData.shop_info.avatar_url" alt="">
+            <img :src="Company_Detail.shop_info.avatar_url" alt="">
             <figcaption>{{  User_Info.user_extends.sex + '.' + User_Info.user_extends.contact_full_name }}</figcaption>
         </figure>
         <article class="main-goods-right-content">
             <h1>Company Name:</h1>
             <p>
-                <Tooltip :content="formData.basic_info.company_name">
-                    {{ formData.basic_info.company_name }}
+                <Tooltip :content="Company_Detail.basic_info.company_name">
+                    {{ Company_Detail.basic_info.company_name }}
                 </Tooltip>
             </p>
 
             <div class="main-goods-right-content-Country">
                 <div>Country:</div>
                 <div>
-                    <img :src="formData.basic_info.country_name == 'China' ? require('@/assets/img/china.png') : require('@/assets/img/kenya.png')" alt="">
+                    <img :src="Company_Detail.basic_info.country_name == 'China' ? require('@/assets/img/china.png') : require('@/assets/img/kenya.png')" alt="">
                 </div>
-                <span>{{ formData.basic_info.country_name }}</span>
+                <span>{{ Company_Detail.basic_info.country_name }}</span>
             </div>
 
             <div class="main-goods-right-content-business">
                 <div>Business Type:</div>
                 
                 <div>
-                    <Tooltip :content="formData.basic_info.business_type">
-                        {{ formData.basic_info.business_type }}
+                    <Tooltip :content="Company_Detail.basic_info.business_type">
+                        {{ Company_Detail.basic_info.business_type }}
                     </Tooltip>
                 </div>
             </div>
@@ -41,17 +41,16 @@
 </template>
 
 <script>
-    import { mapState } from "vuex"
     import getData from "@/utils/getData"
+    import { mapState, mapMutations } from "vuex"
 
     export default {
-        props: [ 'formData' ],
         data() {
             return {
             }
         },
         computed: {
-            ...mapState([ 'User_Info' ])
+            ...mapState([ 'User_Info', 'Company_Detail' ])
         },
         methods: {
             onSubmitEmail() {
@@ -65,7 +64,7 @@
 </script>
 
 <style lang="less" scoped>
-    @import url('../../../../assets/css/index.less');
+    @import url('../../assets/css/index.less');
 
     .main-goods-right {
         .width(273px, 349px);

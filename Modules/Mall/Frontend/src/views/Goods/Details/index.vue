@@ -1,9 +1,9 @@
 <template>
     <div v-if="ProductData">
-        <v-head-template :name="formData.basic_info.company_name" :bool="ProductData.is_favorites_shop" @on-click="onGetData"></v-head-template>
+        <v-head-template v-if="Company_Detail" :name="Company_Detail.basic_info.company_name" :bool="ProductData.is_favorites_shop" @on-click="onGetData"></v-head-template>
         
-        <section class="details-banner" :style="`background: url(${formData.shop_info.banner.banner_url}) center center;`">
-            <!-- <img :src="formData.shop_info.banner.banner_url" alt=""> -->
+        <section v-if="Company_Detail" class="details-banner" :style="`background: url(${Company_Detail.shop_info.banner.banner_url}) center center;`">
+            <!-- <img :src="Company_Detail.shop_info.banner.banner_url" alt=""> -->
         </section>
 
         <v-goods-nav></v-goods-nav>
@@ -35,14 +35,15 @@
                     <!-- 模态框 -->
                 </div>
                 <v-content
+                    v-if="Company_Detail"
                     @on-click="onClickImg"
                     :url="ProductData.product_info.product_images_url[activeIndex]"
                     :active="activeIndex"
                     :dataFrom="ProductData"
-                    :id="formData.shop_info.af_id">
+                    :id="Company_Detail.shop_info.af_id">
                 </v-content>
 
-                <v-right :formData="formData"></v-right>
+                <v-right v-if="Company_Detail"></v-right>
             </section>
 
             <section class="container" style="marginTop:50px">
@@ -57,14 +58,14 @@
     // 放大镜
     import Zoom from './components/Zoom.vue'
     import Img from '@/components/Img/index.vue'
-    import Right from './components/Right-template'
+    import CompanyInfo from '@/components/CompanyInfo/index.vue'
     import Content from './components/Content-template'
     import footerTemplateVue from './components/footer-template.vue';
     import headTemplateVue from './components/head-template.vue';
     import getData from "@/utils/getData"
     import upData from "@/utils/upData"
     import Nav from '../../Goods/components/Nav'
-    import { mapState } from "vuex"
+    import { mapState, mapMutations } from "vuex"
 
     export default {
         data() {
@@ -73,13 +74,13 @@
                 // 收藏
                 isCollection: false,
                 ProductData: null,
-                formData: {}
             }
         }, 
         computed: {
-            ...mapState([ 'User_Info' ])
+            ...mapState([ 'User_Info', 'Company_Detail' ])
         },
         methods: {
+            ...mapMutations([ 'SET_COMPANY_DETAIL' ]),
             onGetProductInfo: getData.onGetProductInfo,
             onSetFavorites: upData.onSetFavorites,
             onGetCompanyDetail: getData.onGetCompanyDetail,
@@ -118,8 +119,12 @@
                 this.activeIndex = index
             },
             onGetData() {
-                this.onGetCompanyDetail(this.$route.query.company_id)
-                    .then(res => {this.formData = res; console.log(res)})
+                if(!this.Company_Detail) {
+                    this.onGetCompanyDetail(this.$route.query.company_id)
+                    .then(res => {
+                        this.SET_COMPANY_DETAIL(res)
+                    })
+                }
 
                 if(this.User_Info == '') {
                     this.onGetProductInfo(this.$route.query.product_id)
@@ -136,7 +141,7 @@
         components: {
             'v-zoom': Zoom,
             'v-img': Img,
-            'v-right': Right,
+            'v-right': CompanyInfo,
             'v-content': Content,
             'v-footer-template': footerTemplateVue,
             'v-head-template': headTemplateVue,

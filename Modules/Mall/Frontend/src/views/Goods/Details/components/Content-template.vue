@@ -97,18 +97,19 @@
         }
 
         &-dl {
-            .flex(space-between, center);
+            .flex(flex-start, center);
             .width(566px, 84px);
             background-color: #f5f5f8;
             padding: 10px 20px;
 
             &-dd {
                 .flex(space-around, center, column);
+                width: 125px;
+                margin-right: 10px;
                 height: 100%;
 
                 & > div:first-of-type {
                     width: 125px;
-                    margin-right: 5px;
                     font-size: 14px;
                     line-height: 1;
                     color: #666666;

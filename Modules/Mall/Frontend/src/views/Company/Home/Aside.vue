@@ -7,17 +7,24 @@
         <!-- 公司介绍 -->
         <section class="company-home-main-fixed">
             <!-- logo -->
-            <div class="company-home-main-fixed-head"></div>
+            <div class="company-home-main-fixed-head">
+                <img :src="Company_Detail.shop_info.avatar_url" alt="">
+            </div>
             <!-- 名称 -->
             <div class="company-home-main-fixed-name">Mr. Nancy</div>
             <div class="company-home-main-fixed-content">
                 <div>Company Name:</div>
-                <p>WuHan sier International cn.,LTD sier International cn.,LTD</p>
+                <p>
+                    <Tooltip :content="Company_Detail.basic_info.company_name">
+                        {{ Company_Detail.basic_info.company_name }}
+                    </Tooltip>
+                </p>
             </div>
             <div class="company-home-main-fixed-state">
                 <span>Country/Region:</span>
-                <v-img width="28" height="18" :imgSrc="require('@/assets/img/china.png')" style="marginLeft: 8px;marginRight: 5px"></v-img>
-                <span>china</span>
+                <!-- <v-img width="28" height="18" :imgSrc="require('@/assets/img/china.png')" style="marginLeft: 8px;marginRight: 5px"></v-img> -->
+                <img style="width:28px; height:18px;" :src="Company_Detail.basic_info.country_name == 'China' ? require('@/assets/img/china.png') : require('@/assets/img/kenya.png')" alt="">
+                <span>{{ Company_Detail.basic_info.country_name }}</span>
             </div>
             <button class="company-home-main-fixed-btn" @click="isShade=true">
                 <Icon type="ios-mail" size="24"/>
@@ -51,8 +58,13 @@
 <script>
     import Img from '@/components/Img'
     import Aside from '../components/Aside/index.vue'
-
+    import { mapState, mapMutations } from "vuex"
+    import CompanyInfo from '@/components/CompanyInfo/index.vue'
+    
     export default {
+        computed: {
+            ...mapState([ 'User_Info', 'Company_Detail' ])
+        },
         data() {
             return {
                 text: 'We suggest you detail your preduct requirements and company information here(Enter between 20-4000characters)',
@@ -75,7 +87,8 @@
         },
         components: {
             "v-img": Img,
-            "v-aside": Aside
+            "v-aside": Aside,
+            'v-company-info': CompanyInfo,
         }
     }
 </script>
@@ -137,14 +150,18 @@
             width: 100%;
             margin-top: 20px;
             .flex();
-
+            
             & > span:first-child {
                 font-size: 16px;
-                font-weight: normal;
-                font-stretch: normal;
-                line-height: 15.5px;
-                letter-spacing: 0px;
+                line-height: 16px;
                 color: #333333;
+            }
+            & > span:last-child {
+                font-size: 16px;
+                line-height: 16px;
+                color: #333333;
+                position: relative;
+                top: 1px;
             }
         }
 

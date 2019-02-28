@@ -16,6 +16,8 @@ const state = {
     Product_All: [],
     // 搜索的店铺数据
     Shop_All: [],
+    // 公司信息
+    Company_Detail: null
 }
 
 export default state

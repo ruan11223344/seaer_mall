@@ -1,12 +1,12 @@
-<template>
-    <div>
+<template >
+    <div v-if="Company_Detail">
         <!-- 首页 -->
         <v-header></v-header>
 
         <!-- banner -->
         <template>
             <section class="banner">
-                <img :src="require('@/assets/img/home/banner3.png')" alt="">
+                <img :src="Company_Detail.shop_info.banner.banner_url" alt="">
             </section>
         </template>
         
@@ -22,13 +22,13 @@
             :trigger="setting.trigger"
             :arrow="setting.arrow"
             :height="setting.height">
-            <template v-for="(item, index) in slidesList">
+            <template v-for="(item, index) in Company_Detail.shop_info.slides">
                 <CarouselItem :key="index">
                     <img style="width: 100%; height: 100%; display: block;" :src="item.url" alt="">
                 </CarouselItem>
             </template>
         </Carousel>
-
+        
         <v-main></v-main>
     </div>
 </template>
@@ -38,6 +38,7 @@
     import Nav from '../components/Nav/index'
     import Main from './Main.vue'
     import getData from '@/utils/getData'
+    import { mapState, mapMutations } from "vuex"
 
 
     export default {
@@ -52,21 +53,26 @@
                     arrow: 'hover',
                     height: 500
                 },
-                slidesList: []
             }
         },
+        computed: {
+            ...mapState([ 'User_Info', 'Company_Detail' ])
+        },
         methods: {
-            onGetSlidesList: getData.onGetSlidesList,
+            ...mapMutations([ 'SET_COMPANY_DETAIL' ]),
+            onGetCompanyDetail: getData.onGetCompanyDetail,
             onGetBanner: getData.onGetBanner
         },
+        created() {
+            if(!this.Company_Detail) {
+                this.onGetCompanyDetail(this.$route.query.company_id)
+                .then(res => {
+                    this.SET_COMPANY_DETAIL(res)
+                })
+            }
+        },
         mounted() {
-            this.onGetSlidesList().then(res => {
-                this.slidesList = res
-            })
-
-            // this.onGetBanner().then(res => {
-
-            // })
+            
         },
         components: {
            "v-header": Header,
