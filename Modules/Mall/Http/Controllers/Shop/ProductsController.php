@@ -586,7 +586,9 @@ class ProductsController extends Controller
             array_push($product_info['product_group_parent_child_id'],$product_info['product_group_id']);
         }
 
-        $res = ['product_info'=>$product_info,'product_attr'=>$products_attr->toArray(),'product_price'=>$products_price->toArray(),'product_attr_array'=>$product_attr_array];
+        $product_format_info = self::getProductFormatInfo(Products::where('id',$product_id));
+
+        $res = ['product_info'=>$product_info,'product_attr'=>$products_attr->toArray(),'product_price'=>$products_price->toArray(),'product_attr_array'=>$product_attr_array,'product_format_info'=>$product_format_info];
 
         return $this->echoSuccessJson('获取商品详情成功!',$res);
     }
