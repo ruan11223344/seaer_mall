@@ -2,8 +2,8 @@
     <div class="box">
         <!-- 放大镜功能 -->
         <img-magnifier
-            :smallSrc="imgSrc.imgSrc"
-            :magnifierSrc="imgSrc.imgSrcAmplification"
+            :smallSrc="imgSrc"
+            :magnifierSrc="imgSrc"
             :maskStyle="maskStyle"
             :maskTransEnter="maskTransEnter"
             :maskTransLeave="maskTransLeave"
@@ -15,11 +15,7 @@
 
 <script>
     export default {
-        props: {
-            imgSrc: {
-                type: Object
-            }
-        },
+        props: [ 'imgSrc' ],
         data() {
             return {
                 // smallImgSrc: require('@/assets/img/details/demo.jpg'), // 小图片地址

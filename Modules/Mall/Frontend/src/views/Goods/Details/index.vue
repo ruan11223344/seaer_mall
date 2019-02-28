@@ -1,9 +1,9 @@
 <template>
-    <div>
-        <v-head-template></v-head-template>
+    <div v-if="ProductData">
+        <v-head-template :name="formData.basic_info.company_name" :bool="ProductData.is_favorites_shop" @on-click="onGetData"></v-head-template>
         
         <section class="details-banner">
-            <img src="" alt="">
+            <img :src="formData.shop_info.banner.banner_url" alt="">
         </section>
 
         <v-goods-nav></v-goods-nav>
@@ -14,29 +14,33 @@
                 <div class="main-goods-left">
                     <div class="main-goods-left-picture">
                         <!-- 放大镜 -->
-                        <v-zoom :imgSrc="imgSrc"></v-zoom>
+                        <v-zoom :imgSrc="ProductData.product_info.product_images_url[activeIndex]"></v-zoom>
                     </div>
                     <ul class="main-goods-left-pictureItem">
-                        <li class="main-goods-left-pictureList" v-for="(item, index) in ImgItem" :key="index" @click="imgSrc = item">
-                            <v-img width="58" height="58" :imgSrc="item.imgSrcThumbnail"/>
+                        <li
+                            class="main-goods-left-pictureList"
+                            :style="activeIndex==index ? 'border: 1px solid #d72b2b' : 'border: 1px solid #dddddd'"
+                            v-for="(item, index) in ProductData.product_info.product_images_url"
+                            :key="index"
+                            @click="activeIndex = index">
+                            <v-img width="58" height="58" :imgSrc="item"/>
                         </li>
                     </ul>
                     <div class="main-goods-left-pictureBottom">
-                        <div class="main-goods-left-pictureBottom-icon" @click="onCollection">
-                            <img :src="isCollection ? require('@/assets/img/details/sc2.png') : require('@/assets/img/details/sc1.png')" alt="">
+                        <div class="main-goods-left-pictureBottom-icon" @click="onCollection(ProductData.product_info.id)">
+                            <img :src="ProductData.is_favorites_product ? require('@/assets/img/details/sc2.png') : require('@/assets/img/details/sc1.png')" alt="">
                         </div>
                         <span>Add to Favorites</span>
                     </div>
                     <!-- 模态框 -->
                 </div>
+                <v-content @on-click="onClickImg" :active="activeIndex" :dataFrom="ProductData"></v-content>
 
-                <v-content></v-content>
-
-                <v-right></v-right>
+                <v-right :formData="formData"></v-right>
             </section>
 
             <section class="container" style="marginTop:50px">
-                <v-footer-template></v-footer-template>
+                <v-footer-template :product_details="ProductData.product_info.product_details"></v-footer-template>
             </section>
         </main>
       
@@ -54,40 +58,74 @@
     import getData from "@/utils/getData"
     import upData from "@/utils/upData"
     import Nav from '../../Goods/components/Nav'
+    import { mapState } from "vuex"
 
     export default {
         data() {
             return {
-                imgSrc: {
-                    imgSrc: require('@/assets/img/details/tp.png'),
-                    imgSrcAmplification: require('@/assets/img/details/tp.png')
-                },
-                ImgItem: [
-                    {
-                        imgSrcThumbnail: require('@/assets/img/details/tp.png'),
-                        imgSrc: require('@/assets/img/details/tp.png'),
-                        imgSrcAmplification: require('@/assets/img/details/tp.png')
-                    },
-                    {
-                        imgSrcThumbnail: require('@/assets/img/details/tp.png'),
-                        imgSrc: require('@/assets/img/details/tp.png'),
-                        imgSrcAmplification: require('@/assets/img/details/tp.png')
-                    }
-                ],
+                activeIndex: 0,
                 // 收藏
                 isCollection: false,
-                ProductData: []
+                ProductData: null,
+                formData: {}
             }
+        }, 
+        computed: {
+            ...mapState([ 'User_Info' ])
         },
         methods: {
             onGetProductInfo: getData.onGetProductInfo,
             onSetFavorites: upData.onSetFavorites,
-            onCollection() { // 收藏商品
-                this.onSetFavorites({ product_or_company_id: this.ProductData.product_attr.id, type: "product" })
+            onGetCompanyDetail: getData.onGetCompanyDetail,
+            onDelFavorites: upData.onDelFavorites,
+            onCollection(id) { // 收藏商品
+                if(this.User_Info == '') {
+                    this.$router.push('/login')
+                }else {
+                    if(this.ProductData.is_favorites_product) {
+                        // 删除
+                        this.onDelFavorites({ 
+                            product_or_company_id_list: [ id ],
+                            type: "product"
+                        })
+                            .then(res => {
+                                this.onGetProductInfo(this.$route.query.product_id, this.User_Info.user.id)
+                                    .then(res => this.ProductData = res)
+                            }
+                        )
+                    }else {
+                        // 添加
+                        this.onSetFavorites({
+                            product_or_company_id: id,
+                            type: "product"
+                        })
+                            .then(res => {
+                                this.onGetProductInfo(this.$route.query.product_id, this.User_Info.user.id)
+                                    .then(res => this.ProductData = res)
+                            }
+                        )
+                    }
+                }
+            },
+            // 放大镜
+            onClickImg(index) {
+                this.activeIndex = index
+            },
+            onGetData() {
+                this.onGetCompanyDetail(this.$route.query.company_id)
+                    .then(res => {this.formData = res; console.log(res)})
+
+                if(this.User_Info == '') {
+                    this.onGetProductInfo(this.$route.query.product_id)
+                        .then(res => this.ProductData = res)
+                }else {
+                    this.onGetProductInfo(this.$route.query.product_id, this.User_Info.user.id)
+                        .then(res => this.ProductData = res)
+                }
             }
         },
         mounted() {
-            this.onGetProductInfo(this.$route.query.product_id).then(res => {this.ProductData = res;console.log(res)})
+            this.onGetData()
         },
         components: {
             'v-zoom': Zoom,
@@ -103,9 +141,11 @@
 
 <style lang="less" scoped>
     @import url('../../../assets/css/index.less');
-    
+    // @import '~snow.css';
+
     .details-banner {
         width: 100%;
+        min-width: 1220px;
         height: 150px;
 	    background-color: #f6eded;
     }

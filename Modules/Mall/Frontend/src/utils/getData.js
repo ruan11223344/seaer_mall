@@ -93,6 +93,7 @@ const getData = {
         return await new Promise(async (resolve, reject) => {
             await request({
                 url: '/auth/get_user_info',
+                method: 'post'
             }).then(res => {
                 if(res.code == 200) {
                     resolve(res.data)
@@ -167,12 +168,13 @@ const getData = {
         })
     },
     // 42.获取单个商品的详情
-    onGetProductInfo(id) {
+    onGetProductInfo(id, user_id) {
         return new Promise((resolve, reject) => {
             request({
                 url: '/shop/product/get_product_detail',
                 params: {
-                    "product_id": id
+                    "product_id": id,
+                    "user_id": user_id
                 }
             }).then(res => {
                 if(res.code == 200) {
@@ -206,6 +208,20 @@ const getData = {
                 }else {
                     this.$Message.error(res.message)
                 }
+            })
+        })
+    },
+    // 51.获取系统配置
+    onGetSysConfig() {
+        return new Promise((resolve, reject) => {
+            request({
+                url: "/get_sys_config"
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }
+            }).catch(err => {
+                return false;
             })
         })
     },
@@ -350,6 +366,23 @@ const getData = {
                 url: '/shop/shop_search',
                 params: {
                     keywords: params
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    },
+    // 75.获取公司信息详情（非登录状态也可用)
+    onGetCompanyDetail(id) {
+        return new Promise((resolve, reject) => {
+            request({
+                url: '/shop/get_company_detail',
+                params: {
+                    company_id  : id
                 }
             }).then(res => {
                 if(res.code == 200) {

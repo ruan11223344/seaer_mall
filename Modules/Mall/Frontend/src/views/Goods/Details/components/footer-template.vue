@@ -1,7 +1,10 @@
 <template>
     <div class="main-footer">
         <h1 class="main-footer-title">Product Description</h1>
-        <div class="main-footer-table">
+        <div v-html="product_details">
+
+        </div>
+        <!-- <div class="main-footer-table">
             <h1 class="main-footer-table-title">Specific Information</h1>
             <Table size="large" :columns="columns1" :data="data1" :show-header="false"></Table>
         </div>
@@ -19,12 +22,13 @@
         </article>
         <div>
             <img src="" alt="">
-        </div>
+        </div> -->
     </div>
 </template>
 
 <script>
     export default { 
+        props: ['product_details'],
         data() {
             return {
                 dataArticle: [

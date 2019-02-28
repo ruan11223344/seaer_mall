@@ -1,27 +1,33 @@
 <template>
     <div class="main-goods-right">
         <figure class="main-goods-right-head">
-            <img src="" alt="">
-            <figcaption>Mr. Nancy</figcaption>
+            <img :src="formData.shop_info.avatar_url" alt="">
+            <figcaption>{{  User_Info.user_extends.sex + '.' + User_Info.user_extends.contact_full_name }}</figcaption>
         </figure>
         <article class="main-goods-right-content">
             <h1>Company Name:</h1>
             <p>
-                WuHan sier International cn.,LTD sier
-                International cn.,LTD
+                <Tooltip :content="formData.basic_info.company_name">
+                    {{ formData.basic_info.company_name }}
+                </Tooltip>
             </p>
 
             <div class="main-goods-right-content-Country">
                 <div>Country:</div>
                 <div>
-                    <img :src="require('@/assets/img/chinese.png')" alt="">
+                    <img :src="formData.basic_info.country_name == 'China' ? require('@/assets/img/china.png') : require('@/assets/img/kenya.png')" alt="">
                 </div>
-                <span>china</span>
+                <span>{{ formData.basic_info.country_name }}</span>
             </div>
 
             <div class="main-goods-right-content-business">
                 <div>Business Type:</div>
-                <div>Trading Company</div>
+                
+                <div>
+                    <Tooltip :content="formData.basic_info.business_type">
+                        {{ formData.basic_info.business_type }}
+                    </Tooltip>
+                </div>
             </div>
 
         </article>
@@ -35,12 +41,26 @@
 </template>
 
 <script>
+    import { mapState } from "vuex"
+    import getData from "@/utils/getData"
+
     export default {
+        props: [ 'formData' ],
+        data() {
+            return {
+            }
+        },
+        computed: {
+            ...mapState([ 'User_Info' ])
+        },
         methods: {
             onSubmitEmail() {
                 this.$Message.warning('暂时无法联系该公司')
             }
-        }
+        },
+        mounted() {
+            
+        },
     }
 </script>
 
@@ -88,6 +108,8 @@
             & > p {
                 .color(blackLight);
                 font-size: 14px;
+                height: 40px;
+                .textHiddens(2);
             }
 
             &-Country {
@@ -110,8 +132,8 @@
                     & > img {
                         width: 100%;
                         position: absolute;
-                        top: -5px;
-                        left: 0px;
+                        top: -2px;
+                        left: -3px;
                     }
                 }
                 div:last-child {
@@ -130,14 +152,15 @@
                     .color(blackDark);
                     font-size: 16px;
                     line-height: 1;
-                    margin-right: 8px;
+                    margin-right: 5px;
                 }
 
                 div:last-child {
-                    font-size: 11.8px;
+                    font-size: 10px;
                     line-height: 1;
                     letter-spacing: 0px;
                     color: #666666;
+                    .textHidden();
                 }
             }
         }

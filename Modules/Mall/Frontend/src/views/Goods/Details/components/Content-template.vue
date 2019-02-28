@@ -1,42 +1,38 @@
 <template>
     <div class="main-goods-content">
-        <header class="main-goods-content-title">tachograph Time-limited spike tachograph Time-limited spike tac tachograph Time-limited spike tac</header>
+        <header class="main-goods-content-title">{{ dataFrom.product_info.product_name }}</header>
         <dl class="main-goods-content-dl">
-            <dd class="main-goods-content-dl-dd">
-                <div>MOQ:5-8 Piece</div>
-                <div>KSh {{ 500.22 }}</div>
-            </dd>
-            <dd class="main-goods-content-dl-dd">
-                <div>MOQ:2-4 Piece</div>
-                <div>KSh {{ 500.22 }}</div>
-            </dd>
-            <dd class="main-goods-content-dl-dd">
-                <div>MOQ:2-4 Piece</div>
-                <div>KSh {{ 500.22 }}</div>
-            </dd>
-            <dd class="main-goods-content-dl-dd">
-                <div>MOQ:2-4 Piece</div>
-                <div>KSh {{ 500.22 }}</div>
+            <dd class="main-goods-content-dl-dd" v-for="(item, index) in dataFrom.product_info.price_array" :key="index">
+                <div>{{ item.moq }}</div>
+                <div>KSh {{ item.price }}</div>
             </dd>
         </dl>
         <ul class="main-goods-content-item">
-            <li class="main-goods-content-item-list">
+            <!-- <li class="main-goods-content-item-list">
                 <div>Color:</div>
                 <div>
-
+                    <div class="main-goods-content-item-list-img" :style="active==index ? 'border: 1px solid #d72b2b' : 'border: 1px solid #dddddd'" v-for="(item, index) in dataFrom.product_info.product_images_url" :key="index" @click="onClickImg(index)">
+                        <img :src="item" alt="">
+                    </div>
+                </div>
+            </li> -->
+            <li class="main-goods-content-item-list" v-for="(item, index) in attr" :key="index">
+                <div>{{ item.name }}</div>
+                <div>
+                    <span v-for="(v, i) in item.value" :key="i" style="marginRight: 10px;">{{ v }}</span>
                 </div>
             </li>
             <li class="main-goods-content-item-list">
                 <div>Model Number:</div>
-                <div>ISO9001</div>
+                <div>{{ dataFrom.product_info.product_sku_no }}</div>
             </li>
-            <li class="main-goods-content-item-list">
+            <!-- <li class="main-goods-content-item-list">
                 <div>Specification:</div>
                 <div>Bulb E12/E14</div>
-            </li>
+            </li> -->
         </ul>
 
-        <button type="button" class="main-goods-content-btn">Send Squirly</button>
+        <button type="button" class="main-goods-content-btn">Send Inquiry</button>
     </div>
 </template>
 
@@ -47,8 +43,29 @@
                 
             }
         },
+        computed: {
+            attr() {
+                // [ { name: a, arr: [1,2,3] } ]
+                const attr = this.dataFrom.product_attr_array
+                const keys = Object.keys(attr)
+                const arr = []
+                keys.forEach((v, i) => {
+                    arr.push({ name: v, value: attr[v] })
+                })
+                return arr
+            }
+        },
+        props: [ 'dataFrom', 'active'],
+        filters: {
+            filtersAttr(data) {
+                console.log(data);
+                return data
+            }
+        },
         methods: {
-            
+            onClickImg(index) {
+                this.$emit('on-click', index)
+            }
         },
         mounted() {
 
@@ -70,6 +87,7 @@
             top: -2px;
             margin-bottom: 11px;
             font-weight: bold;
+            text-align: center;
         }
 
         &-dl {
@@ -99,13 +117,28 @@
         &-item {
             .flex(space-around, flex-start, column);
             width: 566px;
-            height: 142px;
+            height: auto;
             background-color: #f5f5f8;
             margin-top: 10px;
-            padding: 0px 20px;
+            padding: 10px 20px;
 
             &-list {
                 .flex();
+
+                &-img {
+                    width: 30px;
+                    height: 30px;
+                    border: solid 1px #dddddd;
+                    display: inline-block;
+                    margin-right: 10px;
+                    cursor: pointer;
+
+                    & > img {
+                        width: 100%;
+                        height: 100%;
+                        display: block;
+                    }
+                }
 
                 & > div:first-of-type {
                     width: 170px;
@@ -116,7 +149,7 @@
                 & > div:first-of-type, & > div:last-of-type {
                     .textHidden();
                     font-size: 14px;
-                    line-height: 1;
+                    line-height: 30px;
                     color: #666666;
                 }
             }

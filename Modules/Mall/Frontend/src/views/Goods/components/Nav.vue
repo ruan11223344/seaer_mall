@@ -23,6 +23,7 @@
 
     .goods-nav {
         width: 100%;
+        min-width: 1220px;
         height: 50px;
         background-color: #666666;
 
