@@ -19,8 +19,15 @@ const mutations = {
     // 选择的分类Id
     SET_CLASSIFICATION(state, id) {
         state.Classification = id
+    },
+    // 改变搜索的商品数据
+    SET_PRODUCT_ALL(state, data) {
+        state.Product_All = data
+    },
+    // 改变搜索的店铺数据
+    SET_SHOP_ALL(state, data) {
+        state.Shop_All = data
     }
-
 }
 
 export default mutations

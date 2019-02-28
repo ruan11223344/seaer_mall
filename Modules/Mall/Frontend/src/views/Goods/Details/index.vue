@@ -51,7 +51,8 @@
     import Content from './components/Content-template'
     import footerTemplateVue from './components/footer-template.vue';
     import headTemplateVue from './components/head-template.vue';
-
+    import getData from "@/utils/getData"
+    import upData from "@/utils/upData"
     import Nav from '../../Goods/components/Nav'
 
     export default {
@@ -68,39 +69,25 @@
                         imgSrcAmplification: require('@/assets/img/details/tp.png')
                     },
                     {
-                        imgSrcThumbnail: require('@/assets/img/details/demo1.jpg'),
-                        imgSrc: require('@/assets/img/details/demo1.jpg'),
-                        imgSrcAmplification: require('@/assets/img/details/demo1.jpg')
-                    },
-                    {
-                        imgSrcThumbnail: require('@/assets/img/details/demo.jpg'),
-                        imgSrc: require('@/assets/img/details/demo.jpg'),
-                        imgSrcAmplification: require('@/assets/img/details/demo.jpg')
-                    },
-                    {
-                        imgSrcThumbnail: require('@/assets/img/details/demo.jpg'),
-                        imgSrc: require('@/assets/img/details/demo.jpg'),
-                        imgSrcAmplification: require('@/assets/img/details/demo.jpg')
-                    },
-                    {
-                        imgSrcThumbnail: require('@/assets/img/details/demo.jpg'),
-                        imgSrc: require('@/assets/img/details/demo.jpg'),
-                        imgSrcAmplification: require('@/assets/img/details/demo.jpg')
+                        imgSrcThumbnail: require('@/assets/img/details/tp.png'),
+                        imgSrc: require('@/assets/img/details/tp.png'),
+                        imgSrcAmplification: require('@/assets/img/details/tp.png')
                     }
                 ],
                 // 收藏
                 isCollection: false,
+                ProductData: []
             }
         },
         methods: {
-            onCollection() { // 收藏功能
-                this.isCollection = !this.isCollection
-                if(this.isCollection) {
-                    this.$Message.success('您已经收藏成功了 | You have to collect a success');
-                }else {
-                    this.$Message.warning('您已经取消收藏了 | You have already cancelled the collection')
-                }
+            onGetProductInfo: getData.onGetProductInfo,
+            onSetFavorites: upData.onSetFavorites,
+            onCollection() { // 收藏商品
+                this.onSetFavorites({ product_or_company_id: this.ProductData.product_attr.id, type: "product" })
             }
+        },
+        mounted() {
+            this.onGetProductInfo(this.$route.query.product_id).then(res => {this.ProductData = res;console.log(res)})
         },
         components: {
             'v-zoom': Zoom,
@@ -149,14 +136,19 @@
 
                 &-pictureItem {
                     height: 60px;
-                    .flex(space-between);
+                    .flex(flex-start);
                     margin: 10px 0px 18px 0px;
                 }
 
                 &-pictureList {
                     .width(60px, 60px);
-                    border: solid 1px #dddddd;
+                    margin-right: (350px - 60 * 5) / 4;
+                    border: 1px solid #dddddd;
+                    // box-shadow: 0 0 5px 1px #dddddd;
                     cursor: pointer;
+                }
+                &-pictureList:nth-child(5n) {
+                    margin-right: 0;
                 }
 
                 &-pictureBottom {

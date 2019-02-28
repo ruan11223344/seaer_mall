@@ -279,8 +279,8 @@ const upData = {
         })
     },
     // 57.添加收藏
-    async onSetFavorites(data) {
-        return await new Promise((resolve, reject) => {
+    onSetFavorites(data) {
+        return new Promise((resolve, reject) => {
             request({
                 url: '/favorites/set_favorites',
                 method: 'post',

@@ -3,8 +3,6 @@ import Router from 'vue-router'
 import Nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 
-import details from './views/Goods/Details/index.vue'
-
 Vue.use(Router)
 
 // 路由
@@ -76,10 +74,8 @@ const newRouter = new Router({
           component: () => import('./views/Goods/List/index.vue')
         },
         {
-          path: 'details/:id',
-          // path: 'details',
-          // component: () => import('./views/Goods/Details/index.vue')
-          component: details
+          path: 'details',
+          component: () => import('./views/Goods/Details/index.vue')
         },
         // 咨询
         {

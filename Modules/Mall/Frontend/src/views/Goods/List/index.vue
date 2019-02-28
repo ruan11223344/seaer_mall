@@ -9,12 +9,12 @@
             </section>
             <section class="container main-content">
                 <!-- 渲染商品列表mock -->
-                <v-card class="main-content-list" :title="title" :price="price" :img-src="imgSrc" v-for="({title, price, imgSrc}, index) in record" :key="index"></v-card>
+                <v-card class="main-content-list" :data="item" v-for="(item, index) in ProductData" :key="index"></v-card>
             </section>
             <!-- 分页 -->
             <section class="container main-page">
                 <template>
-                    <Page :total="100" />
+                    <Page :total="total.total" :page-size="total.size" style="textAlign: center" @on-change="onPages"/>
                 </template>
             </section>
         </main>
@@ -23,96 +23,47 @@
 
 <script>
     import Card from "@/components/Card"
+    import getData from '@/utils/getData'
+    import { mapState } from 'vuex'
 
     export default {
         data() {
             return {
-                // 商品列表mock
-                record: [
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "1.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "2.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "3.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "4.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "5.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "6.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "7.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "8.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "9.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "10.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "11.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "12.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "13.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "14.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "15.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    }
-                ]
+                total: {
+                    size: 10,
+                    total: 0,
+                    num: 1
+                },
+                ProductData: []
+            }
+        },
+        computed: {
+            ...mapState([ 'Product_All' ])
+        },
+        methods: {
+            filterAll: getData.filterAll,
+            // 分页
+            onPages(index) {
+                this.$set(this.total, 'num', index)
+                this.filterAll(this.Product_All, this.total)
+                    .then(res => this.ProductData = res)
             }
         },
         mounted() {
-            
+            this.total.total = this.Product_All.length
+            this.filterAll(this.Product_All, this.total)
+                .then(res => this.ProductData = res)
         },
         components: {
             'v-card': Card,
-        }
+        },
+        watch: {
+            Product_All() {
+                this.total.total = this.Product_All.length
+                this.filterAll(this.Product_All, this.total)
+                    .then(res => this.ProductData = res)
+            }
+        },
     }
 </script>
 

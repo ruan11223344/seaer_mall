@@ -1,13 +1,15 @@
 <template>
-    <router-link to="/goods/details/123">
-    <!-- <div> -->
-        <v-img width="228" height="228" :img-src="imgSrc"></v-img>
+    <router-link :to="`/goods/details?product_id=${data.product_id}&company_id=${data.company_id}`">
+        <v-img width="228" height="228" :img-src="data.product_main_pic_url"></v-img>
         <article class="content">
-            <div :title="title" class="title">{{ title }}</div>
-            <div class="price">KSh {{ price }}</div>
-            <div class="Pieces">MOQ: 10 Pieces</div>
+            <div class="title">
+                <Tooltip :content="data.product_name ">
+                    {{ data.product_name }}
+                </Tooltip>
+            </div>
+            <div class="price">KSh {{ data.product_price }}</div>
+            <div class="Pieces">{{ data.product_moq }}</div>
         </article>
-    <!-- </div> -->
     </router-link>
 </template>
 
@@ -16,14 +18,8 @@
 
     export default {
         props: {
-            title: {
-                type: String
-            },
-            price: {
-                required: true
-            },
-            imgSrc: {
-                type: String
+            data: {
+                type: Object
             }
         },
         components: {
@@ -44,6 +40,7 @@
         .color(black);
         .textHiddens(2);
         width: 208px;
+        min-height: 38px;
         padding: 0px 20px;
         text-align: center;
         font-size: 16px;

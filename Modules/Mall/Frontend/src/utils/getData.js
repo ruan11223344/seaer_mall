@@ -167,9 +167,9 @@ const getData = {
         })
     },
     // 42.获取单个商品的详情
-    async onGetProductInfo(id) {
-        return await new Promise(async (resolve, reject) => {
-            await request({
+    onGetProductInfo(id) {
+        return new Promise((resolve, reject) => {
+            request({
                 url: '/shop/product/get_product_detail',
                 params: {
                     "product_id": id
@@ -322,6 +322,40 @@ const getData = {
                     resolve(res.data)
                 }else {
                     reject(res.data)
+                }
+            })
+        })
+    },
+    // 73.首页商品搜索
+    onSearchProduct(params) {
+        return new Promise((resolve, reject) => {
+            request({
+                url: '/shop/product/product_search',
+                params: {
+                    keywords: params
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    },
+    // 74.首页店铺搜索
+    onSearchShop(params) {
+        return new Promise((resolve, reject) => {
+            request({
+                url: '/shop/shop_search',
+                params: {
+                    keywords: params
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
                 }
             })
         })

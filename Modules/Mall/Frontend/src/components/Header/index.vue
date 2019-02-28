@@ -3,7 +3,7 @@
         <nav class="nav">
             <router-link v-if="true" tag="div" to="/login">Sign In</router-link>
             <div v-else>{{ '登录用户名' }}</div>
-            <div>Join Free</div>
+            <router-link tag="div" to="/registered/one">Join Free</router-link>
             <div class="Customer">
                 <!-- 下拉 -->
                 <div>
@@ -15,7 +15,7 @@
                     <li>Service</li>
                 </ul>
             </div>
-            <div>Inquiry</div>
+            <router-link tag="div" to="/inquiryList/inbox">Inquiry</router-link>
         </nav>
     </div>
 </template>

@@ -9,7 +9,11 @@ const state = {
     // 阿里云oss前缀
     Oss_Url_Config: '',
     // 选择的分类Id
-    Classification: ''
+    Classification: '',
+    // 搜索的商品数据
+    Product_All: [],
+    // 搜索的店铺数据
+    Shop_All: [],
 }
 
 export default state
