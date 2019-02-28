@@ -586,7 +586,7 @@ class ProductsController extends Controller
             foreach($attr_arr as $item) {
                 $attr = array_values($item)[0];
                 $attr_key = array_keys($item)[0];
-                array_key_exists($attr_key,$product_attr_array) ? array_push($product_attr_array[$attr_key],$attr) : $product_attr_array[$attr_key] = [];
+                array_key_exists($attr_key,$product_attr_array) ? array_push($product_attr_array[$attr_key],$attr) : $product_attr_array[$attr_key][] = $attr;
             }
         }
 
