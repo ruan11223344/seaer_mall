@@ -3,8 +3,16 @@
         <header class="main-goods-content-title">{{ dataFrom.product_info.product_name }}</header>
         <dl class="main-goods-content-dl">
             <dd class="main-goods-content-dl-dd" v-for="(item, index) in dataFrom.product_info.price_array" :key="index">
-                <div>{{ item.moq }}</div>
-                <div>KSh {{ item.price }}</div>
+                <div>
+                    <Tooltip :content="item.moq">
+                        {{ item.moq }}
+                    </Tooltip>
+                </div>
+                <div>
+                    <Tooltip :content="'KSh ' + item.price">
+                        KSh {{ item.price }}
+                    </Tooltip>
+                </div>
             </dd>
         </dl>
         <ul class="main-goods-content-item">
@@ -31,8 +39,13 @@
                 <div>Bulb E12/E14</div>
             </li> -->
         </ul>
-
-        <button type="button" class="main-goods-content-btn">Send Inquiry</button>
+        <router-link
+            tag="button"
+            type="button"
+            class="main-goods-content-btn"
+            :to="'/goods/consulting?af_id=' + id + '&url=' + url">
+                Send Inquiry
+        </router-link>
     </div>
 </template>
 
@@ -45,7 +58,6 @@
         },
         computed: {
             attr() {
-                // [ { name: a, arr: [1,2,3] } ]
                 const attr = this.dataFrom.product_attr_array
                 const keys = Object.keys(attr)
                 const arr = []
@@ -55,13 +67,7 @@
                 return arr
             }
         },
-        props: [ 'dataFrom', 'active'],
-        filters: {
-            filtersAttr(data) {
-                console.log(data);
-                return data
-            }
-        },
+        props: [ 'dataFrom', 'active', 'id', 'url'],
         methods: {
             onClickImg(index) {
                 this.$emit('on-click', index)
@@ -101,15 +107,26 @@
                 height: 100%;
 
                 & > div:first-of-type {
+                    width: 125px;
+                    margin-right: 5px;
                     font-size: 14px;
                     line-height: 1;
                     color: #666666;
+                    .textHidden();
                 }
 
                 & > div:last-of-type {
+                    width: 125px;
                     font-size: 16px;
                     line-height: 1;
                     color: #cd2525;
+                    .textHidden();
+                }
+            }
+
+            &-dd:last-of-type {
+                & > div:first-of-type {
+                    margin-right: 0px;
                 }
             }
         }

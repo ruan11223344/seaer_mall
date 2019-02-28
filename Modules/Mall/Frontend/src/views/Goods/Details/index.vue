@@ -2,8 +2,8 @@
     <div v-if="ProductData">
         <v-head-template :name="formData.basic_info.company_name" :bool="ProductData.is_favorites_shop" @on-click="onGetData"></v-head-template>
         
-        <section class="details-banner">
-            <img :src="formData.shop_info.banner.banner_url" alt="">
+        <section class="details-banner" :style="`background: url(${formData.shop_info.banner.banner_url}) center center;`">
+            <!-- <img :src="formData.shop_info.banner.banner_url" alt=""> -->
         </section>
 
         <v-goods-nav></v-goods-nav>
@@ -34,7 +34,13 @@
                     </div>
                     <!-- 模态框 -->
                 </div>
-                <v-content @on-click="onClickImg" :active="activeIndex" :dataFrom="ProductData"></v-content>
+                <v-content
+                    @on-click="onClickImg"
+                    :url="ProductData.product_info.product_images_url[activeIndex]"
+                    :active="activeIndex"
+                    :dataFrom="ProductData"
+                    :id="formData.shop_info.af_id">
+                </v-content>
 
                 <v-right :formData="formData"></v-right>
             </section>
@@ -147,7 +153,6 @@
         width: 100%;
         min-width: 1220px;
         height: 150px;
-	    background-color: #f6eded;
     }
 
     // 头部

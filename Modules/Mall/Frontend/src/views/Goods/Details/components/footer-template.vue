@@ -1,7 +1,7 @@
 <template>
     <div class="main-footer">
         <h1 class="main-footer-title">Product Description</h1>
-        <div v-html="product_details">
+        <div class="main-footer-content" v-html="product_details">
 
         </div>
         <!-- <div class="main-footer-table">
@@ -98,80 +98,93 @@
     .main-footer {
         width: 100%;
 
-        &-title {
-            .lineHeight(50px);
-            width: 100%;
-            padding-left: 20px;
-            font-size: 16px;
-            color: #333333;
-            background-color: #f7f7fc;
-            border-top: 2px solid #f0883a;
-        }
+        // &-title {
+        //     .lineHeight(50px);
+        //     width: 100%;
+        //     padding-left: 20px;
+        //     font-size: 16px;
+        //     color: #333333;
+        //     background-color: #f7f7fc;
+        //     border-top: 2px solid #f0883a;
+        // }
 
-        &-box {
-            .bg-color(whiteDark);
-            width: 100%;
-            height: 1186px;
+        // &-box {
+        //     .bg-color(whiteDark);
+        //     width: 100%;
+        //     height: 1186px;
 
-            & > img {
-                width: 100%;
+        //     & > img {
+        //         width: 100%;
+        //         display: block;
+        //     }
+        // }
+
+        // &-table {
+        //     margin-top: 10px;
+        //     margin-bottom: 20px;
+
+        //     &-title {
+        //         font-size: 16px;
+        //         line-height: 3;
+        //         color: #333333;
+        //         padding-left: 20px;
+        //     }
+
+        //     .main-footer-table-name {
+        //         width: 252px;
+        //         height: 62px;
+        //         background-color: #f5f5f8;
+        //     }
+
+        //     .main-footer-table-value {
+        //         width: 358px;
+        //         height: 62px;
+        //         background-color: #ffffff;
+        //     }
+        // }
+
+        // &-article {
+
+        //     & > h1 {
+        //         .color(blackDark);
+        //         font-size: 18px;
+        //         line-height: 37px;
+        //         letter-spacing: 0px;
+        //         margin-top: 10px;
+        //         margin-bottom: 10px;
+        //         font-weight: bold;
+        //     }
+
+        //     & > ol {
+        //         & > li {
+        //             .color(blackLight);
+        //             width: 920px;
+        //             font-size: 14px;
+        //             line-height: 16px;
+        //             letter-spacing: 0px;
+        //             margin-bottom: 12px;
+        //             word-wrap:break-word;
+        //         }
+        //     }
+        // }
+
+        // &-article + div {
+        //     .bg-color(whiteDark);
+        //     width: 100%;
+        //     height: 607px;
+        // }
+
+        &-content {
+
+            img {
+                width: 1220px;
+                height: auto;
                 display: block;
             }
-        }
 
-        &-table {
-            margin-top: 10px;
-            margin-bottom: 20px;
-
-            &-title {
-                font-size: 16px;
-                line-height: 3;
-                color: #333333;
-                padding-left: 20px;
+            * {
+                word-wrap: break-word;
             }
-
-            .main-footer-table-name {
-                width: 252px;
-                height: 62px;
-                background-color: #f5f5f8;
-            }
-
-            .main-footer-table-value {
-                width: 358px;
-                height: 62px;
-                background-color: #ffffff;
-            }
-        }
-
-        &-article {
-
-            & > h1 {
-                .color(blackDark);
-                font-size: 18px;
-                line-height: 37px;
-                letter-spacing: 0px;
-                margin-top: 10px;
-                margin-bottom: 10px;
-                font-weight: bold;
-            }
-
-            & > ol {
-                & > li {
-                    .color(blackLight);
-                    width: 920px;
-                    font-size: 14px;
-                    line-height: 16px;
-                    letter-spacing: 0px;
-                    margin-bottom: 12px;
-                    word-wrap:break-word;
-                }
-            }
-        }
-
-        &-article + div {
-            .bg-color(whiteDark);
-            width: 100%;
-            height: 607px;
         }
     }
 

@@ -16,7 +16,8 @@
                     <div class="consulting-main-body-content-goods">
                         <span class="consulting-main-body-content-goods-title">wuhan sier international co., LTD</span>
                         <div>
-                            <v-img width="61" height="50" imgSrc=""></v-img>
+                            <!-- <v-img width="61" height="50" imgSrc=""></v-img> -->
+                            <img :src="$route.query.url" style="width: 87px; height: 87px;" alt="">
                         </div>
                     </div>
                 </div>
@@ -29,8 +30,8 @@
                 <div class="consulting-main-body-content">
                     <div class="consulting-main-body-content-label" style="lineHeight: 34px;">Purchase Quantity</div>
                     <div class="consulting-main-body-content-purchase">
-                        <input type="number" v-model="fromItem.quantity">
-                         <Select style="width:183px;" @on-change="onUnit" value="Pieces">
+                        <InputNumber size="small" :step="100" class="consulting-main-body-content-purchase-input" :max="9999999999" :min="1" v-model="fromItem.quantity"></InputNumber>
+                         <Select style="width:183px;" @on-change="onUnit" value="Pieces" size="small">
                             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
                         <input style="marginLeft: 8px;" type="text" v-show="is_select" v-model="fromItem.unit">
@@ -56,7 +57,13 @@
                 <!-- 内容 -->
                 <div class="consulting-main-body-content">
                     <div class="consulting-main-body-content-label">Content</div>
-                    <textarea class="consulting-main-body-content-content" name="" id="" cols="30" rows="10" v-model="fromItem.content"></textarea>
+                    <!-- <textarea class="consulting-main-body-content-content" name="" id="" cols="30" rows="10" v-model="fromItem.content"></textarea> -->
+                    <Input
+                        class="consulting-main-body-content-content"
+                        type="textarea"
+                        :autosize="{ minRows: 5, maxRows: 5 }"
+                        v-model="fromItem.content"
+                    />
                     <div class="consulting-main-body-content-prompt">please enter the content for your inquiry</div>
                 </div>
                 <!-- 上传文件 -->
@@ -148,7 +155,7 @@
                 fromItem: {
                     files: [],
                     unit: 'Pieces',
-                    quantity: '',
+                    quantity: 0,
                     subject: 'Inquiry about”Beidou GPS dual mode  vehicle navigation ”',
                     content: '',
                     social: []
@@ -192,21 +199,23 @@
             // 发送
             onSend() {
                 if(this.fromItem.quantity.length <= 0) {
-                    this.$Notice.error({
-                        desc: 'Please fill out the purchase quantity'
-                    });
+                    // this.$Notice.error({
+                    //     desc: ''
+                    // });
+                    this.$Message.warning('Please fill out the purchase quantity')
                     return false
                 }
 
                 if(this.fromItem.content.length <= 0) {
-                    this.$Notice.error({
-                        desc: 'Please fill out the content'
-                    });
+                    // this.$Notice.error({
+                    //     desc: 'Please fill out the content'
+                    // });
+                    this.$Message.warning('Please fill out the content')
                     return false
                 }
                 let data = new FormData()
-                // new File()
-                data.append('to_af_id', 'AF_CN_7a49b34079') //必填  发送给用户的唯一识别id
+
+                data.append('to_af_id', this.$route.query.af_id) //必填  发送给用户的唯一识别id
                 for(let i = 0; i < this.fromItem.files.length; i++) { // 发送多个文件
                     data.append('attachment_list[]', this.fromItem.files[i])
                 }
@@ -327,7 +336,7 @@
                     .flex(space-between, center);
                     .width(449px, 34px);
                     
-                    & > input {
+                    &-input {
                         .width(258px, 34px);
                         border: solid 1px #dddddd;
                         padding-left: 10px;
@@ -340,8 +349,7 @@
                 }
 
                 &-content {
-                    .width(449px, 111px);
-                    border: solid 1px #dddddd;
+                    .width(449px, auto);
                     resize: none;
                 }
                 
