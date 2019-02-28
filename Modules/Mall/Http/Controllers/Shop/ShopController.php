@@ -87,18 +87,27 @@ class ShopController extends Controller
         return $this->echoSuccessJson('更新成功!',['img_path'=>$img_path,'img_url'=>$img_url]);
     }
 
-    public function getShopBanner(){
-        $company_id = Auth::user()->company->id;
+    public static function getShopBannerData($company_id){
         $shop_obj = Shop::where('company_id',$company_id);
 
         if($shop_obj->exists()){
             $shop_obj  = $shop_obj->get()->first();
             if($shop_obj->banner_url == null){
-                return $this->echoErrorJson('错误!没有设置过banner!');
+                return [];
             }
-            return $this->echoSuccessJson('获取banner成功!',['banner_path'=>$shop_obj->banner_url,'banner_url'=>UtilsController::getPathFileUrl($shop_obj->banner_url)]);
+            return ['banner_path'=>$shop_obj->banner_url,'banner_url'=>UtilsController::getPathFileUrl($shop_obj->banner_url)];
         }else{
+            return [];
+        }
+    }
+
+    public function getShopBanner(){
+        $company_id = Auth::user()->company->id;
+        $data = self::getShopBannerData($company_id);
+        if($data == null){
             return $this->echoErrorJson('错误!没有设置过banner!');
+        }else{
+            return $this->echoSuccessJson('设置bannaer成功!',$data);
         }
     }
 
@@ -238,22 +247,31 @@ class ShopController extends Controller
         return $this->echoSuccessJson('上传成功!',['img_path'=>$img[0]['path'],'img_url'=>$img[0]['file_url']]);
     }
 
-    public function getSlidesList(){
-        $company_id = Auth::user()->company->id;
+    public static function getSlidesData($company_id){
         $shop_obj = Shop::where('company_id',$company_id);
         if($shop_obj->exists()){
             $shop_obj = $shop_obj->get()->first();
             if($shop_obj->slides_url_list == null){
-                return $this->echoErrorJson('获取店铺幻灯片失败!未设置幻灯片!');
+                return [];
             }else{
                 $res_data = $shop_obj->slides_url_list;
                 foreach ($res_data as $k=>$v){
                     $res_data[$k]['url'] = UtilsController::getPathFileUrl($v['url_path']);
                 }
-                return $this->echoSuccessJson('获取幻灯片列表成功!',$res_data);
+                return $res_data;
             }
         }else{
-            return $this->echoErrorJson('获取店铺幻灯片失败!未设置幻灯片!');
+            return [];
+        }
+    }
+
+    public function getSlidesList(){
+        $company_id = Auth::user()->company->id;
+        $res = self::getSlidesData($company_id);
+        if($res == null){
+            return $this->echoErrorJson('错误！没有设置过轮播');
+        }else{
+            return $this->echoSuccessJson('获取轮播图成功!',$res);
         }
     }
 

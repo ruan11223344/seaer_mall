@@ -19,6 +19,7 @@ use Modules\Mall\Entities\BusinessType;
 use Modules\Mall\Entities\Company;
 use Modules\Mall\Http\Controllers\MessagesController;
 use Modules\Mall\Http\Controllers\Shop\ProductsController;
+use Modules\Mall\Http\Controllers\Shop\ShopController;
 use Modules\Mall\Http\Controllers\UtilsController;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response as Psr7Response;
@@ -335,6 +336,12 @@ class AuthorizationsController extends Controller
 
             $data['other_info']['business_type_list'] = BusinessRange::all()->toArray();
             $data['other_info']['business_range_list'] = BusinessType::all()->toArray();
+
+            $data['shop_info'] = [];
+
+            $data['shop_info']['slides'] = ShopController::getSlidesData($company_id);
+            $data['shop_info']['banner'] = ShopController::getShopBannerData($company_id);
+
             return $data;
         }
     }
