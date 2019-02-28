@@ -12,6 +12,10 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Khsing\World\Models\City;
+use Khsing\World\Models\Country;
+use Khsing\World\Models\Division;
+use Modules\Mall\Entities\Company;
 use Modules\Mall\Entities\Products;
 use Modules\Mall\Entities\Shop;
 use Modules\Mall\Http\Controllers\UtilsController;
@@ -380,6 +384,51 @@ class ShopController extends Controller
             return $this->echoSuccessJson('更新成功!');
         }else{
             return $this->echoErrorJson('更新失败!');
+        }
+    }
+
+    public function shopSearch(Request $request){
+        $keywords = $request->input('keywords');
+        $company_obj = Company::where('company_name','like','%'.$keywords.'%')->orWhere(
+            'company_name_in_china','like','%'.$keywords.'%'
+        )->get();
+
+        if($company_obj->isEmpty()){
+            return $this->echoErrorJson('没有搜索到店铺!');
+        }else{
+            $company_arr = $company_obj->toArray();
+            foreach ($company_arr as $k=>$v){
+                unset($company_arr[$k]['company_business_license']);
+                unset($company_arr[$k]['company_business_license_pic_url']);
+                $company_arr[$k]['company_country_name'] = $v['company_country_id'] == null ? null : Country::find($v['company_country_id'])->name;
+                $main_products = $v['company_main_products'];
+                $main_products_str = '';
+                if($main_products != null){
+                    $main_products_arr = explode(',',$main_products);
+                    if(count($main_products_arr > 1)){
+                        foreach ($main_products_arr as $vs){
+                            $main_products_str .= $vs .'、';
+                        }
+                        $main_products_str = mb_substr($main_products_str,0,mb_strlen($main_products_str)-1);
+                    }
+                }
+                $company_arr[$k]['main_products_str']  = $main_products_str;
+                if($v['company_province_id'] != null){
+                    $province = Division::find($v['company_province_id']);
+                }else{
+                    $province = null;
+                }
+
+                if($v['company_city_id'] != null){
+                    $city = City::find($v['company_city_id']);
+                }else{
+                    $city = null;
+                }
+                $company_arr[$k]['location'] = $province != null ? $province->name : '' . $city != null ? $city->name : '';
+                $company_arr[$k]['telephone'] = $v['company_mobile_phone'];
+            }
+
+            return $this->echoSuccessJson('搜索店铺成功!',$company_arr);
         }
     }
 

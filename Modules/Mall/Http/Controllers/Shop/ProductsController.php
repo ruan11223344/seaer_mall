@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Modules\Mall\Entities\Products;
 use Modules\Mall\Entities\ProductsAttr;
+use Modules\Mall\Entities\ProductsCategories;
 use Modules\Mall\Entities\ProductsGroup;
 use Modules\Mall\Entities\ProductsPrice;
 use Modules\Mall\Entities\ProductsProductsGroup;
@@ -628,6 +629,7 @@ class ProductsController extends Controller
                 'publish_time'=>$v->updated_at != null ? Carbon::parse($v->updated_at)->toDateTimeString() : Carbon::parse($v->created_at)->toDateTimeString(),
                 'product_main_pic_url'=>UtilsController::getPathFileUrl($v->product_images[0]['main']),
                 'product_origin_id'=>$v->product_origin_id,
+                'company_id'=>$v->company_id,
             ];
             array_push($res,$item);
         });
@@ -679,6 +681,31 @@ class ProductsController extends Controller
         $status = $request->input('status');
         $res_data = self::getStatusProductData($status);
         return $this->echoSuccessJson('操作成功!',['data_list'=>$res_data,'total'=>count($res_data)]);
+    }
+
+    public function productSearch(Request $request){
+        $keywords = $request->input('keywords');
+
+        $categories_list = ProductsCategories::where('name', 'like','%'.$keywords.'%')->get()->pluck('id')->toArray();
+        $products_attr_id_list = ProductsAttr::where('attr_specs', 'like','%'.$keywords.'%')->pluck('id')->toArray();
+
+        $products = Products::where(
+            'product_name','like','%'.$keywords.'%'
+        )->orWhere(
+            'product_keywords','like','%'.$keywords.'%'
+        )->orWhereIn(
+            'product_attr_id',$products_attr_id_list
+        )->orWhereIn(
+            'product_categories_id',$categories_list
+        );
+
+
+        if(!$products->get()->isEmpty()){
+            $res = self::getProductFormatInfo($products);
+            return $this->echoSuccessJson('搜索成功!',$res);
+        }else{
+            return $this->echoErrorJson('没有搜索到商品!');
+        }
     }
 
 }

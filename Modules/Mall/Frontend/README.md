@@ -3905,5 +3905,183 @@ json参数:  注意以下参数 如不更新则不传键名即可。
 }
 ```
 
+73.首页商品搜索
+```
+url:http://域名/api/shop/product/product_search
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
 
+参数:  keywords  //关键词 必填
+
+返回:
+{
+    "code": 200,
+    "message": "搜索成功!",
+    "data": [
+        {
+            "product_id": 33,
+            "product_name": "超级无敌玩毛车玩具13fffxxx333",
+            "product_sku": "100025",
+            "product_price": "KSh 100-2010",
+            "price_type": "base",
+            "product_moq": "MOQ 150 Pieces",
+            "publish_time": "2019-02-25 17:23:09",
+            "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+            "product_origin_id": "PD_CN_a49b34079_8f538e50",
+            "company_id": "10"
+        },
+        {
+            "product_id": 34,
+            "product_name": "csdfs",
+            "product_sku": "100023",
+            "product_price": "KSh 100-2010",
+            "price_type": "base",
+            "product_moq": "MOQ 150 Pieces",
+            "publish_time": "2019-02-25 16:25:32",
+            "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+            "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+            "company_id": "10"
+        },
+        {
+            "product_id": 37,
+            "product_name": "ffff",
+            "product_sku": "100023",
+            "product_price": "KSh 100-2010",
+            "price_type": "base",
+            "product_moq": "MOQ 150 Pieces",
+            "publish_time": "2019-02-25 16:25:32",
+            "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+            "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+            "company_id": "10"
+        }
+    ]
+}
+```
+
+74.首页店铺搜索
+```
+url:http://域名/api/shop/shop_search
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+参数:  keywords  //关键词 必填
+
+返回:
+{
+    "code": 200,
+    "message": "搜索店铺成功!",
+    "data": [
+        {
+            "id": 1,
+            "user_id": 1,
+            "company_name": "sb company",
+            "company_country_id": 56,
+            "company_province_id": null,
+            "company_city_id": null,
+            "company_detailed_address": null,
+            "company_owner": null,
+            "company_name_in_china": null,
+            "company_established_time": null,
+            "company_website": null,
+            "company_number_of_employees": null,
+            "company_business_type_id": null,
+            "company_business_range_ids": null,
+            "company_mobile_phone": null,
+            "company_sales_platform": null,
+            "company_main_products": null,
+            "company_logo_url": null,
+            "company_profile": null,
+            "created_at": null,
+            "updated_at": null,
+            "company_country_name": "Kenya",
+            "main_products_str": "",
+            "location": "",
+            "telephone": null
+        },
+        {
+            "id": 5,
+            "user_id": 7,
+            "company_name": "test company",
+            "company_country_id": 56,
+            "company_province_id": null,
+            "company_city_id": null,
+            "company_detailed_address": null,
+            "company_owner": null,
+            "company_name_in_china": "测试有限公司",
+            "company_established_time": null,
+            "company_website": null,
+            "company_number_of_employees": null,
+            "company_business_type_id": null,
+            "company_business_range_ids": null,
+            "company_mobile_phone": null,
+            "company_sales_platform": null,
+            "company_main_products": null,
+            "company_logo_url": null,
+            "company_profile": null,
+            "created_at": "2019-01-18 10:46:04",
+            "updated_at": "2019-01-18 10:46:04",
+            "company_country_name": "Kenya",
+            "main_products_str": "",
+            "location": "",
+            "telephone": null
+        },
+        {
+            "id": 7,
+            "user_id": 10,
+            "company_name": "Ningbo Associated Hydraulic Components Co.,LTD.",
+            "company_country_id": 56,
+            "company_province_id": null,
+            "company_city_id": null,
+            "company_detailed_address": null,
+            "company_owner": null,
+            "company_name_in_china": "我是大大大公司",
+            "company_established_time": null,
+            "company_website": null,
+            "company_number_of_employees": null,
+            "company_business_type_id": null,
+            "company_business_range_ids": null,
+            "company_mobile_phone": null,
+            "company_sales_platform": null,
+            "company_main_products": null,
+            "company_logo_url": null,
+            "company_profile": null,
+            "created_at": "2019-01-18 13:56:25",
+            "updated_at": "2019-01-18 13:56:25",
+            "company_country_name": "Kenya",
+            "main_products_str": "",
+            "location": "",
+            "telephone": null
+        },
+        {
+            "id": 10,
+            "user_id": 13,
+            "company_name": "wangzi  compangy",
+            "company_country_id": 101,
+            "company_province_id": 130,
+            "company_city_id": 138,
+            "company_detailed_address": "湖北省xxsdsadjkdsajkdsajdkjsakdj111111",
+            "company_owner": null,
+            "company_name_in_china": "王子有限公司",
+            "company_established_time": null,
+            "company_website": "http://www.qq.com/",
+            "company_number_of_employees": null,
+            "company_business_type_id": "2",
+            "company_business_range_ids": "10,11,12,13",
+            "company_mobile_phone": "+8617671770827",
+            "company_sales_platform": "",
+            "company_main_products": "飞机,毛线,军舰",
+            "company_logo_url": null,
+            "company_profile": "我们公司打手电阿萨德阿萨德奥术大师多阿萨德撒的撒的撒大声地打的阿萨德阿萨德撒的阿萨德 阿斯顿撒多撒打算打打",
+            "created_at": "2019-01-18 16:25:28",
+            "updated_at": "2019-02-26 17:27:06",
+            "company_country_name": "China",
+            "main_products_str": "飞机、毛线、军舰",
+            "location": "Sumale",
+            "telephone": "+8617671770827"
+        }
+    ]
+}
+```
 

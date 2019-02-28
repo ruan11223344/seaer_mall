@@ -85,6 +85,8 @@ Route::group(['domain' => env('MALL_DOMAIN'), 'middleware' => 'cors'], function 
 
     //商品模块
     Route::prefix('shop')->group(function () {
+        Route::get('shop_search', 'Shop\ShopController@shopSearch')->name('shop.shopSearch');
+
         //店铺管理
         Route::group(['middleware' => ['client.credentials', 'auth:api']], function () {
             Route::post('upload_slide', 'Shop\ShopController@uploadSlide')->name('shop.uploadSlide');
@@ -122,6 +124,7 @@ Route::group(['domain' => env('MALL_DOMAIN'), 'middleware' => 'cors'], function 
                 Route::post('edit_product', 'Shop\ProductsController@editProduct')->name('shop.product.edit');
                 Route::post('change_products_warehouse', 'Shop\ProductsController@changeProductsWarehouse')->name('shop.product.change.warehouse');
             });
+            Route::get('product_search', 'Shop\ProductsController@productSearch')->name('shop.product.productSearch');
         });
         //商品分组
         Route::prefix('product_group')->group(function () {
