@@ -265,68 +265,78 @@ class AuthorizationsController extends Controller
         }
     }
 
-    public static function getCompanyInfoData(){
-        $company = Auth::user()->company;
-        $data = [];
-        $data['basic_info'] = [];
-        $data['business_info'] = [];
-
-        $data['basic_info']['business_type'] = $company->company_business_type_id == null ? null : BusinessType::find($company->company_business_type_id)->name;
-        $data['basic_info']['business_type_id'] = $company->company_business_type_id == null ? null : $company->company_business_type_id;
-        $data['basic_info']['company_name'] = $company->company_name;
-        $data['basic_info']['company_name_in_china'] = $company->company_name_in_china;
-        $data['basic_info']['country_id'] = $company->company_country_id;
-        $data['basic_info']['country_name'] = Country::find($company->company_country_id) == null ? null : Country::find($company->company_country_id)->name;
-
-        $province = Division::find($company->company_province_id);
-        $city = City::find($company->company_city_id);
-
-        $data['basic_info']['province/city'] = $province == null ? null : $province->name.' '.$city->name;
-        $data['basic_info']['company_province_id'] = $company->company_province_id;
-        $data['basic_info']['company_city_id'] = $company->company_city_id;
-        $data['basic_info']['address'] = $company->company_detailed_address;
-        $data['basic_info']['telephone'] = $company->company_mobile_phone;
-        $data['basic_info']['website'] = $company->company_website;
-        $business_range = $company->company_business_range_ids;
-
-        $business_range_str = '';
-        if($business_range != null){
-            $business_range_arr = explode(',',$business_range);
-            BusinessRange::whereIn('id',$business_range_arr)->get()->map(function ($v,$k) use(&$business_range_str){
-                $business_range_str.= ' '.$v->name.'、';
-            });
-            $business_range_str = mb_substr($business_range_str,0,mb_strlen($business_range_str)-1);
+    public static function getCompanyInfoData($company_id = null){
+        if($company_id == null){
+            $company = Auth::user()->company;
         }else{
-            $business_range_arr = [];
+            $company = Company::find($company_id);
         }
-        $data['business_info']['business_range'] = $business_range_str;
-        $data['business_info']['business_range_id_arr'] = $business_range_arr;
 
-        $main_products = $company->company_main_products;
-        $main_products_str = '';
-        $main_products_arr = [];
-        if($main_products != null){
-            $main_products_arr = explode(',',$main_products);
-            if(count($main_products_arr > 1)){
-                foreach ($main_products_arr as $v){
-                    $main_products_str .= $v .'、';
-                }
-                $main_products_str = mb_substr($main_products_str,0,mb_strlen($main_products_str)-1);
+        $data = [];
+
+        if($company == null){
+            return $data;
+        }else{
+            $data['basic_info'] = [];
+            $data['business_info'] = [];
+
+            $data['basic_info']['business_type'] = $company->company_business_type_id == null ? null : BusinessType::find($company->company_business_type_id)->name;
+            $data['basic_info']['business_type_id'] = $company->company_business_type_id == null ? null : $company->company_business_type_id;
+            $data['basic_info']['company_name'] = $company->company_name;
+            $data['basic_info']['company_name_in_china'] = $company->company_name_in_china;
+            $data['basic_info']['country_id'] = $company->company_country_id;
+            $data['basic_info']['country_name'] = Country::find($company->company_country_id) == null ? null : Country::find($company->company_country_id)->name;
+
+            $province = Division::find($company->company_province_id);
+            $city = City::find($company->company_city_id);
+
+            $data['basic_info']['province/city'] = $province == null ? null : $province->name.' '.$city->name;
+            $data['basic_info']['company_province_id'] = $company->company_province_id;
+            $data['basic_info']['company_city_id'] = $company->company_city_id;
+            $data['basic_info']['address'] = $company->company_detailed_address;
+            $data['basic_info']['telephone'] = $company->company_mobile_phone;
+            $data['basic_info']['website'] = $company->company_website;
+            $business_range = $company->company_business_range_ids;
+
+            $business_range_str = '';
+            if($business_range != null){
+                $business_range_arr = explode(',',$business_range);
+                BusinessRange::whereIn('id',$business_range_arr)->get()->map(function ($v,$k) use(&$business_range_str){
+                    $business_range_str.= ' '.$v->name.'、';
+                });
+                $business_range_str = mb_substr($business_range_str,0,mb_strlen($business_range_str)-1);
+            }else{
+                $business_range_arr = [];
             }
+            $data['business_info']['business_range'] = $business_range_str;
+            $data['business_info']['business_range_id_arr'] = $business_range_arr;
+
+            $main_products = $company->company_main_products;
+            $main_products_str = '';
+            $main_products_arr = [];
+            if($main_products != null){
+                $main_products_arr = explode(',',$main_products);
+                if(count($main_products_arr > 1)){
+                    foreach ($main_products_arr as $v){
+                        $main_products_str .= $v .'、';
+                    }
+                    $main_products_str = mb_substr($main_products_str,0,mb_strlen($main_products_str)-1);
+                }
+            }
+
+            $data['business_info']['main_products'] = $main_products_str;
+            $data['business_info']['main_products_arr'] = $main_products_arr;
+            $data['business_info']['company_profile'] = $company->company_profile;
+            $data['business_info']['business_license'] = $company->company_business_license;
+            $data['business_info']['business_license_path'] = $company->company_business_license_pic_url;
+            $data['business_info']['business_license_url'] = UtilsController::getPathFileUrl($company->company_business_license_pic_url);
+
+            $data['other_info'] = [];
+
+            $data['other_info']['business_type_list'] = BusinessRange::all()->toArray();
+            $data['other_info']['business_range_list'] = BusinessType::all()->toArray();
+            return $data;
         }
-
-        $data['business_info']['main_products'] = $main_products_str;
-        $data['business_info']['main_products_arr'] = $main_products_arr;
-        $data['business_info']['company_profile'] = $company->company_profile;
-        $data['business_info']['business_license'] = $company->company_business_license;
-        $data['business_info']['business_license_path'] = $company->company_business_license_pic_url;
-        $data['business_info']['business_license_url'] = UtilsController::getPathFileUrl($company->company_business_license_pic_url);
-
-        $data['other_info'] = [];
-
-        $data['other_info']['business_type_list'] = BusinessRange::all()->toArray();
-        $data['other_info']['business_range_list'] = BusinessType::all()->toArray();
-        return $data;
     }
 
     public function getCompanyInfo(){

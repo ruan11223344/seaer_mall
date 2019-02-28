@@ -18,6 +18,7 @@ use Khsing\World\Models\Division;
 use Modules\Mall\Entities\Company;
 use Modules\Mall\Entities\Products;
 use Modules\Mall\Entities\Shop;
+use Modules\Mall\Http\Controllers\Auth\AuthorizationsController;
 use Modules\Mall\Http\Controllers\UtilsController;
 
 class ShopController extends Controller
@@ -430,6 +431,20 @@ class ShopController extends Controller
 
             return $this->echoSuccessJson('搜索店铺成功!',$company_arr);
         }
+    }
+
+    public function getCompanyDetail(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'company_id'=>'required|exists:company,id',
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+        }
+
+        $data =AuthorizationsController::getCompanyInfoData($request->input('company_id'));
+        return $this->echoSuccessJson('获取公司信息成功!',$data);
     }
 
 }

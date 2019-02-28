@@ -4085,3 +4085,307 @@ url:http://域名/api/shop/shop_search
 }
 ```
 
+75.获取公司信息详情（非登录状态也可用)
+```
+url:http://域名/api/shop/get_company_detail
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+参数:  company_id  //公司id 必填
+
+返回:
+{
+    "code": 200,
+    "message": "获取公司信息成功!",
+    "data": {
+        "basic_info": {
+            "business_type": "Trading Company",
+            "business_type_id": "2",
+            "company_name": "wangzi  compangy",
+            "company_name_in_china": "王子有限公司",
+            "country_id": 101,
+            "country_name": "China",
+            "province/city": "Nyanza Sumale",
+            "company_province_id": 130,
+            "company_city_id": 138,
+            "address": "湖北省xxsdsadjkdsajkdsajdkjsakdj111111",
+            "telephone": "+8617671770827",
+            "website": "http://www.qq.com/"
+        },
+        "business_info": {
+            "business_range": " Electrical & Electronics、 Furniture、 Health & Medicine、 Industrial Equipment & Components",
+            "business_range_id_arr": [
+                "10",
+                "11",
+                "12",
+                "13"
+            ],
+            "main_products": "飞机、毛线、军舰",
+            "main_products_arr": [
+                "飞机",
+                "毛线",
+                "军舰"
+            ],
+            "company_profile": "我们公司打手电阿萨德阿萨德奥术大师多阿萨德撒的撒的撒大声地打的阿萨德阿萨德撒的阿萨德 阿斯顿撒多撒打算打打",
+            "business_license": "421002600458688",
+            "business_license_path": "mall/users/AF_CN_7a49b34079/private/155117078539651851.jpeg",
+            "business_license_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/private/155117078539651851.jpeg"
+        },
+        "other_info": {
+            "business_type_list": [
+                {
+                    "id": 1,
+                    "name": "Agriculture & Food",
+                    "cn_name": "农业与食品",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 2,
+                    "name": "Apparel & Accessories",
+                    "cn_name": "服饰与配饰",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 3,
+                    "name": "Arts & Crafts",
+                    "cn_name": "工艺品",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 4,
+                    "name": "Auto, Motorcycle Parts & Accessories",
+                    "cn_name": "汽车，摩托车零配件",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 5,
+                    "name": "Bags, Cases & Boxes",
+                    "cn_name": "箱包，箱包",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 6,
+                    "name": "Chemicals",
+                    "cn_name": "化学制品",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 7,
+                    "name": "Computer Products",
+                    "cn_name": "电脑产品",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 8,
+                    "name": "Construction & Decoration",
+                    "cn_name": "建筑装饰",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 9,
+                    "name": "Consumer Electronics",
+                    "cn_name": "消费类电子产品",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 10,
+                    "name": "Electrical & Electronics",
+                    "cn_name": "电气与电子",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 11,
+                    "name": "Furniture",
+                    "cn_name": "家具",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 12,
+                    "name": "Health & Medicine",
+                    "cn_name": "健康与医学",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 13,
+                    "name": "Industrial Equipment & Components",
+                    "cn_name": "工业设备和部件",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 14,
+                    "name": "Instruments & Meters",
+                    "cn_name": "仪器仪表",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 15,
+                    "name": "Light Industry & Daily Use",
+                    "cn_name": "轻工业和日用品",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 16,
+                    "name": "Lights & Lighting",
+                    "cn_name": "灯光与照明",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 17,
+                    "name": "Manufacturing & Processing Machinery",
+                    "cn_name": "制造加工机械",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 18,
+                    "name": "Metallurgy, Mineral & Energy",
+                    "cn_name": "冶金，矿产和能源",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 19,
+                    "name": "Office Supplies",
+                    "cn_name": "办公用品",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 20,
+                    "name": "Packaging & Printing",
+                    "cn_name": "包装印刷",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 21,
+                    "name": "Security & Protection",
+                    "cn_name": "安全与保护",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 22,
+                    "name": "Service",
+                    "cn_name": "服务",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 23,
+                    "name": "Sporting Goods & Recreation",
+                    "cn_name": "体育用品和娱乐",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 24,
+                    "name": "Textile",
+                    "cn_name": "纺织品",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 25,
+                    "name": "Tools & Hardware",
+                    "cn_name": "工具与硬件",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 26,
+                    "name": "Toys",
+                    "cn_name": "玩具",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 27,
+                    "name": "Transportation",
+                    "cn_name": "运输",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                }
+            ],
+            "business_range_list": [
+                {
+                    "id": 1,
+                    "name": "Manufacturer/Factory",
+                    "cn_name": "制造商/工厂",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 2,
+                    "name": "Trading Company",
+                    "cn_name": "贸易公司",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 3,
+                    "name": "Individuals/SOHO",
+                    "cn_name": "个人/SOHO",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    "id": 4,
+                    "name": "Other",
+                    "cn_name": "其他",
+                    "sort": 0,
+                    "created_at": null,
+                    "updated_at": null
+                }
+            ]
+        }
+    }
+}
+```
