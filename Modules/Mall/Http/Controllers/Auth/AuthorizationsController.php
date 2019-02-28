@@ -17,6 +17,7 @@ use Khsing\World\World;
 use Modules\Mall\Entities\BusinessRange;
 use Modules\Mall\Entities\BusinessType;
 use Modules\Mall\Entities\Company;
+use Modules\Mall\Entities\UsersExtends;
 use Modules\Mall\Http\Controllers\MessagesController;
 use Modules\Mall\Http\Controllers\Shop\ProductsController;
 use Modules\Mall\Http\Controllers\Shop\ShopController;
@@ -341,6 +342,11 @@ class AuthorizationsController extends Controller
 
             $data['shop_info']['slides'] = ShopController::getSlidesData($company_id);
             $data['shop_info']['banner'] = ShopController::getShopBannerData($company_id);
+            $userEx = UsersExtends::where('user_id',$company->user_id)->get()->first();
+            $userEx_avatar = $userEx->avatar_url;
+            $data['shop_info']['avatar_path'] = $userEx_avatar == null ? null : $userEx_avatar ;
+            $data['shop_info']['avatar_url'] = $userEx_avatar == null ? null : UtilsController::getPathFileUrl($userEx_avatar);
+            $data['shop_info']['af_id'] = $userEx->af_id;
 
             return $data;
         }
