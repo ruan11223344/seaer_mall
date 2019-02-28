@@ -167,19 +167,22 @@
                 this.$router.push("/goods/success")
             },
             onbeforeUpload(files) {
-                const type = (files.name.split('.'))[1]
-                
+                let type = (files.name.split('.'))[1]
+                type = type.toLowerCase()
+
                 if(files.size > 1048576 * 3 || !(['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'rar', 'and', 'zip'].includes(type))) { // 图片大于3M
-                    this.$Notice.error({
-                        desc: '- Supports jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt, rar and zip \n- Max upload 3 files;Max. total size: 3MB'
-                    })
+                    // this.$Notice.error({
+                    //     desc: '- Supports jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt, rar and zip \n- Max upload 3 files;Max. total size: 3MB'
+                    // })
+                    this.$Message.warning('- Supports jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt, rar and zip \n- Max upload 3 files;Max. total size: 3MB')
                 }else {
                     if(this.fromItem.files.length < 3) {
                         this.fromItem.files.push(files)
                     }else {
-                        this.$Notice.error({
-                            desc: '- Max upload 3 files;Max. total size: 3MB'
-                        })
+                        // this.$Notice.error({
+                        //     desc: '- Max upload 3 files;Max. total size: 3MB'
+                        // })
+                        this.$Message.warning('- Max upload 3 files;Max. total size: 3MB')
                     }
                 }
                 return false

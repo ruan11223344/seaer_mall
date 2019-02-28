@@ -181,11 +181,16 @@
                                                         <span class="updateInfo-main-Price-text" style="marginLeft: 0px;">≥</span>
                                                         <!-- 数字输入框 -->
                                                         <template>
-                                                            <InputNumber class="updateInfo-main-Price-input" :min="0" v-model="item.min_order"></InputNumber>
+                                                            <InputNumber
+                                                                size="small"
+                                                                class="updateInfo-main-Price-input"
+                                                                :min="0"
+                                                                v-model="item.min_order">
+                                                            </InputNumber>
                                                         </template>
                                                         <!--下拉 -->
                                                         <template>
-                                                            <Select v-model="item.unit" size="large" style="width:100px">
+                                                            <Select v-model="item.unit" size="small" style="width:100px">
                                                                 <Option v-for="list in cityList" :value="list.value" :key="list.value">{{ list.label }}</Option>
                                                             </Select>
                                                         </template>
@@ -194,7 +199,8 @@
                                                         <span class="updateInfo-main-Price-text">KSh</span>
                                                         <!-- 数字输入框 -->
                                                         <template>
-                                                            <InputNumber 
+                                                            <InputNumber
+                                                                size="small" 
                                                                 :max="99999999"
                                                                 :min="1"
                                                                 :step="10000"
@@ -221,11 +227,11 @@
                                                         <span class="updateInfo-main-Price-text" style="marginLeft: 0px;">≥</span>
                                                         <!-- 数字输入框 -->
                                                         <template>
-                                                            <InputNumber class="updateInfo-main-Price-input" :min="1" v-model="formItem.Price.Base.min_order"></InputNumber>
+                                                            <InputNumber size="small" class="updateInfo-main-Price-input" :min="1" v-model="formItem.Price.Base.min_order"></InputNumber>
                                                         </template>
                                                         <!--下拉 -->
                                                         <template>
-                                                            <Select v-model="formItem.Price.Base.unit" size="large" style="width:100px">
+                                                            <Select v-model="formItem.Price.Base.unit" size="small" style="width:100px">
                                                                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                                                             </Select>
                                                         </template>
@@ -235,6 +241,7 @@
                                                         <!-- 数字输入框 -->
                                                         <template>
                                                             <InputNumber
+                                                                size="small"
                                                                 :max="99999999"
                                                                 :min="1"
                                                                 :step="10000"
@@ -244,6 +251,7 @@
                                                         <!-- 数字输入框 -->
                                                         <template>
                                                             <InputNumber
+                                                                size="small"
                                                                 :max="99999999"
                                                                 :min="1"
                                                                 :step="10000"
@@ -577,7 +585,7 @@
                             //     { 'direction': 'rtl' }
                             // ],
                             [
-                                { 'size': ['small', false, 'large', 'huge'] }
+                                { 'size': ['small', false, 'small', 'huge'] }
                             ],
                             [
                                 { 'header': [1, 2, 3, 4, 5, 6, false] }

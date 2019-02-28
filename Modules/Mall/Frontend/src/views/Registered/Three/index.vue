@@ -65,7 +65,7 @@
                         </Col>
                         <!-- 城市地址 -->
                         <Col span="9" offset="1"> 
-                            <Select v-model="formItem.Address2" style="width: 187px;float:right">
+                            <Select v-model="formItem.Address2" style="width: 185px;marginLeft: 10px;">
                                 <Option v-for="({city_id, name}, index) in City" :value="city_id" :key="index">{{ name }}</Option>
                             </Select>
                         </Col>
@@ -387,7 +387,7 @@
                 }).then(res => {
                     const { code, data } = res
                     if(code == 200) {
-                        this.SET_COUNTRIES(data.account_type)
+                        this.SET_COUNTRIES(data.account_type == 1 ? true : false)
                         this.$set(this.formItem, 'id', data.member_id)
                     }else {
                         // 此处 跳转过期提醒页面！
@@ -412,7 +412,7 @@
 
                 this.getId()
             }else {
-                this.$router.push('/registered/one')
+                // this.$router.push('/registered/one')
             }
         },
         components: {

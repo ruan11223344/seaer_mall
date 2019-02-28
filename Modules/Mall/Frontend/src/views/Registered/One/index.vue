@@ -200,12 +200,12 @@
                 .flex(flex-start, center, row);
                 cursor: pointer;
                 width: 100%;
-                height: 36px;
+                height: 40px;
                 background-color: #eeeeee;
 
                 & > div:first-child {
                     width: 120px;
-                    height: 36px;
+                    height: 40px;
                     margin-right: 5px;
 
                     & > img {
