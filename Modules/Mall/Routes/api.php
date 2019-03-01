@@ -37,6 +37,10 @@ Route::group(['domain' => env('MALL_DOMAIN'), 'middleware' => 'cors'], function 
 
     });
 
+    Route::prefix('home')->group(function () {
+        Route::get('index', 'HomeController@getIndex');
+    });
+
     //消息系统
     Route::prefix('message')->group(function () {
         Route::group(['middleware' => ['client.credentials', 'auth:api']], function () {

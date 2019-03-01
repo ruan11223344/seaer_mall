@@ -4463,3 +4463,528 @@ json参数
     ]
 }
 ```
+
+77.首页数据获取  假数据！
+
+```
+url:http://域名/api/home/index
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+无参数
+
+返回:
+{
+    "code": 200,
+    "message": "Success!",
+    "data": {
+        "ad_slides_url_list": [
+            {
+                "image_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/155072840888932208.png",
+                "jump_url": "http://www.qq.com"
+            },
+            {
+                "image_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/155072840888932208.png",
+                "jump_url": "http://www.qq.com"
+            },
+            {
+                "image_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/155072840888932208.png",
+                "jump_url": "http://www.qq.com"
+            },
+            {
+                "image_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/155072840888932208.png",
+                "jump_url": "http://www.qq.com"
+            }
+        ],
+        "ad_header_url": {
+            "image_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/155072840888932208.png",
+            "jump_url": "http://www.qq.com"
+        },
+        "ad_three_url_list": [
+            {
+                "image_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/155072840888932208.png",
+                "jump_url": "http://www.qq.com"
+            },
+            {
+                "image_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/155072840888932208.png",
+                "jump_url": "http://www.qq.com"
+            },
+            {
+                "image_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/155072840888932208.png",
+                "jump_url": "http://www.qq.com"
+            }
+        ],
+        "ad_center_url": {
+            "image_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/155072840888932208.png",
+            "jump_url": "http://www.qq.com"
+        },
+        "ad_bottom_url": {
+            "image_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_c1dce03043/album/155072840888932208.png",
+            "jump_url": "http://www.qq.com"
+        },
+        "product_personal_recommend": [
+            {
+                "product_id": 33,
+                "product_name": "超级无敌玩毛车玩具13fffxxx333",
+                "product_sku": "100025",
+                "product_price": "KSh 10-8",
+                "price_type": "ladder",
+                "product_moq": "MOQ 10 Pieces",
+                "publish_time": "2019-02-25 17:23:09",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_8f538e50",
+                "company_id": "10"
+            },
+            {
+                "product_id": 34,
+                "product_name": "csdfs",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 35,
+                "product_name": "ddwrewew",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 36,
+                "product_name": "rerrr",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 37,
+                "product_name": "ffff",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 38,
+                "product_name": "超级无敌大飞车玩具133赛222d331",
+                "product_sku": "2323dsds",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-27 16:19:05",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/xxxx.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 39,
+                "product_name": "1234",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 17:28:45",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 40,
+                "product_name": "123",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 17:40:09",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 41,
+                "product_name": "ddwrewew",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 42,
+                "product_name": "ddwrewew",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            }
+        ],
+        "product_hot_recommend": [
+            {
+                "product_id": 33,
+                "product_name": "超级无敌玩毛车玩具13fffxxx333",
+                "product_sku": "100025",
+                "product_price": "KSh 10-8",
+                "price_type": "ladder",
+                "product_moq": "MOQ 10 Pieces",
+                "publish_time": "2019-02-25 17:23:09",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_8f538e50",
+                "company_id": "10"
+            },
+            {
+                "product_id": 34,
+                "product_name": "csdfs",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 35,
+                "product_name": "ddwrewew",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 36,
+                "product_name": "rerrr",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 37,
+                "product_name": "ffff",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 38,
+                "product_name": "超级无敌大飞车玩具133赛222d331",
+                "product_sku": "2323dsds",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-27 16:19:05",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/xxxx.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 39,
+                "product_name": "1234",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 17:28:45",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 40,
+                "product_name": "123",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 17:40:09",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 41,
+                "product_name": "ddwrewew",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 42,
+                "product_name": "ddwrewew",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            }
+        ],
+        "product_history": [
+            {
+                "product_id": 33,
+                "product_name": "超级无敌玩毛车玩具13fffxxx333",
+                "product_sku": "100025",
+                "product_price": "KSh 10-8",
+                "price_type": "ladder",
+                "product_moq": "MOQ 10 Pieces",
+                "publish_time": "2019-02-25 17:23:09",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_8f538e50",
+                "company_id": "10"
+            },
+            {
+                "product_id": 34,
+                "product_name": "csdfs",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 35,
+                "product_name": "ddwrewew",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 36,
+                "product_name": "rerrr",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 37,
+                "product_name": "ffff",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 38,
+                "product_name": "超级无敌大飞车玩具133赛222d331",
+                "product_sku": "2323dsds",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-27 16:19:05",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/xxxx.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 39,
+                "product_name": "1234",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 17:28:45",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 40,
+                "product_name": "123",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 17:40:09",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 41,
+                "product_name": "ddwrewew",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 42,
+                "product_name": "ddwrewew",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 43,
+                "product_name": "ddwrewew",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 44,
+                "product_name": "ddwrewew",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 45,
+                "product_name": "ddwrewew",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 46,
+                "product_name": "ddwrewew",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 47,
+                "product_name": "ddwrewew",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 48,
+                "product_name": "ddwrewew",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 49,
+                "product_name": "ddwrewew",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            },
+            {
+                "product_id": 50,
+                "product_name": "ddwrewew",
+                "product_sku": "100023",
+                "product_price": "KSh 100-2010",
+                "price_type": "base",
+                "product_moq": "MOQ 150 Pieces",
+                "publish_time": "2019-02-25 16:25:32",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "company_id": "10"
+            }
+        ]
+    }
+}
+```
