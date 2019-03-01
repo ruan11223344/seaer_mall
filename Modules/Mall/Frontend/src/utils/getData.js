@@ -377,12 +377,30 @@ const getData = {
         })
     },
     // 75.获取公司信息详情（非登录状态也可用)
-    onGetCompanyDetail(id) {
+    onGetCompanyDetail(id, user_id) {
         return new Promise((resolve, reject) => {
             request({
                 url: '/shop/get_company_detail',
                 params: {
-                    company_id  : id
+                    company_id  : id,
+                    user_id: user_id
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    },
+    // 76.获取商品分组下的商品 不登录也能用
+    onGetProductList(id) {
+        return new Promise((resolve, reject) => {
+            request({
+                url: '/shop/product_group/get_product_by_group_id',
+                params: {
+                    group_id  : id,
                 }
             }).then(res => {
                 if(res.code == 200) {

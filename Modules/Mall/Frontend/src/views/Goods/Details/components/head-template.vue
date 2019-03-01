@@ -6,7 +6,7 @@
             <div class="details-head-container-collection">
                 <img
                     @click="onCollection"
-                    :src="true ? require('@/assets/img/details/sc2.png') : require('@/assets/img/details/sc1.png')" class="details-head-container-collection-icon" />
+                    :src="Company_Detail.is_favorites_company ? require('@/assets/img/details/sc2.png') : require('@/assets/img/details/sc1.png')" class="details-head-container-collection-icon" />
                 <span>Favorites Supplier</span>
             </div>
         </header>
@@ -20,7 +20,6 @@
     import { mapState, mapMutations } from "vuex"
 
     export default {
-        props: [ 'name', 'bool' ],
         computed: {
             ...mapState([ 'User_Info', 'Company_Detail' ]),
         },
@@ -28,9 +27,9 @@
             onSetFavorites: upData.onSetFavorites,
             onDelFavorites: upData.onDelFavorites,
             onCollection(id) { // 收藏公司
-                if(this.    ) {
+                if(this.Company_Detail.is_favorites_company) {
                     // 删除
-                    this.onDelFavorites({ 
+                    this.onDelFavorites({
                         product_or_company_id_list: [ this.$route.query.company_id ],
                         type: "company"
                     })

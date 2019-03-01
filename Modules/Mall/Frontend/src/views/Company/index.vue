@@ -7,7 +7,7 @@
         </header>
 
         <template v-if="Company_Detail">
-            <v-company></v-company>
+            <v-company @on-click="getCompany"></v-company>
         </template>
 
         <!-- banner -->
@@ -45,14 +45,18 @@
         },
         methods: {
             ...mapMutations([ 'SET_COMPANY_DETAIL' ]),
-            onGetCompanyDetail: getData.onGetCompanyDetail
+            onGetCompanyDetail: getData.onGetCompanyDetail,
+            getCompany() {
+                const user_id = this.User_Info ? this.User_Info.user.id : null
+                this.onGetCompanyDetail(this.$route.query.company_id, user_id)
+                    .then(res => {
+                        this.SET_COMPANY_DETAIL(res)
+                    })
+            }
         },
         created() {
             if(!this.Company_Detail) {
-                this.onGetCompanyDetail(this.$route.query.company_id)
-                .then(res => {
-                    this.SET_COMPANY_DETAIL(res)
-                })
+                this.getCompany()
             }
         },
         components: {
