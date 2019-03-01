@@ -135,7 +135,7 @@ url:http://域名/api/auth/get_access_token
 返回成功的示例：
 {
     "code": 200,
-    "message": "成功!",
+    "message": "Success!",
     "data": {
         "token_type": "Bearer",
         "expires_in": 1296000,
@@ -179,7 +179,7 @@ url:http://域名/api/utils/get_captcha
 返回的数据:
 {
           "code": 200,
-          "message": "获取验证码成功!",
+          "message": "获取验证码Success!",
           "data": {
               "sensitive": false,
               "key": "$2y$10$N9pB3ZK4/aWaLhJyQwc62.SsbkBA1ao7gbSZEBsiDpHtOBbnJGjAK",
@@ -206,7 +206,7 @@ url:http://域名/api/auth/send_register_email
 返回:
 {
     "code": 200,
-    "message": "邮件发送成功!",
+    "message": "邮件发送Success!",
     "data": {
         "redirect_to": null  //如果没有找到邮箱地址 则返回null
     }
@@ -223,7 +223,7 @@ url:http://域名/api/utils/get_provinces_list
 
 {
     "code": 200,
-    "message": "成功!",
+    "message": "Success!",
     "data": [
         {
             "province_id": 127,
@@ -271,7 +271,7 @@ url:http://域名/api/utils/get_city_list
 返回:
 {
     "code": 200,
-    "message": "成功!",
+    "message": "Success!",
     "data": [
         {
             "city_id": 3775,
@@ -352,7 +352,7 @@ url:http://域名/api/shop/category/get_category
 返回:
 {
 "code": 200,
-"message": "成功!",
+"message": "Success!",
 "data": [
 {
 "id": 1,
@@ -427,7 +427,7 @@ url:http://域名/api/message/empty_message
 返回:
 {
     "code": 200,
-    "message": "清空成功!",
+    "message": "清空Success!",
     "data": []
 }
 ```
@@ -445,7 +445,7 @@ url:http://域名/api/message/delete_message
 返回:
 {
     "code": 200,
-    "message": "成功!",
+    "message": "Success!",
     "data": [
         {
             "subject": "wawawwawa我需要一些肉肉肉肉肉肉肉",
@@ -508,7 +508,7 @@ url:http://域名/api/message/reply_message
 返回:
 {
     "code": 200,
-    "message": "成功!",
+    "message": "Success!",
     "data": []
 }
 ```
@@ -526,7 +526,7 @@ url:http://域名/api/message/outbox_message
 返回:
 {
     "code": 200,
-    "message": "成功!",
+    "message": "Success!",
     "data": {
         "all": [
             {
@@ -1254,7 +1254,7 @@ url:http://域名/api/message/mark_flag_message
 返回：
 {
     "code": 200,
-    "message": "成功!",
+    "message": "Success!",
     "data": [
         [
             {
@@ -1299,7 +1299,7 @@ url:http://域名/api/message/mark_spam_message
 返回：
 {
     "code": 200,
-    "message": "成功!",
+    "message": "Success!",
     "data": []
 }
 ```
@@ -1324,7 +1324,7 @@ url:http://域名/api/message/mark_delete_message
 返回：
 {
     "code": 200,
-    "message": "删除消息成功!",
+    "message": "删除消息Success!",
     "data": []
 }
 ```
@@ -1344,7 +1344,7 @@ url:http://域名/api/message/mark_read_message
 返回：
 {
     "code": 200,
-    "message": "成功!",
+    "message": "Success!",
     "data": []
 }
 ```
@@ -1364,7 +1364,7 @@ url:http://域名/api/message/empty_message
 返回：
 {
     "code": 200,
-    "message": "清空成功!",
+    "message": "清空Success!",
     "data": []
 }
 ```
@@ -1385,7 +1385,7 @@ url:http://域名/api/message/message_info
 返回：
 {
     "code": 200,
-    "message": "成功!",
+    "message": "Success!",
     "data": [
         {
             "subject": "我需要大量的香蕉 可以聊一下嘛？",
@@ -1426,7 +1426,7 @@ url:http://域名/api/message/email_notification_status
 返回：
 {
     "code": 200,
-    "message": "获取邮箱通知状态成功!",
+    "message": "获取邮箱通知状态Success!",
     "data": {
         "email_notification": true
     }
@@ -1446,7 +1446,7 @@ url:http://域名/api/message/set_email_notification
 返回：
 {
     "code": 200,
-    "message": "设置成功!",
+    "message": "设置Success!",
     "data": []
 }
 ```
@@ -1466,7 +1466,7 @@ url:http://域名/api/message/confirm_delete_message
 返回：
 {
     "code": 200,
-    "message": "永久删除成功!",
+    "message": "永久删除Success!",
     "data": []
 }
 ```
@@ -1486,7 +1486,7 @@ url:http://域名/api/album/upload_img_to_album
 返回：
 {
     "code": 200,
-    "message": "成功!",
+    "message": "Success!",
     "data": [
         {
             "960 (2).jpeg": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/album/154994802072479997.jpeg"
@@ -1529,7 +1529,7 @@ json参数:
 返回：
 {
     "code": 200,
-    "message": "成功!",
+    "message": "Success!",
     "data": {
         "un_success": [
             {
@@ -1558,7 +1558,7 @@ url:http://域名/api/album/create_album
 返回：
 {
     "code": 200,
-    "message": "创建相册成功!",
+    "message": "创建相册Success!",
     "data": []
 }
 ```
@@ -1577,7 +1577,7 @@ url:http://域名/api/album/delete_album
 返回：
 {
     "code": 200,
-    "message": "删除相册成功!",
+    "message": "删除相册Success!",
     "data": []
 }
 ```
@@ -1598,7 +1598,7 @@ url:http://域名/api/album/edit_album
 返回：
 {
     "code": 200,
-    "message": "更新相册成功!",
+    "message": "更新相册Success!",
     "data": []
 }
 ```
@@ -1617,7 +1617,7 @@ url:http://域名/api/album/album_photo_list
 返回：
 {
     "code": 200,
-    "message": "获取相册图片列表成功!",
+    "message": "获取相册图片列表Success!",
     "data": [
         {
             "id": 1,
@@ -1683,7 +1683,7 @@ url:http://域名/api/album/modify_photos
 返回：
 {
     "code": 200,
-    "message": "移动图片成功!",
+    "message": "移动图片Success!",
     "data": []
 }
 ```
@@ -1702,7 +1702,7 @@ url:http://域名/api/album/album_list
 返回：
 {
     "code": 200,
-    "message": "成功!",
+    "message": "Success!",
     "data": [
         {
             "id": 1,
@@ -1754,7 +1754,7 @@ url:http://域名/api/shop/product_group/product_group_list
 返回：
 {
     "code": 200,
-    "message": "获取商品分组成功!",
+    "message": "获取商品分组Success!",
     "data": [
         {
             "id": 15,
@@ -1828,7 +1828,7 @@ json参数:
 返回：
 {
     "code": 200,
-    "message": "创建分组成功!",
+    "message": "创建分组Success!",
     "data": []
 }
 ```
@@ -1852,7 +1852,7 @@ json参数:
 返回：
 {
     "code": 200,
-    "message": "更新商品分组成功!",
+    "message": "更新商品分组Success!",
     "data": []
 }
 ```
@@ -1874,7 +1874,7 @@ json参数:
 返回：
 {
     "code": 200,
-    "message": "分组删除成功! 分组ID：17",
+    "message": "分组删除Success! 分组ID：17",
     "data": []
 }
 ```
@@ -1892,7 +1892,7 @@ json参数:
 返回:
 {
     "code": 200,
-    "message": "搜索关键词分类成功!",
+    "message": "搜索关键词分类Success!",
     "data": [
         {
             "name": "Hotel Products > Room supplies > Towel",
@@ -1915,7 +1915,7 @@ json参数:
 返回:
 {
     "code": 200,
-    "message": "获取子分类成功!",
+    "message": "获取子分类Success!",
     "data": [
         {
             "id": 2,
@@ -1962,7 +1962,7 @@ json参数:
 返回:
 {
     "code": 200,
-    "message": "获取父分类成功!",
+    "message": "获取父分类Success!",
     "data": {
         "id": 2,
         "name": "Engine Parts",
@@ -1981,7 +1981,7 @@ url:http://域名/api/shop/category/get_category_root
 返回:
 {
     "code": 200,
-    "message": "获取根分类成功!",
+    "message": "获取根分类Success!",
     "data": [
         {
             "id": 1,
@@ -2057,7 +2057,7 @@ json参数
 返回:
 {
     "code": 200,
-    "message": "发送重置密码邮件成功!",
+    "message": "发送重置密码邮件Success!",
     "data": {
         "redirect_to": "http://mail.google.com"
     }
@@ -2079,7 +2079,7 @@ json参数
 返回:
 {
     "code": 200,
-    "message": "获取member_id成功!",
+    "message": "获取member_idSuccess!",
     "data": {
         "member_id": "admin"
     }
@@ -2101,7 +2101,7 @@ json参数
 返回:
 {
     "code": 200,
-    "message": "恭喜!重置密码成功!",
+    "message": "恭喜!重置密码Success!",
     "data": []
 }
 ```
@@ -2123,7 +2123,7 @@ where  //必填 商品哪里的图  只能是 main 1 2 3 4 这5个值
 返回:
 {
     "code": 200,
-    "message": "上传成功!",
+    "message": "上传Success!",
     "data": {
         "img_path": {
             "960 (2).jpeg": "mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg"  //原始文件名+文件path
@@ -2163,7 +2163,7 @@ json参数:
 返回:
 {
     "code": 200,
-    "message": "创建商品成功!",
+    "message": "创建商品Success!",
     "data": []
 }
 ```
@@ -2185,7 +2185,7 @@ json参数:
 返回:
 {
     "code": 200,
-    "message": "获取商品详情成功!",
+    "message": "获取商品详情Success!",
     "data": {
         "product_info": {
             "id": 33,
@@ -2378,7 +2378,7 @@ json参数:
 返回:
 {
     "code": 200,
-    "message": "删除商品成功!",
+    "message": "删除商品Success!",
     "data": {
         "data_list": [
             {
@@ -2437,7 +2437,7 @@ json参数:  注意以下参数 除product_id 必填外  其他参数非必填 �
 返回:
 {
     "code": 200,
-    "message": "编辑更新商品成功!",
+    "message": "编辑更新商品Success!",
     "data": []
 }
 ```
@@ -2458,7 +2458,7 @@ json参数:    base64图片
 返回:
 {
     "code": 200,
-    "message": "上传成功!",
+    "message": "上传Success!",
     "data": {
         "img_path": "mall/users/AF_CN_7a49b34079/shop/15507166726985401.png",
         "img_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/shop/15507166726985401.png"
@@ -2481,7 +2481,7 @@ json参数:
 返回:
 {
     "code": 200,
-    "message": "设置幻灯图片成功!",
+    "message": "设置幻灯图片Success!",
     "data": []
 }
 ```
@@ -2501,7 +2501,7 @@ url:http://域名/api/shop/get_shop_banner
 返回:
 {
     "code": 200,
-    "message": "设置幻灯图片成功!",
+    "message": "设置幻灯图片Success!",
     "data": []
 }
 ```
@@ -2521,7 +2521,7 @@ json参数
 返回:
 {
     "code": 200,
-    "message": "更新成功!",
+    "message": "更新Success!",
     "data": {
         "img_path": "mall/users/AF_CN_7a49b34079/shop/155071784499763751.png",
         "img_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/shop/155071784499763751.png"
@@ -2542,7 +2542,7 @@ url:http://域名/api/shop/get_slides_list
 返回:
 {
     "code": 200,
-    "message": "获取幻灯片列表成功!",
+    "message": "获取幻灯片列表Success!",
     "data": [
         {
             "sort": 1,
@@ -2587,7 +2587,7 @@ url:http://域名/api/shop/delete_shop_banner
 返回:
 {
     "code": 200,
-    "message": "删除banner成功!",
+    "message": "删除bannerSuccess!",
     "data": []
 }
 ```
@@ -2605,7 +2605,7 @@ url:http://域名/api/get_sys_config
 返回:
 {
     "code": 200,
-    "message": "成功!",
+    "message": "Success!",
     "data": {
         "oss_url_prefix": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/"
     }
@@ -2626,7 +2626,7 @@ url:http://域名/api/shop/get_recommend_product_list
 返回:
 {
     "code": 200,
-    "message": "获取商品推荐列表成功!",
+    "message": "获取商品推荐列表Success!",
     "data": {
         "product_info_list": [
             {
@@ -2688,7 +2688,7 @@ json参数:
 返回:
 {
     "code": 200,
-    "message": "更新成功!",
+    "message": "更新Success!",
     "data": []
 }
 ```
@@ -2707,7 +2707,7 @@ image:上传文件  //格式file 键image 单个文件
 返回:
 {
     "code": 200,
-    "message": "替换图片成功!",
+    "message": "替换图片Success!",
     "data": {
         "id": 14,
         "album_id": 3,
@@ -2774,7 +2774,7 @@ json参数:
 返回:
 {
     "code": 200,
-    "message": "获取搜索结果成功!",
+    "message": "获取搜索结果Success!",
     "data": {
         "search_res_product_info_list": [
             {
@@ -2810,7 +2810,7 @@ json参数:
 返回:
 {
     "code": 200,
-    "message": "加入收藏成功!",
+    "message": "加入收藏Success!",
     "data": {
         "product": [
             {
@@ -2865,7 +2865,7 @@ json参数:
 返回:
 {
     "code": 200,
-    "message": "操作成功!",
+    "message": "操作Success!",
     "data": {
         "product": [
             {
@@ -2906,7 +2906,7 @@ url:http://域名/api/favorites/get_favorites
 返回:
 {
     "code": 200,
-    "message": "获取收藏数据成功!",
+    "message": "获取收藏数据Success!",
     "data": {
         "product": [
             {
@@ -2952,7 +2952,7 @@ json参数
 返回:
 {
     "code": 200,
-    "message": "转换成功!",
+    "message": "转换Success!",
     "data": {
         "form": "CNY",
         "to": "KES",
@@ -2977,7 +2977,7 @@ json参数
 返回:
 {
     "code": 400,
-    "message": "获取商品分类成功!",
+    "message": "获取商品分类Success!",
     "data": [
         {
             "product_id": 31,
@@ -3009,7 +3009,7 @@ json参数
 返回:
 {
     "code": 200,
-    "message": "获取商品列表成功!",
+    "message": "获取商品列表Success!",
     "data": {
         "data_list": [
             {
@@ -3063,7 +3063,7 @@ url:http://域名/api/shop/category/get_last_products_categories
 返回:
 {
     "code": 200,
-    "message": "获取最近选择的分类成功!",
+    "message": "获取最近选择的分类Success!",
     "data": [
         {
             "name": "Auto & Transportation > Transmission Parts > Intermediate Gear",
@@ -3093,7 +3093,7 @@ json参数
 返回:
 {
     "code": 200,
-    "message": "操作成功!",
+    "message": "操作Success!",
     "data": {
         "data_list": [
             {
@@ -3182,7 +3182,7 @@ url:http://域名/api/auth/get_avatar
 返回:
 {
     "code": 200,
-    "message": "获取头像成功!",
+    "message": "获取头像Success!",
     "data": {
         "avatar_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/avatar/155116053029805547.png",
         "avatar_path": "mall/users/AF_CN_7a49b34079/avatar/155116053029805547.png"
@@ -3205,7 +3205,7 @@ json参数
 返回:
 {
     "code": 200,
-    "message": "上传头像成功!",
+    "message": "上传头像Success!",
     "data": {
         "avatar_img_path": "mall/users/AF_CN_7a49b34079/avatar/155116115555708014.png",
         "avatar_img_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/avatar/155116115555708014.png"
@@ -3226,7 +3226,7 @@ url:http://域名/api/auth/get_account_info
 返回:
 {
     "code": 200,
-    "message": "获取账户信息成功!",
+    "message": "获取账户信息Success!",
     "data": {
         "member_id": "tests",
         "email_address": "421566927@qq.com",
@@ -3260,7 +3260,7 @@ json参数:
 返回:
 {
     "code": 200,
-    "message": "更新成功!",
+    "message": "更新Success!",
     "data": {
         "id": 7,
         "user_id": 13,
@@ -3300,7 +3300,7 @@ url:http://域名/api/auth/get_company_info
 返回:
 {
     "code": 200,
-    "message": "获取公司信息成功!",
+    "message": "获取公司信息Success!",
     "data": {
         "basic_info": {
             "business_type": "Trading Company",
@@ -3641,7 +3641,7 @@ json参数:  注意以下参数 如不更新则不传键名即可。
 返回:
 {
     "code": 200,
-    "message": "设置公司信息成功!",
+    "message": "设置公司信息Success!",
     "data": {
         "basic_info": {
             "business_type": "Trading Company",
@@ -3943,7 +3943,7 @@ url:http://域名/api/shop/product/product_search
 返回:
 {
     "code": 200,
-    "message": "搜索成功!",
+    "message": "搜索Success!",
     "data": [
         {
             "product_id": 33,
@@ -3997,7 +3997,7 @@ url:http://域名/api/shop/shop_search
 返回:
 {
     "code": 200,
-    "message": "搜索店铺成功!",
+    "message": "搜索店铺Success!",
     "data": [
         {
             "id": 1,
@@ -4123,7 +4123,7 @@ url:http://域名/api/shop/get_company_detail
 返回:
 {
     "code": 200,
-    "message": "获取公司信息成功!",
+    "message": "获取公司信息Success!",
     "data": {
         "basic_info": {
             "business_type": "Trading Company",
@@ -4434,7 +4434,7 @@ json参数
 返回:
 {
     "code": 200,
-    "message": "获取分组下的商品成功!",
+    "message": "获取分组下的商品Success!",
     "data": [
         {
             "product_id": 33,

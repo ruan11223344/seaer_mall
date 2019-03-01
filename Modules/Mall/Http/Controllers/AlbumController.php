@@ -50,11 +50,11 @@ class AlbumController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         if($request->input('album_name') == 'Default Album'){
-            return $this->echoErrorJson('album name 不能是 Default Album!');
+            return $this->echoErrorJson('Album name cannot be Default album!');
         }
 
         if(AlbumUser::where(
@@ -63,7 +63,7 @@ class AlbumController extends Controller
                 ['user_id','=',Auth::id()]
             ]
         )->exists()){
-            return $this->echoErrorJson('错误!存在相同名称相册!不能创建!');
+            return $this->echoErrorJson('Error!The same name album exists!Can\'t create!');
         }
 
         $data['user_id'] = Auth::id();
@@ -73,7 +73,7 @@ class AlbumController extends Controller
 
         $res_data = self::getAlbumInfo();
 
-        return $this->echoSuccessJson('创建相册成功!',$res_data);
+        return $this->echoSuccessJson('The album was created successfully.!',$res_data);
     }
 
     public function editAlbum(Request $request){
@@ -85,21 +85,21 @@ class AlbumController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $album = AlbumUser::find($data['album_id']);
 
         if($album->soft_delete){
-            return $this->echoErrorJson('错误!不能修改已删除的相册!');
+            return $this->echoErrorJson('Error!Cannot modify deleted album!');
         }
 
         if($album->user_id != Auth::id()){
-            return $this->echoErrorJson('错误!只能修改用户自己的相册!');
+            return $this->echoErrorJson('Error!Users can only modify their own albums!');
         }
 
         if($album->alnum_name == 'Default Album'){
-            return $this->echoErrorJson('错误!不能修改默认相册!');
+            return $this->echoErrorJson('Error!Cannot modify default album!');
         }
 
         if(AlbumUser::where(
@@ -109,7 +109,7 @@ class AlbumController extends Controller
                 ['user_id','=',Auth::id()]
             ]
         )->exists()){
-            return $this->echoErrorJson('错误!存在相同名称相册!不能修改!');
+            return $this->echoErrorJson('Error!The same name album exists!Cannot be modified!');
         }
 
         unset($data['album_id']);
@@ -120,7 +120,7 @@ class AlbumController extends Controller
 
         $res_data = self::getAlbumInfo();
 
-        return $this->echoSuccessJson('更新相册成功!',$res_data);
+        return $this->echoSuccessJson('Update album successfully!',$res_data);
     }
 
     public function deleteAlbum(Request $request){
@@ -130,18 +130,18 @@ class AlbumController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $album = AlbumUser::find($data['album_id']);
 
         if($album->user_id != Auth::id()){
-            return $this->echoErrorJson('错误!只能删除用户自己的相册!');
+            return $this->echoErrorJson('Error!Users can only delete their own albums!');
         }
 
 
         if($album->album_name == 'Default Album'){
-            return $this->echoErrorJson('错误!不能删除默认相册!');
+            return $this->echoErrorJson('Error!Cannot delete default album!');
         }
 
         $album->update([
@@ -151,7 +151,7 @@ class AlbumController extends Controller
         $res_data = self::getAlbumInfo();
 
 
-        return $this->echoSuccessJson('删除相册成功!',$res_data);
+        return $this->echoSuccessJson('Delete album successfully!',$res_data);
 
     }
 
@@ -162,12 +162,12 @@ class AlbumController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $images = $request->file('images');
         if($images == null){
-            return $this->echoErrorJson('错误!没有图片!');
+            return $this->echoErrorJson('Error!No pictures!');
         }
 
         if(count($images) == 1){
@@ -176,7 +176,7 @@ class AlbumController extends Controller
            $res = UtilsController::uploadMultipleFile($images,UtilsController::getUserAlbumDirectory(),true,true);
         }
 
-        return $this->echoSuccessJson('成功!',$res);
+        return $this->echoSuccessJson('Success!',$res);
     }
 
     public function saveImgToAlbum(Request $request){
@@ -190,7 +190,7 @@ class AlbumController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $album_id = $request->input('album_id');
@@ -244,7 +244,7 @@ class AlbumController extends Controller
 
         $res = AlbumPhoto::insert($insert_data);
         if($res){
-            return $this->echoSuccessJson('成功!',$res_data);
+            return $this->echoSuccessJson('Success!',$res_data);
         }
     }
 
@@ -255,7 +255,7 @@ class AlbumController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $album = AlbumUser::find($data['album_id']);
@@ -287,12 +287,12 @@ class AlbumController extends Controller
 
         }
 
-        return $this->echoSuccessJson('获取相册图片列表成功!',$data);
+        return $this->echoSuccessJson('获取相册图片列表Success!',$data);
     }
 
     public function albumList(){
         $data = self::getAlbumInfo();
-        return $this->echoSuccessJson('成功!',$data);
+        return $this->echoSuccessJson('Success!',$data);
     }
 
     public function modifyPhotos(Request $request){
@@ -313,7 +313,7 @@ class AlbumController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $action  = $request->input('action');
@@ -330,7 +330,7 @@ class AlbumController extends Controller
             ]);
 
             if ($res) {
-                return $this->echoSuccessJson('移动图片成功!');
+                return $this->echoSuccessJson('移动图片Success!');
             } else {
                 return $this->echoErrorJson('移动图片失败!');
             }
@@ -340,7 +340,7 @@ class AlbumController extends Controller
             ]);
 
             if ($res) {
-                return $this->echoSuccessJson('删除图片成功!');
+                return $this->echoSuccessJson('删除图片Success!');
             } else {
                 return $this->echoErrorJson('删除图片失败!');
             }
@@ -355,7 +355,7 @@ class AlbumController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $photo_id = $request->input('photo_id');
@@ -374,7 +374,7 @@ class AlbumController extends Controller
 
         $photo_obj->save();
 
-        return $this->echoSuccessJson('替换图片成功!',$photo_obj->toArray());
+        return $this->echoSuccessJson('替换图片Success!',$photo_obj->toArray());
     }
 
     public function getImgInfo(Request $request){

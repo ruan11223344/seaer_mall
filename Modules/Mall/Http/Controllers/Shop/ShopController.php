@@ -65,7 +65,7 @@ class ShopController extends Controller
         ]);
 
         if ($validator->fails()){
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $img = UtilsController::uploadFilesByBase64([$request->input('banner_img_base64')]);
@@ -87,7 +87,7 @@ class ShopController extends Controller
             ]);
         }
 
-        return $this->echoSuccessJson('更新成功!',['img_path'=>$img_path,'img_url'=>$img_url]);
+        return $this->echoSuccessJson('Update the Success!',['img_path'=>$img_path,'img_url'=>$img_url]);
     }
 
     public static function getShopBannerData($company_id){
@@ -110,7 +110,7 @@ class ShopController extends Controller
         if($data == null){
             return $this->echoErrorJson('错误!没有设置过banner!');
         }else{
-            return $this->echoSuccessJson('设置bannaer成功!',$data);
+            return $this->echoSuccessJson('Set the bannaer Success!',$data);
         }
     }
 
@@ -124,7 +124,7 @@ class ShopController extends Controller
             $shop_obj->save();
         }
 
-        return $this->echoSuccessJson('删除banner成功!');
+        return $this->echoSuccessJson('Delete banner Success!');
     }
 
     public function setSlides(Request $request){
@@ -137,18 +137,18 @@ class ShopController extends Controller
                 $site_domain = env('MALL_DOMAIN');
                 foreach ($value as $v){
                     if(!(isset($v['url_path']) && isset($v['sort']))){
-                        $validator->setCustomMessages(['slide_list_check' => 'The lack of object!']);
+                        $validator->setCustomMessages(['slide_list_check' => 'Missing corresponding object!']);
                         return false;
                     }
 
                     if(stripos($v['url_path'],$path) === false){
-                        $validator->setCustomMessages(['slide_list_check' => 'image path error']);
+                        $validator->setCustomMessages(['slide_list_check' => 'image path error!']);
                         return false;
                     }
 
                     if($v['url_jump'] != null){
                         if(stripos($v['url_jump'],$site_domain) === false){
-                            $validator->setCustomMessages(['slide_list_check' => 'Cannot set other domain!']);
+                            $validator->setCustomMessages(['slide_list_check' => 'Cannot set up except afriby.com link!']);
                             return false;
                         }
                     }
@@ -164,7 +164,7 @@ class ShopController extends Controller
         ]);
 
         if ($validator->fails()){
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
 
@@ -202,7 +202,7 @@ class ShopController extends Controller
             ]);
         }
 
-        return $this->echoSuccessJson('设置幻灯图片成功!');
+        return $this->echoSuccessJson('Set the slide picture Success!');
     }
 
     public function uploadSlide(Request $request){
@@ -243,11 +243,11 @@ class ShopController extends Controller
         ]);
 
         if ($validator->fails()){
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $img = UtilsController::uploadFilesByBase64([$request->input('slide_img_base64')]);
-        return $this->echoSuccessJson('上传成功!',['img_path'=>$img[0]['path'],'img_url'=>$img[0]['file_url']]);
+        return $this->echoSuccessJson('Upload Success!',['img_path'=>$img[0]['path'],'img_url'=>$img[0]['file_url']]);
     }
 
     public static function getSlidesData($company_id){
@@ -272,9 +272,9 @@ class ShopController extends Controller
         $company_id = Auth::user()->company->id;
         $res = self::getSlidesData($company_id);
         if($res == null){
-            return $this->echoErrorJson('错误！没有设置过轮播');
+            return $this->echoErrorJson('Error!No round robin has been set！');
         }else{
-            return $this->echoSuccessJson('获取轮播图成功!',$res);
+            return $this->echoSuccessJson('Get the round robin map Success!',$res);
         }
     }
 
@@ -323,7 +323,7 @@ class ShopController extends Controller
                }
            }
         }
-        return $this->echoSuccessJson('获取商品推荐列表成功!',['product_info_list'=>$res,'recommend_product_id_list'=>$product_id_list]);
+        return $this->echoSuccessJson('Get the product recommendation list Success!',['product_info_list'=>$res,'recommend_product_id_list'=>$product_id_list]);
     }
 
     public function searchRecommendProduct(Request $request){
@@ -336,7 +336,7 @@ class ShopController extends Controller
         ]);
 
         if ($validator->fails()){
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
         $company_id = Auth::user()->company->id;
 
@@ -373,10 +373,10 @@ class ShopController extends Controller
         if($product_obj->count() > 0){
             $res = ProductsController::getProductFormatInfo($product_obj);
         }else{
-            return $this->echoErrorJson('没有搜索到结果!');
+            return $this->echoErrorJson('No results were found!');
         }
 
-        return $this->echoSuccessJson('获取搜索结果成功!',['search_res_product_info_list'=>$res]);
+        return $this->echoSuccessJson('Get the search result Success!',['search_res_product_info_list'=>$res]);
     }
 
     public function setRecommendProductList(Request $request){
@@ -392,12 +392,12 @@ class ShopController extends Controller
                 }
 
                 if($p_item->company_id != Auth::user()->company->id){
-                    $validator->setCustomMessages(['product_id_list_check' => 'product_id not your company id:'.$v]);
+                    $validator->setCustomMessages(['product_id_list_check' => 'Product_id does not belong to your account , id:'.$v]);
                     return false;
                 }
 
                 if($p_item->product_status != 1 || $p_item->product_audit_status !=1){
-                    $validator->setCustomMessages(['product_id_list_check' => 'product_id not sell id:'.$v]);
+                    $validator->setCustomMessages(['product_id_list_check' => 'product_id is not on shelves, id:'.$v]);
                     return false;
                 }
 
@@ -410,7 +410,7 @@ class ShopController extends Controller
         ]);
 
         if ($validator->fails()){
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $product_id_list = $request->input('product_id_list');
@@ -432,9 +432,9 @@ class ShopController extends Controller
         }
 
         if($res){
-            return $this->echoSuccessJson('更新成功!');
+            return $this->echoSuccessJson('Update the Success!');
         }else{
-            return $this->echoErrorJson('更新失败!');
+            return $this->echoErrorJson('Update failed!');
         }
     }
 
@@ -479,7 +479,7 @@ class ShopController extends Controller
                 $company_arr[$k]['telephone'] = $v['company_mobile_phone'];
             }
 
-            return $this->echoSuccessJson('搜索店铺成功!',$company_arr);
+            return $this->echoSuccessJson('Search store Success!',$company_arr);
         }
     }
 
@@ -491,7 +491,7 @@ class ShopController extends Controller
         ]);
 
         if ($validator->fails()){
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
         $company_id = $request->input('company_id');
         $data =AuthorizationsController::getCompanyInfoData($company_id);
@@ -502,7 +502,7 @@ class ShopController extends Controller
                 ['type','=','company'],
                 ['product_or_company_id','=',$company_id],
             ])->exists() ? true : false;
-        return $this->echoSuccessJson('获取公司信息成功!',$data);
+        return $this->echoSuccessJson('Obtain company information about Success!',$data);
     }
 
 }

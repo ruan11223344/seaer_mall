@@ -85,7 +85,7 @@ class RegisterController extends Controller
     {
         $data = $request->all();
         if(Auth::check()){
-            return $this->echoJson('您已经登录,无法进行注册!',400);
+            return $this->echoJson('You are logged in and cannot register!',400);
         }
 
         Validator::extend('check_china', function($attribute, $value){
@@ -143,7 +143,7 @@ class RegisterController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         try{
@@ -210,13 +210,13 @@ class RegisterController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
-            return $this->echoErrorJson('注册失败',[$e->getMessage()]);
+            return $this->echoErrorJson('register fail!:',[$e->getMessage()]);
         }
         $this->guard()->login($user);
 
         $token = $user->createToken(null)->accessToken;
 
-        return $this->echoSuccessJson('注册成功!',['access_token'=>$token,'user_info'=>[
+        return $this->echoSuccessJson('Registered Success!',['access_token'=>$token,'user_info'=>[
             'user'=>$user,
             'user_extends'=>$user_extends,
             'company'=>$company
@@ -240,11 +240,11 @@ class RegisterController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('this page is expired!'.$validator->messages());
+            return $this->echoErrorJson('This page has expired!'.$validator->messages());
         }else{
             $reg_tmp = RegisterTemp::where('register_uuid',$data['uuid'])->first();
             $reg_tmp->update(['status' => RegisterTemp::STATUS_VISITED]);
-            return $this->echoSuccessJson('you can continue to register!',[
+            return $this->echoSuccessJson('You can continue to register!',[
                 'account_type'=>$reg_tmp->account_type,
                 'member_id'=>$reg_tmp->member_id,
                 'email'=>$reg_tmp->email,
@@ -298,7 +298,7 @@ class RegisterController extends Controller
         ],$messages);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $register_uuid = Uuid::generate();
@@ -321,14 +321,14 @@ class RegisterController extends Controller
                 ],$email_obj::TEMPLATE_REGISTER)
             ){
                 DB::commit();
-                return $this->echoSuccessJson('邮件发送成功!',['redirect_to'=>EMail::foundEmailUrl($email)]);
+                return $this->echoSuccessJson('Send Success by email!',['redirect_to'=>EMail::foundEmailUrl($email)]);
             }else{
                 DB::rollback();
-                return $this->echoErrorJson('注册邮件发送失败!请联系管理员!');
+                return $this->echoErrorJson('Registration email delivery failed!Please contact the administrator!');
             }
         }catch (Exception $e){
             DB::rollback();
-            return $this->echoErrorJson('提交失败',[$e->getMessage()]);
+            return $this->echoErrorJson('submit failure!:',[$e->getMessage()]);
         }
     }
 

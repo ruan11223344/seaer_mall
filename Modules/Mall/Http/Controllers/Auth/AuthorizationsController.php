@@ -83,7 +83,7 @@ class AuthorizationsController extends Controller
     {
         $data = $serverRequest->getParsedBody();
         if($data === []){
-            return $this->echoErrorJson('错误!参数不能为空!',[]);
+            return $this->echoErrorJson('Error!Parameter cannot be empty!',[]);
         }
         $this->ip = $serverRequest->getServerParams()['REMOTE_ADDR'];
         $this->username = $data['username'];
@@ -95,7 +95,7 @@ class AuthorizationsController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return $this->echoErrorJson('验证码验证失败!'.$validator->messages());
+                return $this->echoErrorJson('Verification code verification failed!'.$validator->messages());
             }
         }
 
@@ -109,7 +109,7 @@ class AuthorizationsController extends Controller
                 'refresh_token'=>$token_data->refresh_token,
             ];
             $this->clearLoginAttempts();
-            return $this->echoSuccessJson('成功!',$data);
+            return $this->echoSuccessJson('Success!',$data);
         } catch (OAuthServerException $e) {
             $this->incrementLoginAttempts();
             return $this->echoErrorJson($e->getMessage());
@@ -126,7 +126,7 @@ class AuthorizationsController extends Controller
         $publishProductPermissions = ProductsController::getPublishProductPermissions();
         $publish_product['status'] = $publishProductPermissions[0];
         $publish_product['message'] = $publishProductPermissions[1];
-        return $this->echoSuccessJson('获取用户信息成功！',compact('user','company','user_extends','publish_product'));
+        return $this->echoSuccessJson('User information obtained successfully！',compact('user','company','user_extends','publish_product'));
     }
 
 
@@ -168,7 +168,7 @@ class AuthorizationsController extends Controller
         ]);
 
         if ($validator->fails()){
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
         $img = UtilsController::uploadAvatar($request->input('avatar_img_base64'));
         $img_path = $img['path'];
@@ -179,20 +179,20 @@ class AuthorizationsController extends Controller
            'avatar_url'=>$img_path
         ]);
 
-        return $this->echoSuccessJson('上传头像成功!',['avatar_img_path'=>$img_path,'avatar_img_url'=>$img_url]);
+        return $this->echoSuccessJson('Upload avatar Success!',['avatar_img_path'=>$img_path,'avatar_img_url'=>$img_url]);
     }
 
     public function getAvatar(){
         $avatar_url = Auth::user()->usersExtends->avatar_url;
 
         if($avatar_url == null){
-            return $this->echoErrorJson('从未设置过头像！');
+            return $this->echoErrorJson('not set an avatar！');
         }else{
             $res = [];
             $res['avatar_url'] = UtilsController::getPathFileUrl($avatar_url);
             $res['avatar_path'] = $avatar_url;
 
-            return $this->echoSuccessJson('获取头像成功!',$res);
+            return $this->echoSuccessJson('Get avatar successfully!',$res);
         }
     }
 
@@ -210,7 +210,7 @@ class AuthorizationsController extends Controller
         $data['address'] = $user_obj->usersExtends->detailed_address;
         $data['sex'] = $user_obj->usersExtends->sex;
 
-        return $this->echoSuccessJson('获取账户信息成功!',$data);
+        return $this->echoSuccessJson('Obtain account information Success!',$data);
     }
 
     public function setAccountInfo(R $request){
@@ -226,7 +226,7 @@ class AuthorizationsController extends Controller
 
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $usersExtends = Auth::user()->usersExtends;
@@ -265,7 +265,7 @@ class AuthorizationsController extends Controller
         $res = $usersExtends->save();
 
         if($res){
-            return $this->echoSuccessJson('更新成功!',Auth::user()->usersExtends->toArray());
+            return $this->echoSuccessJson('Update the Success!',Auth::user()->usersExtends->toArray());
         }
     }
 
@@ -394,7 +394,7 @@ class AuthorizationsController extends Controller
 
     public function getCompanyInfo(){
         $data = self::getCompanyInfoData();
-        return $this->echoSuccessJson('获取公司信息成功!',$data);
+        return $this->echoSuccessJson('Obtain company information about Success!',$data);
     }
 
     public function setCompanyInfo(R $request){
@@ -414,13 +414,13 @@ class AuthorizationsController extends Controller
                 return false;
             }else{
                 if(count($value) > 5){
-                    $validator->setCustomMessages(['business_range_arr_check' => 'business_range max 5 item']);
+                    $validator->setCustomMessages(['business_range_arr_check' => ' The business_range largest element is 5']);
                     return false;
                 }
             }
             foreach ($value as $v){
                 if(BusinessRange::find($v) == null){
-                    $validator->setCustomMessages(['business_range_arr_check' => 'business_range id don\'t exists! id:'.$v]);
+                    $validator->setCustomMessages(['business_range_arr_check' => 'business_range id don\'t exists id:'.$v]);
                     return false;
                 }
             }
@@ -430,7 +430,7 @@ class AuthorizationsController extends Controller
         Validator::extend('oss_path', function($attribute, $value,$parameters,$validator){
             if($value != null){
                 if(stripos($value,UtilsController::getUserPrivateDirectory(Auth::user()->usersExtends->af_id)) === false){
-                    $validator->setCustomMessages(['oss_path' => 'oss_path error']);
+                    $validator->setCustomMessages(['oss_path' => 'oss path error!']);
                     return false;
                 }
             }
@@ -456,7 +456,7 @@ class AuthorizationsController extends Controller
 
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $company = Auth::user()->company;
@@ -485,9 +485,9 @@ class AuthorizationsController extends Controller
 
         if($res){
             $data = self::getCompanyInfoData();
-            return $this->echoSuccessJson('设置公司信息成功!',$data);
+            return $this->echoSuccessJson('Setup company information successful!',$data);
         }else{
-            return $this->echoErrorJson('入库失败!');
+            return $this->echoErrorJson('Write to database failed!');
         }
 
 

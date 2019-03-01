@@ -20,7 +20,7 @@ class verify
             if($captcha->create_at+$captcha->timeout_second > time()){
                 $captcha->status = self::VERIFY_SUCCESS;
                 $response_status = 0;
-                $response_message = '验证成功!';
+                $response_message = '验证Success!';
             }else{
                 $response_status = 1;
                 $captcha->status = self::VERIFY_TIMEOUT;

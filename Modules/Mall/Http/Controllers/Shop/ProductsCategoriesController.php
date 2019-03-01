@@ -21,14 +21,14 @@ class ProductsCategoriesController extends Controller
     use EchoJson;
     public function getProductsCategories(){
         $data = ProductsCategories::get()->toTree()->toArray();
-        return $this->echoSuccessJson('成功!',$data);
+        return $this->echoSuccessJson('Success!',$data);
     }
 
 
     public function getCategoriesRoot(){
         $root = ProductsCategories::whereIsRoot()->get()->toArray();
 
-        return $this->echoSuccessJson('获取根分类成功!',$root);
+        return $this->echoSuccessJson('Get the root classification Success!',$root);
     }
 
 
@@ -40,18 +40,18 @@ class ProductsCategoriesController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $category = ProductsCategories::where('id',$request->input('categories_id'))->get()->first();
 
         if($category->isRoot()){
-            return $this->echoErrorJson('这个分类最顶的分类了,没有父分类。');
+            return $this->echoErrorJson('The top category of this category, there\'s no parent category.!');
         }
 
         $child = $category->parent->toArray();
 
-        return $this->echoSuccessJson('获取父分类成功!',$child);
+        return $this->echoSuccessJson('Gets the parent classification Success!',$child);
 
     }
 
@@ -64,18 +64,18 @@ class ProductsCategoriesController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $category = ProductsCategories::where('id',$request->input('categories_id'))->get()->first();
 
         if($category->isLeaf()){
-            return $this->echoErrorJson('这个分类已经是最底层的分类了,没有子分类。');
+            return $this->echoErrorJson('This is the lowest level of classification, no sub-classification!');
         }
 
         $child = $category->children->toArray();
 
-        return $this->echoSuccessJson('获取子分类成功!',$child);
+        return $this->echoSuccessJson('Gets the parent classification Success!',$child);
     }
 
     public static function getCategoriesParentTreeStr($categories_id_list){
@@ -138,12 +138,12 @@ class ProductsCategoriesController extends Controller
         }
 
         if($categories_list == null){
-            return $this->echoErrorJson('没有搜索到关键词分类!');
+            return $this->echoErrorJson('No keyword category found!');
         }
 
         $res_str_list = self::getCategoriesParentTreeStr($categories_list);
 
-        return $this->echoSuccessJson('搜索关键词分类成功!',$res_str_list);
+        return $this->echoSuccessJson('The search keyword classification was successful!',$res_str_list);
     }
 
     public function getCategoriesProduct(Request $request){
@@ -154,7 +154,7 @@ class ProductsCategoriesController extends Controller
         ]);
 
         if ($validator->fails()){
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $categories_id = $request->input('categories_id');
@@ -166,10 +166,10 @@ class ProductsCategoriesController extends Controller
         ]);
 
         if($products_orm->get()->isEmpty()){
-            return $this->echoErrorJson('该分类没有商品!');
+            return $this->echoErrorJson('There are no goods in this category!');
         }else{
             $res_data = ProductsController::getProductFormatInfo($products_orm);
-            return $this->echoErrorJson('获取商品分类成功!',$res_data);
+            return $this->echoErrorJson('The product classification is successful!',$res_data);
         }
 
     }
@@ -177,10 +177,10 @@ class ProductsCategoriesController extends Controller
     public function getLastProductsCategories(){
         $product_categories_id_list = Products::where('company_id',Auth::user()->company->id)->get()->pluck('product_categories_id')->unique()->toArray();
         if($product_categories_id_list == null){
-            return $this->echoErrorJson('失败,没有最近选择的分类!');
+            return $this->echoErrorJson('Failure, there is no recently selected category!');
         }else{
             $res_str_list = self::getCategoriesParentTreeStr($product_categories_id_list);
-            return $this->echoSuccessJson('获取最近选择的分类成功!',$res_str_list);
+            return $this->echoSuccessJson('Gets the recently selected category success!',$res_str_list);
         }
     }
 

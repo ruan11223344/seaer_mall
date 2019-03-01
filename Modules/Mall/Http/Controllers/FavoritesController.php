@@ -27,12 +27,12 @@ class FavoritesController extends Controller
             $type = $validator->getData()['type'];
             if($type == 'product'){
                 if(Products::find($value) == null){
-                    $validator->setCustomMessages(['check_product_or_company_id' => 'product id don\'t exist!']);
+                    $validator->setCustomMessages(['check_product_or_company_id' => 'product_id don\'t exists!']);
                     return false;
                 }
             }elseif ($type == 'company'){
                 if(Company::find($value) == null){
-                    $validator->setCustomMessages(['check_product_or_company_id' => 'company id don\'t exist!']);
+                    $validator->setCustomMessages(['check_product_or_company_id' => 'company_id don\'t exists!']);
                     return false;
                 }
             }
@@ -45,7 +45,7 @@ class FavoritesController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $company_id = Auth::user()->company->id;
@@ -55,9 +55,9 @@ class FavoritesController extends Controller
         $res = Favorites::updateOrCreate($data,$data);
         if($res){
             $res_data = self::getFavoritesData();
-            return $this->echoSuccessJson('加入收藏成功!',$res_data);
+            return $this->echoSuccessJson('Add Success to favorites!',$res_data);
         }else{
-            return $this->echoErrorJson('操作失败!');
+            return $this->echoErrorJson('The operation failure!');
         }
     }
 
@@ -88,7 +88,7 @@ class FavoritesController extends Controller
 
     public function getFavorites(){
         $res = self::getFavoritesData();
-        return $this->echoSuccessJson('获取收藏数据成功!',$res);
+        return $this->echoSuccessJson('Fetch the favorite data Success!',$res);
     }
 
     public function deleteFavorites(Request $request){
@@ -98,21 +98,21 @@ class FavoritesController extends Controller
             $type = $validator->getData()['type'];
 
             if(!is_array($value)){
-                $validator->setCustomMessages(['check_product_or_company_id_list' => 'list must be a array!']);
+                $validator->setCustomMessages(['check_product_or_company_id_list' => 'The parameter must be an array!']);
                 return false;
             }
 
             if($type == 'product'){
                 foreach ($value as $v){
                     if(Products::find($v) == null){
-                        $validator->setCustomMessages(['check_product_or_company_id_list' => 'product id don\'t exist!id:'.$v]);
+                        $validator->setCustomMessages(['check_product_or_company_id_list' => 'product_id don\'t exists! ,id:'.$v]);
                         return false;
                     }
                 }
             }elseif ($type == 'company'){
                 foreach ($value as $v){
                     if(Company::find($v) == null){
-                        $validator->setCustomMessages(['check_product_or_company_id_list' => 'company id don\'t exist!id:'.$v]);
+                        $validator->setCustomMessages(['check_product_or_company_id_list' => 'company_id don\'t exists!id:'.$v]);
                         return false;
                     }
                 }
@@ -126,7 +126,7 @@ class FavoritesController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
         $company_id = Auth::user()->company->id;
         $type = $request->input('type');
@@ -137,7 +137,7 @@ class FavoritesController extends Controller
             ]
         )->whereIn('product_or_company_id',$request->input('product_or_company_id_list'))->delete();
         $res_data = self::getFavoritesData();
-        return $this->echoSuccessJson('操作成功!',$res_data);
+        return $this->echoSuccessJson('Operation Success!',$res_data);
     }
 
 }

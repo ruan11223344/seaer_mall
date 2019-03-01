@@ -234,7 +234,7 @@ class MessagesController extends Controller
         ]);
 
         if ($validator->fails()){
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
         $subject = $request->input('subject');
         $body = $request->input('content');
@@ -250,7 +250,7 @@ class MessagesController extends Controller
             $re_user_id = $re_participant->user_id;
 
             if($re_body == $body && $re_user_id == $to_user_id){
-                return $this->echoErrorJson('失败!不能发生相同的消息给同一个用户',[]);
+                return $this->echoErrorJson('Failure!The same message cannot occur to the same user!',[]);
             }
         }
 
@@ -320,9 +320,9 @@ class MessagesController extends Controller
             DB::commit();
         }catch (Exception $e){
             DB::rollback();
-            return $this->echoErrorJson('发布消息失败!',[$e->getMessage()]);
+            return $this->echoErrorJson('Publishing message failed!',[$e->getMessage()]);
         }
-        return $this->echoSuccessJson('发布消息成功',$thread->toArray());
+        return $this->echoSuccessJson('The message was published successfully!',$thread->toArray());
     }
 
     public function deleteMessage(){
@@ -331,7 +331,7 @@ class MessagesController extends Controller
         $message = InquiryMessages::where('user_id',$user_id)->where('extends->soft_deleted_at','!=',false)->where('extends->true_deleted_at','=',false)->get();
         $message_data = $this->messageListInfo($message);
         $participant_data = $this->participantListInfo($participant);
-        return $this->echoSuccessJson('成功!',array_merge($message_data,$participant_data));
+        return $this->echoSuccessJson('Success!',array_merge($message_data,$participant_data));
     }
 
 
@@ -344,7 +344,7 @@ class MessagesController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $form_message_id = $request->input('message_id');
@@ -365,7 +365,7 @@ class MessagesController extends Controller
 
         if($re_body == $content){
             if(InquiryParticipants::where('extends->message_id',(integer)$re_message->id)->get()->first()->user_id == $to_user_id){
-                return $this->echoErrorJson('你不能发送重复的消息给同一用户!',[]);
+                return $this->echoErrorJson('You cannot send duplicate messages to the same user!',[]);
             }
         }
 
@@ -425,9 +425,9 @@ class MessagesController extends Controller
             DB::commit();
         }catch (Exception $e){
             DB::rollback();
-            return $this->echoErrorJson('回复失败!',[$e->getMessage()]);
+            return $this->echoErrorJson('Respond to failure!',[$e->getMessage()]);
         }
-        return $this->echoSuccessJson('成功!',[]);
+        return $this->echoSuccessJson('Success!',[]);
     }
 
     public function outboxMessage(){
@@ -446,7 +446,7 @@ class MessagesController extends Controller
             }
         }
 
-        return $this->echoSuccessJson('成功!',compact('all','unread','read'));
+        return $this->echoSuccessJson('Success!',compact('all','unread','read'));
     }
 
     public function inboxMessage(){
@@ -466,13 +466,13 @@ class MessagesController extends Controller
             }
         }
 
-        return $this->echoSuccessJson('成功',compact('all','unread','pending_for_reply'));
+        return $this->echoSuccessJson('Success!',compact('all','unread','pending_for_reply'));
     }
 
     public function spamMessage(){
         $orm_build = InquiryParticipants::where('user_id',Auth::id())->where('extends->soft_deleted_at',false)->where('extends->is_spam',true);
         $all = $this->participantListInfo($orm_build->get());
-        return $this->echoSuccessJson('成功',compact('all'));
+        return $this->echoSuccessJson('Success!',compact('all'));
     }
 
     //获取标记为旗帜的消息
@@ -483,7 +483,7 @@ class MessagesController extends Controller
         $outbox_data = $this->messageListInfo($outbox);
         $inbox_data = $this->participantListInfo($inbox);
         $all = array_merge($outbox_data,$inbox_data);
-        return $this->echoSuccessJson('成功',compact('all'));
+        return $this->echoSuccessJson('Success!',compact('all'));
     }
     
     public function markFlagMessage(Request $request){
@@ -495,7 +495,7 @@ class MessagesController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $action = $request->input('action');
@@ -513,7 +513,7 @@ class MessagesController extends Controller
             $item->save();
         });
 
-        return $this->echoSuccessJson('成功!',[$rom_build]);
+        return $this->echoSuccessJson('Success!',[$rom_build]);
     }
 
     public function markSpamMessage(Request $request){
@@ -535,7 +535,7 @@ class MessagesController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $thread_id_list = $request->input('thread_id_list');
@@ -557,7 +557,7 @@ class MessagesController extends Controller
             }
         });
 
-        return $this->echoSuccessJson('成功!',[]);
+        return $this->echoSuccessJson('Success!',[]);
     }
 
     public function markDeleteMessage(Request $request){
@@ -600,7 +600,7 @@ class MessagesController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $type = $request->input('type');
@@ -627,7 +627,7 @@ class MessagesController extends Controller
             }
         }
 
-        return $this->echoSuccessJson('操作成功!');
+        return $this->echoSuccessJson('Operation Success!');
     }
 
     public function markReadMessage(Request $request){
@@ -637,12 +637,12 @@ class MessagesController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
         $participant_id = $request->input('participant_id');
 
         InquiryParticipants::where('user_id',Auth::id())->where('id',$participant_id)->update(['last_read'=>Carbon::now()->toDateTimeString()]);
-        return $this->echoSuccessJson('成功!',[]);
+        return $this->echoSuccessJson('Success!',[]);
     }
 
     public function confirmDeleteMessage(Request $request){
@@ -677,7 +677,7 @@ class MessagesController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
 
@@ -695,7 +695,7 @@ class MessagesController extends Controller
                 $item->save();
             }
         );
-        return $this->echoSuccessJson('永久删除成功!',[]);
+        return $this->echoSuccessJson('Delete Success permanently!',[]);
     }
 
     public function autoMarkSpamMessage(){
@@ -731,7 +731,7 @@ class MessagesController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $type = $request->input('type');
@@ -749,15 +749,15 @@ class MessagesController extends Controller
         }
 
         if(count($res_data) == 0){
-            return $this->echoErrorJson('失败!没有获取到任何消息!',[]);
+            return $this->echoErrorJson('Failure!No messages were received',[]);
         }
 
-        return $this->echoSuccessJson('成功!',$res_data);
+        return $this->echoSuccessJson('Success!',$res_data);
     }
 
     public function emailNotificationStatus(){
         $res = Auth::user()->usersExtends->email_notification;
-        return $this->echoSuccessJson('获取邮箱通知状态成功!',['email_notification'=>$res]);
+        return $this->echoSuccessJson('Gets the mailbox notification status Success!',['email_notification'=>$res]);
     }
 
     public function setEmailNotification(){
@@ -765,7 +765,7 @@ class MessagesController extends Controller
         $res = $user_extends->email_notification;
         $user_extends->email_notification = $res ? false : true;
         $user_extends->save();
-        return $this->echoSuccessJson('设置成功!');
+        return $this->echoSuccessJson('successfully set!');
     }
 
 }

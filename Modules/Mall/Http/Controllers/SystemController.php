@@ -29,6 +29,6 @@ class SystemController extends Controller
         $data['home_page_url']  = env('APP_URL');
         $data['timestamp'] = time();
         $data['ksh100_to_cny'] = round(100/UtilsController::getBaseCurrencyConverter(),2);
-        return $this->echoSuccessJson('成功!',$data);
+        return $this->echoSuccessJson('Success!',$data);
     }
 }

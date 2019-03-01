@@ -28,14 +28,14 @@ class UtilsController extends Controller
 
 
     public function getCaptcha(){
-        return $this->echoSuccessJson('获取验证码成功!',app('captcha')->create('default', true));
+        return $this->echoSuccessJson('The verification code was successfully obtained!',app('captcha')->create('default', true));
     }
 
     public function checkCaptchaUrl(Request $request){
         if (!captcha_api_check($request->captcha, $request->key)){
-            return $this->echoErrorJson('验证码验证失败!');
+            return $this->echoErrorJson('Verification code verification failed!');
         }
-        return $this->echoSuccessJson('验证码验证成功!');
+        return $this->echoSuccessJson('Verification code verified successfully!');
     }
 
     public static function checkCaptcha($captcha,$key){
@@ -53,7 +53,7 @@ class UtilsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $provinces  = City::getProvincesList($data['country_code'])->pluck('id','name');
@@ -63,7 +63,7 @@ class UtilsController extends Controller
         foreach ($provinces as $name=>$id){
             array_push($data,['province_id'=>$id,'name'=>$name]);
         }
-        return $this->echoSuccessJson('成功!',$data);
+        return $this->echoSuccessJson('Success!',$data);
     }
 
     public function getCityList(Request $request){
@@ -73,7 +73,7 @@ class UtilsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $citys = City::getCityList($data['province_id'])->pluck('id','name');
@@ -83,7 +83,7 @@ class UtilsController extends Controller
         foreach ($citys as $name=>$id){
             array_push($data,['city_id'=>$id,'name'=>$name]);
         }
-        return $this->echoSuccessJson('成功!',$data);
+        return $this->echoSuccessJson('Success!',$data);
     }
 
     public static function uploadMultipleFile($files,$to_path,$return_name = false,$return_path = false){
@@ -255,7 +255,7 @@ class UtilsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $from = $request->input('from');
@@ -263,7 +263,7 @@ class UtilsController extends Controller
         $amount = $request->input('amount');
 
         if($from == $to){
-            return $this->echoErrorJson('错误!转换货币不能相同!');
+            return $this->echoErrorJson('Error!Conversion currency cannot be the same!');
         }
 
         $rmb_ksh = self::getBaseCurrencyConverter();
@@ -276,7 +276,7 @@ class UtilsController extends Controller
 
         $res = round($res,2);
 
-        return $this->echoSuccessJson('转换成功!',['form'=>$from,'to'=>$to,'amount'=>$amount,'conversion'=>$res]);
+        return $this->echoSuccessJson('Conversion Success!',['form'=>$from,'to'=>$to,'amount'=>$amount,'conversion'=>$res]);
 
 
     }
@@ -288,13 +288,13 @@ class UtilsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $pic = $request->file('business_license_img');
         $af_id = self::getAfId();
         $res = self::uploadFile($pic,UtilsController::getUserPrivateDirectory($af_id),true);
-        return $this->echoSuccessJson('上传营业执照成功',$res);
+        return $this->echoSuccessJson('Upload business license successfully',$res);
     }
 
 

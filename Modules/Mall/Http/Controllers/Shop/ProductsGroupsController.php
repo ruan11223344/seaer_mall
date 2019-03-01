@@ -98,7 +98,7 @@ class ProductsGroupsController extends Controller
 
     public function productsGroupsList(){
         $group_list = self::getProductGroupInfo();
-        return $this->echoSuccessJson('获取商品分组成功!',$group_list);
+        return $this->echoSuccessJson('Gets the item grouping Success!',$group_list);
 
     }
 
@@ -113,13 +113,13 @@ class ProductsGroupsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $product_group = ProductsGroup::where(['user_id'=>Auth::id(),'id'=>$request->input('product_group_id')])->get()->first();
 
         if($product_group == null){
-            return $this->echoErrorJson('错误!只能修改自己的分组!');
+            return $this->echoErrorJson('Error!Can only modify their own grouping!');
         }
 
         $group_name = $request->input('group_name');
@@ -127,7 +127,7 @@ class ProductsGroupsController extends Controller
         $re_name_check_num = ProductsGroup::where(['user_id'=>Auth::id(),'group_name'=>$group_name])->where('id','!=',$product_group->id)->count();
 
         if($re_name_check_num > 0){
-            return $this->echoErrorJson('存在相同名称的分组,无法进行修改!');
+            return $this->echoErrorJson('Group with same name exists, cannot be modified!');
         }
 
         $product_group->update(
@@ -140,7 +140,7 @@ class ProductsGroupsController extends Controller
 
         $group_list = self::getProductGroupInfo();
 
-        return $this->echoSuccessJson('更新商品分组成功!',$group_list);
+        return $this->echoSuccessJson('Update product grouping Success!',$group_list);
     }
 
     public function createProductsGroup(Request $request){
@@ -153,11 +153,11 @@ class ProductsGroupsController extends Controller
             }else{
                 $p_group = ProductsGroup::where(['user_id'=>Auth::id(),'id'=>$value]);
                 if($p_group->count() == 0){
-                    $validator->setCustomMessages(['check_group_parent_id' => 'parent id is dot\'t exists!']);
+                    $validator->setCustomMessages(['check_group_parent_id' => 'parent id don\'t exists!']);
                     return false;
                 }else{
                     if($p_group->get()->first()->parent_id != 0){
-                        $validator->setCustomMessages(['check_group_parent_id' => 'max parent is tow!']);
+                        $validator->setCustomMessages(['check_group_parent_id' => 'The parent group has a maximum of two levels!']);
                         return false;
                     }else{
                         return true;
@@ -175,14 +175,14 @@ class ProductsGroupsController extends Controller
 
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $group_name = $request->input('group_name');
         $re_name_check_num = ProductsGroup::where(['user_id'=>Auth::id(),'group_name'=>$group_name])->count();
 
         if($re_name_check_num > 0){
-            return $this->echoErrorJson('存在相同名称的分组,无法进行创建!');
+            return $this->echoErrorJson('A group with the same name exists and cannot be created!');
         }
 
         $group_parent_id = $request->input('group_parent_id');
@@ -198,7 +198,7 @@ class ProductsGroupsController extends Controller
 
         $group_list = self::getProductGroupInfo();
 
-        return $this->echoSuccessJson('创建分组成功!',$group_list);
+        return $this->echoSuccessJson('Create grouping Success!',$group_list);
 
     }
 
@@ -208,22 +208,22 @@ class ProductsGroupsController extends Controller
             'product_group_id'=>'required|exists:products_group,id',
         ]);
          if ($validator->fails()) {
-                return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+                return $this->echoErrorJson('Form validation failed!'.$validator->messages());
          }
 
         $product_group = ProductsGroup::where(['user_id'=>Auth::id(),'id'=>$request->input('product_group_id')])->get()->first();
          if($product_group == null){
-             return $this->echoErrorJson('错误!没有找到该分组信息!');
+             return $this->echoErrorJson('Error!The packet message was not found!');
          }
 
         $product_group->delete();
          if (!$product_group->trashed()) {
-             return redirect()->back()->with('danger', '分组删除失败，分组ID：'.$product_group->id);
+             return redirect()->back()->with('danger', 'Group deletion failed. Group ID：'.$product_group->id);
          }
 
         $group_list = self::getProductGroupInfo();
 
-        return $this->echoSuccessJson('分组删除成功! 分组ID：'.$product_group->id,$group_list);
+        return $this->echoSuccessJson('Group deletion successful !Group ID：'.$product_group->id,$group_list);
     }
 
     public function getProductByGroupId(Request $request){
@@ -233,13 +233,13 @@ class ProductsGroupsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
         $product_group_id = $request->input('group_id');
 
         $res_data = self::getProductGroupFormatProduct($product_group_id);
 
-        return $this->echoSuccessJson('获取分组下的商品成功!',$res_data);
+        return $this->echoSuccessJson('Gets the Success of the goods under the grouping!',$res_data);
     }
 
 }

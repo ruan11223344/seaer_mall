@@ -52,7 +52,7 @@ class ProductsController extends Controller
      */
     public function checkPublishProductPermissions(){ //检测是否有商品发布权
         $pub_status_msg = self::getPublishProductPermissions();
-        return $this->echoSuccessJson('获取商品发布权限成功!',['publish_product_permission'=>$pub_status_msg[0],'publish_product_permission_message'=>$pub_status_msg[1]]);
+        return $this->echoSuccessJson('Obtain the commodity publishing permission Success!',['publish_product_permission'=>$pub_status_msg[0],'publish_product_permission_message'=>$pub_status_msg[1]]);
     }
 
     /**
@@ -111,7 +111,7 @@ class ProductsController extends Controller
                 return true;
             }else{
                 if(Carbon::parse($value)->timestamp < time()){
-                    $validator->setCustomMessages(['publishing_time' => 'just can select future time!']);
+                    $validator->setCustomMessages(['publishing_time' => 'You can only choose the time in the future!']);
                     return false;
                 }else{
                     return true;
@@ -135,7 +135,7 @@ class ProductsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $pub_status = self::getPublishProductPermissions();
@@ -149,7 +149,7 @@ class ProductsController extends Controller
         }
 
         if(($pub_status[0] == false && $put_warehouse == false) ||  ($pub_status[0] == false && $product_publishing_time !== null)){
-            return $this->echoErrorJson('不能发布商品! 详细信息: '.$pub_status[1]);
+            return $this->echoErrorJson('Cannot publish merchandise ! Details:: '.$pub_status[1]);
         }
 
 
@@ -167,7 +167,7 @@ class ProductsController extends Controller
                 ['product_name','=',$product_name],
                 ['company_id','=',Auth::user()->company->id],
             ])->exists()){
-                return $this->echoErrorJson('错误!仓库或者在售中存在相同名称的商品!无法发布!');
+                return $this->echoErrorJson('Error!Warehouse or in the sale of goods with the same name!Unable to publish!');
             }
 
 
@@ -178,17 +178,17 @@ class ProductsController extends Controller
             if($price_type == 'ladder'){
                 foreach ($product_price as $v){
                         if(!(isset($v['unit']) && isset($v['min_order']) && isset($v['order_price']))){
-                            return $this->echoErrorJson('存在错误的阶梯价格式!');
+                            return $this->echoErrorJson('There is a wrong price ladder!');
                     }
                 }
             }elseif ($price_type == 'base'){
                 foreach ($product_price as $v){
                     if(!(isset($v['unit']) && isset($v['min_order']) && isset($v['max_order_price']) && isset($v['min_order_price']))){
-                        return $this->echoErrorJson('基本价价格格式错误!缺少对象!');
+                        return $this->echoErrorJson('Base price format error!The lack of object!');
                     }
 
                     if($v['max_order_price'] < $v['min_order_price']){
-                        return $this->echoErrorJson('基本价最大价格不能小于最小价格!');
+                        return $this->echoErrorJson('Base price the maximum price cannot be less than the minimum price!');
                     }
                 }
             }
@@ -237,10 +237,10 @@ class ProductsController extends Controller
                );
            }
            DB::commit();
-           return $this->echoSuccessJson('创建商品成功!');
+           return $this->echoSuccessJson('Product creation successful!');
         }catch (Exception $e){
             DB::rollback();
-            return $this->echoErrorJson('创建商品失败! 错误信息: '.$e->getMessage());
+            return $this->echoErrorJson('Failed to create the item!The error message: '.$e->getMessage());
         }
     }
 
@@ -252,11 +252,11 @@ class ProductsController extends Controller
         ]);
 
         if ($validator->fails()){
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $img = UtilsController::uploadFile($data['product_img'],UtilsController::getUserProductDirectory(),true);
-        return $this->echoSuccessJson('上传成功!',['img_path'=>$img['path'],'img_url'=>$img['url'],'where'=>$request->input('where')]);
+        return $this->echoSuccessJson('Upload Success!',['img_path'=>$img['path'],'img_url'=>$img['url'],'where'=>$request->input('where')]);
     }
 
     public function editProduct(Request $request){
@@ -278,17 +278,17 @@ class ProductsController extends Controller
         ]);
 
         if ($validator->fails()){
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $product_obj = Products::find($request->input('product_id'));
 
         if($product_obj == null){
-            return $this->echoErrorJson('错误!该商品不存在!');
+            return $this->echoErrorJson('Error!This product does not exist!');
         }
 
         if($product_obj->company_id != Auth::user()->company->id){
-            return $this->echoErrorJson('只能编辑自己的商品!');
+            return $this->echoErrorJson('You can only edit your own merchandise!');
         }
 
         $price_type = $request->input('product_price_type',null);
@@ -322,7 +322,7 @@ class ProductsController extends Controller
                         ['id','!=',$product_obj->id],
                     ]
                 )->exists()){
-                    return $this->echoErrorJson('错误!存在相同名称的商品,不能使用该商品名!');
+                    return $this->echoErrorJson('Error!The same name of the existence of goods, can not use the name of the goods!');
                 }
             }
 
@@ -331,13 +331,13 @@ class ProductsController extends Controller
                 if($price_type == 'ladder'){
                     foreach ($product_price as $v){
                         if(!(isset($v['unit']) && isset($v['min_order']) && isset($v['order_price']))){
-                            return $this->echoErrorJson('存在错误的阶梯价格式!');
+                            return $this->echoErrorJson('There is a wrong price ladder!');
                         }
                     }
                 }elseif($price_type == 'base'){
                     foreach ($product_price as $v){
                         if(!(isset($v['unit']) && isset($v['min_order']) && isset($v['max_order_price']) && isset($v['min_order_price']))){
-                            return $this->echoErrorJson('基本价价格格式错误!缺少对象!');
+                            return $this->echoErrorJson('Base price format error!The lack of object!');
                         }
                     }
                 }
@@ -363,7 +363,7 @@ class ProductsController extends Controller
         if($product_publishing_time !== null){
             $carbon_obj = Carbon::parse($request->input('product_publishing_time'));
             if($carbon_obj->timestamp+1200 < time()){
-                return $this->echoErrorJson('定时发布时间只能是在将来的时间!');
+                return $this->echoErrorJson('Timed release time can only be in the future!');
             }
             $product_publishing_time = $carbon_obj->toDateTimeString();
         }
@@ -393,10 +393,10 @@ class ProductsController extends Controller
         if($product_group_id !== null){
             $p_group = ProductsGroup::find($product_group_id);
             if($p_group == null){
-                return $this->echoErrorJson('错误,商品分组id不存在!');
+                return $this->echoErrorJson('Error, item grouping id does not exist!');
             }else{
                 if($p_group->user_id != Auth::id()){
-                    return $this->echoErrorJson('错误,该商品分组不属于该用户!');
+                    return $this->echoErrorJson('Error, the item group does not belong to this user!');
                 }else{
                     if(!ProductsProductsGroup::where('product_id',$product_obj->id)->exists()){
                         ProductsProductsGroup::create(
@@ -418,10 +418,10 @@ class ProductsController extends Controller
 
         }catch (Exception $e){
             DB::rollBack();
-            return $this->echoErrorJson('数据库错误 详情:'.$e->getMessage());
+            return $this->echoErrorJson('Database error details:'.$e->getMessage());
         }
 
-        return $this->echoSuccessJson('编辑更新商品成功!');
+        return $this->echoSuccessJson('The editor updated the item successfully!');
     }
 
     public function deleteProduct(Request $request){
@@ -432,7 +432,7 @@ class ProductsController extends Controller
             if(is_array($value)){
                 foreach ($value as $v){
                     if(Products::find($v) == null){
-                        $validator->setCustomMessages(['product_id_list' => "dot't exits !id:".$v]);
+                        $validator->setCustomMessages(['product_id_list' => "product_id don't exists !id:".$v]);
                         return false;
                     }
                 }
@@ -449,7 +449,7 @@ class ProductsController extends Controller
         ]);
 
         if ($validator->fails()){
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $product_id_list = $request->input('product_id_list');
@@ -460,11 +460,11 @@ class ProductsController extends Controller
 
         foreach ($product_obj as $v){
             if($v == null){
-                return $this->echoErrorJson('错误!该商品不存在!');
+                return $this->echoErrorJson('Error!The goods do not exist!');
             }
 
             if($v->company_id != Auth::user()->company->id){
-                return $this->echoErrorJson('只能删除自己的商品!');
+                return $this->echoErrorJson('Can only delete their own goods!');
             }
 
             $v->products_attr->delete();
@@ -476,7 +476,7 @@ class ProductsController extends Controller
 
         $res = self::getStatusProductData($status);
 
-        return $this->echoSuccessJson('删除商品成功!',['data_list'=>$res,'total'=>count($res)]);
+        return $this->echoSuccessJson('Delete product Success!',['data_list'=>$res,'total'=>count($res)]);
 
     }
 
@@ -513,14 +513,14 @@ class ProductsController extends Controller
         ]);
 
         if ($validator->fails()){
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $status = $request->input('status');
 
         $res = self::getStatusProductData($status);
 
-        return $this->echoSuccessJson('获取商品列表成功!',['data_list'=>$res,'total'=>count($res)]);
+        return $this->echoSuccessJson('Get the list of items as Success!',['data_list'=>$res,'total'=>count($res)]);
     }
 
     public function getProductDetail(Request $request){
@@ -531,7 +531,7 @@ class ProductsController extends Controller
         ]);
 
         if ($validator->fails()){
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
         $product_id = $request->input('product_id');
@@ -539,7 +539,7 @@ class ProductsController extends Controller
         $product_obj = Products::find($product_id);
 
         if($product_obj == null){
-            return $this->echoErrorJson('该商品不存在!');
+            return $this->echoErrorJson('The goods do not exist!');
         }
 
         $products_attr = $product_obj->products_attr;
@@ -651,7 +651,7 @@ class ProductsController extends Controller
 
         $res = ['product_info'=>$product_info,'product_attr'=>$products_attr->toArray(),'product_price'=>$products_price->toArray(),'product_attr_array'=>$product_attr_array,'product_format_info'=>$product_format_info,'is_favorites_shop'=>$is_favorites_shop,'is_favorites_product'=>$is_favorites_product];
 
-        return $this->echoSuccessJson('获取商品详情成功!',$res);
+        return $this->echoSuccessJson('Obtain product details from Success!',$res);
     }
 
     public static function getProductFormatInfo($products_orm){
@@ -708,7 +708,7 @@ class ProductsController extends Controller
             if(is_array($value)){
                 foreach ($value as $v){
                     if(Products::find($v) == null){
-                        $validator->setCustomMessages(['check_product_id_list' => "dot't exits !id:".$v]);
+                        $validator->setCustomMessages(['check_product_id_list' => "product_id don't exists, id:".$v]);
                         return false;
                     }
                 }
@@ -725,7 +725,7 @@ class ProductsController extends Controller
         ]);
 
         if ($validator->fails()){
-            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
         $product_id_list = $request->input('product_id_list');
 
@@ -743,7 +743,7 @@ class ProductsController extends Controller
 
         $status = $request->input('status');
         $res_data = self::getStatusProductData($status);
-        return $this->echoSuccessJson('操作成功!',['data_list'=>$res_data,'total'=>count($res_data)]);
+        return $this->echoSuccessJson('操作Success!',['data_list'=>$res_data,'total'=>count($res_data)]);
     }
 
     public function productSearch(Request $request){
@@ -765,9 +765,9 @@ class ProductsController extends Controller
 
         if(!$products->get()->isEmpty()){
             $res = self::getProductFormatInfo($products);
-            return $this->echoSuccessJson('搜索成功!',$res);
+            return $this->echoSuccessJson('Search success!',$res);
         }else{
-            return $this->echoErrorJson('没有搜索到商品!');
+            return $this->echoErrorJson('No item was found!');
         }
     }
 

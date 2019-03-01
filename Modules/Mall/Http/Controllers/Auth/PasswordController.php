@@ -43,7 +43,7 @@ class PasswordController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!' . $validator->messages());
+            return $this->echoErrorJson('Form validation failed!' . $validator->messages());
         }
 
         $member_id_or_email = $request->input('member_id_or_email');
@@ -69,9 +69,9 @@ class PasswordController extends Controller
                 throw new Exception('验证信息入库失败!');
             }
         } catch (Exception $e) {
-            return $this->echoErrorJson('发送重置密码邮件失败! 错误信息: ' . $e->getMessage());
+            return $this->echoErrorJson('Failed to send reset password email! The error message: ' . $e->getMessage());
         }
-        return $this->echoSuccessJson('发送重置密码邮件成功!', ['redirect_to' => EMail::foundEmailUrl($user_obj->email)]);
+        return $this->echoSuccessJson('Send Success a password reset email!', ['redirect_to' => EMail::foundEmailUrl($user_obj->email)]);
     }
 
     public static function storePasswordToken($encrypt_password_token, $user_obj)
@@ -113,7 +113,7 @@ class PasswordController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!' . $validator->messages());
+            return $this->echoErrorJson('Form validation failed!' . $validator->messages());
         }
         $token = $request->input('token');
 
@@ -126,9 +126,9 @@ class PasswordController extends Controller
 
             self::forgetUserCaptcha($token_obj);
 
-            return $this->echoSuccessJson('获取member_id成功!', ['member_id' => $user_obj->name]);
+            return $this->echoSuccessJson('Get member_id successful!', ['member_id' => $user_obj->name]);
         } else {
-            return $this->echoErrorJson('获取member_id失败!该token被访问过一次了,已失效!');
+            return $this->echoErrorJson('Failed to get member_id!This token has been accessed once and has expired!');
         }
     }
 
@@ -160,7 +160,7 @@ class PasswordController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!' . $validator->messages());
+            return $this->echoErrorJson('Form validation failed!' . $validator->messages());
         }
 
         $token = $request->input('token');
@@ -178,14 +178,14 @@ class PasswordController extends Controller
                 $carbon = Carbon::now()->toDateTimeString();
                 DB::insert("insert into password_resets (email, token,created_at) values ('$user_obj->email','$new_password','$carbon')");
                 self::forgetUserCaptcha($token_obj, true);
-                return $this->echoSuccessJson('恭喜!重置密码成功!');
+                return $this->echoSuccessJson('congratulations!Password reset successful!');
             } else {
                 self::forgetUserCaptcha($token_obj, true);
-                return $this->echoErrorJson('重置失败!token过期!');
+                return $this->echoErrorJson('Reset failed!Token expired!');
             }
         } else {
             self::forgetUserCaptcha($token_obj, true);
-            return $this->echoErrorJson('错误!token已失效!');
+            return $this->echoErrorJson('Error!Token expired!');
         }
     }
 
@@ -202,15 +202,15 @@ class PasswordController extends Controller
             'password'     => 'required|confirmed',
         ]);
         if ($validator->fails()) {
-            return $this->echoErrorJson('表单验证失败!' . $validator->messages());
+            return $this->echoErrorJson('Form validation failed!' . $validator->messages());
         }
         $user_obj = Auth::User();
         if (Hash::check($data['old_password'], $user_obj->password)) {
             $user_obj->password = bcrypt($data['password']);
             $user_obj->save();
-            return $this->echoSuccessJson('更改密码成功');
+            return $this->echoSuccessJson('Password changed successfully!');
         } else {
-            return $this->echoErrorJson('原始密码错误');
+            return $this->echoErrorJson('Original password error!');
         }
     }
 }
