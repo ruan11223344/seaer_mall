@@ -16,8 +16,11 @@ use Khsing\World\Models\City;
 use Khsing\World\Models\Country;
 use Khsing\World\Models\Division;
 use Modules\Mall\Entities\Company;
+use Modules\Mall\Entities\Favorites;
 use Modules\Mall\Entities\Products;
 use Modules\Mall\Entities\Shop;
+use Modules\Mall\Entities\User;
+use Modules\Mall\Entities\UsersExtends;
 use Modules\Mall\Http\Controllers\Auth\AuthorizationsController;
 use Modules\Mall\Http\Controllers\UtilsController;
 
@@ -484,13 +487,21 @@ class ShopController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, [
             'company_id'=>'required|exists:company,id',
+            'user_id'=>'nullable|exists:users,id'
         ]);
 
         if ($validator->fails()){
             return $this->echoErrorJson('表单验证失败!'.$validator->messages());
         }
-
-        $data =AuthorizationsController::getCompanyInfoData($request->input('company_id'));
+        $company_id = $request->input('company_id');
+        $data =AuthorizationsController::getCompanyInfoData($company_id);
+        $user_obj = User::find($request->input('user_id'));
+        $data['is_favorites_company'] = $user_obj == null ? false : Favorites::where(
+            [
+                ['company_id','=',$user_obj->company->id],
+                ['type','=','company'],
+                ['product_or_company_id','=',$company_id],
+            ])->exists() ? true : false;
         return $this->echoSuccessJson('获取公司信息成功!',$data);
     }
 

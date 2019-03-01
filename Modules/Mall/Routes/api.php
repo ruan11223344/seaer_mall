@@ -130,6 +130,7 @@ Route::group(['domain' => env('MALL_DOMAIN'), 'middleware' => 'cors'], function 
         });
         //商品分组
         Route::prefix('product_group')->group(function () {
+            Route::get('get_product_by_group_id', 'Shop\ProductsGroupsController@getProductByGroupId')->name('shop.group.getProductByGroupId');
             Route::group(['middleware' => ['client.credentials', 'auth:api']], function () {
                 Route::get('product_group_list', 'Shop\ProductsGroupsController@productsGroupsList')->name('shop.group.list');
                 Route::post('edit_products_group', 'Shop\ProductsGroupsController@editProductsGroup')->name('shop.group.edit');

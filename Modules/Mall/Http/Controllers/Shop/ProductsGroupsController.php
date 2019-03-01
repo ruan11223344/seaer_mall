@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Modules\Mall\Entities\Products;
 use Modules\Mall\Entities\ProductsGroup;
 use Modules\Mall\Entities\ProductsProductsGroup;
 use Modules\Mall\Entities\UsersExtends;
@@ -53,6 +54,18 @@ class ProductsGroupsController extends Controller
             $arr[] = $array[$v];
         }
         return $arr;
+    }
+
+    public static function getProductGroupFormatProduct($product_group_id){
+        $product_id_list = ProductsProductsGroup::where('product_group_id',$product_group_id)->get()->pluck('product_id');
+        $product_orm = Products::where(
+            [
+                ['product_status','=',ProductsController::PRODUCT_STATUS_SALE],
+                ['product_audit_status','=',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS]
+            ]
+        )->whereIn('id',$product_id_list);
+        $res = ProductsController::getProductFormatInfo($product_orm);
+        return $res;
     }
 
     public static function getProductGroupInfo($user_id = null){
@@ -211,6 +224,22 @@ class ProductsGroupsController extends Controller
         $group_list = self::getProductGroupInfo();
 
         return $this->echoSuccessJson('分组删除成功! 分组ID：'.$product_group->id,$group_list);
+    }
+
+    public function getProductByGroupId(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data,[
+            'group_id'=>'required|exists:products_group,id',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->echoErrorJson('表单验证失败!'.$validator->messages());
+        }
+        $product_group_id = $request->input('group_id');
+
+        $res_data = self::getProductGroupFormatProduct($product_group_id);
+
+        return $this->echoSuccessJson('获取分组下的商品成功!',$res_data);
     }
 
 }

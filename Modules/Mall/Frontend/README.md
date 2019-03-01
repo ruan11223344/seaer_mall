@@ -4415,3 +4415,50 @@ url:http://域名/api/shop/get_company_detail
     }
 }
 ```
+
+
+76.获取商品分组下的商品 不登录也能用
+
+```
+url:http://域名/api/shop/product_group/get_product_by_group_id
+请求方法:get
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+
+json参数
+{
+"group_id":15  //必填 分组id
+}
+
+返回:
+{
+    "code": 200,
+    "message": "获取分组下的商品成功!",
+    "data": [
+        {
+            "product_id": 33,
+            "product_name": "超级无敌玩毛车玩具13fffxxx333",
+            "product_sku": "100025",
+            "product_price": "KSh 10-8",
+            "price_type": "ladder",
+            "product_moq": "MOQ 10 Pieces",
+            "publish_time": "2019-02-25 17:23:09",
+            "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+            "product_origin_id": "PD_CN_a49b34079_8f538e50",
+            "company_id": "10"
+        },
+        {
+            "product_id": 38,
+            "product_name": "超级无敌大飞车玩具133赛222d331",
+            "product_sku": "2323dsds",
+            "product_price": "KSh 100-2010",
+            "price_type": "base",
+            "product_moq": "MOQ 150 Pieces",
+            "publish_time": "2019-02-27 16:19:05",
+            "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/xxxx.jpeg",
+            "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+            "company_id": "10"
+        }
+    ]
+}
+```
