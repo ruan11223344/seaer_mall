@@ -20,8 +20,10 @@
         <!-- 导航 -->
         <v-nav-list></v-nav-list>
 
-        <!-- 子页面渲染 -->
-        <router-view></router-view>
+        <template  v-if="Company_Detail">
+            <!-- 子页面渲染 -->
+            <router-view></router-view>
+        </template>
 
         <!-- 页脚 -->
         <v-footer-nav></v-footer-nav>

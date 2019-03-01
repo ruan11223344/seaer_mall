@@ -1,6 +1,6 @@
 <template>
     <div v-if="ProductData">
-        <v-head-template v-if="Company_Detail" :name="Company_Detail.basic_info.company_name" :bool="ProductData.is_favorites_shop" @on-click="onGetData"></v-head-template>
+        <v-head-template v-if="Company_Detail" :name="Company_Detail.basic_info.company_name" :bool="ProductData.is_favorites_shop" @on-click="getCompany"></v-head-template>
         
         <section v-if="Company_Detail" class="details-banner" :style="`background: url(${Company_Detail.shop_info.banner.banner_url}) center center;`">
             <!-- <img :src="Company_Detail.shop_info.banner.banner_url" alt=""> -->
@@ -86,53 +86,51 @@
             onGetCompanyDetail: getData.onGetCompanyDetail,
             onDelFavorites: upData.onDelFavorites,
             onCollection(id) { // 收藏商品
-                if(this.User_Info == '') {
-                    this.$router.push('/login')
+                if(this.ProductData.is_favorites_product) {
+                    // 删除
+                    this.onDelFavorites({ 
+                        product_or_company_id_list: [ id ],
+                        type: "product"
+                    })
+                        .then(res => {
+                            this.onGetProductDetails()
+                        }
+                    )
                 }else {
-                    if(this.ProductData.is_favorites_product) {
-                        // 删除
-                        this.onDelFavorites({ 
-                            product_or_company_id_list: [ id ],
-                            type: "product"
-                        })
-                            .then(res => {
-                                this.onGetProductInfo(this.$route.query.product_id, this.User_Info.user.id)
-                                    .then(res => this.ProductData = res)
-                            }
-                        )
-                    }else {
-                        // 添加
-                        this.onSetFavorites({
-                            product_or_company_id: id,
-                            type: "product"
-                        })
-                            .then(res => {
-                                this.onGetProductInfo(this.$route.query.product_id, this.User_Info.user.id)
-                                    .then(res => this.ProductData = res)
-                            }
-                        )
-                    }
+                    // 添加
+                    this.onSetFavorites({
+                        product_or_company_id: id,
+                        type: "product"
+                    })
+                        .then(res => {
+                            this.onGetProductDetails()
+                        }
+                    )
                 }
             },
             // 放大镜
             onClickImg(index) {
                 this.activeIndex = index
             },
-            onGetData() {
-                if(!this.Company_Detail) {
-                    this.onGetCompanyDetail(this.$route.query.company_id)
+            getCompany() {
+                const user_id = this.User_Info ? this.User_Info.user.id : null
+                this.onGetCompanyDetail(this.$route.query.company_id, user_id)
                     .then(res => {
                         this.SET_COMPANY_DETAIL(res)
                     })
+            },
+            onGetData() {
+                if(!this.Company_Detail) {
+                    this.getCompany()
                 }
 
-                if(this.User_Info == '') {
-                    this.onGetProductInfo(this.$route.query.product_id)
+                this.onGetProductDetails()
+            },
+            onGetProductDetails() {
+                const user_id = this.User_Info ? this.User_Info.user.id : null
+
+                this.onGetProductInfo(this.$route.query.product_id, user_id)
                         .then(res => this.ProductData = res)
-                }else {
-                    this.onGetProductInfo(this.$route.query.product_id, this.User_Info.user.id)
-                        .then(res => this.ProductData = res)
-                }
             }
         },
         mounted() {

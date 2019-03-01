@@ -4,8 +4,7 @@
             <router-link tag="div" :to="'/company/home?company_id=' + $route.query.company_id" class="breadcrumb-text breadcrumb-text-active">{{ title }}</router-link>
         </template>
         <template v-for="item in Breadcrumbs">
-            <div class="breadcrumb-text" :key="item">&nbsp;>&nbsp;</div>
-            <div class="breadcrumb-text" :key="item">{{ item }}</div>
+            <div class="breadcrumb-text" :key="item">&nbsp;>&nbsp;{{ item }}</div>
         </template>
     </div>
 </template>

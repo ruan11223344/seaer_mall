@@ -1,7 +1,6 @@
 <template>
     <div>
         <!-- 侧边栏 -->
-        <!-- <aside class="company-home-main-aside"  :style="{ height: (81 + 16 * aside.length + 26 * aside.length - 1) + 'px' }"> -->
         <v-aside></v-aside>
         
         <!-- 公司介绍 -->
@@ -68,12 +67,6 @@
         data() {
             return {
                 text: 'We suggest you detail your preduct requirements and company information here(Enter between 20-4000characters)',
-                aside: [
-                    'Building materials',
-                    'Building materials',
-                    'Building materials',
-                    'Building materials',
-                ],
                 isShade: false,
             }
         },

@@ -8,9 +8,13 @@
             <ul>
                 <li v-for="(item, index) in menu" :key="index">
                     <div ref="menuList" class="inquire-aside-title">
-                        <span>
+                        <router-link
+                            tag="span"
+                            :style="'color: ' + ($route.query.group_id == item.id ? '#f0883a' : '')"
+                            :to="`/company/all?group_id=${item.id}&company_id=${$route.query.company_id}&group_name=${item.group_name}`"
+                            >
                             {{ item.group_name }}
-                        </span>
+                        </router-link>
                         <Icon
                             v-if="item.children != null"
                             type="ios-arrow-forward"
@@ -21,10 +25,10 @@
                     <template  v-if="item.children != null">
                         <ul class="inquire-aside-items" :style="'height: ' + (item.isSubShow ? item.children.length * 36 + 'px;' : '0px;')">
                             <router-link
-                                :style="'color: ' + ($route.query.group_name == group_name ? '#f0883a' : '')"
-                                v-for="({group_name}, i) in item.children"
+                                :style="'color: ' + ($route.query.group_id == id ? '#f0883a' : '')"
+                                v-for="({ group_name, id }, i) in item.children"
                                 :key="i"
-                                :to="group_name ? group_name : ''"
+                                :to="`/company/all?group_id=${id}&company_id=${$route.query.company_id}&group_name=${group_name}`"
                                 tag="li">
                                     {{ group_name }}
                             </router-link>
@@ -65,12 +69,12 @@
             },
         },
         mounted() {
-            const group_name = this.$route.query.group_name
+            const id = this.$route.query.group_id
     
             this.Company_Detail.shop_info.shop_group.forEach(value => {
                 if(value.children != null) {
                     value.children.forEach(v => {
-                        if(v.group_name == group_name) {
+                        if(v.id == id) {
                             value.isSubShow = true
                         }else {
                             value.isSubShow = false
