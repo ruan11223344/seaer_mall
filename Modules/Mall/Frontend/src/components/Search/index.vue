@@ -44,19 +44,16 @@
                 if(this.select == 'Products') {
                     // 搜索商品
                     this.onSearchProduct(this.value).then(async res => {
-                        console.log(res)
                         await this.SET_PRODUCT_ALL(res)
                         this.$router.push('/goods/list')
                     }).catch(err => {
-                        console.log(err)
                         this.$Message.error(err.message)
                     })
                 }else {
                     this.onSearchShop(this.value).then(res => {
-                        console.log(res)
                         this.SET_SHOP_ALL(res)
+                        this.$router.push('/goods/companylist')
                     }).catch(err => {
-                        console.log(err);
                         this.$Message.error(err.message)
                     })
                 }

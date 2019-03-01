@@ -249,13 +249,15 @@ const newRouter = new Router({
             }
           ]
         },
-          // 设置
-        {
+        { // 账户中心
+          path: 'personalpenter',
+          component: () => import("./views/Inquiry/PersonalCenter/index.vue")
+        },
+        { // 设置
           path: 'set',
           component: () => import("./views/Inquiry/Set/index.vue")
         },
-        // 修改密码
-        {
+        { // 修改密码
           path: 'changepass',
           component: () => import("./views/Inquiry/ChangePassword/index.vue")
         }

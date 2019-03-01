@@ -11,22 +11,24 @@
             </section>
             <!-- 店铺详情 -->
             <section class="container main-content">
-                <div class="container main-content-list">
-                    <img class="container main-content-list-img" :src="require('@/assets/img/cm.png')" alt="">
-                    <div class="container main-content-list-text">
-                        <div class="container main-content-list-text-top">
-                            Wuhan Sier International Co.,LTD.
-                            <img :src="true ? require('@/assets/img/ina.png') : require('@/assets/img/ya.png')" alt="">
+                <template v-for="(item, index) in CompanyData">
+                    <div class="container main-content-list" :key="index">
+                        <img class="container main-content-list-img" :src="require('@/assets/img/cm.png')" alt="">
+                        <div class="container main-content-list-text">
+                            <div class="container main-content-list-text-top">
+                                {{ item.company_name }}
+                                <img :src="item.company_country_name == 'Kenya' ? require('@/assets/img/ya.png') : require('@/assets/img/ina.png')" alt="">
+                            </div>
+                            <div class="container main-content-list-text-content">
+                                Telephone：{{ item.telephone }}
+                            </div>
+                            <div class="container main-content-list-text-bottom">
+                                Address：{{ item.company_detailed_address }}
+                            </div>
                         </div>
-                        <div class="container main-content-list-text-content">
-                            Telephone：+86 027-65520870
-                        </div>
-                        <div class="container main-content-list-text-bottom">
-                            Address：Room 605,Building A,No.777,Optical Valley three Road
-                        </div>
+                        <button class="container main-content-list-btn" type="button" @click="onClick(item.id)">View shop</button>
                     </div>
-                    <button class="container main-content-list-btn" type="button">View shop</button>
-                </div>
+                </template>
             </section>
             <!-- 分页 -->
             <section class="container main-page">
@@ -40,47 +42,52 @@
 
 <script>
     import getData from '@/utils/getData'
-    import { mapState } from 'vuex'
+    import { mapState, mapMutations } from 'vuex'
     import Breadcrumb  from '@/components/Breadcrumb'
 
     export default {
         data() {
             return {
                 total: {
-                    size: 10,
+                    size: 6,
                     total: 0,
                     num: 1
                 },
-                ProductData: []
+                CompanyData: []
             }
         },
         computed: {
-            ...mapState([ 'Product_All' ])
+            ...mapState([ 'Shop_All' ])
         },
         methods: {
+            ...mapMutations([ 'SET_COMPANY_DETAIL' ]),
             filterAll: getData.filterAll,
             // 分页
             onPages(index) {
                 this.$set(this.total, 'num', index)
-                this.filterAll(this.Product_All, this.total)
-                    .then(res => this.ProductData = res)
+                this.filterAll(this.Shop_All, this.total)
+                    .then(res => this.CompanyData = res)
+            },
+            onClick(id) {
+                this.SET_COMPANY_DETAIL('')
+                this.$router.push('/company/home?company_id=' + id)
             }
         },
         mounted() {
-            this.total.total = this.Product_All.length
-            this.filterAll(this.Product_All, this.total)
-                .then(res => this.ProductData = res)
+            this.total.total = this.Shop_All.length
+            this.filterAll(this.Shop_All, this.total)
+                .then(res => this.CompanyData = res)
         },
         components: {
             "v-Breadcrumb": Breadcrumb 
         },
         watch: {
-            Product_All() {
-                this.total.total = this.Product_All.length
-                this.filterAll(this.Product_All, this.total)
-                    .then(res => this.ProductData = res)
+            Shop_All() {
+                this.total.total = this.Shop_All.length
+                this.filterAll(this.Shop_All, this.total)
+                    .then(res => this.CompanyData = res)
             }
-        },
+        }
     }
 </script>
 
