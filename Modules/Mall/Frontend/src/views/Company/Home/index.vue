@@ -21,11 +21,9 @@
 </template>
 
 <script>
-    import Header from "../components/Head/index"
     import Main from './Main.vue'
     import getData from '@/utils/getData'
     import { mapState, mapMutations } from "vuex"
-
 
     export default {
         data () {
@@ -47,7 +45,6 @@
         methods: {
             ...mapMutations([ 'SET_COMPANY_DETAIL' ]),
             onGetCompanyDetail: getData.onGetCompanyDetail,
-            onGetBanner: getData.onGetBanner
         },
         created() {
             if(!this.Company_Detail) {
@@ -61,7 +58,6 @@
             
         },
         components: {
-           "v-header": Header,
            "v-main": Main
         }
     }

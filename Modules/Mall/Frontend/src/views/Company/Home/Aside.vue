@@ -38,17 +38,17 @@
                 <Icon type="md-close" size="28"/>
             </div>
             <h1 class="company-home-main-dialog-title">Send your message to this supplier</h1>
-            <div class="company-home-main-dialog-email">From: 522151521@qq.com</div>
+            <!-- <div class="company-home-main-dialog-email">From: 522151521@qq.com</div> -->
+            <div class="company-home-main-dialog-email">From: {{ User_Info.user.email }}</div>
             <div class="company-home-main-dialog-name">
                 To:
-                <v-img width="26" height="18" imgSrc=""></v-img>
+                <!-- <v-img width="26" height="18" imgSrc=""></v-img> -->
                 {{ 'Mr.mary' }}
             </div>
             <div class="company-home-main-dialog-content">
                 <textarea v-model="text" @focus="onFocus" @blur="onBlur"></textarea>
                 <span>({{ this.text.length }}/4000)</span>
             </div>
-            
             <button class="company-home-main-dialog-btn">send</button>
         </div>
     </div>

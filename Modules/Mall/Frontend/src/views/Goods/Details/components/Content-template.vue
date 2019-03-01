@@ -43,7 +43,7 @@
             tag="button"
             type="button"
             class="main-goods-content-btn"
-            :to="'/goods/consulting?af_id=' + id + '&url=' + url">
+            :to="'/goods/consulting?af_id=' + id + '&url=' + url + '&name=' + dataFrom.product_info.product_name">
                 Send Inquiry
         </router-link>
     </div>

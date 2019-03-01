@@ -1,7 +1,12 @@
 <template>
     <div class="details-head">
         <header class="container details-head-container">
-            <v-img width="181" height="53" :imgSrc="require('@/assets/img/home/logo.png')"></v-img>
+            <img
+                style="width: 181px; height: 53px; cursor: pointer;"
+                :src="require('@/assets/img/home/logo.png')"
+                alt=""
+                @click="$router.push('/home')"
+            >
             <h1>{{ Company_Detail.basic_info.company_name }}</h1>
             <div class="details-head-container-collection">
                 <img

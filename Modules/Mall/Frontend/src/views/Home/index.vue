@@ -222,14 +222,6 @@
             }
         },
         mounted() {
-            this.$request({
-                url: '/utils/get_captcha'
-            }).then(res => {
-                console.log(res)
-            }).catch(err => {
-                console.log(err)
-            })
-
             // 动态计算历史记录宽度
             const record = this.$refs.record
             const children = record.children   

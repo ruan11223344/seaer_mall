@@ -1,7 +1,7 @@
 <template>
     <div class="breadcrumb">
         <template>
-            <router-link tag="div" :to="'/company/home?company_id=' + $route.query.company_id" class="breadcrumb-text breadcrumb-text-active">{{ title }}</router-link>
+            <router-link tag="div" :to="url" class="breadcrumb-text breadcrumb-text-active">{{ title }}</router-link>
         </template>
         <template v-for="item in Breadcrumbs">
             <div class="breadcrumb-text" :key="item">&nbsp;>&nbsp;{{ item }}</div>
@@ -11,12 +11,16 @@
 
 <script>
     export default {
-        props: {
-            title: '',
-            Breadcrumbs: {
-                type: Array
-            }
-        }
+        // props: {
+        //     url: {
+        //         type: String
+        //     },
+        //     title: '',
+        //     Breadcrumbs: {
+        //         type: Array
+        //     }
+        // },
+        props: [ 'url', 'title', 'Breadcrumbs' ]
     }
 </script>
 

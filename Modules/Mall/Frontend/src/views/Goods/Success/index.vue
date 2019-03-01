@@ -1,10 +1,11 @@
 <template>
     <div style="backgroundColor: #f5f5f9; paddingBottom: 37px">
         <section class="container main-title">
-            <Breadcrumb separator='<b style="color:#666666">></b>'>
+            <!-- <Breadcrumb separator='<b style="color:#666666">></b>'>
                 <BreadcrumbItem to="/">Home</BreadcrumbItem>
-                <BreadcrumbItem style="color:#666666">{{ '$route.query.name' }}</BreadcrumbItem>
-            </Breadcrumb>
+                <BreadcrumbItem style="color:#666666">{{ 'success' }}</BreadcrumbItem>
+            </Breadcrumb> -->
+            <v-Breadcrumb title="Supplier Homepage" :url="`/company/home?&company_id=${$route.query.company_id}`" :Breadcrumbs="[ 'consulting' ]"></v-Breadcrumb>
         </section>
 
         <section class="container success-main">
@@ -21,6 +22,7 @@
 
 <script>
     import Img from '@/components/Img'
+    import Breadcrumb  from '@/components/Breadcrumb'
 
     export default {
         methods: {
@@ -29,7 +31,8 @@
             }
         },
         components: {
-            "v-img": Img
+            "v-img": Img,
+            "v-Breadcrumb": Breadcrumb 
         }
     }
 </script>

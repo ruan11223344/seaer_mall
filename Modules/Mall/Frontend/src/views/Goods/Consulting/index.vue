@@ -1,20 +1,21 @@
 <template>
     <div style="backgroundColor: #f5f5f9; paddingBottom: 37px">
         <section class="container main-title">
-            <Breadcrumb separator='<b style="color:#666666">></b>'>
+            <!-- <Breadcrumb separator='<b style="color:#666666">></b>'>
                 <BreadcrumbItem to="/">Home</BreadcrumbItem>
-                <BreadcrumbItem style="color:#666666">{{ '$route.query.name' }}</BreadcrumbItem>
-            </Breadcrumb>
+                <BreadcrumbItem style="color:#666666">{{ 'consulting' }}</BreadcrumbItem>
+            </Breadcrumb> -->
+            <v-Breadcrumb title="Supplier Homepage" :url="`/company/home?&company_id=${$route.query.company_id}`" :Breadcrumbs="[ 'consulting' ]"></v-Breadcrumb>
         </section>
 
         <main class="container consulting-main">
             <div class="consulting-main-body">
-                <div class="consulting-main-body-title">From "524155445@qq.com" <span>Edit</span></div>
+                <div class="consulting-main-body-title">From "{{ User_Info.user.email }}" <span>Edit</span></div>
                 <!-- 目标 -->
                 <div class="consulting-main-body-content">
                     <div class="consulting-main-body-content-label">To</div>
                     <div class="consulting-main-body-content-goods">
-                        <span class="consulting-main-body-content-goods-title">wuhan sier international co., LTD</span>
+                        <span class="consulting-main-body-content-goods-title">{{ Company_Detail.basic_info.company_name }}</span>
                         <div>
                             <!-- <v-img width="61" height="50" imgSrc=""></v-img> -->
                             <img :src="$route.query.url" style="width: 87px; height: 87px;" alt="">
@@ -24,17 +25,19 @@
                 <!-- 主题 -->
                 <div class="consulting-main-body-content" style="marginTop: 24px;marginBottom: 32px;">
                     <div class="consulting-main-body-content-label" style="marginTop: 12px;">Subject</div>
-                    <div class="consulting-main-body-content-subject">{{ fromItem.subject }}</div>
+                    <div class="consulting-main-body-content-subject">{{ $route.query.name}}</div>
                 </div>
                 <!-- 采购 -->
                 <div class="consulting-main-body-content">
                     <div class="consulting-main-body-content-label" style="lineHeight: 34px;">Purchase Quantity</div>
                     <div class="consulting-main-body-content-purchase">
                         <InputNumber size="small" :step="100" class="consulting-main-body-content-purchase-input" :max="9999999999" :min="1" v-model="fromItem.quantity"></InputNumber>
-                         <Select style="width:183px;" @on-change="onUnit" value="Pieces" size="small">
+                        <!-- <Select style="width:183px;" v-model="fromItem.unit" @on-change="onUnit" value="Pieces" size="small"> -->
+                        <Select style="width:183px;" v-model="fromItem.unit" value="Pieces" size="small">
                             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
-                        <input style="marginLeft: 8px;" type="text" v-show="is_select" v-model="fromItem.unit">
+                        <!-- <Input size="small" type="" style="marginLeft: 8px;" v-show="is_select" v-model="fromItem.unit"></Input> -->
+                        <!-- <input  type="text" "> -->
                     </div>
                 </div>
                 <!-- 额外了解 -->
@@ -105,8 +108,13 @@
 
 <script>
     import Img from '@/components/Img'
+    import { mapState, mapMutations } from "vuex"
+    import Breadcrumb  from '@/components/Breadcrumb'
 
     export default {
+        computed: {
+            ...mapState([ 'User_Info', 'Company_Detail' ])
+        },
         data() {
             return {
                 cityList: [
@@ -190,15 +198,15 @@
             onDelete(index) {
                 this.$delete(this.fromItem.files, index)
             },
-            onUnit(value) {
-                if(value == 'Other') {
-                    this.$set(this.fromItem, 'unit', '')
-                    this.is_select = true
-                }else {
-                    this.$set(this.fromItem, 'unit', value)
-                    this.is_select = false
-                }
-            },
+            // onUnit(value) {
+            //     if(value == 'Other') {
+            //         this.$set(this.fromItem, 'unit', '')
+            //         this.is_select = true
+            //     }else {
+            //         this.$set(this.fromItem, 'unit', value)
+            //         this.is_select = false
+            //     }
+            // },
             // 发送
             onSend() {
                 if(this.fromItem.quantity.length <= 0) {
@@ -222,7 +230,7 @@
                 for(let i = 0; i < this.fromItem.files.length; i++) { // 发送多个文件
                     data.append('attachment_list[]', this.fromItem.files[i])
                 }
-                data.append('subject', this.fromItem.subject) //必填 询盘的主题 
+                data.append('subject', this.$route.query.name) //必填 询盘的主题 
                 data.append('purchase_quantity', this.fromItem.quantity) //必填 需要的数量
                 data.append('purchase_unit', this.fromItem.unit)  //必填 需要的数量的单位
                 data.append('content', this.fromItem.content) //必填 发送的主体内容
@@ -245,15 +253,15 @@
                         this.$router.push('/goods/success')
                     }
                 }).catch(err => {
-                    console.log(err);
-                    
+                    // console.log(err);
                 })
 
                 return true
             }
         },
         components: {
-            "v-img": Img
+            "v-img": Img,
+            "v-Breadcrumb": Breadcrumb 
         }
     }
 </script>
@@ -332,7 +340,7 @@
                     font-size: 16px;
                     line-height: 47px;
                     padding: 0px 14px;
-                    text-align: center;
+                    text-align: left;
                 }
 
                 &-purchase {
