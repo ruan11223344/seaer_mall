@@ -69,10 +69,17 @@ const newRouter = new Router({
       name: 'goods',
       component: () => import('./views/Goods/index.vue'),
       children: [
+        // 店铺列表
+        {
+          path: 'companylist',
+          component: () => import('./views/Goods/CompanyList/index.vue')
+        },
+        // 商品列表
         {
           path: 'list',
           component: () => import('./views/Goods/List/index.vue')
         },
+        // 商品详细信息
         {
           path: 'details',
           component: () => import('./views/Goods/Details/index.vue')

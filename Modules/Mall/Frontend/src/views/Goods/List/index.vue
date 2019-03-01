@@ -2,10 +2,12 @@
     <div>
         <main class="main">
             <section class="container main-title">
-                <Breadcrumb separator='<b style="color:#666666">></b>'>
-                    <BreadcrumbItem to="/">Home</BreadcrumbItem>
-                    <BreadcrumbItem style="color:#666666">{{ $route.query.name }}</BreadcrumbItem>
-                </Breadcrumb>
+                <v-Breadcrumb
+                    title="Home"
+                    :Breadcrumbs="[ 'List of commodities' ]"
+                    :url="`/home`"
+                    >
+                </v-Breadcrumb>
             </section>
             <section class="container main-content">
                 <!-- 渲染商品列表mock -->
@@ -25,6 +27,7 @@
     import Card from "@/components/Card"
     import getData from '@/utils/getData'
     import { mapState } from 'vuex'
+    import Breadcrumb  from '@/components/Breadcrumb'
 
     export default {
         data() {
@@ -56,6 +59,7 @@
         },
         components: {
             'v-card': Card,
+            "v-Breadcrumb": Breadcrumb 
         },
         watch: {
             Product_All() {
