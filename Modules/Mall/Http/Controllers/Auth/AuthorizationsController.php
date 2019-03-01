@@ -17,6 +17,7 @@ use Khsing\World\World;
 use Modules\Mall\Entities\BusinessRange;
 use Modules\Mall\Entities\BusinessType;
 use Modules\Mall\Entities\Company;
+use Modules\Mall\Entities\Products;
 use Modules\Mall\Entities\UsersExtends;
 use Modules\Mall\Http\Controllers\MessagesController;
 use Modules\Mall\Http\Controllers\Shop\ProductsController;
@@ -372,6 +373,20 @@ class AuthorizationsController extends Controller
             foreach ($shop_group_data as $v){
                 array_push($data['shop_info']['shop_group'],$v);
             }
+
+            $data['shop_info']['product_recommend'] = ShopController::getRecommendProductData($company_id);
+
+            $last_update_product_obj  = Products::where(
+                [
+                    ['company_id','=',$company_id],
+                    ['product_status','=',ProductsController::PRODUCT_STATUS_SALE],
+                    ['product_audit_status','=',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS],
+                ]
+            )->limit(8)->orderBy('created_at','desc');
+            $product_last_update = ProductsController::getProductFormatInfo($last_update_product_obj);
+
+            $data['shop_info']['product_last_update'] = $product_last_update;
+
 
             return $data;
         }

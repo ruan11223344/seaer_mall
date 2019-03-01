@@ -275,6 +275,29 @@ class ShopController extends Controller
         }
     }
 
+    public static function getRecommendProductData($company_id){
+        $shop = Shop::where('company_id',$company_id);
+        $res = [];
+        if($shop->exists()){
+            $shop_obj =  $shop->get()->first();
+            if($shop_obj->recommend_product != null){
+                $product_arr = $shop_obj->recommend_product;
+                $product_obj= Products::where(
+                    [
+                        ['company_id','=',$company_id],
+                        ['product_status','=',ProductsController::PRODUCT_STATUS_SALE],
+                        ['product_audit_status','=',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS],
+                    ]
+                )->whereIn('id',$product_arr);
+                if($product_obj->count() > 0){
+                    $res = ProductsController::getProductFormatInfo($product_obj);
+                }
+            }
+        }
+
+        return $res;
+    }
+
     public function getRecommendProductList(){
         $company_id = Auth::user()->company->id;
         $shop = Shop::where('company_id',$company_id);
@@ -284,7 +307,13 @@ class ShopController extends Controller
            $shop_obj =  $shop->get()->first();
            if($shop_obj->recommend_product != null){
                $product_arr = $shop_obj->recommend_product;
-               $product_obj= Products::where('company_id',$company_id)->whereIn('id',$product_arr);
+               $product_obj= Products::where(
+                   [
+                       ['company_id','=',$company_id],
+                       ['product_status','=',ProductsController::PRODUCT_STATUS_SALE],
+                       ['product_audit_status','=',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS],
+                   ]
+               )->whereIn('id',$product_arr);
                if($product_obj->count() > 0){
                    $res = ProductsController::getProductFormatInfo($product_obj);
                    $product_id_list = $product_obj->get()->pluck('id')->toArray();
