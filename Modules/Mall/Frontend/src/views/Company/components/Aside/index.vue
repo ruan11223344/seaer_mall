@@ -6,16 +6,30 @@
         </div>
         <aside class="inquire-aside">
             <ul>
-                <li v-for="(item, index) in menuList" :key="index">
-                    <div ref="menuList" class="inquire-aside-title" @click="onClick(item,index)">
+                <li v-for="(item, index) in menu" :key="index">
+                    <div ref="menuList" class="inquire-aside-title">
                         <span>
-                            {{ item.name }}
+                            {{ item.group_name }}
                         </span>
-                        <Icon type="ios-arrow-forward" style="transition: all 0.2s;" :style="{transform: item.isSubShow ? 'rotate(90deg)' : 'rotate(0deg)' }"/>
+                        <Icon
+                            v-if="item.children != null"
+                            type="ios-arrow-forward"
+                            style="transition: all 0.2s;" :style="{transform: item.isSubShow ? 'rotate(90deg)' : 'rotate(0deg)' }"
+                            @click="onClick(item,index)"
+                            />
                     </div>
-                    <ul class="inquire-aside-items" :style="{ height: item.isSubShow ? item.subItems.length * 36 + 'px' : ''  }">
-                        <router-link :style="{ color: $route.path == path ? '#f0883a' : ''}" v-for="({name, path}, i) in item.subItems" :key="i" :to="path ? path : ''" tag="li">{{ name }}</router-link>
-                    </ul>
+                    <template  v-if="item.children != null">
+                        <ul class="inquire-aside-items" :style="'height: ' + (item.isSubShow ? item.children.length * 36 + 'px;' : '0px;')">
+                            <router-link
+                                :style="'color: ' + ($route.query.group_name == group_name ? '#f0883a' : '')"
+                                v-for="({group_name}, i) in item.children"
+                                :key="i"
+                                :to="group_name ? group_name : ''"
+                                tag="li">
+                                    {{ group_name }}
+                            </router-link>
+                        </ul>
+                    </template>
                 </li>
             </ul>
         </aside>
@@ -24,66 +38,48 @@
 
 <script>    
     import Img from "@/components/Img"
+    import { mapState, mapMutations } from "vuex"
 
     export default {
         data() {
             return {
-                menuList: [
-                    {
-                        name:'Account Center',
-                        isSubShow:false,
-                        subItems:[
-                            {
-                                name:'Building materials123'
-                            },
-                            {
-                                name:'Building materials',
-                                // path: '/inquiryList/companyinfo'
-                            },
-                            {
-                                name:'Building materials'
-                            },
-                            {
-                                name:'Building materials',
-                                // path: '/inquiryList/picture'
-                            }
-                        ]
-                    },
-                    {
-                        name:'Account Center',
-                        isSubShow:false,
-                        subItems:[
-                            {
-                                name:'Building materials'
-                            },
-                            {
-                                name:'Building materials'
-                            }
-                        ]
-                    },
-                ]
+                menu: null
             }
+        },
+        computed: {
+            ...mapState([ 'User_Info', 'Company_Detail' ]),
         },
         methods: {
             onClick(item, index) {
-                this.menuList.forEach((i,inx) => {
+                this.menu.forEach((i,inx) => {
                     if (inx !== index) {
-                        i.isSubShow = false;
+                        const obj = this.menu[inx]
+                        obj.isSubShow = false
+                        this.$set(this.menu, inx, obj)
                     }else {
-                        i.isSubShow = true;
+                        const obj = item
+                        obj.isSubShow = true
+                        this.$set(this.menu, inx, obj)
                     }
                 });
             },
         },
         mounted() {
-            const path = this.$route.path
-            this.menuList.forEach(value => {
-                value.subItems.forEach(v => {
-                    if(v.path == path) {
-                        value.isSubShow = true
-                    }
-                })
+            const group_name = this.$route.query.group_name
+    
+            this.Company_Detail.shop_info.shop_group.forEach(value => {
+                if(value.children != null) {
+                    value.children.forEach(v => {
+                        if(v.group_name == group_name) {
+                            value.isSubShow = true
+                        }else {
+                            value.isSubShow = false
+                        }
+                    })
+                }
             })
+
+            this.menu = this.Company_Detail.shop_info.shop_group
         },
         components: {
             "v-img": Img
@@ -114,7 +110,6 @@
         &-item {
             width: 100%;
             margin-top: 35px;
-
             &-list:first-child {
                 margin-top: 0px;
             }
@@ -153,7 +148,6 @@
 
         &-items {
             overflow: hidden;
-            height: 0px;
             transition: height 0.2s;
             cursor: pointer;
             
