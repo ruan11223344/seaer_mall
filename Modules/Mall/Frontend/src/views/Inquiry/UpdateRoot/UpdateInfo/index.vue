@@ -204,7 +204,7 @@
                                                                 :max="99999999"
                                                                 :min="1"
                                                                 :step="10000"
-                                                                v-model="item.ksh">
+                                                                v-model="item.order_price">
                                                             </InputNumber>
                                                         </template>
                                                     </div>

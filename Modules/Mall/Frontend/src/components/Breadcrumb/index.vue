@@ -1,11 +1,11 @@
 <template>
     <div class="breadcrumb">
         <template>
-            <div class="breadcrumb-text">{{ title }}</div>
+            <router-link tag="div" :to="'/company/home?company_id=' + $route.query.company_id" class="breadcrumb-text breadcrumb-text-active">{{ title }}</router-link>
         </template>
         <template v-for="item in Breadcrumbs">
-            <div class="breadcrumb-text">&nbsp;>&nbsp;</div>
-            <div class="breadcrumb-text">{{ item }}</div>
+            <div class="breadcrumb-text" :key="item">&nbsp;>&nbsp;</div>
+            <div class="breadcrumb-text" :key="item">{{ item }}</div>
         </template>
     </div>
 </template>
@@ -30,6 +30,11 @@
         & > .breadcrumb-text {
             font-size: 14px;
             color: #666666;
+            cursor: pointer;
+        }
+        
+        & > .breadcrumb-text-active:hover {
+            color: #ef873a;
         }
     }
 </style>

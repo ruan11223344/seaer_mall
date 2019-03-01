@@ -7,7 +7,7 @@
                     {{ data.product_name }}
                 </Tooltip>
             </div>
-            <div class="price">KSh {{ data.product_price }}</div>
+            <div class="price">{{ data.product_price }}</div>
             <div class="Pieces">{{ data.product_moq }}</div>
         </article>
     </router-link>

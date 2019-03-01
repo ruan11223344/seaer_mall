@@ -6,7 +6,7 @@
         <!-- banner -->
         <template>
             <section class="banner">
-                <img :src="require('@/assets/img/home/banner3.png')" alt="">
+                <img :src="Company_Detail.shop_info.banner.banner_url" alt="">
             </section>
         </template>
         
@@ -21,6 +21,7 @@
     import Header from "../components/Head/index"
     import Nav from '../components/Nav/index'
     import Main from './Main.vue'
+    import { mapState, mapMutations } from "vuex"
 
     export default {
         data () {
@@ -36,6 +37,9 @@
                     height: 500
                 }
             }
+        },
+        computed: {
+            ...mapState([ 'User_Info', 'Company_Detail' ])
         },
         components: {
            "v-header": Header,

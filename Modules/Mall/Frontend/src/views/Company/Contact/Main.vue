@@ -15,7 +15,7 @@
                             Company Name In China:
                         </Col>
                         <Col span="19" class-name="contact-main-card-right">
-                            武汉思迩电子商务有限公司
+                            {{ Company_Detail.basic_info.company_name_in_china }}
                         </Col>
                     </Row>
                     <Row :gutter="20" class-name="contact-main-card-block">
@@ -23,7 +23,7 @@
                             Country:
                         </Col>
                         <Col span="19" class-name="contact-main-card-right">
-                            China
+                            {{ Company_Detail.basic_info.country_name }}
                         </Col>
                     </Row>
                     <Row :gutter="20" class-name="contact-main-card-block">
@@ -31,7 +31,7 @@
                             Province/City:
                         </Col>
                         <Col span="19" class-name="contact-main-card-right">
-                            HuBei WuHan
+                            {{ Company_Detail.basic_info['province/city'] }}
                         </Col>
                     </Row>
                     <Row :gutter="20" class-name="contact-main-card-block">
@@ -39,7 +39,7 @@
                             Address:
                         </Col>
                         <Col span="19" class-name="contact-main-card-right">
-                            Room 605,Building A,No.777,Optical Valley three Road,East Lake High-tech Development Zone
+                            {{ Company_Detail.basic_info.address }}
                         </Col>
                     </Row>
                     <Row :gutter="20" class-name="contact-main-card-block">
@@ -47,7 +47,7 @@
                             Telephone:
                         </Col>
                         <Col span="19" class-name="contact-main-card-right">
-                            +86 027-65520870
+                            {{ Company_Detail.basic_info.telephone }}
                         </Col>
                     </Row>
                     <Row :gutter="20" class-name="contact-main-card-block">
@@ -55,7 +55,7 @@
                             Website:
                         </Col>
                         <Col span="19" class-name="contact-main-card-right">
-                            https://www.seaer.com.cn
+                            {{ Company_Detail.basic_info.website }}
                         </Col>
                     </Row>
                 </section>
@@ -68,6 +68,7 @@
     import Aside from '../components/Aside/index.vue'
     import Card from "@/components/Card"
     import Breadcrumb  from '@/components/Breadcrumb'
+    import { mapState, mapMutations } from "vuex"
 
     export default {
         data() {
@@ -101,6 +102,12 @@
                     },
                 ],
             }
+        },
+        computed: {
+            ...mapState([ 'User_Info', 'Company_Detail' ])
+        },
+        methods: {
+            ...mapMutations([ 'SET_COMPANY_DETAIL' ]),
         },
         components: {
             "v-aside": Aside,

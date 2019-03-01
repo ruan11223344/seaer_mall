@@ -23,12 +23,29 @@
 </template>
 
 <script>
+    import { mapState, mapMutations } from "vuex"
     import Header from "@/components/Header"
     import FooterNav from "@/components/Footer-nav"
     import Footer from "@/components/Footer"
+    import getData from '@/utils/getData'
     // import Search from "@/components/Search"
     
     export default {
+        computed: {
+            ...mapState([ 'User_Info', 'Company_Detail' ])
+        },
+        methods: {
+            ...mapMutations([ 'SET_COMPANY_DETAIL' ]),
+            onGetCompanyDetail: getData.onGetCompanyDetail
+        },
+        created() {
+            if(!this.Company_Detail) {
+                this.onGetCompanyDetail(this.$route.query.company_id)
+                .then(res => {
+                    this.SET_COMPANY_DETAIL(res)
+                })
+            }
+        },
         components: {
             'v-nav': Header,
             // 'v-search': Search,

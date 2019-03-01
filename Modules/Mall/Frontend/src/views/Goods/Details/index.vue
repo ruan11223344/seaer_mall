@@ -64,7 +64,7 @@
     import headTemplateVue from './components/head-template.vue';
     import getData from "@/utils/getData"
     import upData from "@/utils/upData"
-    import Nav from '../../Goods/components/Nav'
+    import Nav from '../../Company/components/Nav'
     import { mapState, mapMutations } from "vuex"
 
     export default {

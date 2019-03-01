@@ -112,6 +112,12 @@
             background-color: #ffffff;
             border: solid 1px #dddddd;
             border-radius: 50%;
+
+            & > img {
+                width: 81px;
+                height: 81px;
+                border-radius: 50%;
+            }
         }
 
         &-name {

@@ -2,7 +2,11 @@
     <!-- 联系方式 -->
     <div class="profile">
         <div class="container">
-            <v-Breadcrumb title="Supplier Homepage" :Breadcrumbs="[ 'Coutact us' ]"></v-Breadcrumb>
+            <v-Breadcrumb title="Supplier Homepage" :Breadcrumbs="[ 'About us' ]"></v-Breadcrumb>
+            <!-- <Breadcrumb separator=">">
+                <BreadcrumbItem to="/">Home</BreadcrumbItem>
+                <BreadcrumbItem>About us</BreadcrumbItem>
+            </Breadcrumb> -->
         </div>
         
         <div class="profile-main">
@@ -11,11 +15,7 @@
                 <!-- 名片 -->
                 <article class="profile-main-article">
                     <img src="" alt="">
-                    <p>Advanced production equipment &professional QC to esure 0% defective rate of the goods.  Every batch of goods are inspected strictly to make sure the goods our customer received are qualified.Company ProfileCompany ProfileCompany ProfileCompany ProfileCompany ProfileCompany ProfileCompany ProfileCompany Profile</p>
-                    <p>Advanced production equipment &professional QC to esure 0% defective rate of the goods.  Every batch of goods are inspected strictly to make sure the goods our customer received are qualified.Company ProfileCompany ProfileCompany ProfileCompany ProfileCompany ProfileCompany ProfileCompany ProfileCompany Profile</p>
-                    <img src="" alt="">
-                    <p>Advanced production equipment &professional QC to esure 0% defective rate of the goods.  Every batch of goods are inspected strictly to make sure the goods our customer received are qualified.Company ProfileCompany ProfileCompany ProfileCompany ProfileCompany ProfileCompany ProfileCompany ProfileCompany Profile</p>
-                    <p>Advanced production equipment &professional QC to esure 0% defective rate of the goods.  Every batch of goods are inspected strictly to make sure the goods our customer received are qualified.Company ProfileCompany ProfileCompany ProfileCompany ProfileCompany ProfileCompany ProfileCompany ProfileCompany Profile</p>
+                    <p v-html="Company_Detail.business_info.company_profile"></p>
                 </article>
             </div>
         </div>
@@ -26,39 +26,16 @@
     import Aside from '../components/Aside/index.vue'
     import Card from "@/components/Card"
     import Breadcrumb  from '@/components/Breadcrumb'
+    import { mapState, mapMutations } from "vuex"
 
     export default {
         data() {
             return {
-                // 商品列表
-                goodsLists: [
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "1.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "1.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "1.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "1.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "1.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                ],
+                
             }
+        },
+        computed: {
+            ...mapState([ 'User_Info', 'Company_Detail' ])
         },
         components: {
             "v-aside": Aside,

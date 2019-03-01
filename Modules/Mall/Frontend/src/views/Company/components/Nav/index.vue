@@ -1,7 +1,7 @@
 <template>
     <nav class="company-nav">
         <ul class="container company-nav-item">
-            <router-link to="/company/home" tag="li" class="company-nav-item-list">
+            <router-link :to="'/company/home?company_id=' + $route.query.company_id" tag="li" class="company-nav-item-list">
                 Home
                 <span class="company-nav-item-list-hr"></span>
             </router-link>
@@ -13,11 +13,11 @@
                     <span>Building materials</span>
                 </div>
             </li>
-            <router-link to="/company/profile" tag="li" class="company-nav-item-list">
+            <router-link :to="'/company/profile?company_id=' + $route.query.company_id" tag="li" class="company-nav-item-list">
                 About us
                 <span class="company-nav-item-list-hr"></span>
             </router-link>
-            <router-link to="/company/contact" tag="li" class="company-nav-item-list">
+            <router-link :to="'/company/contact?company_id=' + $route.query.company_id" tag="li" class="company-nav-item-list">
                 Coutact us
                 <span class="company-nav-item-list-hr"></span>
             </router-link>
