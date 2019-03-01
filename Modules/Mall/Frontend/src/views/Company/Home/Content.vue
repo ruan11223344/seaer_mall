@@ -24,38 +24,49 @@
     export default {
         data() {
             return {
-                // 商品列表
-                goodsLists: [
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "1.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "1.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "1.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "1.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                    {
-                        title: 'Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation Beidou GPS dual mode vehicle navigation',
-                        price: "1.00",
-                        imgSrc: require('@/assets/img/home/mr.png')
-                    },
-                ],
             }
         },
         computed: {
             ...mapState([ 'User_Info', 'Company_Detail' ])
+        },
+        mounted() {
+            // let tableData = [
+            //     {
+            //         id: 1,
+            //         title: '4444',
+            //         remark: '46546',
+            //         matCode: '66666',
+            //         matName: '物料名',
+            //         skuName: '66666',
+            //         skuCode: '4464545',
+            //         dataItem:[
+            //             {
+            //                 id: 1,
+            //                 name:'45',
+            //                 spec:'555',
+            //                 qty:'5656533'
+            //             }
+            //         ]
+            //     },
+            //     {
+            //         matCode: '77777',
+            //         matName: '物料6',
+            //         skuName: '6666',
+            //         skuCode: '446454',
+            //         dataItem: [
+            //             {
+            //                 name:'46',
+            //                 spec:'55',
+            //                 qty:'56565'
+            //             }
+            //         ]
+            //     },
+            // ]
+            // const reg = /"/g
+            // tableData = JSON.stringify(tableData)
+            // // 你要的形式
+            // const a = tableData.replace(reg, '\\"')
+            // console.log(a);
         },
         components: {
             'v-card': Card,

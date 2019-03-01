@@ -3,7 +3,7 @@
         <!-- 公司logo -->
         <main class="container company-head-content">
             <v-img width="138" height="92" :imgSrc="require('@/assets/img/home/banner.png')"></v-img>
-            <h1 class="company-head-content-title">WuHan sier International cn.,LTD sier International cn.,LTD</h1>
+            <h1 class="company-head-content-title">{{ Company_Detail.basic_info.company_name }}</h1>
             <div class="company-head-content-collection">
                 <v-img width="13" height="12" :imgSrc="require('@/assets/img/details/sc2.png')" class="company-head-content-collection-sc"></v-img>
                 <span> Favorites Supplier</span>
@@ -14,8 +14,12 @@
 
 <script>
     import Img from "@/components/Img/index.vue"
+    import { mapState, mapMutations } from "vuex"
 
     export default {
+        computed: {
+            ...mapState([ 'User_Info', 'Company_Detail' ]),
+        },
         components: {
             "v-img": Img
         }

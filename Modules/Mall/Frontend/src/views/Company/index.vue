@@ -6,12 +6,19 @@
             <v-nav></v-nav>
         </header>
 
-        <!-- 搜索 -->
-        <!-- <div style="backgroundColor:#ffffff">
-            <section class="container search">
-                <v-search></v-search>
+        <template v-if="Company_Detail">
+            <v-company></v-company>
+        </template>
+
+        <!-- banner -->
+        <template v-if="Company_Detail">
+            <section class="banner">
+                <img :src="Company_Detail.shop_info.banner.banner_url" alt="">
             </section>
-        </div> -->
+        </template>
+        
+        <!-- 导航 -->
+        <v-nav-list></v-nav-list>
 
         <!-- 子页面渲染 -->
         <router-view></router-view>
@@ -29,7 +36,9 @@
     import Footer from "@/components/Footer"
     import getData from '@/utils/getData'
     // import Search from "@/components/Search"
-    
+    import Nav from "./components/Nav/index"
+    import Company from "../Goods/Details/components/head-template.vue"
+
     export default {
         computed: {
             ...mapState([ 'User_Info', 'Company_Detail' ])
@@ -48,9 +57,10 @@
         },
         components: {
             'v-nav': Header,
-            // 'v-search': Search,
             'v-footer-nav': FooterNav,
             'v-footer': Footer,
+            "v-nav-list": Nav,
+            "v-company": Company
         }
     }
 </script>
@@ -67,5 +77,11 @@
     //     height: 100px;
     // }
 
-    
+    .banner {
+        height: 150px;
+
+        & > img {
+            .width(100%, 100%);
+        }
+    }
 </style>

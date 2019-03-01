@@ -1,18 +1,5 @@
 <template >
     <div v-if="Company_Detail">
-        <!-- 首页 -->
-        <v-header></v-header>
-
-        <!-- banner -->
-        <template>
-            <section class="banner">
-                <img :src="Company_Detail.shop_info.banner.banner_url" alt="">
-            </section>
-        </template>
-        
-        <!-- 导航 -->
-        <v-nav></v-nav>
-
         <Carousel
             :loop="true"
             :autoplay="setting.autoplay"
@@ -35,7 +22,6 @@
 
 <script>
     import Header from "../components/Head/index"
-    import Nav from '../components/Nav/index'
     import Main from './Main.vue'
     import getData from '@/utils/getData'
     import { mapState, mapMutations } from "vuex"
@@ -46,7 +32,7 @@
             return {
                 setting: {
                     autoplay: true,
-                    autoplaySpeed: 2000,
+                    autoplaySpeed: 5000,
                     dots: 'inside',
                     radiusDot: false,
                     trigger: 'click',
@@ -76,7 +62,6 @@
         },
         components: {
            "v-header": Header,
-           "v-nav": Nav,
            "v-main": Main
         }
     }
@@ -84,12 +69,4 @@
 
 <style lang="less" scoped>
     @import url('../../../assets/css/index.less');
-
-    .banner {
-        height: 150px;
-
-        & > img {
-            .width(100%, 100%);
-        }
-    }
 </style>
