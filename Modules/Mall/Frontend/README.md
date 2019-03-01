@@ -4119,7 +4119,7 @@ url:http://域名/api/shop/get_company_detail
 请求头参数:"Authorization",值:"Bearer空格+token" //必填
 
 参数:  company_id  //公司id 必填
-
+        user_id  //非必填 如果不填 是否收藏就为false
 返回:
 {
     "code": 200,
@@ -4410,7 +4410,8 @@ url:http://域名/api/shop/get_company_detail
                     "created_at": null,
                     "updated_at": null
                 }
-            ]
+            ],
+             "is_favorites_company": true
         }
     }
 }
