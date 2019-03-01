@@ -20,6 +20,7 @@ use Modules\Mall\Entities\Company;
 use Modules\Mall\Entities\UsersExtends;
 use Modules\Mall\Http\Controllers\MessagesController;
 use Modules\Mall\Http\Controllers\Shop\ProductsController;
+use Modules\Mall\Http\Controllers\Shop\ProductsGroupsController;
 use Modules\Mall\Http\Controllers\Shop\ShopController;
 use Modules\Mall\Http\Controllers\UtilsController;
 use Psr\Http\Message\ServerRequestInterface;
@@ -347,6 +348,30 @@ class AuthorizationsController extends Controller
             $data['shop_info']['avatar_path'] = $userEx_avatar == null ? null : $userEx_avatar ;
             $data['shop_info']['avatar_url'] = $userEx_avatar == null ? null : UtilsController::getPathFileUrl($userEx_avatar);
             $data['shop_info']['af_id'] = $userEx->af_id;
+            $shop_group_data = ProductsGroupsController::getProductGroupInfo($company->user_id);
+
+            if(is_array($shop_group_data) && count($shop_group_data) > 0){
+                foreach ($shop_group_data as $k=>$v){
+                    if($v['show_home_page'] == false){
+                        unset($shop_group_data[$k]);
+                    }else{
+                        if(is_array($v['children']) && count($v['children'] > 0)){
+                            foreach ($v['children'] as $kk=>$vv){
+                                if($vv['show_home_page'] == false){
+                                    unset($v['children'][$kk]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            $data['shop_info']['shop_group'] = [];
+
+
+            foreach ($shop_group_data as $v){
+                array_push($data['shop_info']['shop_group'],$v);
+            }
 
             return $data;
         }

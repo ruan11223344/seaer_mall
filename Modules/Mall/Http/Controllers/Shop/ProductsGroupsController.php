@@ -55,8 +55,12 @@ class ProductsGroupsController extends Controller
         return $arr;
     }
 
-    public static function getProductGroupInfo(){
-        $product_group = ProductsGroup::where('user_id',Auth::id())->get()->toArray();
+    public static function getProductGroupInfo($user_id = null){
+        if($user_id == null){
+            $product_group = ProductsGroup::where('user_id',Auth::id())->get()->toArray();
+        }else{
+            $product_group = ProductsGroup::where('user_id',$user_id)->get()->toArray();
+        }
         if($product_group == null){
             return [];
         }
