@@ -4,14 +4,14 @@
             <div class="company-home-main-content-title">Hot Recommend</div>
             <div class="company-home-main-content-first-item">
                 <!-- 渲染商品列表mock -->
-                <!-- <v-card :title="title" :price="price" :img-src="imgSrc" v-for="({title, price, imgSrc}, index) in goodsLists" :key="index" class="company-home-main-content-first-item-list"></v-card> -->
+                <v-card :data="item" v-for="(item, index) in Company_Detail.shop_info.product_recommend" :key="index" class="company-home-main-content-first-item-list"></v-card>
             </div>
         </div>
         <div class="company-home-main-content-first">
             <div class="company-home-main-content-title">New Arrivals</div>
             <div class="company-home-main-content-first-item">
                 <!-- 渲染商品列表mock -->
-                <!-- <v-card :title="title" :price="price" :img-src="imgSrc" v-for="({title, price, imgSrc}, index) in goodsLists" :key="index" class="company-home-main-content-first-item-list"></v-card> -->
+                <v-card :data="item" v-for="(item, index) in Company_Detail.shop_info.product_last_update" :key="index" class="company-home-main-content-first-item-list"></v-card>
             </div>
         </div>
     </main>
@@ -19,6 +19,7 @@
 
 <script>
     import Card from "@/components/Card"
+    import { mapState, mapMutations } from "vuex"
 
     export default {
         data() {
@@ -52,6 +53,9 @@
                     },
                 ],
             }
+        },
+        computed: {
+            ...mapState([ 'User_Info', 'Company_Detail' ])
         },
         components: {
             'v-card': Card,
