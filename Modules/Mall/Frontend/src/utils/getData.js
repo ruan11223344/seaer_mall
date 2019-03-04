@@ -103,6 +103,22 @@ const getData = {
             })
         })
     },
+    // 13.获取发件箱消息
+    async onGetOutboxMessag() {
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/message/outbox_message',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    },
     // 27.获取相册中的图片列表
     async onGetalbumPhotoList(params) {
         return await new Promise(async (resolve, reject) => {
