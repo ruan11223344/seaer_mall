@@ -86,7 +86,7 @@ class AuthorizationsController extends Controller
             return $this->echoErrorJson('Error!Parameter cannot be empty!',[]);
         }
         $this->ip = $serverRequest->getServerParams()['REMOTE_ADDR'];
-        $this->username = $data['username'];
+        $this->username = isset($data['username']) ? $data['username'] : null;
 
         if($this->hasTooManyLoginAttempts()){
             $validator = Validator::make($data, [

@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('admin')->group(function() {
-    Route::get('/', 'AdminController@index');
+Route::group(['domain'=>env('MALL_DOMAIN')],function () {
+    Route::get('/{any}', 'AdminController@index')->where('any', '.*');
 });
