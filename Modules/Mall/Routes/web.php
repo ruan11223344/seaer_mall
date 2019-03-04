@@ -12,6 +12,6 @@
 */
 
 
-Route::group(['domain'=>env('MALL_DOMAIN')],function () {
+Route::group(['domain'=>env('MALL_DOMAIN'),'middleware'=>'cors'],function () {
     Route::get('/{any}', 'HomeController@index')->where('any', '.*');
 });
