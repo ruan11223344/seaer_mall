@@ -427,6 +427,20 @@ const getData = {
             })
         })
     },
+    // 78.获取用户中心商品分类数量与图片上传数量
+    onGetProductNumInfo() {
+        return new Promise((resolve, reject) => {
+            request({
+                url: '/shop/product/product_num_info',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
 }
 
 export default getData

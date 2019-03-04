@@ -27,31 +27,31 @@
                     </ul>
                 </div>
 
-                <div class="personal-main-left-stone">
+                <div class="personal-main-left-stone" v-if="info">
                     <div class="personal-main-left-stone-title">Stone and product tips</div>
                     <div class="personal-main-left-stone-p">Stone infomation and pending items than you need to pay attention to.</div>
                     <div class="personal-main-left-stone-block">
                         <div class="personal-main-left-stone-block-Product">
                             Product
-                            <span>27/200</span>
+                            <span>{{ info.product_num_info_str }}</span>
                         </div>
                         <div class="personal-main-left-stone-block-Product">
                             Image
-                            <span>1755/3000</span>
+                            <span>{{ info.image_info_str }}</span>
                         </div>
                     </div>
                     <div class="personal-main-left-stone-block">
                         <li>
-                            Selling <span>10</span>
+                            Selling <span>{{ info.product_selling_num }}</span>
                         </li>
                         <li>
-                            Check Pending <span>10</span>
+                            Check Pending <span>{{ info.product_check_pending_num }}</span>
                         </li>
                         <li>
-                            Unapprove <span>10</span>
+                            Unapprove <span>{{ info.product_unapprove_num }}</span>
                         </li>
                         <li>
-                            In the warehouse <span>10</span>
+                            In the warehouse <span>{{ info.product_in_the_warehouse_num }}</span>
                         </li>
                     </div>
                 </div>
@@ -60,7 +60,10 @@
                 <div class="personal-main-right-Notice">
                     <div class="personal-main-right-Notice-title">
                         <span>Notice</span>
-                        <span>More</span>
+                        <span>
+                            More
+                            <Icon type="ios-arrow-forward" />
+                        </span>
                     </div>
                     <p>Afriby Kenya invites you to join us!join...</p>
                     <p>2018 Dragon Boat Festival holiday ...</p>
@@ -71,11 +74,11 @@
                     <div class="personal-main-right-time-block">
                         <div class="personal-main-right-time-block-date">
                             <div>Kenya</div>
-                            <time>Jan 16,2019, 10:56  AM</time>
+                            <time>{{ kenTime }} AM</time>
                         </div>
                         <div class="personal-main-right-time-block-date">
                             <div>China</div>
-                            <time>Jan 16,2019, 03:56  PM</time>
+                            <time>{{ cnTime }} PM</time>
                         </div>
                     </div>
                 </div>
@@ -106,7 +109,8 @@
     import getData from "@/utils/getData.js"
     import upData from "@/utils/upData.js"
     import { mapState } from "vuex"
-    
+    import dayjs from "dayjs"
+
     export default {
         data() {
             return {
@@ -120,15 +124,21 @@
                     number: null,
                     bool: true
                 },
-                result: null
+                result: null,
+                info: null,
+                kenTime: null,
+                cnTime: null
             }
         },
         computed: {
-            ...mapState([ 'User_Info', 'Oss_Url_Config' ])
+            ...mapState([ 'User_Info', 'Oss_Url_Config' ]),
         },
         methods: {
+            dayjs: dayjs,
             onGetOutboxMessag: getData.onGetOutboxMessag,
+            onGetProductNumInfo: getData.onGetProductNumInfo,
             onCurrency: upData.onCurrency,
+            onGetSysConfig: getData.onGetSysConfig,
             onClick() {
                 this.onCurrency({
                     from: this.formItem.bool ? 'KES' : 'CNY',
@@ -137,6 +147,14 @@
                 }).then(res => {
                     this.result = res
                 })
+            },
+            onTime(date) {
+                this.kenTime = dayjs(date * 1000).subtract(5, 'hour').format('MMM DD,YYYY HH:mm:ss')
+                this.cnTime = dayjs(date * 1000).format('MMM DD,YYYY HH:mm:ss')
+                setTimeout(() => {
+                    date++
+                    this.onTime(date)
+                }, 1000)
             }
         },
         mounted() {
@@ -144,6 +162,16 @@
                 .then(res => {
                     this.len = res
                 })
+            this.onGetProductNumInfo()
+                .then(res => {
+                    this.info = res
+                })
+
+            this.onGetSysConfig()
+                .then(res => {
+                    this.onTime(res.timestamp)
+                })
+            
         },
         components: {
         }
