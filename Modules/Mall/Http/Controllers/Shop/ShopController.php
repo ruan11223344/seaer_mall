@@ -146,10 +146,14 @@ class ShopController extends Controller
                         return false;
                     }
 
-                    if($v['url_jump'] != null){
-                        if(stripos($v['url_jump'],$site_domain) === false){
-                            $validator->setCustomMessages(['slide_list_check' => 'Cannot set up except afriby.com link!']);
-                            return false;
+
+
+                    if(isset($v['url_jump'])){
+                        if($v['url_jump'] != null){
+                            if(stripos($v['url_jump'],$site_domain) === false){
+                                $validator->setCustomMessages(['slide_list_check' => 'Cannot set up except afriby.com link!']);
+                                return false;
+                            }
                         }
                     }
                 }
