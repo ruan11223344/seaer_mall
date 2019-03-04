@@ -54,4 +54,8 @@ trait EchoJson
     {
         return $this->echoJson($message,400,$data);
     }
+
+    public function echoErrorJsonCode(int $code,string $message,array $data = []){
+        return $this->echoJson($message,$code,$data);
+    }
 }

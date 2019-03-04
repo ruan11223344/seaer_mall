@@ -57,7 +57,7 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson()) {
-            return $this->echoErrorJson('未认证请求!');
+            return $this->echoErrorJsonCode(401,'未认证请求!');
         }
         return response('未认证请求.', 401);
     }
