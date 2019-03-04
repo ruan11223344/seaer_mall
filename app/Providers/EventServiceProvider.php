@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Event;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -16,6 +17,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Event' => [
             'App\Listeners\EventListener',
         ],
+        'Laravel\Passport\Events\AccessTokenCreated' => [
+            'App\Listeners\PassportAccessTokenCreated',
+        ],
     ];
 
     /**
@@ -23,6 +27,18 @@ class EventServiceProvider extends ServiceProvider
      *
      * @return void
      */
+
+    public function handle(\Laravel\Passport\Events\AccessTokenCreated $event)
+    {
+        $provider = \Config::get('auth.guards.api.provider');
+        DB::table('oauth_access_token_providers')->insert([
+            "oauth_access_token_id" => $event->tokenId,
+            "provider" => $provider,
+            "created_at" => new Carbon(),
+            "updated_at" => new Carbon(),
+        ]);
+    }
+
     public function boot()
     {
         parent::boot();

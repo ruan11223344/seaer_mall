@@ -37,6 +37,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\PassportCustomProviderAccessToken::class
         ],
 
         'api' => [
@@ -65,5 +66,6 @@ class Kernel extends HttpKernel
         'permission' => \Zizaco\Entrust\Middleware\EntrustPermission::class,
         'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
         'cors' => \Barryvdh\Cors\HandleCors::class,
+        'passport-custom-provider' => \App\Http\Middleware\PassportCustomProvider::class
     ];
 }

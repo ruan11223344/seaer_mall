@@ -70,10 +70,10 @@ return [
             'model' => Modules\Mall\Entities\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+         'admins' => [
+             'driver' => 'database',
+             'model' => Modules\Admin\Entities\Admin::class,
+         ],
     ],
 
     /*

@@ -30,6 +30,12 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function findForPassport($username)
+    {
+        return $this->orWhere('email', $username)->orWhere('name', $username)->first();
+    }
+
+
     public function emailRecored()
     {
         return $this->hasMany('Modules\Mall\Entities\MailRecored','user_id','id');
