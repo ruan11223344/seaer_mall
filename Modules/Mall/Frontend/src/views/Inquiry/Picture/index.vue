@@ -36,6 +36,7 @@
     import Cropper from "@/components/Cropper"
     import upData from "@/utils/upData.js"
     import getData from "@/utils/getData.js"
+    import { mapMutations, mapState  } from 'vuex'
 
     export default {
         data() {
@@ -46,6 +47,9 @@
             }
         },
         methods: {
+            ...mapMutations([ 'SET_OSS_URL_CONFIG', 'SET_USER_INFO' ]),
+            onGetUser: getData.onGetUser,
+            onGetSysConfig: getData.onGetSysConfig,
             getObjectURL: getData.getObjectURL,
             onGetAvatar: getData.onGetAvatar,
             UpAvatarBase64: upData.UpAvatarBase64,
@@ -67,6 +71,8 @@
             onSave(base64) {
                 this.UpAvatarBase64(base64).then(res => {
                     this.path = res.avatar_img_url
+                    this.onGetSysConfig().then(res => this.SET_OSS_URL_CONFIG(res))
+                    this.onGetUser().then(res => this.SET_USER_INFO(res))
                 })
             }
         },

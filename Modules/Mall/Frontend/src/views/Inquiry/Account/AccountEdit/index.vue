@@ -176,6 +176,7 @@
         },
         mounted() {
             this.formData = JSON.parse(this.$route.query.formData)
+            console.log(this.formData['province/city'])
             const name = this.formData['province/city'].split(' ')
 
             this.province = name[0]

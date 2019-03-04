@@ -1,5 +1,4 @@
 import request from './request'
-import { resolve } from 'path';
 
 const upData = {
     // 2.刷新token

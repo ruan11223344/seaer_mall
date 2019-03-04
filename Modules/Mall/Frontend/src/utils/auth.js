@@ -9,6 +9,9 @@ export default {
     getCookies() {
         return Cookies.get(TokenKey)
     },
+    getRefCookies() {
+        return Cookies.get(RefreshKey)
+    },
     setCookies(value) {
         return Cookies.set(TokenKey, value)
     },

@@ -7,6 +7,7 @@
 <script>
 import getData from '@/utils/getData'
 import { mapMutations, mapState  } from 'vuex'
+import auth from "@/utils/auth"
 
 export default {
     computed: {
@@ -27,7 +28,11 @@ export default {
         },
     },
     mounted() {
-        this.onGetConfig()
+        const TokenKey = auth.getCookies()
+
+        if(TokenKey) {
+            this.onGetConfig()
+        }
     }
 };
 </script>

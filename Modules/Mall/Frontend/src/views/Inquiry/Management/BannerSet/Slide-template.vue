@@ -8,7 +8,7 @@
             <p>Press Submit to view the demo the slides effect when finished uploading.</p>
             <p>Make sure the link of the image is valid.</p>
         </article>
-        <div class="SlideSet-banner">
+        <div class="SlideSet-banner" v-if="slideLists.length">
             <Carousel
                 :loop="true"
                 :autoplay="setting.autoplay"

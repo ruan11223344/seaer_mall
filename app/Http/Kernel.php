@@ -21,6 +21,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrustProxies::class,
         //追踪插件中间件
         \PragmaRX\Tracker\Vendor\Laravel\Middlewares\Tracker::class,
+        \Barryvdh\Cors\HandleCors::class
     ];
 
     /**
