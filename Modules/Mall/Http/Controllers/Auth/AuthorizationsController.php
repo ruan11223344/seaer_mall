@@ -82,11 +82,16 @@ class AuthorizationsController extends Controller
     public function getAccessToken(AuthorizationServer $server, ServerRequestInterface $serverRequest)
     {
         $data = $serverRequest->getParsedBody();
+        $refresh_token = $data['grant_type'] == 'refresh_token' ? true : false;
+
         if($data === []){
             return $this->echoErrorJson('Error!Parameter cannot be empty!',[]);
         }
         $this->ip = $serverRequest->getServerParams()['REMOTE_ADDR'];
-        $this->username = isset($data['username']) ? $data['username'] : null;
+        if($refresh_token == false){
+            $this->username =  $data['username'];
+        }
+
 
         if($this->hasTooManyLoginAttempts()){
             $validator = Validator::make($data, [
@@ -108,10 +113,15 @@ class AuthorizationsController extends Controller
                 'access_token'=>$token_data->access_token,
                 'refresh_token'=>$token_data->refresh_token,
             ];
-            $this->clearLoginAttempts();
+            if($refresh_token == false){
+                $this->clearLoginAttempts();
+            }
+
             return $this->echoSuccessJson('Success!',$data);
         } catch (OAuthServerException $e) {
-            $this->incrementLoginAttempts();
+            if($refresh_token == false){
+                $this->incrementLoginAttempts();
+            }
             return $this->echoErrorJson($e->getMessage());
         }
     }

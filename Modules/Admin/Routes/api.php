@@ -11,7 +11,7 @@
 |
  */
 
-Route::group(['domain' => env('MALL_DOMAIN'), 'middleware' => 'cors'], function () {
+Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function () {
     Route::prefix('admin')->group(function (){
         Route::post('get_access_token', 'AdminController@getAccessToken')->middleware('passport-custom-provider');
     });
