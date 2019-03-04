@@ -134,7 +134,7 @@ class ShopController extends Controller
         {
             if(is_array($value)){
                 $path = UtilsController::getUserShopDirectory();
-                $site_domain = env('MALL_DOMAIN');
+                $site_domain = env('APP_URL');
                 foreach ($value as $v){
                     if(!(isset($v['url_path']) && isset($v['sort']))){
                         $validator->setCustomMessages(['slide_list_check' => 'Missing corresponding object!']);
@@ -150,7 +150,7 @@ class ShopController extends Controller
 
                     if(isset($v['url_jump'])){
                         if($v['url_jump'] != null){
-                            if(stripos($v['url_jump'],$site_domain) === false){
+                            if(mb_stripos($v['url_jump'],$site_domain) === false){
                                 $validator->setCustomMessages(['slide_list_check' => 'Cannot set up except afriby.com link!']);
                                 return false;
                             }
