@@ -109,8 +109,6 @@
             },
             // 保存上传图片到目录
             onPreservation(data) {
-                console.log(data);
-                
                 const name = data.name
 
                 this.$request({

@@ -15,15 +15,15 @@
                 <div class="personal-main-left-sent">
                     <div class="personal-main-left-sent-title">Sent</div>
                     <ul class="personal-main-left-sent-block">
-                        <li>
+                        <router-link tag="li" to="/inquiryList/send">
                             All <span>{{ len.all.length }}</span>
-                        </li>
-                        <li>
+                        </router-link>
+                        <router-link tag="li" to="/inquiryList/send">
                             Unread <span>{{ len.unread.length }}</span>
-                        </li>
-                        <li>
+                        </router-link>
+                        <router-link tag="li" to="/inquiryList/send">
                             Not yet replied <span>{{ len.un_reply.length }}</span>
-                        </li>
+                        </router-link>
                     </ul>
                 </div>
 
@@ -41,18 +41,18 @@
                         </div>
                     </div>
                     <div class="personal-main-left-stone-block">
-                        <li>
+                        <router-link tag="li" to="/inquiryList/commodity/operation">
                             Selling <span>{{ info.product_selling_num }}</span>
-                        </li>
-                        <li>
+                        </router-link>
+                        <router-link tag="li" to="/inquiryList/commodity/operation">
                             Check Pending <span>{{ info.product_check_pending_num }}</span>
-                        </li>
-                        <li>
+                        </router-link>
+                        <router-link tag="li" to="/inquiryList/commodity/operation">
                             Unapprove <span>{{ info.product_unapprove_num }}</span>
-                        </li>
-                        <li>
+                        </router-link>
+                        <router-link tag="li" to="/inquiryList/commodity/operation">
                             In the warehouse <span>{{ info.product_in_the_warehouse_num }}</span>
-                        </li>
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -171,7 +171,6 @@
                 .then(res => {
                     this.onTime(res.timestamp)
                 })
-            
         },
         components: {
         }

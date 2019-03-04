@@ -803,8 +803,6 @@
         created() {
             this.onGetProductGroup()
                 .then(data => {
-                    console.log(data);
-                    
                     this.filterGroup(data)
                 }
             )

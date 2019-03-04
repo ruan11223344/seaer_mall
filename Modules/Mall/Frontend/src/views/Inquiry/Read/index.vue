@@ -144,7 +144,7 @@
                         participant_id: this.infoData.participant_id
                     }
                 }).then(res => {
-                    console.log(res);
+                    // console.log(res);
                 }).catch(err => {
                     return false
                 })
@@ -169,7 +169,7 @@
                         this.$Message.info('Marked as spam inquiry');
                     }                    
                 }).catch(err => {
-                    console.log(err);
+                    // console.log(err);
                 })
             },
             // 删除
@@ -199,7 +199,7 @@
                         this.$Message.info('Delete failed!')
                     }
                 }).catch(err => {
-                    console.log(err)
+                    // console.log(err)
                 })
             }
         },

@@ -113,8 +113,6 @@
                 }).then(({ code, data }) => {
                     if(code == 200) {
                         this.filterData(data)
-                        console.log(data);
-                        
                     }
                 }).catch(err => {
                     return false
@@ -199,8 +197,6 @@
                 }
             },
             onSelect(value) { // 全选
-            console.log(value);
-            
                 if(value.length > 0) {
                     let ids = []
                     let message = []

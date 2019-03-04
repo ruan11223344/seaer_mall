@@ -88,7 +88,7 @@
                         this.imgCode = data.img
                         this.$set(this.rulesFrom, 'key', data.key)
                     }
-                }).catch(err => console.log(err))
+                }).catch(err => err)
             },
             onSubmit() { // 提交
                 if(this.num > 2) {

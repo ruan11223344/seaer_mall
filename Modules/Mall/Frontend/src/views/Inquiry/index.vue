@@ -15,12 +15,12 @@
         <!-- 子页面渲染 -->
         <main class="inquiry">
             <div class="container inquiry-main">
-                <section class="inquiry-main-title">
+                <!-- <section class="inquiry-main-title">
                     <Breadcrumb separator='<b style="color:#666666">></b>'>
                         <BreadcrumbItem to="/" class="inquiry-main-title-active">Home</BreadcrumbItem>
                         <BreadcrumbItem style="color:#666666">{{" $route.query.name" }}</BreadcrumbItem>
                     </Breadcrumb>
-                </section>
+                </section> -->
                 <section class="inquiry-main-main">
                     <!-- 侧边栏 -->
                     <v-inquiry-aside></v-inquiry-aside>

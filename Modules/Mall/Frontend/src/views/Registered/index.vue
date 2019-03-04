@@ -5,7 +5,7 @@
                 <img :src="require('@/assets/img/home/logo.png')" alt="">
             </router-link>
             <div class="resetPass-link">
-                <div class="resetPass-link-login">Sign In</div>
+                <router-link class="resetPass-link-login" to="/login">Sign In</router-link>
                 <div class="resetPass-link-region" @click="onClick">{{ Countries ? 'Chinese Supplier please check here'  : 'Kenya Supplier please check here'}}</div>
             </div>
         </header>

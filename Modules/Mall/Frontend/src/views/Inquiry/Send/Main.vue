@@ -133,7 +133,7 @@
                         this.filterInbox(data)
                     }
                 }).catch(err => {
-                    console.log(err)
+                    // console.log(err)
                 })
             },
             // 处理获取的收件箱数据
@@ -224,7 +224,7 @@
                             this.message_id = []
                         }
                     }).catch(err => {
-                        console.log(err)
+                        // console.log(err)
                     })
                 }else {
                     return false
@@ -247,7 +247,7 @@
                         this.$Message.info('Marking failed!')
                     }
                 }).catch(err => {
-                    console.log(err)
+                    // console.log(err)
                 })
             }
         },

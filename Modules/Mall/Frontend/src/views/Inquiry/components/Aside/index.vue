@@ -28,6 +28,11 @@
                         isSubShow:false,
                         subItems:[
                             {
+                                name:'User center',
+                                path: 'personalpenter',
+                                url: '/inquiryList/personalpenter'
+                            },
+                            {
                                 name:'Account Info',
                                 path: 'account',
                                 url: '/inquiryList/account/accountinfo'
@@ -132,12 +137,9 @@
                         isSubShow:false,
                         subItems:[
                             {
-                                name:'Products',
+                                name:'Collection',
                                 url: '/inquiryList/collection',
                                 path: 'collection',
-                            },
-                            {
-                                name:'Suppliers',
                             }
                         ]
                     },

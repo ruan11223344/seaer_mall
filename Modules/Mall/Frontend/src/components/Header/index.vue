@@ -1,10 +1,10 @@
 <template>
     <div class="container">
         <nav class="nav">
-            <router-link v-if="true" tag="div" to="/login">Sign In</router-link>
-            <div v-else>{{ '登录用户名' }}</div>
-            <router-link tag="div" to="/registered/one">Join Free</router-link>
-            <div class="Customer">
+            <router-link class="nav-list" v-if="!User_Info" tag="div" to="/login">Sign In</router-link>
+            <router-link class="nav-list" tag="div" v-else to="/inquiryList/personalpenter">{{ User_Info.user.name }}</router-link>
+            <router-link class="nav-list" tag="div" to="/registered/one">Join Free</router-link>
+            <div class="nav-list Customer">
                 <!-- 下拉 -->
                 <div>
                     <span>Customer Service</span>
@@ -15,25 +15,23 @@
                     <li>Service</li>
                 </ul>
             </div>
-            <router-link tag="div" to="/inquiryList/inbox">Inquiry</router-link>
+            <router-link class="nav-list" tag="div" to="/inquiryList/inbox">Inquiry</router-link>
         </nav>
     </div>
 </template>
 
 <script>
     import getData from "@/utils/getData"
+    import { mapState } from "vuex"
 
     export default {
         methods: {
             onGetUser: getData.onGetUser
         },
+        computed: {
+            ...mapState([ 'User_Info' ])
+        },
         mounted() {
-            // this.onGetUser().then(res => {
-            //     console.log(res);
-                
-            // }).catch(err => {
-            //     console.log(err);
-            // })
         },
     }
 </script>
@@ -46,7 +44,7 @@
         .lineHeight(40px);
         .color(white);
         
-        & > div {
+        &-list {
             height: 40px;
             margin-left: 25px;
             cursor: pointer;

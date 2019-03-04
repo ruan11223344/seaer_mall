@@ -239,7 +239,7 @@
                         this.message_id = []
                     }
                 }).catch(err => {
-                    console.log(err)
+                    // console.log(err)
                 })
                
             },

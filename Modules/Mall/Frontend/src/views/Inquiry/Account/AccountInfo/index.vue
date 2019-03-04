@@ -60,8 +60,6 @@
         mounted() {
             this.onGetAccountInfo().then(res => {
                 this.formData = res
-                console.log(res);
-                
             })
         },
         components: {

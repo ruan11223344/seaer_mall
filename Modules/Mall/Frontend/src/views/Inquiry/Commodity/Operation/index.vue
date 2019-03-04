@@ -32,38 +32,49 @@
                     Operation
                 </Col>
             </Row>
-            <Row v-for="(list, index) in pendingActiveData" :key="index" v-show="pendingActiveData.length">
-                <Col span="24" class-name="commodity-table-title">
-                    <Checkbox v-model="list.single" @on-change="onChanges"></Checkbox>
-                    <div class="commodity-table-title-text">Product ID:{{ list.product_id }}</div>
-                </Col>
-                <Col span="24" class-name="commodity-table-content">
-                    <Row>
-                        <Col span="11" offset="1" class-name="commodity-table-content-title">
-                            <img style="width: 74px; height: 74px; border: 1px solid #eeeeee; " :src="list.product_main_pic_url" alt="">
-                            <section class="commodity-table-content-title-text">
-                                <p>{{ list.product_name }}</p>
-                                <p>SKU:{{ list.product_sku }}</p>
-                            </section>
-                        </Col>
-                        <Col span="4" class-name="commodity-table-content-price">
-                            <p class="commodity-table-content-title-price-ksh">{{ list.product_price }}</p>
-                            <p class="commodity-table-content-title-price-moq">{{ list.product_moq }}</p>
-                        </Col>
-                        <Col span="4" class="commodity-table-content-date">
-                            <p>{{ dayjs( list.publish_time ).format('MMM DD,YYYY HH:mm') }}</p>
-                        </Col>
-                        <Col span="4" class="commodity-table-content-select">
-                            <router-link tag="button" type="button" :to="'/inquiryList/commodity/edit?id=' + list.product_id">Edit</router-link>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
-            <Row>
-                <Col span="24" class-name="commodity-table-content" v-show="!pendingActiveData.length">
-                    <Spin style="width: 30px;margin: 0px auto;" size="large"></Spin>
-                </Col>
-            </Row>
+            <template v-if="pendingActiveData == null">
+                <Row>
+                    <Col span="24" class-name="commodity-table-content">
+                        <Spin style="width: 30px;margin: 0px auto;" size="large"></Spin>
+                    </Col>
+                </Row>
+            </template>
+            <template v-else-if="!pendingActiveData.length">
+                <Row>
+                    <Col span="24" style="height: 150px; textAlign: center;lineHeight: 150px;">
+                        You haven't uploaded the goods yet.
+                    </Col>
+                </Row>
+            </template>
+            <template v-else>
+                <Row v-for="(list, index) in pendingActiveData" :key="index">
+                    <Col span="24" class-name="commodity-table-title">
+                        <Checkbox v-model="list.single" @on-change="onChanges"></Checkbox>
+                        <div class="commodity-table-title-text">Product ID:{{ list.product_id }}</div>
+                    </Col>
+                    <Col span="24" class-name="commodity-table-content">
+                        <Row>
+                            <Col span="11" offset="1" class-name="commodity-table-content-title">
+                                <img style="width: 74px; height: 74px; border: 1px solid #eeeeee; " :src="list.product_main_pic_url" alt="">
+                                <section class="commodity-table-content-title-text">
+                                    <p>{{ list.product_name }}</p>
+                                    <p>SKU:{{ list.product_sku }}</p>
+                                </section>
+                            </Col>
+                            <Col span="4" class-name="commodity-table-content-price">
+                                <p class="commodity-table-content-title-price-ksh">{{ list.product_price }}</p>
+                                <p class="commodity-table-content-title-price-moq">{{ list.product_moq }}</p>
+                            </Col>
+                            <Col span="4" class="commodity-table-content-date">
+                                <p>{{ dayjs( list.publish_time ).format('MMM DD,YYYY HH:mm') }}</p>
+                            </Col>
+                            <Col span="4" class="commodity-table-content-select">
+                                <router-link tag="button" type="button" :to="'/inquiryList/commodity/edit?id=' + list.product_id">Edit</router-link>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+            </template>
         </section>
         <!-- 分页 -->
         <section style="marginTop:20px;">
@@ -99,7 +110,7 @@
                 single: false,
                 // 数据
                 pendingData: [],
-                pendingActiveData: [],
+                pendingActiveData: null,
                 activeProductId: []
             }
         },
@@ -113,7 +124,7 @@
             // 切换
             onTableSwitch(num) {
                 this.pendingData = []
-                this.pendingActiveData = []
+                this.pendingActiveData = null
 
                 this.num = num
                 let path = 'selling'

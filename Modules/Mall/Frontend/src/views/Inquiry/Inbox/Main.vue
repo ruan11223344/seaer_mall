@@ -138,7 +138,7 @@
                         this.filterInbox(data)
                     }
                 }).catch(err => {
-                    console.log(err)
+                    // console.log(err)
                 })
             },
             // 处理获取的收件箱数据
@@ -233,7 +233,7 @@
                             this.participant_id = []
                         }
                     }).catch(err => {
-                        console.log(err)
+                        // console.log(err)
                     })
                 }else {
                     return false
@@ -258,7 +258,7 @@
                         this.GetRequest()
                     }                    
                 }).catch(err => {
-                    console.log(err);
+                    // console.log(err);
                 })
             },
             onSign(id) {
@@ -278,7 +278,7 @@
                         this.$Message.info('Marking failed!')
                     }
                 }).catch(err => {
-                    console.log(err)
+                    // console.log(err)
                 })
             }
         },

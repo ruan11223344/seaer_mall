@@ -107,8 +107,7 @@
                     datas.message_id = this.$route.query.message_id
                     datas.participant_id = this.$route.query.participant_id
                 }
-                console.log(datas);
-                
+
                 this.$request({
                     url: '/message/message_info',
                     params: datas
@@ -116,7 +115,7 @@
                     if(code == 200) {
                         this.infoData = data[0]
                         this.infoQuery = datas
-                        console.log(this.infoData)
+                        // console.log(this.infoData)
                     }else {
                         // this.$router.push('/inquiryList/send')
                     }

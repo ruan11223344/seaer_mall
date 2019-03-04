@@ -134,7 +134,7 @@
                     }else {
                         this.$Message.warning('error: 400')
                     }
-                }).catch(err => console.log(err))
+                }).catch(err => err)
             },
             updateFrom() { // 发送表单
                 this.$request({

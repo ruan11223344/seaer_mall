@@ -7,7 +7,6 @@
                 <button type="button" @click="NewCategory=true">New Category</button>
             </section>
         </template>
-
         <template>
             <section class="products-table">
                 <div class="products-table-head">
@@ -25,98 +24,104 @@
                 </div>
                 <div class="products-table-body">
                     <!-- 最多有5个 -->
-                    <template v-for="(item, index) in ProductsData">
-                        <dl class="products-table-body-dl">
-                            <dd class="products-table-body-dl-checkbox">
-                                <template>
-                                    <span v-if="ActiveId.length > 0">
-                                        <Checkbox v-model="ActiveId[index].active" @on-change="onChange" size="large"></Checkbox>
-                                    </span>
-                                </template>
-                            </dd>
-                            <dd class="products-table-body-dl-text products-table-body-dl-name ">
-                                <template>
-                                    <div
-                                        class="products-table-body-dl-name-open"
-                                        :class="active == index ? 'products-table-body-dl-name-open-add' : 'products-table-body-dl-name-open-remove'"
-                                        @click="active==index ? active = -1 : active = index">
-                                    </div>
-                                    <span class="products-table-body-dl-name-text">{{ item.group_name }} </span>
-                                    <button type="button" class="products-table-body-dl-name-btn" @click="SubCategory=true,ListId=item.id">Add Sub-category</button>
-                                </template>
-                            </dd>
-                            <dd class="products-table-body-dl-text products-table-body-dl-sort">
-                                <template>
-                                    <span>
-                                        {{ item.sort }}
-                                    </span>
-                                </template>
-                            </dd>
-                            <dd class="products-table-body-dl-text products-table-body-dl-display">
-                                <template>
-                                    <span>
-                                        {{ item.show_home_page ? "Yes" : 'No' }}
-                                    </span>
-                                </template>
-                            </dd>
-                            <dd class="products-table-body-dl-text products-table-body-dl-operation">
-                                <template>
-                                    <section class="products-table-body-dl-operation-btns">
-                                        <button type="button" @click="id=item.id,delAlbum=true">Delete</button>
-                                        <button type="button" @click="EditCategory=true,onEdit,ListId=item.id">Edit</button>
-                                    </section>
-                                </template>
-                            </dd>
-                        </dl>
-                        <!-- 滚动 -->
-                        <!-- 子元素 -->
-                        <div class="products-table-body-content" :style="active == index ? 'height: 250px;' : ''">
-                            <swiper :options="swiperOption" style="height: 250px;overflow: hidden;zIndex: 0">
-                                <swiper-slide style="height: auto;">
-                                    <template v-if="item.children">
-                                        <dl class="products-table-body-dl" v-for="(list, i) in item.children" :key="i">
-                                            <dd class="products-table-body-dl-checkbox">
-                                            </dd>
-                                            <dd class="products-table-body-dl-text products-table-body-dl-name ">
-                                                <template>
-                                                    <div class="products-table-body-dl-name-seat"></div>
-                                                    <span class="products-table-body-dl-name-text products-table-body-dl-name-dot">{{ list.group_name }} </span>
-                                                </template>
-                                            </dd>
-                                            <dd class="products-table-body-dl-text products-table-body-dl-sort">
-                                                <template>
-                                                    <span>
-                                                        {{ list.sort }}
-                                                    </span>
-                                                </template>
-                                            </dd>
-                                            <dd class="products-table-body-dl-text products-table-body-dl-display">
-                                                <template>
-                                                    <span>
-                                                        {{ list.show_home_page ? "Yes" : 'No' }}
-                                                    </span>
-                                                </template>
-                                            </dd>
-                                            <dd class="products-table-body-dl-text products-table-body-dl-operation">
-                                                <template>
-                                                    <section class="products-table-body-dl-operation-btns">
-                                                        <button type="button" @click="id=list.id,delAlbum=true">Delete</button>
-                                                        <button type="button" @click="EditCategory=true,onEdit,ListId=list.id">Edit</button>
-                                                    </section>
-                                                </template>
-                                            </dd>
-                                        </dl>
+                    <template  v-if="ProductsData != null">
+                        <template v-for="(item, index) in ProductsData">
+                            <dl class="products-table-body-dl" :key="index">
+                                <dd class="products-table-body-dl-checkbox">
+                                    <template>
+                                        <span v-if="ActiveId.length > 0">
+                                            <Checkbox v-model="ActiveId[index].active" @on-change="onChange" size="large"></Checkbox>
+                                        </span>
                                     </template>
-                                    <template v-else>
-                                        <div style="textAlign: center;lineHeight: 250px;fontSize: 30px;">
-                                            No subcategories, please create
+                                </dd>
+                                <dd class="products-table-body-dl-text products-table-body-dl-name ">
+                                    <template>
+                                        <div
+                                            class="products-table-body-dl-name-open"
+                                            :class="active == index ? 'products-table-body-dl-name-open-add' : 'products-table-body-dl-name-open-remove'"
+                                            @click="active==index ? active = -1 : active = index">
                                         </div>
+                                        <span class="products-table-body-dl-name-text">{{ item.group_name }} </span>
+                                        <button type="button" class="products-table-body-dl-name-btn" @click="SubCategory=true,ListId=item.id">Add Sub-category</button>
                                     </template>
-                                </swiper-slide>
-                                <div class="swiper-scrollbar" slot="scrollbar"></div>
-                            </swiper>
+                                </dd>
+                                <dd class="products-table-body-dl-text products-table-body-dl-sort">
+                                    <template>
+                                        <span>
+                                            {{ item.sort }}
+                                        </span>
+                                    </template>
+                                </dd>
+                                <dd class="products-table-body-dl-text products-table-body-dl-display">
+                                    <template>
+                                        <span>
+                                            {{ item.show_home_page ? "Yes" : 'No' }}
+                                        </span>
+                                    </template>
+                                </dd>
+                                <dd class="products-table-body-dl-text products-table-body-dl-operation">
+                                    <template>
+                                        <section class="products-table-body-dl-operation-btns">
+                                            <button type="button" @click="id=item.id,delAlbum=true">Delete</button>
+                                            <button type="button" @click="EditCategory=true,onEdit,ListId=item.id">Edit</button>
+                                        </section>
+                                    </template>
+                                </dd>
+                            </dl>
+                            <!-- 滚动 -->
+                            <!-- 子元素 -->
+                            <div class="products-table-body-content" :style="active == index ? 'height: 250px;' : ''">
+                                <swiper :options="swiperOption" style="height: 250px;overflow: hidden;zIndex: 0">
+                                    <swiper-slide style="height: auto;">
+                                        <template v-if="item.children">
+                                            <dl class="products-table-body-dl" v-for="(list, i) in item.children" :key="i">
+                                                <dd class="products-table-body-dl-checkbox">
+                                                </dd>
+                                                <dd class="products-table-body-dl-text products-table-body-dl-name ">
+                                                    <template>
+                                                        <div class="products-table-body-dl-name-seat"></div>
+                                                        <span class="products-table-body-dl-name-text products-table-body-dl-name-dot">{{ list.group_name }} </span>
+                                                    </template>
+                                                </dd>
+                                                <dd class="products-table-body-dl-text products-table-body-dl-sort">
+                                                    <template>
+                                                        <span>
+                                                            {{ list.sort }}
+                                                        </span>
+                                                    </template>
+                                                </dd>
+                                                <dd class="products-table-body-dl-text products-table-body-dl-display">
+                                                    <template>
+                                                        <span>
+                                                            {{ list.show_home_page ? "Yes" : 'No' }}
+                                                        </span>
+                                                    </template>
+                                                </dd>
+                                                <dd class="products-table-body-dl-text products-table-body-dl-operation">
+                                                    <template>
+                                                        <section class="products-table-body-dl-operation-btns">
+                                                            <button type="button" @click="id=list.id,delAlbum=true">Delete</button>
+                                                            <button type="button" @click="EditCategory=true,onEdit,ListId=list.id">Edit</button>
+                                                        </section>
+                                                    </template>
+                                                </dd>
+                                            </dl>
+                                        </template>
+                                        <template v-else>
+                                            <div style="textAlign: center;lineHeight: 250px;fontSize: 30px;">
+                                                No subcategories, please create
+                                            </div>
+                                        </template>
+                                    </swiper-slide>
+                                    <div class="swiper-scrollbar" slot="scrollbar"></div>
+                                </swiper>
+                            </div>
+                        </template>
+                    </template>
+                    <template v-else>
+                        <div style="height: 100px;">
+                            <Spin style="width: 30px;margin: 0px auto;marginTop: 100px;" size="large"></Spin>
                         </div>
-
                     </template>
                 </div>
             </section>
@@ -196,7 +201,7 @@
                     num: 1
                 },
                 data: [],
-                ProductsData: [],
+                ProductsData: null,
                 // ProductsDataList: [],
                 active: -1,
                 ListId: null,
