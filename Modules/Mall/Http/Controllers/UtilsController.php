@@ -229,6 +229,9 @@ class UtilsController extends Controller
 
 
     public static function getPathFileUrl($path){
+        if($path == null){
+            return null;
+        }
         return env('OSS_URL').$path;
     }
 

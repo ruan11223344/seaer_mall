@@ -126,6 +126,7 @@ class AuthorizationsController extends Controller
         $publishProductPermissions = ProductsController::getPublishProductPermissions();
         $publish_product['status'] = $publishProductPermissions[0];
         $publish_product['message'] = $publishProductPermissions[1];
+        $user_extends['avatar_url'] = UtilsController::getPathFileUrl($user_extends['avatar_url']);
         return $this->echoSuccessJson('User information obtained successfully！',compact('user','company','user_extends','publish_product'));
     }
 

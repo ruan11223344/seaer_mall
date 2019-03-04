@@ -434,19 +434,24 @@ class MessagesController extends Controller
         $msg = InquiryMessages::where('user_id',Auth::id())->where('extends->soft_deleted_at',false);
         $unread = [];
         $read = [];
+        $un_reply = [];
         $all = $this->messageListInfo($msg->get());
 
         if(count($all) > 0 ){
             foreach ($all as $value){
                 if($value['other_party_is_read'] == true){
                     array_push($read,$value);
-                }else{
+                }elseif($value['other_party_is_read'] == false){
                     array_push($unread,$value);
+                }
+
+                if($value['other_party_is_reply'] == false){
+                    array_push($un_reply,$value);
                 }
             }
         }
 
-        return $this->echoSuccessJson('Success!',compact('all','unread','read'));
+        return $this->echoSuccessJson('Success!',compact('all','unread','read','un_reply'));
     }
 
     public function inboxMessage(){
