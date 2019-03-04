@@ -316,6 +316,23 @@ const upData = {
             })
         })
     },
+    // 60.货币兑换
+    async onCurrency(data) {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/utils/currency_converter',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    this.$Message.info(res.message)
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            })
+        })
+    },
     // 64.更改商品上架（放入审核中列表) 下架（放入仓库） 翻转接口
     async onChangeWarehouse(data) {
         return await new Promise((resolve, reject) => {

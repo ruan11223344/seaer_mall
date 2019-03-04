@@ -2,7 +2,7 @@
     <div class="personal">
         <main class="personal-main">
             <div class="personal-main-left">
-                <div class="personal-main-left-head">
+                <div class="personal-main-left-head" v-if="User_Info">
                     <img :src="User_Info.user_extends.avatar_url" alt="">
                     <dl>
                         <dt class="personal-main-left-head-title">CHENG-NANCY</dt>
@@ -22,7 +22,7 @@
                             Unread <span>{{ len.unread.length }}</span>
                         </li>
                         <li>
-                            Not yet replied <span>{{ len.read.length }}</span>
+                            Not yet replied <span>{{ len.un_reply.length }}</span>
                         </li>
                     </ul>
                 </div>
@@ -81,15 +81,21 @@
                 </div>
                 <div class="personal-main-right-currency">
                     <div class="personal-main-right-currency-title">Currency Converter</div>
-                    <div class="personal-main-right-currency-money">100  KSh = <span>6.6532</span>CNY</div>
-                    <div class="personal-main-right-currency-date">Updated on Jan 16, 2019</div>
-                    <Input type="text" size="small" style="marginBottom: 10px;" v-model="formItem.number"></Input>
-                    <div class="personal-main-right-currency-num">
-                        <InputNumber v-model="formItem.num1" size="small" placeholder="KSH"></InputNumber>
-                        <img class="personal-main-right-currency-num-img" :src="require('@/assets/img/huan.png')" alt="">
-                        <InputNumber v-model="formItem.num2" size="small" placeholder="CNY"></InputNumber>
+                    <div class="personal-main-right-currency-money" v-if="!result">
+                        {{ '100' }}  KSh = <span>{{ Oss_Url_Config.ksh100_to_cny }}</span>CNY
                     </div>
-                    <button class="personal-main-right-currency-btn" type="button">Check</button>
+                    <div class="personal-main-right-currency-money" v-else>
+                        {{ result.amount }}  {{ result.form == "KES" ? 'KSh' : 'CNY' }} = <span>{{ result.conversion }}</span>{{ result.to == "CNY" ? 'CNY' : 'KSh' }}
+                    </div>
+                    <div class="personal-main-right-currency-date">Updated on Jan 16, 2019</div>
+                    <InputNumber size="small" :max="99999999" style="width: 241px; marginBottom: 10px;" v-model="formItem.number"></InputNumber>
+                    <!-- <Input type="text" size="small"  ></Input> -->
+                    <div class="personal-main-right-currency-num">
+                        <div>{{ formItem.bool ? 'KSH' : 'CNY' }}</div>
+                        <img class="personal-main-right-currency-num-img" @click="$set(formItem, 'bool', !formItem.bool)" :src="require('@/assets/img/huan.png')" alt="">
+                        <div>{{ formItem.bool ? 'CNY' : 'KSH' }}</div>
+                    </div>
+                    <button class="personal-main-right-currency-btn" type="button" @click="onClick">Check</button>
                 </div>
             </div>
         </main>
@@ -98,6 +104,7 @@
 
 <script>
     import getData from "@/utils/getData.js"
+    import upData from "@/utils/upData.js"
     import { mapState } from "vuex"
     
     export default {
@@ -106,25 +113,35 @@
                 len: {
                     all: [],
                     read: [],
-                    unread: []
+                    unread: [],
+                    un_reply: []
                 },
                 formItem: {
-                    number: '',
-                    num1: null,
-                    num2: null
-                }
+                    number: null,
+                    bool: true
+                },
+                result: null
             }
         },
         computed: {
-            ...mapState([ 'User_Info' ])
+            ...mapState([ 'User_Info', 'Oss_Url_Config' ])
         },
         methods: {
-            onGetOutboxMessag: getData.onGetOutboxMessag
+            onGetOutboxMessag: getData.onGetOutboxMessag,
+            onCurrency: upData.onCurrency,
+            onClick() {
+                this.onCurrency({
+                    from: this.formItem.bool ? 'KES' : 'CNY',
+                    to: this.formItem.bool ? 'CNY' : 'KES',
+                    amount: this.formItem.number
+                }).then(res => {
+                    this.result = res
+                })
+            }
         },
         mounted() {
             this.onGetOutboxMessag()
                 .then(res => {
-                    console.log(res)
                     this.len = res
                 })
         },
@@ -454,6 +471,17 @@
                         &-img {
                             width: 16px;
                             height: 14px;
+                            cursor: pointer;
+                        }
+
+                        & > div {
+                            width: 101px;
+                            height: 35px;
+                            border: solid 1px #dddddd;
+                            font-size: 14px;
+                            line-height: 35px;
+                            color: #666666;
+                            text-align: center;
                         }
                     }
 
