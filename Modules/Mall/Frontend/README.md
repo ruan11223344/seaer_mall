@@ -4988,3 +4988,29 @@ url:http://域名/api/home/index
     }
 }
 ```
+
+78.获取用户中心商品分类数量与图片上传数量
+```
+url:http://域名/api/shop/product/product_num_info
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+ 
+
+无参数
+
+
+返回:
+{
+    "code": 200,
+    "message": "Success",
+    "data": {
+        "product_num_info_str": "1/200",
+        "image_info_str": "26/3000",
+        "product_selling_num": 0,
+        "product_in_the_warehouse_num": 1,
+        "product_check_pending_num": 0,
+        "product_unapprove_num": 0
+    }
+}
+```

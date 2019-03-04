@@ -15,6 +15,8 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Modules\Mall\Entities\AlbumPhoto;
+use Modules\Mall\Entities\AlbumUser;
 use Modules\Mall\Entities\Favorites;
 use Modules\Mall\Entities\Products;
 use Modules\Mall\Entities\ProductsAttr;
@@ -769,6 +771,29 @@ class ProductsController extends Controller
         }else{
             return $this->echoErrorJson('No item was found!');
         }
+    }
+
+    public function ProductNumInfo(){
+        $data = [];
+        $user_obj  = Auth::user();
+        $product_orm = Products::where('company_id',$user_obj->company->id);
+        $product_num_info_str  = clone $product_orm;
+        $product_selling_num  = clone $product_orm;
+        $product_in_the_warehouse_num  = clone $product_orm;
+        $product_check_pending_num  = clone $product_orm;
+        $product_unapprove_num  = clone $product_orm;
+
+
+        $data['product_num_info_str'] = $product_num_info_str->count().'/200';
+        $data['image_info_str'] = AlbumPhoto::whereIn('album_id',AlbumUser::where('user_id',$user_obj->id)->where('soft_delete',0)->get()->pluck('id'))->where(
+            'soft_delete',0
+        )->count().'/3000';
+        $data['product_selling_num'] = $product_selling_num->where('product_status',self::PRODUCT_STATUS_SALE)->where('product_audit_status',self::PRODUCT_AUDIT_STATUS_SUCCESS)->count();
+        $data['product_in_the_warehouse_num'] = $product_in_the_warehouse_num->where('product_status',self::PRODUCT_STATUS_WAREHOUSE)->count();
+        $data['product_check_pending_num'] = $product_check_pending_num->where('product_status',self::PRODUCT_STATUS_SALE)->where('product_audit_status',self::PRODUCT_AUDIT_STATUS_CHECKING)->count();
+        $data['product_unapprove_num'] = $product_unapprove_num->where('product_status',self::PRODUCT_STATUS_SALE)->where('product_audit_status',self::PRODUCT_AUDIT_STATUS_FAIL)->count();
+
+        return $this->echoSuccessJson('Success',$data);
     }
 
 }
