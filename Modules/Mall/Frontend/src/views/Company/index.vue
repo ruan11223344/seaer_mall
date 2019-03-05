@@ -12,9 +12,11 @@
 
         <!-- banner -->
         <template v-if="Company_Detail">
-            <section class="banner">
-                <img :src="Company_Detail.shop_info.banner.banner_url" alt="">
-            </section>
+            <template v-if="Company_Detail.shop_info.banner.banner_url">
+                <section class="banner">
+                    <img :src="Company_Detail.shop_info.banner.banner_url" alt="">
+                </section>
+            </template>
         </template>
         
         <!-- 导航 -->

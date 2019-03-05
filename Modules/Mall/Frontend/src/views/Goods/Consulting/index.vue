@@ -1,11 +1,7 @@
 <template>
     <div style="backgroundColor: #f5f5f9; paddingBottom: 37px">
         <section class="container main-title">
-            <!-- <Breadcrumb separator='<b style="color:#666666">></b>'>
-                <BreadcrumbItem to="/">Home</BreadcrumbItem>
-                <BreadcrumbItem style="color:#666666">{{ 'consulting' }}</BreadcrumbItem>
-            </Breadcrumb> -->
-            <v-Breadcrumb title="Supplier Homepage" :url="`/company/home?&company_id=${$route.query.company_id}`" :Breadcrumbs="[ 'consulting' ]"></v-Breadcrumb>
+            <!-- <v-Breadcrumb title="Supplier Homepage" :url="`/company/home?&company_id=${$route.query.company_id}`" :Breadcrumbs="[ 'consulting' ]"></v-Breadcrumb> -->
         </section>
 
         <main class="container consulting-main">
@@ -261,7 +257,7 @@
         },
         components: {
             "v-img": Img,
-            "v-Breadcrumb": Breadcrumb 
+            // "v-Breadcrumb": Breadcrumb 
         }
     }
 </script>

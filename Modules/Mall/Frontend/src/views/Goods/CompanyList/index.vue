@@ -1,14 +1,14 @@
 <template>
     <div>
         <main class="main">
-            <section class="container main-title">
+            <!-- <section class="container main-title">
                 <v-Breadcrumb
                     title="Home"
                     :Breadcrumbs="[ 'List of commodities' ]"
                     :url="`/home`"
                     >
                 </v-Breadcrumb>
-            </section>
+            </section> -->
             <!-- 店铺详情 -->
             <section class="container main-content">
                 <template v-for="(item, index) in CompanyData">

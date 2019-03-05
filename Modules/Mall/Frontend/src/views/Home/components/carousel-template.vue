@@ -2,7 +2,6 @@
     <div class="" id="carousel">
         <Carousel
             :height="440"
-            v-model="value3"
             :loop="true"
             :autoplay="setting.autoplay"
             :autoplay-speed="setting.autoplaySpeed"
@@ -10,25 +9,10 @@
             :radius-dot="setting.radiusDot"
             :trigger="setting.trigger"
             :arrow="setting.arrow">
-            <CarouselItem>
-                <div class="demo-carousel">
-                    <img :src="require('@/assets/img/home/banner.png')" alt="">
-                </div>
-            </CarouselItem>
-            <CarouselItem>
-                <div class="demo-carousel">
-                    2
-                </div>
-            </CarouselItem>
-            <CarouselItem>
-                <div class="demo-carousel">
-                    <img :src="require('@/assets/img/home/banner.png')" alt="">
-                </div>
-            </CarouselItem>
-            <CarouselItem>
-                <div class="demo-carousel">
-                    4
-                </div>
+            <CarouselItem v-for="(item, index) in slides" :key="index">
+                <router-link tag="div" :to="item.jump_url" class="demo-carousel">
+                    <img :src="item.image_url" alt="" style="width: 100%; height: 100%;">
+                </router-link>
             </CarouselItem>
         </Carousel>
     </div>
@@ -38,7 +22,6 @@
     export default {
         data () {
             return {
-                value3: 0,
                 setting: {
                     autoplay: false,
                     autoplaySpeed: 3000,
@@ -46,15 +29,23 @@
                     radiusDot: false,
                     trigger: 'hover',
                     arrow: 'hover'
-                }
+                },
             }
         },
-
+        props: {
+            slides: Array
+        }
     }
 </script>
 
 <style lang="less">
     #carousel {
+
+        .demo-carousel {
+            width: 1220px;
+            height: 440px;
+            display: block;
+        }
 
         button.left.ivu-carousel-arrow {
             left: 251px + 16px;

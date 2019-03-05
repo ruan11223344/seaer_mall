@@ -5,7 +5,7 @@
                 <BreadcrumbItem to="/">Home</BreadcrumbItem>
                 <BreadcrumbItem style="color:#666666">{{ 'success' }}</BreadcrumbItem>
             </Breadcrumb> -->
-            <v-Breadcrumb title="Supplier Homepage" :url="`/company/home?&company_id=${$route.query.company_id}`" :Breadcrumbs="[ 'consulting' ]"></v-Breadcrumb>
+            <!-- <v-Breadcrumb title="Supplier Homepage" :url="`/company/home?&company_id=${$route.query.company_id}`" :Breadcrumbs="[ 'consulting' ]"></v-Breadcrumb> -->
         </section>
 
         <section class="container success-main">
@@ -32,7 +32,7 @@
         },
         components: {
             "v-img": Img,
-            "v-Breadcrumb": Breadcrumb 
+            // "v-Breadcrumb": Breadcrumb 
         }
     }
 </script>

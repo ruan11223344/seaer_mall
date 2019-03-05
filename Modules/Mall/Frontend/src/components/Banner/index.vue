@@ -1,6 +1,11 @@
 <template>
     <div class="banner" v-if="active">
-        <img :src="imgSrc" alt="" class="img">
+        <router-link
+            tag="div"
+            :to="data_obj.jump_url"
+            :style="`background: url(${data_obj.image_url}) center center;height: 80px; cursor: pointer;`"
+            >
+        </router-link>
         <div class="container">
             <div @click="active = false">X</div>
         </div>
@@ -17,8 +22,8 @@
         props: {
             imgSrc: {
                 type: String,
-                required: true
-            }
+            },
+            data_obj: Object
         }
     }
 </script>
@@ -29,10 +34,10 @@
     .banner {
         .layout(80px);
 
-        .img {
-            .layout(80px);
-            display: block;
-        }
+        // .img {
+        //     .layout(80px);
+        //     display: block;
+        // }
 
         .container {
             & > div {

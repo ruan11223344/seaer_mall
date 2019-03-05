@@ -1,14 +1,14 @@
 <template>
     <div>
         <main class="main">
-            <section class="container main-title">
+            <!-- <section class="container main-title">
                 <v-Breadcrumb
                     title="Home"
                     :Breadcrumbs="[ 'List of commodities' ]"
                     :url="`/home`"
                     >
                 </v-Breadcrumb>
-            </section>
+            </section> -->
             <section class="container main-content">
                 <!-- 渲染商品列表mock -->
                 <v-card class="main-content-list" :data="item" v-for="(item, index) in ProductData" :key="index"></v-card>
@@ -59,7 +59,7 @@
         },
         components: {
             'v-card': Card,
-            "v-Breadcrumb": Breadcrumb 
+            // "v-Breadcrumb": Breadcrumb 
         },
         watch: {
             Product_All() {

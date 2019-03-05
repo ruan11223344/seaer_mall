@@ -1,22 +1,55 @@
 <template>
     <div class="aside">
         <nav class="aside-item">
-            <div class="aside-item-list" @mouseenter="imgItem1.state = imgItem1.active" @mouseleave="imgItem1.state = imgItem1.default">
-                <img :src="imgItem1.state" alt="">
-            </div>
+            <router-link
+                to="/inquiryList/personalpenter"
+                tag="div"
+                class="aside-item-list"
+                >
+                <img
+                    @mouseenter="imgItem1.state = imgItem1.active"
+                    @mouseleave="imgItem1.state = imgItem1.default"
+                    :src="imgItem1.state" alt="">
+            </router-link>
+
             <div class="aside-item-list-hr"></div>
-            <div class="aside-item-list" @mouseenter="imgItem2.state = imgItem2.active" @mouseleave="imgItem2.state = imgItem2.default">
-                <img :src="imgItem2.state" alt="">
-            </div>
+
+            <router-link
+                to="/inquiryList/inbox"
+                tag="div"
+                class="aside-item-list"
+                >
+                <img
+                    @mouseenter="imgItem2.state = imgItem2.active"
+                    @mouseleave="imgItem2.state = imgItem2.default"
+                    :src="imgItem2.state" alt="">
+            </router-link>
+
             <div class="aside-item-list-hr"></div>
-            <div class="aside-item-list" @mouseenter="imgItem3.state = imgItem3.active" @mouseleave="imgItem3.state = imgItem3.default">
-                <img :src="imgItem3.state" alt="">
-            </div>
+
+            <router-link
+                tag="div"
+                to="/inquiryList/collection"
+                class="aside-item-list"
+                >
+                <img
+                    @mouseenter="imgItem3.state = imgItem3.active"
+                    @mouseleave="imgItem3.state = imgItem3.default"
+                    :src="imgItem3.state" alt="">
+            </router-link>
             <div class="aside-item-list-hr"></div>
-            <div class="aside-item-list" @mouseenter="imgItem4.state = imgItem4.active" @mouseleave="imgItem4.state = imgItem4.default">
-                <img :src="imgItem4.state" alt="">
+
+            <div
+                class="aside-item-list"
+                @click="onClcik"
+                >
+                <img
+                    @mouseleave="imgItem4.state = imgItem4.default"
+                    @mouseenter="imgItem4.state = imgItem4.active"
+                    :src="imgItem4.state" alt="">
             </div>
         </nav>
+
     </div>
 </template>
 
@@ -44,6 +77,23 @@
                     active: require('@/assets/img/home/top-active.png'),
                     state: require('@/assets/img/home/top.png')
                 }
+            }
+        },
+        methods: {
+            onClcik() {
+                let oTop = document.body.scrollTop || document.documentElement.scrollTop
+
+                const clear = setInterval(() => {
+                    oTop = oTop - 100
+                    
+                    oTop = oTop > 0 ? oTop : 0
+
+                    window.scrollTo(0, oTop)
+                    
+                    if(oTop <= 0) {
+                        clearInterval(clear)
+                    } 
+                }, 20)
             }
         }
     }

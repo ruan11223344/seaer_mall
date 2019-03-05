@@ -3,7 +3,7 @@
         <!-- 商品列表 -->
         <ul class="home-cell-item" @mouseleave="activeBool1=false">
             <li :class="arr[0] == index ? 'home-cell-item-list home-cell-item-list-hover' : 'home-cell-item-list'" v-for="(item, index) in dataContent" :key="index" :style="{'color': color}" @mouseenter="activeChildren = item.children,activeBool1=true,onOver(index)">
-                <span>{{ item.title }}</span>
+                <span>{{ item.name }}</span>
                 <Icon type="ios-arrow-forward" size="18" class="home-cell-item-list-icon" />
             </li>
         </ul>
@@ -11,7 +11,7 @@
         <div class="home-cascaded" v-show="activeBool1 || activeBool2" @mouseleave="activeBool1=false,activeBool2=false" @mouseenter="activeBool1=true">
             <ul class="home-cell-item">
                 <li :class="arr[1] == index ? 'home-cell-item-lists home-cell-item-lists-hover' : 'home-cell-item-lists'"  v-for="(item, index) in activeChildren" :key="index" @mouseenter="activeBool2=true,activeChildren1= item.children,onOver2(index)">
-                    <span>{{ item.title }}</span>
+                    <span>{{ item.name }}</span>
                     <Icon type="ios-arrow-forward" size="18" class="home-cell-item-list-icon" />
                 </li>
             </ul>
@@ -20,7 +20,7 @@
         <div class="home-cascaded-router" v-show="activeBool2" @mouseleave="activeBool1=false,activeBool2=false" @mouseenter="activeBool2=true">
             <ul class="home-cascaded-router-item">
                 <li :class="arr[2] == index ? 'home-cascaded-router-item-list home-cascaded-router-item-list-hover' : 'home-cascaded-router-item-list'"  v-for="(item, index) in activeChildren1" :key="index" @mouseenter="onOver3(index)">
-                    {{ item }}
+                    {{ item.name }}
                 </li>
             </ul>
         </div>

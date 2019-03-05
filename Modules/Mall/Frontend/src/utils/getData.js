@@ -103,6 +103,22 @@ const getData = {
             })
         })
     },
+    // 9.获取商品分类 2019-02-15修改路由
+    async onGetAsideClass() {
+        return await new Promise(async (resolve, reject) => {
+            await request({
+                url: '/shop/category/get_category',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    },
     // 13.获取发件箱消息
     async onGetOutboxMessag() {
         return await new Promise(async (resolve, reject) => {
@@ -418,6 +434,20 @@ const getData = {
                 params: {
                     group_id  : id,
                 }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    },
+    // 77.首页数据获取 假数据！
+    onGetHome() {
+        return new Promise((resolve, reject) => {
+            request({
+                url: '/home/index',
             }).then(res => {
                 if(res.code == 200) {
                     resolve(res.data)

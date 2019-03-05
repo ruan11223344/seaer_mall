@@ -1,14 +1,18 @@
 <template>
     <div class="title">
         <div class="first">{{ leftTitle }}</div>
-        <router-link tag="div" :to="'/goods/list?name=' + leftTitle" class="last" v-if="rightTitle">
+        <!-- <router-link tag="div" :to="'/goods/list?name=' + leftTitle" class="last" v-if="rightTitle"> -->
+        <div class="last" v-if="rightTitle" @click="onClick">
             More
             <Icon type="ios-arrow-forward" size="18" color="#999999" class="title-icon"/>
-        </router-link>
+        </div>
     </div>
 </template>
 
 <script>
+    // Product_All
+    import { mapMutations } from "vuex"
+
     export default {
         props: {
             leftTitle: {
@@ -18,8 +22,16 @@
             rightTitle: {
                 type: Boolean,
                 default: false
+            },
+            data_product_All: Array
+        },
+        methods: {
+            ...mapMutations([ 'SET_PRODUCT_ALL' ]),
+            onClick() {
+                this.SET_PRODUCT_ALL(this.data_product_All)
+                this.$router.push('/goods/list')
             }
-        }
+        },
     }
 </script>
 

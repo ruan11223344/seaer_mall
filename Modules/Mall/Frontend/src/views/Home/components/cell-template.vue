@@ -5,7 +5,7 @@
                 <Icon type="ios-list" size="38" />
                 <span>All Categories</span>
             </div>
-            <v-cell-item :data-content="table"></v-cell-item>
+            <v-cell-item :data-content="AsideClass"></v-cell-item>
         </div>
     </div>
 </template>
@@ -463,6 +463,9 @@
                     }
                 ]
             }
+        },
+        props: {
+            AsideClass: Array
         },
         components: {
             'v-cell-item': cellItemTemplateVue

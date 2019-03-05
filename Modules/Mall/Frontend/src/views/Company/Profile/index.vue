@@ -2,12 +2,12 @@
     <!-- 联系方式 -->
     <div class="profile">
         <div class="container">
-            <v-Breadcrumb
+            <!-- <v-Breadcrumb
                 title="Supplier Homepage"
                 :Breadcrumbs="[ 'About us' ]"
                 :url="`/company/home?&company_id=${$route.query.company_id}`"
                 >
-            </v-Breadcrumb>
+            </v-Breadcrumb> -->
             <!-- <Breadcrumb separator=">">
                 <BreadcrumbItem to="/">Home</BreadcrumbItem>
                 <BreadcrumbItem>About us</BreadcrumbItem>

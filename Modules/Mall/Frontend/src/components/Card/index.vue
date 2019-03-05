@@ -14,7 +14,7 @@
 </template>
 
 <script>
-    import imgTemplateVue from '../Img/index';
+    import imgTemplateVue from '../Img/index'
 
     export default {
         props: {

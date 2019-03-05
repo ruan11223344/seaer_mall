@@ -1,14 +1,14 @@
 <template>
     <!-- 联系方式 -->
     <div class="contact">
-        <div class="container">
+        <!-- <div class="container">
             <v-Breadcrumb
                 title="Supplier Homepage"
                 :Breadcrumbs="[ 'Coutact us' ]"
                 :url="`/company/home?&company_id=${$route.query.company_id}`"
                 >
             </v-Breadcrumb>
-        </div>
+        </div> -->
         
         <div class="contact-main">
             <div class="container">

@@ -45,7 +45,8 @@
                     state: require('@/assets/img/home/top.png')
                 }
             }
-        }
+        },
+
     }
 </script>
 
