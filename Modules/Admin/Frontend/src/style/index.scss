@@ -1,0 +1,50 @@
+// 字体颜色
+@mixin mixin-color($color) {
+    @if $color == red {
+        color: red;
+    } @else if $color == black {
+        color: #000000;
+    } @else if $color == white {
+        color: #ffffff;
+    } @else if $color == grey {
+        color: #666666;
+    }
+}
+
+// 背景颜色
+@mixin mixin-bg-color($bg) {
+    @if $bg == red {
+        background-color: red;
+    } @else if $bg == black {
+        background-color: black;
+    } @else if $bg == white {
+        background-color: #ffffff;
+    }
+}
+
+// 溢出隐藏
+@mixin mixin-textHidden {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// 多行溢出隐藏
+@mixin mixin-textHiddens($number) {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $number;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    -moz-line-clamp: $number;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+// flex布局
+@mixin mixin-flex($justify, $alignItems, $direction: row) {
+    display: flex;
+    justify-content: $justify;
+    align-items: $alignItems;
+    flex-direction: $direction;
+}
