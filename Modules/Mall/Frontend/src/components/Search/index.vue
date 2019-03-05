@@ -46,8 +46,10 @@
                     this.onSearchProduct(this.value).then(async res => {
                         await this.SET_PRODUCT_ALL(res)
                         this.$router.push('/goods/list')
-                    }).catch(err => {
-                        this.$Message.error(err.message)
+                    }).catch(async err => {
+                        await this.SET_PRODUCT_ALL([])
+                        this.$router.push('/goods/list')
+                        // this.$Message.error(err.message)
                     })
                 }else {
                     this.onSearchShop(this.value).then(res => {

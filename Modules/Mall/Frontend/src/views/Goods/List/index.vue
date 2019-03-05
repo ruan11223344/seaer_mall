@@ -1,17 +1,20 @@
 <template>
     <div>
         <main class="main">
-            <!-- <section class="container main-title">
-                <v-Breadcrumb
+            <section class="container main-title">
+                <!-- <v-Breadcrumb
                     title="Home"
                     :Breadcrumbs="[ 'List of commodities' ]"
                     :url="`/home`"
                     >
-                </v-Breadcrumb>
-            </section> -->
-            <section class="container main-content">
+                </v-Breadcrumb> -->
+            </section>
+            <section class="container main-content" v-if="Product_All.length">
                 <!-- 渲染商品列表mock -->
                 <v-card class="main-content-list" :data="item" v-for="(item, index) in ProductData" :key="index"></v-card>
+            </section>
+            <section v-else style="height: 500px;lineHeight: 500px;fontSize: 26px;textAlign: center;">
+                There is no merchandise in this category for the time being.
             </section>
             <!-- 分页 -->
             <section class="container main-page">

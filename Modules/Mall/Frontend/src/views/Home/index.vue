@@ -143,7 +143,6 @@
     import Aside from "@/components/Aside"
     import getData from "@/utils/getData"
 
-
     import titleTemplateVue from './components/title-template.vue'
     import carouselTemplateVue from './components/carousel-template'
     import cellTemplateVue from './components/cell-template.vue'

@@ -302,6 +302,25 @@ const getData = {
             })
         })
     },
+    // 61.获取分类商品的列表 //商城分类
+    async onGetCategoryProduct(id) {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/shop/category/get_category_product',
+                method: 'get',
+                params: {
+                    categories_id: id
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    // this.$Message.error(res.message)
+                    reject(res)
+                }
+            })
+        })
+    },
     // 62.获取商品列表
     async onGetReleaseProductList(data) {
         return await new Promise(async (resolve, reject) => {
