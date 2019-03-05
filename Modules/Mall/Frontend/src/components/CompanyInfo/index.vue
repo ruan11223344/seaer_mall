@@ -2,7 +2,7 @@
     <div class="main-goods-right">
         <figure class="main-goods-right-head">
             <img :src="Company_Detail.shop_info.avatar_url" alt="">
-            <figcaption>{{  User_Info.user_extends.sex + '.' + User_Info.user_extends.contact_full_name }}</figcaption>
+            <figcaption>{{  Company_Detail.basic_info.contact_full_name }}</figcaption>
         </figure>
         <article class="main-goods-right-content">
             <h1>Company Name:</h1>
@@ -58,8 +58,7 @@
             }
         },
         mounted() {
-            
-        },
+        }
     }
 </script>
 

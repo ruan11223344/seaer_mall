@@ -6,7 +6,7 @@
 
         <main class="container consulting-main">
             <div class="consulting-main-body">
-                <div class="consulting-main-body-title">From "{{ User_Info.user.email }}" <span>Edit</span></div>
+                <div class="consulting-main-body-title" v-if="User_Info">From "{{ User_Info.user.email }}" <span>Edit</span></div>
                 <!-- 目标 -->
                 <div class="consulting-main-body-content">
                     <div class="consulting-main-body-content-label">To</div>

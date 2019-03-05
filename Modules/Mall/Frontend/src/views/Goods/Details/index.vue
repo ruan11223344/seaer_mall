@@ -180,6 +180,7 @@
                     .bg-color(white);
                     border: solid 1px #dddddd;
                     position: relative;
+                    z-index: 1000;
                 }
 
                 &-pictureItem {

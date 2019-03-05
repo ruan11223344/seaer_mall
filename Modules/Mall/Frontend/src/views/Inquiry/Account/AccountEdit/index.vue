@@ -1,7 +1,7 @@
 <template>
     <div class="edit">
         <v-title title="Edit Company Info"></v-title>
-        <template>
+        <template v-if="formData">
             <Form ref="formInline" class="edit-from">
                 <FormItem>
                     <Row :gutter="20">
@@ -128,9 +128,7 @@
                         label: 'Canberra'
                     }
                 ],
-                formData: {
-
-                },
+                formData: null,
                 ProvinceAddress: [],
                 CityAddress: [],
                 province: '',
@@ -154,13 +152,6 @@
             },
             // 设置账户信息
             onSave() {
-                // {
-                // "sex":"Miss", //非必填
-                // "contact_full_name":"王飞飞", //非必填
-                // "mobile_phone":"+8613672009476", //非必填
-                // "province_id":23, //非必填
-                // "city_id":323,   //非必填
-                // }
                 const formData = this.formData
                 this.UpSetAccountInfo({
                     sex: formData.sex,
@@ -176,7 +167,7 @@
         },
         mounted() {
             this.formData = JSON.parse(this.$route.query.formData)
-            console.log(this.formData['province/city'])
+            // console.log(this.formData['province/city'])
             const name = this.formData['province/city'].split(' ')
 
             this.province = name[0]

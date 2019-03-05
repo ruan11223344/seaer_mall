@@ -45,6 +45,8 @@
         min-width: 1220px;
         height: 50px;
         background-color: #666666;
+        position: relative;
+        z-index: 10000;
 
         &-item {
             .flex();
@@ -56,6 +58,7 @@
                 margin-right: 110px;
                 cursor: pointer;
                 position: relative;
+                z-index: 10000;
             }
 
             &-list-hover {

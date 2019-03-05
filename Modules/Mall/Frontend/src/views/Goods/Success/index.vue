@@ -22,7 +22,7 @@
 
 <script>
     import Img from '@/components/Img'
-    import Breadcrumb  from '@/components/Breadcrumb'
+    // import Breadcrumb  from '@/components/Breadcrumb'
 
     export default {
         methods: {

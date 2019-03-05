@@ -267,18 +267,6 @@
             getProvinceAddress: getData.getProvinceAddress,
              // 获取图片本地地址
             getObjectURL: getData.getObjectURL,
-            // getObjectURL(file) {  // 获取图片本地地址
-            //     let url = null;  
-            //     if (window.createObjcectURL != undefined) {  
-            //     url = window.createOjcectURL(file);  
-            //     } else if (window.URL != undefined) {  
-            //     url = window.URL.createObjectURL(file);  
-            //     } else if (window.webkitURL != undefined) {  
-            //     url = window.webkitURL.createObjectURL(file);  
-            //     }  
-            //     return url;  
-            // },
-            
             checkAllGroupChange(value) {
                 
             },
@@ -328,25 +316,9 @@
             },
 
             upFrom() {
-                // data: {
-                //     password: this.formItem.password,
-                //     password_confirmation: this.formItem.passwdCheck,//重复密码 必填
-                //     account_type: this.Countries ? 1 : 0,//注意！如果用户切换身份 则account_type 也随之切换而并非 邮件发送的注册链接时url参数中的u_from 其中 u_from=cn 时account_type 为 0  为ke时 account_type 为 1 切换后随之变动 必填
-                //     sex: this.formItem.gender, //性别 必填
-                //     company_name: this.formItem.company, //公司名称  必填
-                //     company_name_in_china: this.formItem.companyChina,//公司中文名 非必填 中国卖家时传
-                //     china_business_license: this.formItem.coding,//中国营业执照 非必填 中国卖家时传
-                //     business_license_img: this.formItem.file,// file格式上传  非必填 中国卖家时传
-                //     contact_full_name: this.formItem.userName, //全名 必填
-                //     mobile_phone: this.Countries ? `+254${this.formItem.phone}` : `+86${this.formItem.phone}`,//手机号 必填
-                //     city_id: this.formItem.Address2,//城市id  从接口获取的城市id 非必填
-                //     province_id: this.formItem.Address1,//省份id 从接口获取的省份id 非必填
-                //     uuid: this.$route.query.rg_id  //邮件发送的注册链接时url参数中的uuid 必填
-                // },
-
-                let formData = new FormData();
-                formData.append('password', this.formItem.password);
-                formData.append('password_confirmation', this.formItem.passwdCheck);
+                let formData = new FormData()
+                formData.append('password', this.formItem.password)
+                formData.append('password_confirmation', this.formItem.passwdCheck)
                 formData.append('account_type', this.Countries ? 1 : 0)
                 formData.append('sex', this.formItem.gender)
                 formData.append('company_name', this.formItem.company)
@@ -390,6 +362,7 @@
                         this.SET_COUNTRIES(data.account_type == 1 ? true : false)
                         this.$set(this.formItem, 'id', data.member_id)
                     }else {
+                        this.$Message.error(res.message)
                         // 此处 跳转过期提醒页面！
                         // this.$router.push('/registered/one')
                     }

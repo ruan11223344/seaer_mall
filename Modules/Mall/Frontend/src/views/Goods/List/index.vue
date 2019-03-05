@@ -30,7 +30,7 @@
     import Card from "@/components/Card"
     import getData from '@/utils/getData'
     import { mapState } from 'vuex'
-    import Breadcrumb  from '@/components/Breadcrumb'
+    // import Breadcrumb  from '@/components/Breadcrumb'
 
     export default {
         data() {

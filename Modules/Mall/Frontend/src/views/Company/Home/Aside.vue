@@ -4,7 +4,7 @@
         <v-aside></v-aside>
         
         <!-- 公司介绍 -->
-        <section class="company-home-main-fixed">
+        <section class="company-home-main-fixed" v-if="Company_Detail">
             <!-- logo -->
             <div class="company-home-main-fixed-head">
                 <img :src="Company_Detail.shop_info.avatar_url" alt="">
@@ -32,25 +32,27 @@
         </section>
         <!-- 模态框 -->
         <section class="company-home-main-shade" @click="isShade=false" v-show="isShade"></section>
-        <div class="company-home-main-dialog" v-show="isShade">
-            <!-- 关闭 -->
-            <div class="company-home-main-dialog-close" @click="isShade=false">
-                <Icon type="md-close" size="28"/>
+        <template v-if="User_Info">
+            <div class="company-home-main-dialog" v-show="isShade">
+                <!-- 关闭 -->
+                <div class="company-home-main-dialog-close" @click="isShade=false">
+                    <Icon type="md-close" size="28"/>
+                </div>
+                <h1 class="company-home-main-dialog-title">Send your message to this supplier</h1>
+                <!-- <div class="company-home-main-dialog-email">From: 522151521@qq.com</div> -->
+                <div class="company-home-main-dialog-email">From: {{ User_Info.user.email }}</div>
+                <div class="company-home-main-dialog-name">
+                    To:
+                    <!-- <v-img width="26" height="18" imgSrc=""></v-img> -->
+                    {{ 'Mr.mary' }}
+                </div>
+                <div class="company-home-main-dialog-content">
+                    <textarea v-model="text" @focus="onFocus" @blur="onBlur"></textarea>
+                    <span>({{ this.text.length }}/4000)</span>
+                </div>
+                <button class="company-home-main-dialog-btn">send</button>
             </div>
-            <h1 class="company-home-main-dialog-title">Send your message to this supplier</h1>
-            <!-- <div class="company-home-main-dialog-email">From: 522151521@qq.com</div> -->
-            <div class="company-home-main-dialog-email">From: {{ User_Info.user.email }}</div>
-            <div class="company-home-main-dialog-name">
-                To:
-                <!-- <v-img width="26" height="18" imgSrc=""></v-img> -->
-                {{ 'Mr.mary' }}
-            </div>
-            <div class="company-home-main-dialog-content">
-                <textarea v-model="text" @focus="onFocus" @blur="onBlur"></textarea>
-                <span>({{ this.text.length }}/4000)</span>
-            </div>
-            <button class="company-home-main-dialog-btn">send</button>
-        </div>
+        </template>
     </div>
 </template>
 

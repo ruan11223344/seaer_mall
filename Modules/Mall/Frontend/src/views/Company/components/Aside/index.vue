@@ -4,7 +4,7 @@
             <v-img width="21" height="15" :imgSrc="require('@/assets/img/icon/fenlei.png')" class="company-home-main-aside-title-icon"></v-img>
             All Products
         </div>
-        <aside class="inquire-aside">
+        <aside class="inquire-aside" v-if="menu != null">
             <ul>
                 <li v-for="(item, index) in menu" :key="index">
                     <div ref="menuList" class="inquire-aside-title">
