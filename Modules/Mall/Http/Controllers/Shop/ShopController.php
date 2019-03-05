@@ -499,7 +499,8 @@ class ShopController extends Controller
         }
         $company_id = $request->input('company_id');
         $data =AuthorizationsController::getCompanyInfoData($company_id);
-        $data['basic_info']['contact_full_name'] = UsersExtends::where('company_id',$company_id)->get()->first()->contact_full_name;
+        $userEx = UsersExtends::where('company_id',$company_id)->get()->first();
+        $data['basic_info']['contact_full_name'] =  $userEx->sex.'.'.$userEx->contact_full_name;
         $user_obj = User::find($request->input('user_id'));
         $data['is_favorites_company'] = $user_obj == null ? false : Favorites::where(
             [
