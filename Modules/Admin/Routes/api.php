@@ -13,7 +13,10 @@
 
 Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function () {
     Route::prefix('admin')->group(function (){
-        Route::post('get_access_token', 'AdminController@getAccessToken')->middleware('passport-custom-provider');
+        Route::prefix('auth')->group(function (){
+            Route::get('get_access_token', 'AuthController@getAccessToken')->middleware('passport-custom-provider');
+            Route::post('logout', 'AuthController@logout')->middleware('passport-custom-provider');
+        });
     });
     Route::prefix('utils')->group(function (){
         Route::get('get_captcha', 'UtilsController@getCaptcha');

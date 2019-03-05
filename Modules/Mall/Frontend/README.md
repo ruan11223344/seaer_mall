@@ -4137,7 +4137,8 @@ url:http://域名/api/shop/get_company_detail
             "company_city_id": 138,
             "address": "湖北省xxsdsadjkdsajkdsajdkjsakdj111111",
             "telephone": "+8617671770827",
-            "website": "http://www.qq.com/"
+            "website": "http://www.qq.com/",
+            "contact_full_name":"wanzbs"
         },
         "business_info": {
             "business_range": " Electrical & Electronics、 Furniture、 Health & Medicine、 Industrial Equipment & Components",
