@@ -3,7 +3,16 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-Vue.config.productionTip = false
+// 清除默认样式
+import "@/style/reset.css"
+
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import './style/element-variables.scss'
+
+Vue.use(ElementUI)
+
+Vue.config.productionTip = true
 
 new Vue({
     router,

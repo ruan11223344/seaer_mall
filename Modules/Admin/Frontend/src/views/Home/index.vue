@@ -1,17 +1,27 @@
 <template>
-    <div class="home"></div>
+    <div class="home">
+        
+    </div>
 </template>
 
 <script>
 export default {
     name: "home",
     data() {
-        return {}
+        return {
+        }
     },
-    components: {}
+    methods: {
+        handleSelect(key, keyPath) {
+        }
+    },
+    components: {
+
+    }
 }
 </script>
 
 <style lang="scss" scoped>
+
 </style>
 
