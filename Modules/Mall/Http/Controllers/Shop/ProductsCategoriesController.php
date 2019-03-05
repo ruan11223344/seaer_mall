@@ -171,7 +171,7 @@ class ProductsCategoriesController extends Controller
             return $this->echoErrorJson('There are no goods in this category!');
         }else{
             $res_data = ProductsController::getProductFormatInfo($products_orm);
-            return $this->echoErrorJson('The product classification is successful!',$res_data);
+            return $this->echoSuccessJson('The product classification is successful!',$res_data);
         }
 
     }
