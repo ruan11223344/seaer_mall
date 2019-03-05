@@ -2976,7 +2976,7 @@ json参数
 
 返回:
 {
-    "code": 400,
+    "code": 200,
     "message": "获取商品分类Success!",
     "data": [
         {

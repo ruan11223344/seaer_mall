@@ -36,8 +36,17 @@ class AdminController extends Controller
         if($data === []){
             return $this->echoErrorJson('Error!Parameter cannot be empty!',[]);
         }
-        $this->ip = $serverRequest->getServerParams()['REMOTE_ADDR'];
-        $this->username = $data['username'];
+
+        if(isset($data['username'])){
+            $validator = Validator::make($data, [
+                'key' => 'required',
+                'captcha' => 'required|captcha_api:' . $data['key'],
+            ]);
+
+            if ($validator->fails()) {
+                return $this->echoErrorJson('Verification code verification failed!'.$validator->messages());
+            }
+        }
 
 
         try {

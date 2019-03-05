@@ -159,12 +159,14 @@ class ProductsCategoriesController extends Controller
 
         $categories_id = $request->input('categories_id');
 
+        $categories_orm = ProductsCategories::where('id',$categories_id)->get()->first();
+
+        $categories_id_list  = $categories_orm->descendants->pluck('id')->toArray();
         $products_orm = Products::where([
             ['product_categories_id',$categories_id],
             ['product_status',ProductsController::PRODUCT_STATUS_SALE],
             ['product_audit_status',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS],
-        ]);
-
+        ])->orWhereIn('product_categories_id',$categories_id_list);
         if($products_orm->get()->isEmpty()){
             return $this->echoErrorJson('There are no goods in this category!');
         }else{
