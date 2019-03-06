@@ -11,65 +11,66 @@
             active-text-color="#f0883a"
             >
             <el-menu-item index="1">
-                <i class="el-icon-menu"></i>
-                <span slot="title">首页</span>
+                <!-- <i class="el-icon-menu"></i> -->
+                <img :src="require('@/assets/sy.png')" alt="" class="icon">
+                <span slot="title" class="title">首页</span>
             </el-menu-item>
             <el-submenu index="2">
                 <template slot="title">
-                    <i class="el-icon-location"></i>
-                    <span>用户管理</span>
+                    <img :src="require('@/assets/yhgl.png')" alt="" class="icon">
+                    <span slot="title" class="title">用户管理</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="2-1">用户</el-menu-item>
-                    <el-menu-item index="2-2">管理员</el-menu-item>
-                    <el-menu-item index="2-3">商家</el-menu-item>
+                    <el-menu-item index="2-1" class="item">用户</el-menu-item>
+                    <el-menu-item index="2-2" class="item">管理员</el-menu-item>
+                    <el-menu-item index="2-3" class="item">商家</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
             <el-submenu index="3">
                 <template slot="title">
-                    <i class="el-icon-location"></i>
-                    <span>商品管理</span>
+                    <img :src="require('@/assets/spgl.png')" alt="" class="icon">
+                    <span slot="title" class="title">商品管理</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="3-1">全部商品</el-menu-item>
-                    <el-menu-item index="3-2">待审核商品</el-menu-item>
+                    <el-menu-item index="3-1" class="item">全部商品</el-menu-item>
+                    <el-menu-item index="3-2" class="item">待审核商品</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
             <el-submenu index="4">
                 <template slot="title">
-                    <i class="el-icon-location"></i>
-                    <span>文章管理</span>
+                    <img :src="require('@/assets/wzgl.png')" alt="" class="icon">
+                    <span slot="title" class="title">文章管理</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="4-1">系统文章</el-menu-item>
-                    <el-menu-item index="4-2">会员协议</el-menu-item>
+                    <el-menu-item index="4-1" class="item">系统文章</el-menu-item>
+                    <el-menu-item index="4-2" class="item">会员协议</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
             <el-submenu index="5">
                 <template slot="title">
-                    <i class="el-icon-location"></i>
-                    <span>广告管理</span>
+                    <img :src="require('@/assets/gggl.png')" alt="" class="icon">
+                    <span slot="title" class="title">广告管理</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="5-1">首页广告</el-menu-item>
+                    <el-menu-item index="5-1" class="item">首页广告</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
             <el-submenu index="6">
                 <template slot="title">
-                    <i class="el-icon-location"></i>
-                    <span>系统公告</span>
+                    <img :src="require('@/assets/xtgg.png')" alt="" class="icon">
+                    <span slot="title" class="title">系统公告</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="6-1">系统公告</el-menu-item>
+                    <el-menu-item index="6-1" class="item">系统公告</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
             <el-submenu index="7">
                 <template slot="title">
-                    <i class="el-icon-location"></i>
-                    <span>意见反馈</span>
+                    <img :src="require('@/assets/yjfk.png')" alt="" class="icon">
+                    <span slot="title" class="title">意见反馈</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="7-1">反馈信息</el-menu-item>
+                    <el-menu-item index="7-1" class="item">反馈信息</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
         </el-menu>
@@ -93,5 +94,22 @@
 <style lang="scss" scoped>
     #aside {
         height: 100vh;
+
+        .icon {
+            width: 21px;
+            height: 21px;
+            display: inline-block;
+        }
+
+        .title {
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        .item {
+            font-size: 20px;
+            color: #f0883a;
+            margin-left: 30px;
+        }
     }
 </style>
