@@ -24,7 +24,7 @@
                 <el-menu-item-group>
                     <el-menu-item index="/user" class="item">用户</el-menu-item>
                     <el-menu-item index="/business" class="item">商家</el-menu-item>
-                    <el-menu-item index="2-3" class="item">管理员</el-menu-item>
+                    <el-menu-item index="/admin" class="item">管理员</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
             <el-submenu index="3">

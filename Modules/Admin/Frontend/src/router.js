@@ -30,6 +30,12 @@ const router = new Router({
                     name: 'business',
                     meta: [ '用户管理', '商家' ],
                     component: () => import('./views/Business')
+                },
+                {
+                    path: 'admin',
+                    name: 'admin',
+                    meta: [ '用户管理', '管理员'],
+                    component: () => import('./views/Admin')
                 }
             ]
         },

@@ -1,5 +1,5 @@
 <template>
-    <el-main id="list">
+    <div id="list">
         <section class="title">
             <div class="title-left">
                 <span>用户列表</span>
@@ -23,7 +23,7 @@
                 >
             </el-pagination>
         </section>
-    </el-main>
+    </div>
 </template>
 
 <script>

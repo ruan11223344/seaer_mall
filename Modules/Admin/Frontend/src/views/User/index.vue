@@ -1,12 +1,13 @@
 <template>
-    <div>
+    <el-main>
         <v-list>
             <template slot="table">
                 <el-table
-                    height="624px"
                     ref="singleTable"
                     :data="tableData"
                     style="width: 100%"
+                    height="684px"
+                    size="mini"
                     >
 
                     <el-table-column
@@ -95,7 +96,7 @@
                 </el-table>
             </template>
         </v-list>
-    </div>
+    </el-main>
 </template>
 
 <script>
@@ -164,6 +165,36 @@
                     date: '2016-05-02',
                     name: '王小虎',
                     address: '上海市普陀区金沙江路 1518 弄'
+                    },
+                    {
+                    date: '2016-05-02',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                    },
+                    {
+                    date: '2016-05-01',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1519 弄'
+                    },
+                    {
+                    date: '2016-05-02',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                    },
+                    {
+                    date: '2016-05-02',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                    },
+                    {
+                    date: '2016-05-02',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                    },
+                    {
+                    date: '2016-05-01',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1519 弄'
                     }
                 ],
             }
