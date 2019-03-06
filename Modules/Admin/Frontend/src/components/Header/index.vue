@@ -2,10 +2,9 @@
     <el-header height="80px" id="header">
         <section>
             <el-breadcrumb separator-class="el-icon-arrow-right">
-                <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                <!-- <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-                <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-                <el-breadcrumb-item>活动详情</el-breadcrumb-item> -->
+                <template v-for="(item, index) in meta">
+                    <el-breadcrumb-item :key="index">{{ item }}</el-breadcrumb-item>
+                </template>
             </el-breadcrumb>
         </section>
 
@@ -15,7 +14,27 @@
                 <div class="right-email"></div>
             </el-badge>
             <div class="right-avatar">
-                <img :src="require('@/assets/mrtx.png')" alt="">
+
+                <template>
+                    <el-popover
+                        placement="top-start"
+                        width="200"
+                        trigger="hover"
+                        >
+                            <img slot="reference" :src="require('@/assets/mrtx.png')" alt="">
+
+                            <section>
+                                <div class="admin">
+                                    <span>admin</span>
+                                    <span>（超级管理员）</span>
+                                </div>
+                                <div class="out">
+                                    <div>退出登录</div>
+                                    <i class="el-icon-arrow-right"></i>
+                                </div>
+                            </section>
+                    </el-popover>
+                </template>
             </div>
         </section>
     </el-header>
@@ -23,14 +42,22 @@
 
 <script>
     export default {
-        
+        data() {
+            return {
+                meta: [ '首页' ]
+            }
+        },
+        watch: {
+            '$route': function ({ meta }) {
+                this.meta = meta
+            }
+        },
     }
 </script>
 
 <style lang="scss" scoped>
     #header {
-        background-color: #f5f5f9;
-
+        @include mixin-bg-color(lead);
         @include mixin-flex(space-between, center);
 
         .right {
@@ -54,7 +81,33 @@
                 height: 53px;
                 border-radius: 50%;
                 @include mixin-bg-color(white);
+
+                
             }
         }
+    }
+
+    .admin {
+        padding: 17px 0px;
+        cursor: pointer;
+        border-bottom: 1px solid #eeeeee;
+
+        & > span:first-of-type {
+            font-size: 16px;
+            @include mixin-color(yellow);
+        }
+
+        & > span:last-of-type {
+            font-size: 12px;
+            @include mixin-color(dark);
+        }
+    }
+
+    .out {
+        padding: 17px 0px;
+        font-size: 14px;
+        cursor: pointer;
+        @include mixin-color(grey);
+        @include mixin-flex(space-between, center);
     }
 </style>

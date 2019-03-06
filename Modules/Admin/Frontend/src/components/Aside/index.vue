@@ -1,8 +1,9 @@
 <template>
     <el-aside width="305px">
         <el-menu
-            default-active="1"
+            :default-active="$route.path"
             id="aside"
+            :router="true"
             :collapse="false"
             @open="handleOpen"
             @close="handleClose"
@@ -10,7 +11,7 @@
             text-color="#9b9b9b"
             active-text-color="#f0883a"
             >
-            <el-menu-item index="1">
+            <el-menu-item index="/home">
                 <!-- <i class="el-icon-menu"></i> -->
                 <img :src="require('@/assets/sy.png')" alt="" class="icon">
                 <span slot="title" class="title">首页</span>
@@ -21,7 +22,7 @@
                     <span slot="title" class="title">用户管理</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="2-1" class="item">用户</el-menu-item>
+                    <el-menu-item index="/user" class="item">用户</el-menu-item>
                     <el-menu-item index="2-2" class="item">管理员</el-menu-item>
                     <el-menu-item index="2-3" class="item">商家</el-menu-item>
                 </el-menu-item-group>
@@ -79,13 +80,10 @@
 
 <script>
     export default {
-        
         methods: {
             handleOpen(key, keyPath) {
-                console.log(key, keyPath)
             },
             handleClose(key, keyPath) {
-                console.log(key, keyPath)
             }
         }
     }
@@ -109,7 +107,7 @@
         .item {
             font-size: 20px;
             color: #f0883a;
-            margin-left: 30px;
+            padding-left: 70px !important;
         }
     }
 </style>

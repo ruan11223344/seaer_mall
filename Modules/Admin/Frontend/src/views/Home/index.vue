@@ -1,5 +1,5 @@
 <template>
-    <el-main id="main">
+    <el-main id="home">
         <section class="info">
             <div class="info-left">
                 <img :src="require('@/assets/yonghu.png')" alt="" class="info-left-icon">
@@ -152,7 +152,7 @@
         left: 0px;
     }
 
-    #main {
+    #home {
         width: 100%;
 
         .info {

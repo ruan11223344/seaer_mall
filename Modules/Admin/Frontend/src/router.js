@@ -10,7 +10,22 @@ const router = new Router({
         {
             path: '/',
             name: 'home',
-            component: () => import('./views/Home')
+            redirect: '/home',
+            component: () => import('./views/Main'),
+            children: [
+                {
+                    path: '/home',
+                    name: 'home',
+                    meta: [ '首页' ],
+                    component: () => import('./views/Home'),
+                },
+                {
+                    path: 'user',
+                    name: 'user',
+                    meta: [ '用户管理', '用户' ],
+                    component: () => import('./views/User')
+                }
+            ]
         },
         {
             path: '/login',
