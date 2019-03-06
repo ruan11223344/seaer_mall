@@ -81,6 +81,12 @@ const router = new Router({
                     component: () => import('./views/Agreement')
                 },
                 {
+                    path: 'advertisement',
+                    name: 'advertisement',
+                    meta: [ '广告管理', '首页广告' ],
+                    component: () => import('./views/Advertisement')
+                },
+                {
                     path: 'bulletin',
                     name: 'bulletin',
                     meta: [ '系统公告', '系统公告' ],
@@ -89,7 +95,7 @@ const router = new Router({
                 {
                     path: 'feedback',
                     name: 'feedback',
-                    meta: [],
+                    meta: [ '意见反馈', '反馈信息' ],
                     component: () => import('./views/Feedback')
                 }
             ]

@@ -52,7 +52,7 @@
                     <span slot="title" class="title">广告管理</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="5-1" class="item">首页广告</el-menu-item>
+                    <el-menu-item index="/advertisement" class="item">首页广告</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
             <el-submenu index="6">
