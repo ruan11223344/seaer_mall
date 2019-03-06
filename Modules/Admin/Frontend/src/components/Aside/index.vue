@@ -61,7 +61,7 @@
                     <span slot="title" class="title">系统公告</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="6-1" class="item">系统公告</el-menu-item>
+                    <el-menu-item index="/bulletin" class="item">系统公告</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
             <el-submenu index="7">

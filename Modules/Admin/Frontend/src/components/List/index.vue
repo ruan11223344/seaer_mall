@@ -12,7 +12,7 @@
                 </el-input>
             </div>
         </section>
-
+        <slot name="btn"></slot>
         <slot name="table"></slot>
 
         <section class="page">

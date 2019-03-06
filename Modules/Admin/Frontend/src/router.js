@@ -67,8 +67,13 @@ const router = new Router({
                     name: 'wait',
                     meta: [ '商品管理', '待审核商品' ],
                     component: () => import('./views/Wait')
+                },
+                {
+                    path: 'bulletin',
+                    name: 'bulletin',
+                    meta: [  ],
+                    component: () => import('./views/Bulletin')
                 }
-                
             ]
         },
         {
