@@ -47,6 +47,12 @@ const router = new Router({
                             name: 'add',
                             meta: [ '用户管理', '管理员', '新增' ],
                             component: () => import('./views/Admin/Add')
+                        },
+                        {
+                            path: 'jurisdiction',
+                            name: 'jurisdiction',
+                            meta: [ '用户管理', '管理员', '新增' ],
+                            component: () => import('./views/Admin/Jurisdiction')
                         }
                     ]
                 },

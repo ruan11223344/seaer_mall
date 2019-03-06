@@ -44,8 +44,11 @@
     export default {
         data() {
             return {
-                meta: [ '首页' ]
+                meta: []
             }
+        },
+        mounted() {
+            this.meta = this.$route.meta
         },
         watch: {
             '$route': function ({ meta }) {

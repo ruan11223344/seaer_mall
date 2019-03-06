@@ -77,7 +77,7 @@
         </section>
 
         <section v-show="active == 1">
-            <button class="Jurisdiction">+新增权限组</button>
+            <button class="Jurisdiction" @click="onJurisdiction">+新增权限组</button>
 
             <template>
                 <el-table
@@ -200,6 +200,9 @@
         methods: {
             onAdd() {
                 this.$router.push('/admin/add')
+            },
+            onJurisdiction() {
+                this.$router.push('/admin/jurisdiction')
             },
             handleClick(tab, event) {
                 console.log(tab, event);

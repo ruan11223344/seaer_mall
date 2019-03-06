@@ -12,7 +12,6 @@
             active-text-color="#f0883a"
             >
             <el-menu-item index="/home">
-                <!-- <i class="el-icon-menu"></i> -->
                 <img :src="require('@/assets/sy.png')" alt="" class="icon">
                 <span slot="title" class="title">首页</span>
             </el-menu-item>
@@ -91,8 +90,11 @@
 
 <style lang="scss" scoped>
     #aside {
+        width: 305px;
         height: 100vh;
-
+        position: fixed;
+        top: 0px;
+        left: 0px;
         .icon {
             width: 21px;
             height: 21px;
