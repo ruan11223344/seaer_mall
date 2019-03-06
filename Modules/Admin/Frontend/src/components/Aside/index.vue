@@ -32,7 +32,7 @@
                     <span slot="title" class="title">商品管理</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="3-1" class="item">全部商品</el-menu-item>
+                    <el-menu-item index="/allproducts" class="item">全部商品</el-menu-item>
                     <el-menu-item index="3-2" class="item">待审核商品</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>

@@ -56,6 +56,12 @@ const router = new Router({
                         }
                     ]
                 },
+                {
+                    path: 'allproducts',
+                    name: 'allproducts',
+                    meta: [ '商品管理', '全部商品' ],
+                    component: () => import('./views/AllProducts')
+                }
                 
             ]
         },
