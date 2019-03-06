@@ -6,6 +6,7 @@ use App\Utils\EchoJson;
 use App\Utils\EMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Modules\Admin\Service\UtilsService;
 use Modules\Mall\Entities\InquiryMessages;
 use Modules\Mall\Entities\InquiryParticipants;
 use Modules\Mall\Entities\InquiryThreads;

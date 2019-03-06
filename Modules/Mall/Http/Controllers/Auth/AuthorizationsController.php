@@ -331,7 +331,7 @@ class AuthorizationsController extends Controller
             $main_products_arr = [];
             if($main_products != null){
                 $main_products_arr = explode(',',$main_products);
-                if(count($main_products_arr > 1)){
+                if(count($main_products_arr) > 1){
                     foreach ($main_products_arr as $v){
                         $main_products_str .= $v .'、';
                     }
