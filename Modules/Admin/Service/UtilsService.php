@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Modules\Admin\Entities\AdminLog;
 use Modules\Admin\Entities\UserLog;
+use Modules\Mall\Entities\Permission;
+use Zizaco\Entrust\Entrust;
 
 class UtilsService
 {
@@ -52,6 +54,17 @@ class UtilsService
         }catch (\Exception $e){
             dd($e->getMessage());
             Log::error('Log Table is Error! Message:'.$e->getMessage());
+        }
+    }
+
+    public static function CreatePermissions($display_name = '',$description = ''){
+        $router_name = request()->route()->getName();
+        if(!Permission::where('name',$router_name)->exists()) {
+            $permission = new Permission();
+            $permission->name = $router_name;
+            $permission->display_name = $display_name; // optional
+            $permission->description = $description; // optional
+            $permission->save();
         }
     }
 }

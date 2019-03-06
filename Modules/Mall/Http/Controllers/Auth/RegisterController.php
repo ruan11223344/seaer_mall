@@ -310,6 +310,15 @@ class RegisterController extends Controller
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
+        if(RegisterTemp::where(
+            [
+                ['email','=',$data['email']],
+                ['created_at','>',Carbon::createFromTimestamp(time()-5)->format('Y-m-d H:i:s')]
+            ]
+        )->exists()){
+            return $this->echoErrorJson('request to fast!');
+        }
+
         $register_uuid = Uuid::generate();
         $email = $data['email'];
         try{

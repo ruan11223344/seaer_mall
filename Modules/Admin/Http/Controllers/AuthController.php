@@ -58,5 +58,4 @@ class AuthController extends Controller
         }
         return $this->echoSuccessJson('登出成功!');
     }
-
 }
