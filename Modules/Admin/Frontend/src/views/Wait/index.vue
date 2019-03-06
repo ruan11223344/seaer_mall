@@ -196,13 +196,6 @@
 </script>
 
 <style lang="scss" scoped>
-
-    @mixin mixin-btn {
-        height: 21px;
-        font-size: 14px;
-        border: none;
-    }
-
     .del {
         width: 74px;
         @include mixin-btn;

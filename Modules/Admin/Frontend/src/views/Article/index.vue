@@ -167,17 +167,11 @@
 
     .btn {
         font-size: 16px;
-        color: #ffffff;
         width: 71px;
         height: 25px;
-        background-color: #f0883a;
         border: none;
-    }
-
-    @mixin mixin-btn {
-        height: 21px;
-        font-size: 14px;
-        border: none;
+        @include mixin-color(white);
+        @include mixin-bg-color(yellow);
     }
 
     .del {

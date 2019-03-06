@@ -259,13 +259,6 @@
             @include mixin-color(white);
             @include mixin-bg-color(yellow);
         }
-        
-        @mixin mixin-btn {
-            width: 60px;
-            height: 21px;
-            font-size: 14px;
-            border: none;
-        }
 
         .del {
             @include mixin-btn;

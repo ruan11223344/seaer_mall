@@ -43,7 +43,7 @@
                 </template>
                 <el-menu-item-group>
                     <el-menu-item index="/article" class="item">系统文章</el-menu-item>
-                    <el-menu-item index="4-2" class="item">会员协议</el-menu-item>
+                    <el-menu-item index="/agreement" class="item">会员协议</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
             <el-submenu index="5">

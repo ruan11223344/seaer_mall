@@ -75,6 +75,12 @@ const router = new Router({
                     component: () => import('./views/Article')
                 },
                 {
+                    path: 'agreement',
+                    name: 'agreement',
+                    meta: [ '文章管理', '会员协议' ],
+                    component: () => import('./views/Agreement')
+                },
+                {
                     path: 'bulletin',
                     name: 'bulletin',
                     meta: [ '系统公告', '系统公告' ],

@@ -25,56 +25,23 @@
                     <el-table-column
                         align="center"
                         property="date"
-                        label="产品编号"
+                        label="标题"
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
                         property="name"
-                        label="商品名称"
-                        >
-                    </el-table-column>
-
-                    <el-table-column
-                        align="center"
-                        property="name"
-                        label="商品价格（KSh）"
-                        >
-                    </el-table-column>
-
-                    <el-table-column
-                        align="center"
-                        property="name"
-                        label="店铺商家"
-                        >
-                    </el-table-column>
-
-                    <el-table-column
-                        align="center"
-                        property="name"
-                        label="地址"
-                        >
-                    </el-table-column>
-
-                    <el-table-column
-                        align="center"
-                        property="name"
-                        label="商品状态"
+                        label="发布时间"
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
                         label="操作"
+                        width="180px"
                         >
                         <template slot-scope="scope">
-                            <button
-                                class="del"
-                                @click="handleEdit(scope.$index, scope.row)"
-                                >
-                                删除
-                            </button>
                             <button
                                 class="edit"
                                 @click="handleEdit(scope.$index, scope.row)"
@@ -176,7 +143,7 @@
                     name: '王小虎',
                     address: '上海市普陀区金沙江路 1519 弄'
                     }
-                ],
+                ]
             }
         },
         methods: {
@@ -201,18 +168,14 @@
         @include mixin-bg-color(yellow);
     }
 
-
-    .del {
-        width: 74px;
-        @include mixin-btn;
-        border: solid 1px #f0883a;
-        @include mixin-color(yellow);
-        @include mixin-bg-color(white);
+    @mixin mixin-btn {
+        height: 21px;
+        font-size: 14px;
+        border: none;
     }
 
     .edit {
         width: 60px;
-        margin-left: 12px;
         @include mixin-btn;
         @include mixin-color(white);
         @include mixin-bg-color(yellow);
