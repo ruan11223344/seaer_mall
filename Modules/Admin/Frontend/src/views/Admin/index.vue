@@ -27,47 +27,98 @@
                     <el-table-column
                         align="center"
                         property="name"
-                        label="性别"
+                        label="登录名"
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
                         property="name"
-                        label="手机号"
+                        label="上次登录时间"
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
                         property="name"
-                        label="地址"
+                        label="登录次数"
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
                         property="name"
-                        label="最后登录时间"
+                        label="权限组"
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
-                        label="允许询盘"
+                        label="操作"
+                        width="200px"
                         >
                         <template slot-scope="scope">
                             <button
                                 class="del"
                                 @click="handleEdit(scope.$index, scope.row)"
                                 >
-                                允许
+                                删除
                             </button>
                             <button
                                 class="edit"
                                 @click="handleEdit(scope.$index, scope.row)"
                                 >
-                                允许
+                                编辑
+                            </button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </template>
+        </section>
+
+        <section v-show="active == 1">
+            <button class="Jurisdiction">+新增权限组</button>
+
+            <template>
+                <el-table
+                    ref="singleTable"
+                    :data="tableData"
+                    style="width: 100%"
+                    height="684px"
+                    size="mini"
+                    >
+
+                    <el-table-column
+                        align="center"
+                        label="序号"
+                        type="index"
+                        >
+                    </el-table-column>
+
+                    <el-table-column
+                        align="center"
+                        property="name"
+                        label="权限组"
+                        >
+                    </el-table-column>
+
+                    <el-table-column
+                        align="center"
+                        label="操作"
+                        width="200px"
+                        >
+                        <template slot-scope="scope">
+                            <button
+                                class="del"
+                                @click="handleEdit(scope.$index, scope.row)"
+                                >
+                                删除
+                            </button>
+                            <button
+                                class="edit"
+                                @click="handleEdit(scope.$index, scope.row)"
+                                >
+                                编辑
                             </button>
                         </template>
                     </el-table-column>
@@ -220,6 +271,17 @@
         .edit {
             margin-left: 12px;
             @include mixin-btn;
+            @include mixin-color(white);
+            @include mixin-bg-color(yellow);
+        }
+
+        .Jurisdiction {
+            width: 119px;
+            height: 25px;
+            font-size: 16px;
+            border: none;
+            margin-top: 16px;
+            margin-bottom: 10px;
             @include mixin-color(white);
             @include mixin-bg-color(yellow);
         }
