@@ -241,6 +241,7 @@ class ProductsController extends Controller
                );
            }
 
+
            if(($product_publishing_time != null ? self::PRODUCT_STATUS_SALE : $put_warehouse == true ? self::PRODUCT_STATUS_WAREHOUSE : self::PRODUCT_STATUS_SALE) == self::PRODUCT_STATUS_SALE){
                ProductAudit::create(
                    [

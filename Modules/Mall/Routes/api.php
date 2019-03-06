@@ -22,6 +22,8 @@ Route::group(['domain' => env('MALL_DOMAIN'), 'middleware' => 'cors'], function 
             Route::post('set_account_info', 'Auth\AuthorizationsController@setAccountInfo');
             Route::get('get_company_info', 'Auth\AuthorizationsController@getCompanyInfo');
             Route::post('set_company_info', 'Auth\AuthorizationsController@setCompanyInfo');
+            Route::post('logout', 'Auth\AuthorizationsController@logout');
+
         });
         Route::post('get_access_token', 'Auth\AuthorizationsController@getAccessToken');
         Route::post('login', 'Auth\LoginController@login');

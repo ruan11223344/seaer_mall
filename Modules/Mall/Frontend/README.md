@@ -5015,3 +5015,22 @@ url:http://域名/api/shop/product/product_num_info
     }
 }
 ```
+
+
+79.登出接口
+```
+url:http://域名/api/auth/logout
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+ 
+
+无参数
+
+返回:
+{
+    "code": 200,
+    "message": "登出成功!",
+    "data": []
+}
+```

@@ -7,6 +7,7 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\Authenticatable;
+
 class Admin extends Model
 {
     use EntrustUserTrait,HasApiTokens,Notifiable,Authenticatable;
