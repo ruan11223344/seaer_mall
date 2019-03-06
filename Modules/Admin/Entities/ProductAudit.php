@@ -6,5 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductAudit extends Model
 {
-    protected $fillable = [];
+    protected $table = 'product_audit';
+
+    protected $fillable = [
+        'admin_id',
+        'product_id',
+        'message',
+        'status',
+    ];
 }
