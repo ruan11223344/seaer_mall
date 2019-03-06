@@ -69,11 +69,17 @@ const router = new Router({
                     component: () => import('./views/Wait')
                 },
                 {
+                    path: 'article',
+                    name: 'article',
+                    meta: [ '文章管理', '系统文章' ],
+                    component: () => import('./views/Article')
+                },
+                {
                     path: 'bulletin',
                     name: 'bulletin',
-                    meta: [  ],
+                    meta: [ '系统公告', '系统公告' ],
                     component: () => import('./views/Bulletin')
-                }
+                },
             ]
         },
         {
