@@ -300,7 +300,6 @@ class MessagesController extends Controller
             ]);
 
 
-
             InquiryParticipants::create([
                 'thread_id' => $thread->id,
                 'user_id' => $to_user_id,
@@ -315,9 +314,9 @@ class MessagesController extends Controller
                     'message_id'=> $message->id,
                 ],
             ]);
-            $this->sendMailNotification($to_user_id,$subject);
-
+            UtilsService::WriteLog('user','inquiry','create',$user_id,$message->id);
             DB::commit();
+            $this->sendMailNotification($to_user_id,$subject);
         }catch (Exception $e){
             DB::rollback();
             return $this->echoErrorJson('Publishing message failed!',[$e->getMessage()]);
@@ -420,9 +419,9 @@ class MessagesController extends Controller
                     'message_id'=> $message->id,
                 ],
             ]);
-            $this->sendMailNotification($to_user_id,$subject,true);
-
+            UtilsService::WriteLog('user','inquiry','create',$user_id,$message->id);
             DB::commit();
+            $this->sendMailNotification($to_user_id,$subject,true);
         }catch (Exception $e){
             DB::rollback();
             return $this->echoErrorJson('Respond to failure!',[$e->getMessage()]);

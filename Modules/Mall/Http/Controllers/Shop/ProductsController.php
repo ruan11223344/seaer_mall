@@ -15,6 +15,8 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Modules\Admin\Entities\ProductAudit;
+use Modules\Admin\Service\UtilsService;
 use Modules\Mall\Entities\AlbumPhoto;
 use Modules\Mall\Entities\AlbumUser;
 use Modules\Mall\Entities\Favorites;
@@ -219,7 +221,7 @@ class ProductsController extends Controller
                    'product_sku_no'=>$product_sku_no,
                    'product_keywords'=>$product_keywords,
                    'product_images'=>$product_images,
-                   'product_status'=>$put_warehouse == true ? self::PRODUCT_STATUS_WAREHOUSE : self::PRODUCT_STATUS_SALE,
+                   'product_status'=>$product_publishing_time != null ? self::PRODUCT_STATUS_SALE : $put_warehouse == true ? self::PRODUCT_STATUS_WAREHOUSE : self::PRODUCT_STATUS_SALE,
                    'product_publishing_time'=>$product_publishing_time,
                    'product_price_id'=>$product_price_model->id,
                    'product_attr_id'=>$product_attr == null ? null : $product_attr_model->id,
@@ -238,6 +240,16 @@ class ProductsController extends Controller
                    ]
                );
            }
+
+           if(($product_publishing_time != null ? self::PRODUCT_STATUS_SALE : $put_warehouse == true ? self::PRODUCT_STATUS_WAREHOUSE : self::PRODUCT_STATUS_SALE) == self::PRODUCT_STATUS_SALE){
+               ProductAudit::create(
+                   [
+                       'product_id'=>$product_model->id,
+                       'status'=>'waiting'
+                   ]
+               );
+           }
+
            DB::commit();
            return $this->echoSuccessJson('Product creation successful!');
         }catch (Exception $e){
@@ -376,7 +388,7 @@ class ProductsController extends Controller
             'product_sku_no'=>$product_sku_no,
             'product_keywords'=>$product_keywords,
             'product_images'=>$product_images,
-            'product_status'=>$put_warehouse == null ? null : $put_warehouse == true ? self::PRODUCT_STATUS_WAREHOUSE : self::PRODUCT_STATUS_SALE,
+            'product_status'=>$product_publishing_time != null ?  self::PRODUCT_STATUS_SALE : $put_warehouse == null ? null : $put_warehouse == true ? self::PRODUCT_STATUS_WAREHOUSE : self::PRODUCT_STATUS_SALE,
             'product_publishing_time'=>$product_publishing_time,
             'product_details'=>$product_details,
             'product_audit_status'=>self::PRODUCT_AUDIT_STATUS_CHECKING
@@ -414,6 +426,15 @@ class ProductsController extends Controller
                     }
                 }
             }
+        }
+
+        if(($product_publishing_time != null ?  self::PRODUCT_STATUS_SALE : $put_warehouse == null ? null : $put_warehouse == true ? self::PRODUCT_STATUS_WAREHOUSE : self::PRODUCT_STATUS_SALE) ==  self::PRODUCT_STATUS_SALE){
+            ProductAudit::create(
+                [
+                    'product_id'=>$product_obj->id,
+                    'status'=>'waiting'
+                ]
+            );
         }
 
         DB::commit();
@@ -739,6 +760,12 @@ class ProductsController extends Controller
             }elseif ($v->product_status == self::PRODUCT_STATUS_WAREHOUSE){
                 $v->product_status = self::PRODUCT_STATUS_SALE;
                 $v->product_audit_status = self::PRODUCT_AUDIT_STATUS_CHECKING;
+                ProductAudit::create(
+                    [
+                        'product_id'=>$v->id,
+                        'status'=>'waiting'
+                    ]
+                );
             }
             $v->save();
         }

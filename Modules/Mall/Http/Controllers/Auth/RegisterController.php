@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Utils\EchoJson;
 use Khsing\World\Models\Country;
+use Modules\Admin\Service\UtilsService;
 use Modules\Mall\Entities\AlbumUser;
+use Modules\Mall\Entities\Shop;
 use Modules\Mall\Entities\Company;
 use Modules\Mall\Entities\RegisterTemp;
 use Modules\Mall\Entities\UsersExtends;
@@ -151,9 +153,9 @@ class RegisterController extends Controller
             $uuid = $request->input('uuid');
 
             $company_business_license_pic_url = null;
+            $af_id = $this->getAfId($uuid,$account_type);
             if($account_type == UsersExtends::ACCOUNT_TYPE_COMPANY_CHINA){
                 $pic = $request->file('business_license_img');
-                $af_id = $this->getAfId($uuid,$account_type);
                 $res = UtilsController::uploadFile($pic,UtilsController::getUserPrivateDirectory($af_id));
                 $company_business_license_pic_url = !$res ?  null : $res;
             }
@@ -198,15 +200,22 @@ class RegisterController extends Controller
                         'contact_full_name'=>$request->input('contact_full_name'),
                         'chinese_name'=>$request->input('chinese_name',null),
                     ]
-                );
-
+              );
               AlbumUser::create(
                   [
                       'album_name'=>'Default Album',
                       'user_id'=>$user->id
                   ]
-              ); //创建默认相册
+              );
+
+              Shop::create(
+                  [
+                      'company_id'=>$company->id,
+                  ]
+              );
+
             }
+            UtilsService::WriteLog('user','register','create',$user->id,$user->id);
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
@@ -246,7 +255,7 @@ class RegisterController extends Controller
             $reg_tmp->update(['status' => RegisterTemp::STATUS_VISITED]);
             return $this->echoSuccessJson('You can continue to register!',[
                 'account_type'=>$reg_tmp->account_type,
-                'member_id'=>$reg_tmp->member_id,
+                'member_id'=>$reg_tmp->name,
                 'email'=>$reg_tmp->email,
             ]);
         }
@@ -364,7 +373,6 @@ class RegisterController extends Controller
         }
 
         $AfId = 'AF_'.$region.'_'.$tmp_id;
-
         return $AfId;
     }
 
