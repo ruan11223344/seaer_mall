@@ -19,28 +19,14 @@
                     <el-table-column
                         align="center"
                         property="date"
-                        label="注册时间"
+                        label="开店时间"
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
                         property="name"
-                        label="AF ID"
-                        >
-                    </el-table-column>
-
-                    <el-table-column
-                        align="center"
-                        property="name"
-                        label="会员ID"
-                        >
-                    </el-table-column>
-
-                    <el-table-column
-                        align="center"
-                        property="name"
-                        label="会员邮箱"
+                        label="公司名称"
                         >
                     </el-table-column>
 
@@ -68,7 +54,21 @@
                     <el-table-column
                         align="center"
                         property="name"
+                        label="会员邮箱"
+                        >
+                    </el-table-column>
+
+                    <el-table-column
+                        align="center"
+                        property="name"
                         label="地址"
+                        >
+                    </el-table-column>
+
+                    <el-table-column
+                        align="center"
+                        property="name"
+                        label="商品数量"
                         >
                     </el-table-column>
 
