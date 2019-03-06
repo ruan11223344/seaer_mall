@@ -19,6 +19,6 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
         });
     });
     Route::prefix('utils')->group(function (){
-        Route::get('get_captcha', 'UtilsController@getCaptcha');
+        Route::get('get_captcha', 'UtilsController@getCaptcha')->name('admin.get.captcha');
     });
 });

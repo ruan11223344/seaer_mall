@@ -55,9 +55,7 @@ class AuthController extends Controller
         if ($value) {
             $id = (new Parser())->parse($value)->getHeader('jti');
             DB::table('oauth_access_tokens')->where('id', '=', $id)->update(['revoked' => 1]);
-            $this->guard()->logout();
         }
-        Auth::logout();
         return $this->echoSuccessJson('登出成功!');
     }
 

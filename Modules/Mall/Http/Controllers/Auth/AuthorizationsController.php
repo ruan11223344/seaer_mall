@@ -8,12 +8,13 @@
 
 namespace Modules\Mall\Http\Controllers\Auth;
 
+use Lcobucci\JWT\Parser;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Khsing\World\Models\City;
 use Khsing\World\Models\Country;
 use Khsing\World\Models\Division;
-use Khsing\World\World;
 use Modules\Mall\Entities\BusinessRange;
 use Modules\Mall\Entities\BusinessType;
 use Modules\Mall\Entities\Company;
@@ -32,7 +33,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Utils\EchoJson;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Http\Request as R;
+use Illuminate\Http\Request;
 
 class AuthorizationsController extends Controller
 {
@@ -141,7 +142,7 @@ class AuthorizationsController extends Controller
     }
 
 
-    public function uploadAvatarImg(R $request){
+    public function uploadAvatarImg(Request $request){
         $data = $request->all();
 
         Validator::extend('avatar_base64_check', function($attribute, $value, $parameters)
@@ -224,7 +225,7 @@ class AuthorizationsController extends Controller
         return $this->echoSuccessJson('Obtain account information Success!',$data);
     }
 
-    public function setAccountInfo(R $request){
+    public function setAccountInfo(Request $request){
         $data = $request->all();
         $validator = Validator::make($data, [
             'sex' => 'nullable|in:Mr,Mrs,Miss',
@@ -408,7 +409,7 @@ class AuthorizationsController extends Controller
         return $this->echoSuccessJson('Obtain company information about Success!',$data);
     }
 
-    public function setCompanyInfo(R $request){
+    public function setCompanyInfo(Request $request){
         $data = $request->all();
 
         Validator::extend('business_type_check', function($attribute, $value,$parameters,$validator){
@@ -503,5 +504,14 @@ class AuthorizationsController extends Controller
 
 
 
+    }
+
+    public function logout(Request $request){
+        $value = $request->bearerToken();
+        if ($value) {
+            $id = (new Parser())->parse($value)->getHeader('jti');
+            DB::table('oauth_access_tokens')->where('id', '=', $id)->update(['revoked' => 1]);
+        }
+        return $this->echoSuccessJson('登出成功!');
     }
 }
