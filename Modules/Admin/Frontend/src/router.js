@@ -34,9 +34,23 @@ const router = new Router({
                 {
                     path: 'admin',
                     name: 'admin',
-                    meta: [ '用户管理', '管理员'],
-                    component: () => import('./views/Admin')
-                }
+                    component: () => import('./views/Admin'),
+                    children: [
+                        {
+                            path: 'home',
+                            name: 'home',
+                            meta: [ '用户管理', '管理员' ],
+                            component: () => import('./views/Admin/Admin'),
+                        },
+                        {
+                            path: 'add',
+                            name: 'add',
+                            meta: [ '用户管理', '管理员', '新增' ],
+                            component: () => import('./views/Admin/Add')
+                        }
+                    ]
+                },
+                
             ]
         },
         {
