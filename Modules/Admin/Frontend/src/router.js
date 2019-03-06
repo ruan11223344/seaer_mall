@@ -11,7 +11,7 @@ const router = new Router({
             path: '/',
             name: 'home',
             redirect: '/home',
-            component: () => import('./views/Main'),
+            component: () => import('./views'),
             children: [
                 {
                     path: '/home',
@@ -61,6 +61,12 @@ const router = new Router({
                     name: 'allproducts',
                     meta: [ '商品管理', '全部商品' ],
                     component: () => import('./views/AllProducts')
+                },
+                {
+                    path: 'wait',
+                    name: 'wait',
+                    meta: [ '商品管理', '待审核商品' ],
+                    component: () => import('./views/Wait')
                 }
                 
             ]
