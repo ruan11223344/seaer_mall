@@ -70,7 +70,7 @@
                     <span slot="title" class="title">意见反馈</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="7-1" class="item">反馈信息</el-menu-item>
+                    <el-menu-item index="/feedback" class="item">反馈信息</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
         </el-menu>

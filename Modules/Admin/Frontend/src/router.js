@@ -86,6 +86,12 @@ const router = new Router({
                     meta: [ '系统公告', '系统公告' ],
                     component: () => import('./views/Bulletin')
                 },
+                {
+                    path: 'feedback',
+                    name: 'feedback',
+                    meta: [],
+                    component: () => import('./views/Feedback')
+                }
             ]
         },
         {
