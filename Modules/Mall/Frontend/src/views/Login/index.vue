@@ -25,7 +25,7 @@
                     <div class="box-useId-prompt" v-show="bool">Please fill in the correct password</div>
                 </section>
                 <!-- 验证码 -->
-                <section class="box-useId box-code" style="marginTop: 40px;" v-show="num >= 2">
+                <section class="box-useId box-code" style="marginTop: 40px;" v-show="num">
                     <input type="text" v-model="rulesFrom.code" placeholder="Please enter verification code." @focus="boolCode = false">
                     <div class="box-useId-prompt" v-show="bool || boolCode">Incorrect captcha.please enter the text in the image.</div>
                     <div class="box-code-rex" @click="getCodes">
@@ -60,7 +60,7 @@
                     key: ''
                 },
                 imgCode: '',
-                num: 0,
+                num: false,
                 bool: false,
                 boolCode: false,
                 login: true
@@ -132,7 +132,7 @@
                             this.$router.push('/')
                         })
                     }else {
-                        this.num++
+                        this.num = data.need_captcha
                         this.bool = true
                         this.getCodes()
                         this.$Spin.hide()
