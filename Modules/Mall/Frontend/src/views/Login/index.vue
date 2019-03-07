@@ -54,7 +54,6 @@
         data() {
             return {
                 rulesFrom: {
-                    // 421566927@qq.com
                     userId: '',
                     password: '',
                     code: '',
@@ -63,7 +62,8 @@
                 imgCode: '',
                 num: 0,
                 bool: false,
-                boolCode: false
+                boolCode: false,
+                login: true
             }
         },
         verify: {
@@ -78,9 +78,11 @@
             }
         },
         methods: {
+            onGetUser: getData.onGetUser,
             getCode: getData.getCode,
             setCookies: Cookies.setCookies,
             refreshCookies: Cookies.refreshCookies,
+            setSessionStorage: Cookies.setSessionStorage,
             getCodes() {
                 const getCode = this.getCode()
                 getCode.then(({ code, data }) => {
@@ -104,10 +106,12 @@
                 }
             },
             upFrom() {
+                this.$Spin.show()
+
                 this.$request({
-                    url: '/auth/get_access_token',
-                    method: 'post',
-                    data: {
+                url: '/auth/get_access_token',
+                method: 'post',
+                data: {
                         grant_type: 'password',
                         client_id: 2,
                         client_secret: 'LfmILOffY40xTlFbJT2Q0V8gWyyu99cwlElNPKrK',
@@ -120,13 +124,21 @@
                     if(code == 200) {
                         this.setCookies(data.access_token)
                         this.refreshCookies(data.refresh_token)
-                        this.$router.push('/')
+
+                        // 设置登录用户信息
+                        this.onGetUser().then(res => {
+                            this.setSessionStorage(res)
+                            this.$router.push('/')
+                        })
                     }else {
                         this.num++
                         this.bool = true
                         this.getCodes()
                     }
+
+                    this.$Spin.hide()
                 }).catch(err => {
+                    this.$Spin.hide()
                     return false
                 })
             }

@@ -182,7 +182,6 @@
             })
 
             this.onGetAsideClass().then(res => {
-                console.log(res)
                 this.AsideClass = res
             })
         },

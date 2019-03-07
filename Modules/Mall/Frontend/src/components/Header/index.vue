@@ -22,16 +22,25 @@
 
 <script>
     import getData from "@/utils/getData"
-    import { mapState } from "vuex"
+    import Cookies from "@/utils/auth"
 
     export default {
+        data() {
+            return {
+                User_Info: null
+            }
+        },
         methods: {
-            onGetUser: getData.onGetUser
+            onGetUser: getData.onGetUser,
+            getSessionStorage: Cookies.getSessionStorage
         },
         computed: {
-            ...mapState([ 'User_Info' ])
+        },
+        created() {
+            this.User_Info = this.getSessionStorage()
         },
         mounted() {
+            
         },
     }
 </script>

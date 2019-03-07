@@ -1,6 +1,36 @@
 import request from './request'
 
 const upData = {
+    // 1.获取token
+    upLogin() {
+        return new Promise((resolve, reject) => {
+            // request({
+            //     url: '/auth/get_access_token',
+            //     method: 'post',
+            //     data: {
+            //         grant_type: 'password',
+            //         client_id: 2,
+            //         client_secret: 'LfmILOffY40xTlFbJT2Q0V8gWyyu99cwlElNPKrK',
+            //         username: this.rulesFrom.userId,
+            //         password: this.rulesFrom.password,
+            //         captcha: this.rulesFrom.code,
+            //         key: this.rulesFrom.key
+            //     }
+            // }).then(({code, data}) => {
+            //     if(code == 200) {
+            //         this.setCookies(data.access_token)
+            //         this.refreshCookies(data.refresh_token)
+            //         this.$router.push('/')
+            //     }else {
+            //         this.num++
+            //         this.bool = true
+            //         this.getCodes()
+            //     }
+            // }).catch(err => {
+            //     return false
+            // })
+        })
+    },
     // 2.刷新token
     async upRegToken(data) {
         return await new Promise(async (resolve, reject) => {

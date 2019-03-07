@@ -5,6 +5,8 @@ const TokenKey = 'afriby-token'
 
 const RefreshKey = 'refresh-token'
 
+const user = 'User_info'
+
 export default {
     getCookies() {
         return Cookies.get(TokenKey)
@@ -23,5 +25,13 @@ export default {
     },
     removeRefreshKey() {
         return Cookies.remove(RefreshKey)
+    },
+    setSessionStorage(value) {
+        const json = JSON.stringify(value)
+        return sessionStorage.setItem(user, json)
+    },
+    getSessionStorage() {
+        const data = JSON.parse(sessionStorage.getItem(user))
+        return data
     }
 }
