@@ -45,7 +45,9 @@
                         </Col>
                         <Col span="18" class-name="edit-from-text">
                             <Input type="text" style="width: 563px" v-model="formData.mobile_phone">
-                                <span slot="prepend" style="display: inline-block;font-size: 18px;color: #333333;width: 95px;">+86</span>
+                                <span slot="prepend" style="display: inline-block;font-size: 18px;color: #333333;width: 95px;">
+                                    {{ formData.country != 'Kenya' ? '+86' : '+254' }}
+                                </span>
                             </Input>
                         </Col>
                     </Row>
@@ -102,32 +104,6 @@
     export default {
         data() {
             return {
-                cityList: [
-                    {
-                        value: 'New York',
-                        label: 'New York'
-                    },
-                    {
-                        value: 'London',
-                        label: 'London'
-                    },
-                    {
-                        value: 'Sydney',
-                        label: 'Sydney'
-                    },
-                    {
-                        value: 'Ottawa',
-                        label: 'Ottawa'
-                    },
-                    {
-                        value: 'Paris',
-                        label: 'Paris'
-                    },
-                    {
-                        value: 'Canberra',
-                        label: 'Canberra'
-                    }
-                ],
                 formData: null,
                 ProvinceAddress: [],
                 CityAddress: [],
@@ -161,20 +137,19 @@
                     city_id: formData.city,
                     detailed_address: formData.address
                 }).then(res => {
-                    // console.log(res);
+                    this.$router.push('/inquiryList/account/accountinfo')
                 })
             }
         },
         mounted() {
             this.formData = JSON.parse(this.$route.query.formData)
-            // console.log(this.formData['province/city'])
+
             const name = this.formData['province/city'].split(' ')
 
             this.province = name[0]
             this.city = name[1]
 
-
-            this.getProvinceAddress(this.formData.country == 'China' ? 'cn' : 'ke ').then(res => {
+            this.getProvinceAddress(this.formData.country != 'Kenya' ? 'cn' : 'ke ').then(res => {
                 res.data.forEach(element => {
                     this.ProvinceAddress.push({ value: element.province_id, label: element.name })
                     if(element.name == this.province) {

@@ -5,7 +5,7 @@
         </div>
         <div class="tips-main-text">You must complete your company information before displaying a new product. </div>
         <div>
-            <button type="button" class="tips-main-btn">Click here</button>
+            <button type="button" class="tips-main-btn" @click="$router.push('/inquiryList/company/companyedit')">Click here</button>
         </div>
     </div>
 </template>

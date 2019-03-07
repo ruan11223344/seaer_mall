@@ -53,7 +53,8 @@
                 password: [
                     {
                         test: function (value) { // 自定义正则
-                            const Rex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/g
+                            // const Rex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/g
+                            const Rex = /^[a-zA-Z]\w{6,20}$/g
                             let bool = Rex.test(value)
 
                             if (value === '') {

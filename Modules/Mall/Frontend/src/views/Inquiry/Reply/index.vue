@@ -1,5 +1,5 @@
 <template>
-    <div class="reply">
+    <div class="reply" v-if="infoData">
         <section class="reply-btn">
             <button type="button" @click="onSend">Send</button>
             <button type="button" @click="$router.go(-2)">Close</button>
@@ -26,7 +26,8 @@
 
         <section class="reply-input">
             <!-- 询问内容 -->
-            <textarea v-model="text"></textarea>
+            <!-- <textarea v-model="text"></textarea> -->
+            <Input v-model="text" type="textarea" :rows="8" :autosize="{ minRows: 8, maxRows: 8 }" />
         </section>
         
         <template v-if="infoData.quote_message">
@@ -73,23 +74,8 @@
     export default {
         data() {
             return {
-                name: [],
-                infoData: {
-                    send_at: {
-                        date: '2019-01-25 15:04:11.000000'
-                    },
-                    quote_message: [
-                        {
-                            "subject": "",
-                            "content": "",
-                            "send_at": {
-                                "date": "2019-01-24 13:48:37.000000",
-                            },
-                            "send_by_name": "",
-                            "send_to_name": "",
-                        }
-                    ]
-                },
+                name: [ 1 ],
+                infoData: null,
                 infoQuery: {},
                 text: ''
             }
@@ -112,6 +98,7 @@
                     url: '/message/message_info',
                     params: datas
                 }).then(({ code, data }) => {
+                    console.log(data)
                     if(code == 200) {
                         this.infoData = data[0]
                         this.infoQuery = datas

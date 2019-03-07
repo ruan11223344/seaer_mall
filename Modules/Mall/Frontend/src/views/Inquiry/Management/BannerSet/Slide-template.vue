@@ -70,23 +70,6 @@
     export default {
         data() {
             return {
-                swiperOption: {
-                    spaceBetween: 30,
-                    centeredSlides: true,
-                    autoplay: {
-                        delay: 3000,
-                        disableOnInteraction: false,
-                        reverseDirection: true
-                    },
-                    pagination: {
-                        el: '.swiper-pagination',
-                        clickable: true
-                    },
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev'
-                    }
-                },
                 setting: {
                     autoplay: true,
                     autoplaySpeed: 2000,
@@ -100,10 +83,7 @@
                 show: false,
                 num: 1,
                 slideData: [
-                    {
-                        img_url: '',
-                        img_path: ''
-                    }
+                    
                 ],
                 slideLists: []
             }
@@ -180,6 +160,15 @@
         created() {
             this.onGetSlidesList().then(res => {
                 this.slideLists = res
+                // if(res.length) {
+                //     for(let i = 0; i < res.length; i++) {
+                //         this.slideData.push({ img_url: res[i].url, img_jump: res[i].url_path })
+                //     }
+
+                    
+                // }else {
+                //     this.slideData.push({ img_url: '', img_jump: '' })
+                // }
             })
         },
         mounted() {

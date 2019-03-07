@@ -129,7 +129,8 @@
     export default {
         data() {
             const validatorPassword = (rule, value, callback) => {
-                const Rex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/g
+                // const Rex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/g
+                const Rex = /^[a-zA-Z]\w{6,20}$/g
                 let bool = Rex.test(value)
 
                 if (value === '') {

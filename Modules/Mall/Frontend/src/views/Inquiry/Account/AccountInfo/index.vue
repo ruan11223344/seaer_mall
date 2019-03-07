@@ -19,11 +19,13 @@
                 </div>
                 <div class="accountInfo-block-article-list">
                     <label for="" class="accountInfo-block-article-list-label">Mobilephone:</label>
-                    <span class="accountInfo-block-article-list-text">+86 {{ formData.mobile_phone }}</span>
+                    <span class="accountInfo-block-article-list-text">
+                        {{ formData.country != 'Kenya' ? '+86' : '+254' + '  ' + formData.mobile_phone }}
+                    </span>
                 </div>
                 <div class="accountInfo-block-article-list">
                     <label for="" class="accountInfo-block-article-list-label">Country:</label>
-                    <span class="accountInfo-block-article-list-text">{{ formData.country_name }}</span>
+                    <span class="accountInfo-block-article-list-text">{{ formData.country }}</span>
                 </div>
                 <div class="accountInfo-block-article-list">
                     <label for="" class="accountInfo-block-article-list-label">Province/City:</label>

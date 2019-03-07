@@ -34,10 +34,6 @@ const upData = {
     // 2.刷新token
     async upRegToken(data) {
         return await new Promise(async (resolve, reject) => {
-            // 参数:"grant_type",值:"refresh_token"    //类型
-            // 参数:"client_id",值:2              //客户端id（固定值)
-            // 参数:"client_secret",值::"LfmILOffY40xTlFbJT2Q0V8gWyyu99cwlElNPKrK"  //客户端秘钥（固定值)
-            // 参数:"refresh_token",值:"ruan4215@gmail.com"   //刷新tonken值 从获取token接口中获取
             await request({
                 url: '/auth/get_access_token',
                 method: 'post',
@@ -450,7 +446,7 @@ const upData = {
         })
     },
     // 72.设置公司信息
-    async UpSetAccountInfo(data) {
+    async UpSetCompanyInfo(data) {
         return await new Promise((resolve, reject) => {
             request({
                 url: '/auth/set_company_info',

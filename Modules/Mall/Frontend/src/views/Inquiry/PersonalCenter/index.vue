@@ -3,7 +3,7 @@
         <main class="personal-main">
             <div class="personal-main-left">
                 <div class="personal-main-left-head" v-if="user">
-                    <img :src="user.user_extends.avatar_url" alt="">
+                    <img :src="user.user_extends.avatar_url || require('@/assets/img/login/avatar.png')" alt="">
                     <dl>
                         <dt class="personal-main-left-head-title">CHENG-NANCY</dt>
                         <dd>(Member ID：{{ user.user.name }})</dd>

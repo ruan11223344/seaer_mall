@@ -128,15 +128,15 @@
                         // 设置登录用户信息
                         this.onGetUser().then(res => {
                             this.setSessionStorage(res)
+                            this.$Spin.hide()
                             this.$router.push('/')
                         })
                     }else {
                         this.num++
                         this.bool = true
                         this.getCodes()
+                        this.$Spin.hide()
                     }
-
-                    this.$Spin.hide()
                 }).catch(err => {
                     this.$Spin.hide()
                     return false

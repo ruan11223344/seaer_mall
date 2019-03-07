@@ -44,8 +44,8 @@
             </div>
         </section>
         <!-- 询问信息 -->
-        <section class="read-main-info" v-html="infoData.content"></section>
-
+        <!-- <section class="read-main-info" v-html="infoData.content"></section> -->
+        <Input v-model="infoData.content" class="read-main-info" type="textarea" :rows="5" :autosize="{minRows: 5,maxRows: 5}" disabled />
         <section class="read-main-up" v-if="infoData.attachment_list">
             <div class="read-main-up-title">
                 <v-img width="13" height="13" :imgSrc="require('@/assets/img/fj.png')"></v-img>
@@ -320,12 +320,12 @@
         }
 
         &-info {
-            width: 943px;
+            width: 100%;
             height: 102px;
-            background-color: #ffffff;
-            padding: 28px 22px;
+            // background-color: #ffffff;
+            // padding: 28px 22px;
             font-size: 14px;
-            line-height: 2;
+            // line-height: 2;
             color: #666666;
         }
 

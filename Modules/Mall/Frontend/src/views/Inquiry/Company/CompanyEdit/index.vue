@@ -269,7 +269,7 @@
         },
         methods: {
             UpBusinessLicense: upData.UpBusinessLicense,
-            UpSetAccountInfo: upData.UpSetAccountInfo,
+            UpSetCompanyInfo: upData.UpSetCompanyInfo,
             onGetCompanyInfo: getData.onGetCompanyInfo,
             getProvinceAddress: getData.getProvinceAddress,
             getCityAddress: getData.getCityAddress,
@@ -360,7 +360,8 @@
                     company_profile: formData.business_info.company_profile
                 }
 
-                this.UpSetAccountInfo(obj).then(res => {
+                this.UpSetCompanyInfo(obj).then(res => {
+                    this.$router.push('/inquiryList/company/companyinfo')
                 })
             }
         },
