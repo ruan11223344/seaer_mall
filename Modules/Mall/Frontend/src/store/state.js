@@ -1,7 +1,5 @@
 // Vuex全局变量
 const state = {
-    // 个人信息
-    User_Info: '',
     // 注册国家 false中国 true肯尼亚 默认true
     Countries: true,
     // 注册邮箱

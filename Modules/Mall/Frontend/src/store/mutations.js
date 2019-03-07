@@ -1,9 +1,5 @@
 // 更改vuex状态的方法
 const mutations = {
-    // 个人信息
-    SET_USER_INFO(state, data) {
-        state.User_Info = data
-    },
     // 地区
     SET_COUNTRIES(state) {
         state.Countries = !state.Countries

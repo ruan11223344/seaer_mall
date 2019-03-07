@@ -72,7 +72,7 @@
                                         <template>
                                             <div class="demo-upload-list" v-for="(item, index) in uploadList" :key="index" :title="'item.status'">
                                                 <template v-if="item.status === 'finished'">
-                                                    <img :src="item.path">
+                                                    <img :src="item.path" />
                                                     <div class="demo-upload-list-cover">
                                                         <!-- 传入图像name -->
                                                         <Icon type="ios-eye-outline" @click.native="handleView(item.path)"></Icon>
@@ -273,14 +273,6 @@
                     <Col span="15" class-name="updateInfo-main">
                         <Row>
                             <Col span="24" style="height: 367px;marginBottom: 15px;">
-                                    <!-- <quill-editor ref="myTextEditor"
-                                        class="updateInfo-main-editor"
-                                        theme="Snow"
-                                        v-model="content"
-                                        :options="editorOption"
-                                        @blur="onEditorBlur($event)"
-                                        @focus="onEditorFocus($event)"
-                                        @ready="onEditorReady($event)"> -->
                                     <quill-editor ref="myTextEditor"
                                         class="updateInfo-main-editor"
                                         theme="Snow"
@@ -801,7 +793,7 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                     for(let obj in imgPaths[index]) {
                         const Obj = {}
                         Obj[obj] = imgPaths[index][obj]
-                        this.uploadList.push({ path: imgUrls[index][obj],  status: 'finished', file: Obj})
+                        this.uploadList.push({ path: imgUrls[index],  status: 'finished', file: Obj})
                     }
                 }
 

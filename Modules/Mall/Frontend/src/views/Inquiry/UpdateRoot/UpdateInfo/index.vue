@@ -482,13 +482,13 @@
                         Ladder: [
                             {
                                 min_order: 0,
-                                unit: null,
+                                unit: 'Pieces',
                                 order_price: 0,
                             }
                         ],
                         Base: {
                             min_order: 0,
-                            unit: null,
+                            unit: 'Pieces',
                             min_order_price: 0,
                             max_order_price: 0,
                         }

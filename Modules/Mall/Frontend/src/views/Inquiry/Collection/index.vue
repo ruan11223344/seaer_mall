@@ -2,12 +2,6 @@
     <div class="Send-main">
         <v-title title="Favorites"></v-title>
 
-        <!-- <section class="Send-main-screening">
-            <div class="Send-main-screening-text Send-main-screening-text-active">Products <span>10</span></div>
-            <div class="Send-main-screening-hr"></div>
-            <div class="Send-main-screening-text">Suppliers <span>10</span></div>
-        </section> -->
-
         <v-table-switch title="Products" :num="num" :tableSwitch="['Suppliers']" style="marginTop: 20px;"  @on-click="onTableSwitch"></v-table-switch>
 
         <div class="Send-main-btn">
@@ -168,36 +162,6 @@
         .width(945px, 772px);
         .bg-color(white);
         padding: 21px 30px;
-
-        // &-screening {
-        //     width: 886px;
-        //     height: 47px;
-        //     background-color: #f5f5f9;
-        //     margin-top: 19px;
-        //     .flex(flex-start, center);
-        //     padding-left: 27px;
-
-        //     &-text {
-        //         .lineHeight(47px);
-        //         font-size: 14px;
-        //         color: #666666;
-
-        //         & > span {
-        //             color: #d72b2b;
-        //         }
-        //         cursor: pointer;
-        //     }
-        //     &-text-active {
-        //         border-bottom: 2px solid #f0883a;
-        //     }
-
-        //     &-hr {
-        //         width: 1px;
-        //         height: 11px;
-        //         background-color: #cccccc;
-        //         margin: 0px 18px;
-        //     }
-        // }
 
         &-btn {
             .flex();

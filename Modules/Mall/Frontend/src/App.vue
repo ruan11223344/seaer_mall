@@ -31,12 +31,12 @@ export default {
                 this.onGetSysConfig().then(res => this.SET_OSS_URL_CONFIG(res))
             }
 
-            if(this.user == "") {
-                this.onGetUser().then(res =>{
-                    this.removeSessionStorage()
-                    this.setSessionStorage(res)
-                })
-            }
+            // if(this.user == "") {
+            //     this.onGetUser().then(res =>{
+            //         this.removeSessionStorage()
+            //         this.setSessionStorage(res)
+            //     })
+            // }
         },
     },
     mounted() {

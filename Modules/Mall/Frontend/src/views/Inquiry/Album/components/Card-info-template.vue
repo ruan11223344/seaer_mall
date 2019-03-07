@@ -87,7 +87,6 @@
     import MoveOtherAlbums from '../MoveOtherAlbums/index.vue'
     // 删除功能
     import DeletAlbum from "../DeleteAlbum/index.vue"
-    import { mapState  } from 'vuex'
     import getData from '@/utils/getData.js'
 
     export default {
@@ -112,9 +111,6 @@
                     }
                 }
             }
-        },
-        computed: {
-            ...mapState(['Oss_Url_Config'])
         },
         props: {
             item: {
