@@ -57,6 +57,16 @@ class MessagesController extends Controller
         return Auth::user()->usersExtends->allow_inquiry;
     }
 
+    public static function getAttachmentListUrl($attachment_data){
+        $res_data = [];
+        if(count($attachment_data) > 0){
+            foreach ($attachment_data as $v){
+                $res_data[] = UtilsController::getPathFileUrl($v);
+            }
+        }
+        return $res_data;
+    }
+
 
     public function sendMailNotification($to_user_id,$message,$is_reply = false){
         $to_user_ex = UsersExtends::where('user_id',$to_user_id)->first();
@@ -77,9 +87,7 @@ class MessagesController extends Controller
                     $participant = InquiryParticipants::where('thread_id',$value->thread->id)->where('extends->message_id',$value->id)->first();
                     $to_user_id = $participant->user_id;
                     $to_user_extends = UsersExtends::where('user_id',$to_user_id)->first();
-//                    $purchase_info = json_decode($value->thread->extends);
                     $tmp_data['subject'] = $value->thread->subject;
-//                    $tmp_data['content'] = $value->body;
                     $tmp_data['message_id'] = $value->id;
                     $tmp_data['thread_id'] = $value->thread_id;
                     $tmp_data['send_at'] = $value->created_at;
@@ -89,12 +97,8 @@ class MessagesController extends Controller
                     $tmp_data['send_by_name'] = $user_extends->contact_full_name;
                     $tmp_data['send_to_name'] = $to_user_extends->contact_full_name;
                     $tmp_data['send_country'] = $user_extends->country_id == self::KE_COUNTRY_ID ? 'ke' : 'cn';
-//                    $tmp_data['extra_request'] = json_decode($value->thread->extends)->extra_request;
-//                    $tmp_data['purchase_quantity'] =  $purchase_info->purchase_quantity.' '.$purchase_info->purchase_unit;
-//                    $tmp_data['attachment_list'] = $value->extends['attachment_list'];
                     $tmp_data['other_party_is_read'] = $participant->last_read == null ? false : true;
                     $tmp_data['other_party_is_reply'] = $participant->extends['is_reply'];
-//                    $tmp_data['quote_message'] = $this->messageListInfo(InquiryMessages::where('id',$value->extends['quote_message_id'])->where('extends->soft_deleted_at','=',false)->where('extends->true_deleted_at','=',false)->get());
                     $tmp_data['is_flag'] = $value->extends['is_flag'];
                     $tmp_data['type'] = 'outbox';
                     array_push($res_data,$tmp_data);
@@ -112,9 +116,7 @@ class MessagesController extends Controller
                 $tmp_data = [];
                 $message = InquiryMessages::find($value->extends['message_id']);
                 $from_user_extends = UsersExtends::where('user_id',$message->user_id)->first();
-                $purchase_info = json_decode($value->thread->extends);
                 $tmp_data['subject'] = $value->thread->subject;
-//                $tmp_data['content'] =$message->body;
                 $tmp_data['message_id'] = $value->extends['message_id'];
                 $tmp_data['participant_id'] = $value->id;
                 $tmp_data['thread_id'] = $value->thread->id;
@@ -126,9 +128,6 @@ class MessagesController extends Controller
                 $tmp_data['send_by_af_id'] = $from_user_extends->af_id;
                 $tmp_data['send_by_name'] = $from_user_extends->contact_full_name;
                 $tmp_data['send_country'] = $from_user_extends->country_id == self::KE_COUNTRY_ID ? 'ke' : 'cn';
-//                $tmp_data['extra_request'] = json_decode($value->thread->extends)->extra_request;
-//                $tmp_data['purchase_quantity'] =  $purchase_info->purchase_quantity.' '.$purchase_info->purchase_unit;
-//                $tmp_data['attachment_list'] = $message->extends['attachment_list'];
                 $tmp_data['is_flag'] = $value->extends['is_flag'];
                 $tmp_data['type'] = 'inbox';
                 array_push($res_data,$tmp_data);
@@ -152,8 +151,6 @@ class MessagesController extends Controller
                 $tmp_data['participant_id'] = $value->id;
                 $tmp_data['thread_id'] = $value->thread->id;
                 $tmp_data['send_at'] = $message->created_at;
-//                $tmp_data['is_read'] = $value->last_read == null ? false : true;
-//                $tmp_data['is_reply'] = $value->extends['is_reply'];
                 $tmp_data['send_from_ip'] =$message->extends['from_ip'];
                 $tmp_data['send_by_af_id'] = $from_user_extends->af_id;
                 $tmp_data['send_by_name'] = $from_user_extends->contact_full_name;
@@ -161,7 +158,7 @@ class MessagesController extends Controller
                 $tmp_data['extra_request'] = self::extraRequestToStr(json_decode($value->thread->extends)->extra_request);
                 $tmp_data['purchase_quantity'] =  $purchase_info->purchase_quantity.' '.$purchase_info->purchase_unit;
                 $tmp_data['attachment_list'] = $message->extends['attachment_list'];
-//                $tmp_data['is_flag'] = $value->extends['is_flag'];
+                $tmp_data['attachment_list_url'] = self::getAttachmentListUrl($message->extends['attachment_list']);
                 $tmp_data['type'] = 'inbox';
                 array_push($res_data,$tmp_data);
             }
@@ -196,8 +193,7 @@ class MessagesController extends Controller
                     $tmp_data['purchase_quantity'] =  $purchase_info->purchase_quantity.' '.$purchase_info->purchase_unit;
                     $attachment_list = $value->extends['attachment_list'];
                     $tmp_data['attachment_list'] = count($attachment_list) == 0 ? null : $attachment_list;
-//                    $tmp_data['other_party_is_read'] = $participant->last_read == null ? false : true;
-//                    $tmp_data['other_party_is_reply'] = $participant->extends['is_reply'];
+                    $tmp_data['attachment_list_url'] = self::getAttachmentListUrl($attachment_list);
                     $quote_message = $this->messageInfo(InquiryMessages::where('id',$value->extends['quote_message_id'])->where('extends->soft_deleted_at','=',false)->where('extends->true_deleted_at','=',false)->get());
                     $tmp_data['quote_message'] = count($quote_message) == 0 ? null : $quote_message;
 //                    $tmp_data['is_flag'] = $value->extends['is_flag'];
@@ -258,7 +254,6 @@ class MessagesController extends Controller
             $re_body= $re_message->body;
             $re_participant = InquiryParticipants::where('thread_id',$re_thread->id)->first();
             $re_user_id = $re_participant->user_id;
-
             if($re_body == $body && $re_user_id == $to_user_id){
                 return $this->echoErrorJson('Failure!The same message cannot occur to the same user!',[]);
             }
