@@ -21,7 +21,7 @@ url:http://域名/api/admin/utils/get_captcha
 2.获取access_token
 ```
 url:http://域名/api/admin/auth/get_access_token
-请求方法:get
+请求方法:post
 json参数:
 {
 "grant_type":"password",   //必填  固定值
