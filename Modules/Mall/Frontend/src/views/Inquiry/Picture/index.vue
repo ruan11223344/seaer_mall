@@ -37,6 +37,7 @@
     import upData from "@/utils/upData.js"
     import getData from "@/utils/getData.js"
     import { mapMutations, mapState  } from 'vuex'
+    import Cookies from "@/utils/auth"
 
     export default {
         data() {
@@ -47,7 +48,9 @@
             }
         },
         methods: {
-            ...mapMutations([ 'SET_OSS_URL_CONFIG', 'SET_USER_INFO' ]),
+            ...mapMutations([ 'SET_OSS_URL_CONFIG' ]),
+            removeSessionStorage: Cookies.removeSessionStorage,
+            setSessionStorage: Cookies.setSessionStorage,
             onGetUser: getData.onGetUser,
             onGetSysConfig: getData.onGetSysConfig,
             getObjectURL: getData.getObjectURL,
@@ -72,7 +75,10 @@
                 this.UpAvatarBase64(base64).then(res => {
                     this.path = res.avatar_img_url
                     this.onGetSysConfig().then(res => this.SET_OSS_URL_CONFIG(res))
-                    this.onGetUser().then(res => this.SET_USER_INFO(res))
+                    this.onGetUser().then(res => {
+                        this.removeSessionStorage()
+                        this.setSessionStorage(res)
+                    })
                 })
             }
         },

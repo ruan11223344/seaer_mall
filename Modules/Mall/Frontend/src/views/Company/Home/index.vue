@@ -40,7 +40,7 @@
             }
         },
         computed: {
-            ...mapState([ 'User_Info', 'Company_Detail' ])
+            ...mapState([ 'Company_Detail' ])
         },
         methods: {
             ...mapMutations([ 'SET_COMPANY_DETAIL' ]),

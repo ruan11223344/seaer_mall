@@ -2,11 +2,11 @@
     <div class="personal">
         <main class="personal-main">
             <div class="personal-main-left">
-                <div class="personal-main-left-head" v-if="User_Info">
-                    <img :src="User_Info.user_extends.avatar_url" alt="">
+                <div class="personal-main-left-head" v-if="user">
+                    <img :src="user.user_extends.avatar_url" alt="">
                     <dl>
                         <dt class="personal-main-left-head-title">CHENG-NANCY</dt>
-                        <dd>(Member ID：{{ User_Info.user.name }})</dd>
+                        <dd>(Member ID：{{ user.user.name }})</dd>
                         <dt class="personal-main-left-head-free">Free Member</dt>
                         <dd>Membership</dd>
                     </dl>
@@ -110,6 +110,7 @@
     import upData from "@/utils/upData.js"
     import { mapState } from "vuex"
     import dayjs from "dayjs"
+    import Cookies from "@/utils/auth"
 
     export default {
         data() {
@@ -131,10 +132,11 @@
             }
         },
         computed: {
-            ...mapState([ 'User_Info', 'Oss_Url_Config' ]),
+            ...mapState([ 'Oss_Url_Config' ]),
         },
         methods: {
             dayjs: dayjs,
+            getSessionStorage: Cookies.getSessionStorage,
             onGetOutboxMessag: getData.onGetOutboxMessag,
             onGetProductNumInfo: getData.onGetProductNumInfo,
             onCurrency: upData.onCurrency,
@@ -156,6 +158,9 @@
                     this.onTime(date)
                 }, 1000)
             }
+        },
+        created() {
+            this.user = this.getSessionStorage()
         },
         mounted() {
             this.onGetOutboxMessag()

@@ -5,19 +5,20 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
+    import Cookies from "@/utils/auth"
 
     export default {
-        computed: {
-            ...mapState([ 'User_Info' ])
+        methods: {
+            getSessionStorage: Cookies.getSessionStorage
         },
         beforeRouteEnter : (to, from, next) => {
             next(vm => {
                 if(to.path == "/inquiryList/uploadroot/tips") {
                     return true
                 }else {
-                    const bool = vm.User_Info.publish_product.status
-                    if(bool) {
+                    const user = vm.getSessionStorage()
+                    const bool = user.publish_product.status
+                    if(bool == true) {
                         return true
                     }else {
                         return vm.$router.push('/inquiryList/uploadroot/tips')

@@ -27,7 +27,7 @@
             }
         },
         computed: {
-            ...mapState([ 'User_Info', 'Company_Detail' ])
+            ...mapState([ 'Company_Detail' ])
         },
         mounted() {
         },

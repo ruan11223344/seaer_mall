@@ -10,20 +10,32 @@ import { mapMutations, mapState  } from 'vuex'
 import auth from "@/utils/auth"
 
 export default {
+    data() {
+        return {
+            user: null
+        }
+    },
     computed: {
-        ...mapState(['Oss_Url_Config', 'User_Info'])
+        ...mapState([ 'Oss_Url_Config' ])
     },
     methods: {
-        ...mapMutations([ 'SET_OSS_URL_CONFIG', 'SET_USER_INFO' ]),
+        ...mapMutations([ 'SET_OSS_URL_CONFIG' ]),
         onGetUser: getData.onGetUser,
         onGetSysConfig: getData.onGetSysConfig,
+        getSessionStorage: auth.getSessionStorage,
+        setSessionStorage: auth.setSessionStorage,
+        removeSessionStorage: auth.removeSessionStorage,
+
         onGetConfig() {
             if(this.Oss_Url_Config == "") {
                 this.onGetSysConfig().then(res => this.SET_OSS_URL_CONFIG(res))
             }
 
-            if(this.User_Info == "") {
-                this.onGetUser().then(res => this.SET_USER_INFO(res))
+            if(this.user == "") {
+                this.onGetUser().then(res =>{
+                    this.removeSessionStorage()
+                    this.setSessionStorage(res)
+                })
             }
         },
     },

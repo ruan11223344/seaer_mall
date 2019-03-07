@@ -6,7 +6,7 @@
 
         <main class="container consulting-main">
             <div class="consulting-main-body">
-                <div class="consulting-main-body-title" v-if="User_Info">From "{{ User_Info.user.email }}" <span>Edit</span></div>
+                <div class="consulting-main-body-title" v-if="user">From "{{ user.user.email }}" <span>Edit</span></div>
                 <!-- 目标 -->
                 <div class="consulting-main-body-content">
                     <div class="consulting-main-body-content-label">To</div>
@@ -106,10 +106,11 @@
     import Img from '@/components/Img'
     import { mapState, mapMutations } from "vuex"
     import Breadcrumb  from '@/components/Breadcrumb'
+    import Cookies from "@/utils/auth"
 
     export default {
         computed: {
-            ...mapState([ 'User_Info', 'Company_Detail' ])
+            ...mapState([ 'Company_Detail' ])
         },
         data() {
             return {
@@ -163,10 +164,12 @@
                     subject: 'Inquiry about”Beidou GPS dual mode  vehicle navigation ”',
                     content: '',
                     social: []
-                }
+                },
+                user: null
             }
         },
         methods: {
+            getSessionStorage: Cookies.getSessionStorage,
             onRouter() {
                 this.$router.push("/goods/success")
             },
@@ -175,17 +178,11 @@
                 type = type.toLowerCase()
 
                 if(files.size > 1048576 * 3 || !(['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'rar', 'and', 'zip'].includes(type))) { // 图片大于3M
-                    // this.$Notice.error({
-                    //     desc: '- Supports jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt, rar and zip \n- Max upload 3 files;Max. total size: 3MB'
-                    // })
                     this.$Message.warning('- Supports jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt, rar and zip \n- Max upload 3 files;Max. total size: 3MB')
                 }else {
                     if(this.fromItem.files.length < 3) {
                         this.fromItem.files.push(files)
                     }else {
-                        // this.$Notice.error({
-                        //     desc: '- Max upload 3 files;Max. total size: 3MB'
-                        // })
                         this.$Message.warning('- Max upload 3 files;Max. total size: 3MB')
                     }
                 }
@@ -194,29 +191,15 @@
             onDelete(index) {
                 this.$delete(this.fromItem.files, index)
             },
-            // onUnit(value) {
-            //     if(value == 'Other') {
-            //         this.$set(this.fromItem, 'unit', '')
-            //         this.is_select = true
-            //     }else {
-            //         this.$set(this.fromItem, 'unit', value)
-            //         this.is_select = false
-            //     }
-            // },
             // 发送
             onSend() {
                 if(this.fromItem.quantity.length <= 0) {
-                    // this.$Notice.error({
-                    //     desc: ''
-                    // });
+                   
                     this.$Message.warning('Please fill out the purchase quantity')
                     return false
                 }
 
                 if(this.fromItem.content.length <= 0) {
-                    // this.$Notice.error({
-                    //     desc: 'Please fill out the content'
-                    // });
                     this.$Message.warning('Please fill out the content')
                     return false
                 }
@@ -254,6 +237,9 @@
 
                 return true
             }
+        },
+        created() {
+            this.user = this.getSessionStorage()
         },
         components: {
             "v-img": Img,

@@ -143,6 +143,7 @@
     // 切换
     import TableSwitch from "../../components/TableSwitch/index.vue"
     import { mapMutations } from "vuex"
+    import Cookies from "@/utils/auth"
 
     export default {
         data() {
@@ -349,6 +350,16 @@
                 }else {
                     this.$Message.error('Please choose the category')
                 }
+            },
+            getSessionStorage: Cookies.getSessionStorage
+        },
+        created() {
+            const user = this.getSessionStorage()
+            const bool = user.publish_product.status
+            if(bool == true) {
+                return true
+            }else {
+                return this.$router.push('/inquiryList/uploadroot/tips')
             }
         },
         mounted() {

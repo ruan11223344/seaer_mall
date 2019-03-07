@@ -42,16 +42,23 @@
     // import Search from "@/components/Search"
     import Nav from "./components/Nav/index"
     import Company from "../Goods/Details/components/head-template.vue"
+    import Cookies from "@/utils/auth"
 
     export default {
+        data() {
+            return {
+                user: null
+            }
+        },
         computed: {
-            ...mapState([ 'User_Info', 'Company_Detail' ])
+            ...mapState([ 'Company_Detail' ])
         },
         methods: {
             ...mapMutations([ 'SET_COMPANY_DETAIL' ]),
             onGetCompanyDetail: getData.onGetCompanyDetail,
+            getSessionStorage: Cookies.getSessionStorage,
             getCompany() {
-                const user_id = this.User_Info ? this.User_Info.user.id : null
+                const user_id = this.user ? this.user.user.id : null
                 this.onGetCompanyDetail(this.$route.query.company_id, user_id)
                     .then(res => {
                         this.SET_COMPANY_DETAIL(res)
@@ -59,6 +66,7 @@
             }
         },
         created() {
+            this.user = this.getSessionStorage()
             if(!this.Company_Detail) {
                 this.getCompany()
             }

@@ -1,8 +1,8 @@
 <template>
     <div class="container">
         <nav class="nav">
-            <router-link class="nav-list" v-if="!User_Info" tag="div" to="/login">Sign In</router-link>
-            <router-link class="nav-list" tag="div" v-else to="/inquiryList/personalpenter">{{ User_Info.user.name }}</router-link>
+            <router-link class="nav-list" v-if="!user" tag="div" to="/login">Sign In</router-link>
+            <router-link class="nav-list" tag="div" v-else to="/inquiryList/personalpenter">{{ user.user.name }}</router-link>
             <router-link class="nav-list" tag="div" to="/registered/one">Join Free</router-link>
             <div class="nav-list Customer">
                 <!-- 下拉 -->
@@ -27,7 +27,7 @@
     export default {
         data() {
             return {
-                User_Info: null
+                user: null
             }
         },
         methods: {
@@ -37,7 +37,7 @@
         computed: {
         },
         created() {
-            this.User_Info = this.getSessionStorage()
+            this.user = this.getSessionStorage()
         },
         mounted() {
             

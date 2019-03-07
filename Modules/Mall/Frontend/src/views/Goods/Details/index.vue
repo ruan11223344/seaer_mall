@@ -66,6 +66,7 @@
     import upData from "@/utils/upData"
     import Nav from '../../Company/components/Nav'
     import { mapState, mapMutations } from "vuex"
+    import Cookies from "@/utils/auth"
 
     export default {
         data() {
@@ -74,10 +75,11 @@
                 // 收藏
                 isCollection: false,
                 ProductData: null,
+                user: null
             }
         }, 
         computed: {
-            ...mapState([ 'User_Info', 'Company_Detail' ])
+            ...mapState([ 'Company_Detail' ])
         },
         methods: {
             ...mapMutations([ 'SET_COMPANY_DETAIL' ]),
@@ -85,6 +87,7 @@
             onSetFavorites: upData.onSetFavorites,
             onGetCompanyDetail: getData.onGetCompanyDetail,
             onDelFavorites: upData.onDelFavorites,
+            getSessionStorage: Cookies.getSessionStorage,
             onCollection(id) { // 收藏商品
                 if(this.ProductData.is_favorites_product) {
                     // 删除
@@ -113,7 +116,7 @@
                 this.activeIndex = index
             },
             getCompany() {
-                const user_id = this.User_Info ? this.User_Info.user.id : null
+                const user_id = this.user ? this.user.user.id : null
                 this.onGetCompanyDetail(this.$route.query.company_id, user_id)
                     .then(res => {
                         this.SET_COMPANY_DETAIL(res)
@@ -127,13 +130,14 @@
                 this.onGetProductDetails()
             },
             onGetProductDetails() {
-                const user_id = this.User_Info ? this.User_Info.user.id : null
+                const user_id = this.user ? this.user.user.id : null
 
                 this.onGetProductInfo(this.$route.query.product_id, user_id)
                         .then(res => this.ProductData = res)
             }
         },
         mounted() {
+            this.user = this.getSessionStorage()
             this.onGetData()
         },
         components: {

@@ -33,5 +33,10 @@ export default {
     getSessionStorage() {
         const data = JSON.parse(sessionStorage.getItem(user))
         return data
-    }
+    },
+    removeSessionStorage() {
+        // 从 sessionStorage 删除保存的数据
+        return sessionStorage.removeItem(user);
+    },
+    
 }

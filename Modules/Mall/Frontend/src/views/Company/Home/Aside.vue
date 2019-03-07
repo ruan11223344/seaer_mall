@@ -10,7 +10,7 @@
                 <img :src="Company_Detail.shop_info.avatar_url" alt="">
             </div>
             <!-- 名称 -->
-            <div class="company-home-main-fixed-name">Mr. Nancy</div>
+            <div class="company-home-main-fixed-name">{{ Company_Detail.basic_info.contact_full_name }}</div>
             <div class="company-home-main-fixed-content">
                 <div>Company Name:</div>
                 <p>
@@ -32,7 +32,7 @@
         </section>
         <!-- 模态框 -->
         <section class="company-home-main-shade" @click="isShade=false" v-show="isShade"></section>
-        <template v-if="User_Info">
+        <template v-if="user">
             <div class="company-home-main-dialog" v-show="isShade">
                 <!-- 关闭 -->
                 <div class="company-home-main-dialog-close" @click="isShade=false">
@@ -40,11 +40,11 @@
                 </div>
                 <h1 class="company-home-main-dialog-title">Send your message to this supplier</h1>
                 <!-- <div class="company-home-main-dialog-email">From: 522151521@qq.com</div> -->
-                <div class="company-home-main-dialog-email">From: {{ User_Info.user.email }}</div>
+                <div class="company-home-main-dialog-email">From: {{ user.user.email }}</div>
                 <div class="company-home-main-dialog-name">
                     To:
                     <!-- <v-img width="26" height="18" imgSrc=""></v-img> -->
-                    {{ 'Mr.mary' }}
+                    {{ Company_Detail.basic_info.contact_full_name }}
                 </div>
                 <div class="company-home-main-dialog-content">
                     <textarea v-model="text" @focus="onFocus" @blur="onBlur"></textarea>
@@ -61,24 +61,30 @@
     import Aside from '../components/Aside/index.vue'
     import { mapState, mapMutations } from "vuex"
     import CompanyInfo from '@/components/CompanyInfo/index.vue'
+    import Cookies from '@/utils/auth'
     
     export default {
         computed: {
-            ...mapState([ 'User_Info', 'Company_Detail' ])
+            ...mapState([ 'Company_Detail' ])
         },
         data() {
             return {
                 text: 'We suggest you detail your preduct requirements and company information here(Enter between 20-4000characters)',
                 isShade: false,
+                user: null
             }
         },
         methods: {
+            getSessionStorage: Cookies.getSessionStorage,
             onFocus() {
                 this.text == 'We suggest you detail your preduct requirements and company information here(Enter between 20-4000characters)' ? this.text = '' : ''
             },
             onBlur() {
                 this.text.length > 0 ? '' : this.text = 'We suggest you detail your preduct requirements and company information here(Enter between 20-4000characters)'
             },
+        },
+        created() {
+            this.user = this.getSessionStorage()
         },
         components: {
             "v-img": Img,
