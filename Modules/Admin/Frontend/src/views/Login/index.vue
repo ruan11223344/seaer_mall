@@ -33,6 +33,8 @@
 </template>
 
 <script>
+    // import getRequest from "@/utils/getRequest";
+
     export default {
         data() {
             var validateUser = (rule, value, callback) => {
@@ -83,7 +85,16 @@
                 // });
                 this.$router.push('/')
             }
-        }
+        },
+        mounted() {
+            // getRequest.getCode().then(res => {
+            // })
+            // this.$getRequest.getCode().then(res => {
+            //     console.log(res)
+            // }).catch(err => {
+            //     console.log(err)
+            // })
+        },
     }
 </script>
 
