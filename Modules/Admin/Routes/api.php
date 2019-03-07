@@ -22,6 +22,7 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
             Route::get('search_user_list', 'UserManagerController@searchUserList')->middleware('passport-custom-provider')->name('admin.user.search');
             Route::post('set_inquiry', 'UserManagerController@setInquiry')->middleware('passport-custom-provider')->name('admin.user.setInquiry');
             Route::get('get_merchant_list', 'UserManagerController@getMerchantsList')->middleware('passport-custom-provider')->name('admin.user.merchants.list');
+            Route::get('search_merchant_list', 'UserManagerController@searchMerchantsList')->middleware('passport-custom-provider')->name('admin.user.merchants.search');
         });
 
         Route::prefix('utils')->group(function (){

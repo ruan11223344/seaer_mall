@@ -212,5 +212,85 @@ json参数:
 }
 ```
 
+6.获取商家列表
+```
+url:http://域名/api/admin/user_manager/get_merchant_list
+请求方法:get
+json参数:
+{
+	"size":20,  //获取数量大小
+	"page":1,   //分页
+}
 
+返回:
+
+{
+    "code": 200,
+    "message": "成功!",
+    "data": {
+        "data": [
+            {
+                "num": 1,
+                "user_id": 1,
+                "open_shop_time": "2019-03-05",
+                "company_name": "sb company",
+                "contact_full_name": "王尼玛",
+                "sex": "Mrs",
+                "phone_num": "+8613672009476",
+                "email": "ruan4215@gmail.com",
+                "address": "湖xx北省黄石市西塞山去王子大战飞机温度计的时间23后 手动",
+                "product_num": 1,
+                "last_login": "2019-03-08",
+                "allow_inquiry": true
+            },
+            {
+                "num": 2,
+                "user_id": 7,
+                "open_shop_time": "",
+                "company_name": "test company",
+                "contact_full_name": "wang ni ma",
+                "sex": "Mr",
+                "phone_num": null,
+                "email": "13672009476@qq.com",
+                "address": null,
+                "product_num": 0,
+                "last_login": "",
+                "allow_inquiry": true
+            },
+            {
+                "num": 3,
+                "user_id": 10,
+                "open_shop_time": "",
+                "company_name": "Ningbo Associated Hydraulic Components Co.,LTD.",
+                "contact_full_name": "wang ni massssss",
+                "sex": "Mr",
+                "phone_num": null,
+                "email": "test1@qq.com",
+                "address": null,
+                "product_num": 0,
+                "last_login": "",
+                "allow_inquiry": true
+            },
+            {
+                "num": 4,
+                "user_id": 13,
+                "open_shop_time": "",
+                "company_name": "wangzi  compangys",
+                "contact_full_name": "王飞飞",
+                "sex": "Miss",
+                "phone_num": "+8613672009476",
+                "email": "421566927@qq.com",
+                "address": "湖北省xx黄石市西塞山去王子大战飞机温度计的时间23后 手动",
+                "product_num": 15,
+                "last_login": "",
+                "allow_inquiry": false
+            }
+        ],
+        "size": 20,
+        "cur_page": 1,
+        "total_page": 1,
+        "total_size": 4
+    }
+}
+```
 

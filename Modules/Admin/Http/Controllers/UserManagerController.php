@@ -9,9 +9,13 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use League\OAuth2\Server\AuthorizationServer;
+use Modules\Admin\Entities\Admin;
+use Modules\Admin\Entities\AdminLog;
 use Modules\Admin\Entities\UserLog;
 use Modules\Admin\Service\UtilsService;
+use Modules\Mall\Entities\Products;
 use Modules\Mall\Entities\User;
+use Modules\Mall\Http\Controllers\Shop\ProductsController;
 use Psr\Http\Message\ServerRequestInterface;
 use App\Utils\EchoJson;
 use Zend\Diactoros\Response as Psr7Response;
@@ -24,26 +28,34 @@ class UserManagerController extends Controller
     use EchoJson;
 
     public static function getUserData($user_orm,$page,$size){
+        $user_status_list = [
+            ProductsController::PUBLISH_PRODUCT_STATUS_NOT_AUDIT,
+            ProductsController::PUBLISH_PRODUCT_STATUS_CHECKING,
+            ProductsController::PUBLISH_PRODUCT_STATUS_NOT_APPROVED,
+            ProductsController::PUBLISH_PRODUCT_STATUS_BANNED,
+        ];
+
         $user_data_list = [];
-        $user_orm->map(function ($v,$k)use(&$user_data_list,$page,$size){
+        $user_orm_clone = clone $user_orm;
+        $count = $user_orm_clone->whereIn('users_extends.publish_product_status',$user_status_list)->count();
+        $user_orm->whereIn('users_extends.publish_product_status',$user_status_list)->offset(($page-1)*$size)->limit($size)->get()->map(function ($v,$k)use(&$user_data_list,$page,$size,$user_status_list){
             $tmp = [];
-            $userEx = $v->usersExtends;
-            $tmp['num'] = $k+1+(($page-1)*$size);//序号
-            $tmp['user_id'] = $v->id;//序号
-            $tmp['register_time'] = Carbon::parse($v->created_at)->format('Y-m-d');//序号
-            $tmp['af_id'] = $userEx->af_id;//序号
-            $tmp['member_id'] = $v->name;//序号
-            $tmp['email'] = $v->email;//序号
-            $tmp['contact_full_name'] = $userEx->contact_full_name;//序号
-            $tmp['sex'] = $userEx->sex;//序号
-            $tmp['phone_num'] = $userEx->mobile_phone;//序号
-            $tmp['address'] = $userEx->detailed_address;//序号
-            $user_log = UserLog::where('user_id',$v->id)->orderBy('created_at','desc');
-            $tmp['last_login'] = $user_log->exists() ? Carbon::parse($user_log->get()->first()->created_at)->format('Y-m-d') : '';//序号
-            $tmp['allow_inquiry'] = $userEx->allow_inquiry;//序号
-            array_push($user_data_list,$tmp);
+
+                $tmp['num'] = $k+1+(($page-1)*$size);//序号
+                $tmp['user_id'] = $v->id;//序号
+                $tmp['register_time'] = Carbon::parse($v->created_at)->format('Y-m-d');//序号
+                $tmp['af_id'] = $v->af_id;//序号
+                $tmp['member_id'] = $v->name;//序号
+                $tmp['email'] = $v->email;//序号
+                $tmp['contact_full_name'] = $v->contact_full_name;//序号
+                $tmp['sex'] = $v->sex;//序号
+                $tmp['phone_num'] = $v->mobile_phone;//序号
+                $tmp['address'] = $v->detailed_address;//序号
+                $user_log = UserLog::where('user_id',$v->id)->orderBy('created_at','desc');
+                $tmp['last_login'] = $user_log->exists() ? Carbon::parse($user_log->get()->first()->created_at)->format('Y-m-d') : '';//序号
+                $tmp['allow_inquiry'] = $v->allow_inquiry == 1 ? true : false;//序号
+                array_push($user_data_list,$tmp);
         });
-        $count = count($user_data_list);
         $res_data = [];
         $res_data['data'] = $user_data_list;
         $res_data['size'] = $size;
@@ -70,7 +82,9 @@ class UserManagerController extends Controller
 
 
         UtilsService::CreatePermissions('访问用户列表','访问afriby非商家的用户列表');
-        $res_data = self::getUserData(User::offset(($page-1)*$size)->limit($size)->get(),$page,$size);
+        $res_data = self::getUserData(User::join('users_extends', function ($join) {
+            $join->on('users.id', '=','users_extends.user_id');
+        }),$page,$size);
 
         return $this->echoSuccessJson('成功!',$res_data);
     }
@@ -92,7 +106,9 @@ class UserManagerController extends Controller
         $size = $request->input('size',20);
         $keywords = $request->input('keywords','');
         UtilsService::CreatePermissions('搜索用户列表','搜索afriby非商家的用户列表');
-        $res_data = self::getUserData(User::where('name', 'like','%'.$keywords.'%')->orWhere('email','like','%'.$keywords.'%')->offset(($page-1)*$size)->limit($size)->get(),$page,$size);
+        $res_data = self::getUserData(User::join('users_extends', function ($join) {
+            $join->on('users.id', '=','users_extends.user_id');
+        })->where('name', 'like','%'.$keywords.'%')->orWhere('email','like','%'.$keywords.'%'),$page,$size);
 
         return $this->echoSuccessJson('成功!',$res_data);
     }
@@ -108,6 +124,8 @@ class UserManagerController extends Controller
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
+        UtilsService::CreatePermissions('设置询盘','设置用户是否能够发送询盘');
+
         $user_id = $request->input('user_id');
         $user_obj = User::where('id',$user_id)->get()->first();
         $userEx  = $user_obj->usersExtends;
@@ -118,7 +136,113 @@ class UserManagerController extends Controller
         return $this->echoSuccessJson('设置用户询盘成功!',['user_id'=>$user_id,'allow_inquiry'=>$userEx->allow_inquiry]);
     }
 
+    public static function getMerchantData($merchant_orm,$page,$size){
+        $user_status_list = [
+            ProductsController::PUBLISH_PRODUCT_STATUS_NORMAL,
+        ];
+        $user_data_list = [];
+        $merchant_orm_clone  = clone $merchant_orm;
+        $count = $merchant_orm_clone->whereIn('users_extends.publish_product_status',$user_status_list)->count();
+
+        $merchant_orm->whereIn('users_extends.publish_product_status',$user_status_list)->offset(($page-1)*$size)->limit($size)->get()->map(function ($v,$k)use(&$user_data_list,$page,$size,$user_status_list){
+            $tmp = [];
+            $tmp['num'] = $k+1+(($page-1)*$size);//序号
+            $tmp['user_id'] = $v->user_id;//序号
+            $open_shop_time = AdminLog::where(
+                [
+                    ['type_for_id','=',$v->company_id],
+                    ['type','=','audit_company'],
+                    ['action','=','allow'],
+                ]
+            )->orderBy('created_at','asc');
+
+            $tmp['open_shop_time'] = $open_shop_time->exists() ? Carbon::parse($open_shop_time->get()->first()->created_at)->format('Y-m-d')  : "";//序号
+            $tmp['company_name'] = $v->company_name;
+            $tmp['contact_full_name'] = $v->contact_full_name;//序号
+            $tmp['sex'] = $v->sex;//序号
+            $tmp['phone_num'] = $v->mobile_phone;//序号
+            $tmp['email'] = $v->email;//序号
+            $tmp['address'] = $v->detailed_address;//序号
+            $product = Products::where(
+                [
+                    ['product_status','=',ProductsController::PRODUCT_STATUS_SALE],
+                    ['product_audit_status','=',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS],
+                    ['company_id','=',$v->company_id],
+                ]
+            );
+            $tmp['product_num'] = $product->exists() ? $product->count() : 0;//序号
+            $user_log = UserLog::where('user_id',$v->id)->orderBy('created_at','desc');
+            $tmp['last_login'] = $user_log->exists() ? Carbon::parse($user_log->get()->first()->created_at)->format('Y-m-d') : '';//序号
+            $tmp['allow_inquiry'] = $v->allow_inquiry == 1 ? true : false;//序号
+            array_push($user_data_list,$tmp);
+        });
+        $res_data = [];
+        $res_data['data'] = $user_data_list;
+        $res_data['size'] = $size;
+        $res_data['cur_page'] =$page;
+        $res_data['total_page'] = (int)ceil($count/$size);
+        $res_data['total_size'] = $count;
+        return $res_data;
+    }
+
     public function getMerchantsList(Request $request){
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'page'=>'nullable',
+            'size'=>'nullable',
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
+        }
+
+        UtilsService::CreatePermissions('获取商家列表','管理员是否能够获取商家列表');
+
+
+        $page = $request->input('page',1);
+        $size = $request->input('size',20);
+
+        $user_company_orm = User::join('users_extends', function ($join) {
+            $join->on('users.id', '=','users_extends.user_id');
+        })->join('company', function ($join) {
+            $join->on('users.id', '=','company.user_id');
+        });
+
+        $res_data = self::getMerchantData($user_company_orm,$page,$size);
+
+        return $this->echoSuccessJson('成功!',$res_data);
+
+    }
+
+    public function searchMerchantsList(Request $request){
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'page'=>'nullable',
+            'size'=>'nullable',
+            'keywords'=>'required'
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
+        }
+
+        UtilsService::CreatePermissions('搜索商家列表','管理员是否能够获取商家列表');
+
+        $page = $request->input('page',1);
+        $size = $request->input('size',20);
+        $keywords = $request->input('keywords');
+
+        $user_company_orm = User::join('users_extends', function ($join) {
+            $join->on('users.id', '=','users_extends.user_id');
+        })->join('company', function ($join) {
+            $join->on('users.id', '=','company.user_id');
+        })->where('users.name', 'like','%'.$keywords.'%')->orWhere('users.email','like','%'.$keywords.'%');
+
+        $res_data = self::getMerchantData($user_company_orm,$page,$size);
+
+        return $this->echoSuccessJson('成功!',$res_data);
 
     }
 
