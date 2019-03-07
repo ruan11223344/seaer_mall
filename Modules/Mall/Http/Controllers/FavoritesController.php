@@ -77,8 +77,15 @@ class FavoritesController extends Controller
                 }elseif ($v->type == 'company'){
                     $tmp = $v->toArray();
                     unset($tmp['company_id']);
-                    $tmp['company_name'] = Company::where('id',$v->product_or_company_id)->get()->first()->company_name;
-                    $tmp['company_af_id'] = Company::where('id',$v->product_or_company_id)->get()->first()->user->usersExtends->af_id;
+                    if(Company::where('id',$v->product_or_company_id)->exists()){
+                        $company = Company::where('id',$v->product_or_company_id)->get()->first();
+                        $tmp['company_name'] = $company->company_name;
+                        $tmp['company_af_id'] =$company->user->usersExtends->af_id;
+                    }else{
+                        $tmp['company_name'] = '';
+                        $tmp['company_af_id'] = '';
+                    }
+                    
                     array_push( $res_data['company'],$tmp);
                 }
             }
