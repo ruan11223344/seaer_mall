@@ -109,17 +109,7 @@
                     },
                     
                 ],
-                data6: [
-                    // {
-                    //     name: 'John Brown',
-                    //     ask: {
-                    //         re: 'Inquiry about...',
-                    //         Dear: 'Mary...'
-                    //     },
-                    //     src: require('@/assets/img/china.png'),
-                    //     time: 'Dec 28,2018  09:20',
-                    // },
-                ],
+                data6: [],
                 message_id: []
             }
         },

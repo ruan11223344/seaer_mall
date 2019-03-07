@@ -89,12 +89,6 @@
                     
                 ],
                 data6: [
-                    {
-                        name: 'John Brown',
-                        re: 'Inquiry about...',
-                        src: require('@/assets/img/china.png'),
-                        time: 'Dec 28,2018  09:20',
-                    }
                 ],
                 inboxData: [],
                 outboxData: [],

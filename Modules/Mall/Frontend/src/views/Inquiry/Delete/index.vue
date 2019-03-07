@@ -90,15 +90,9 @@
                         align: 'center',
                         sortable: true
                     },
-                    
                 ],
                 data6: [
-                    {
-                        name: 'John Brown',
-                        re: 'Inquiry about...',
-                        src: require('@/assets/img/china.png'),
-                        time: 'Dec 28,2018  09:20',
-                    }
+                    
                 ],
                 inboxData: [],
                 outboxData: [],
@@ -179,7 +173,6 @@
                         this.$Message.info('Marking failed!')
                     }
                 }).catch(err => {
-                    // console.log(err)
                     return false
                 })
             },

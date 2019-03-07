@@ -112,14 +112,7 @@
                     
                 ],
                 data6: [
-                    // {
-                    //     name: 'John Brown',
-                    //     re: 'Inquiry about...',
-                    //     src: require('@/assets/img/china.png'),
-                    //     address: '',
-                    //     time: 'Dec 28,2018  09:20',
-                    //     read: ''
-                    // },
+                    
                 ],
                 thread_id: [],
                 participant_id: []
