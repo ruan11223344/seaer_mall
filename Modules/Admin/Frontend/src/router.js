@@ -83,8 +83,21 @@ const router = new Router({
                 {
                     path: 'advertisement',
                     name: 'advertisement',
-                    meta: [ '广告管理', '首页广告' ],
-                    component: () => import('./views/Advertisement')
+                    component: () => import('./views/Advertisement'),
+                    children: [
+                        {
+                            path: 'home',
+                            name: 'home',
+                            meta: [ '广告管理', '首页广告' ],
+                            component: () => import('./views/Advertisement/Home')
+                        },
+                        {
+                            path: 'edit',
+                            name: 'edit',
+                            meta: [ '广告管理', '首页广告' ],
+                            component: () => import('./views/Advertisement/Edit')
+                        }
+                    ]
                 },
                 {
                     path: 'bulletin',
