@@ -85,7 +85,7 @@ class FavoritesController extends Controller
                         $tmp['company_name'] = '';
                         $tmp['company_af_id'] = '';
                     }
-                    
+
                     array_push( $res_data['company'],$tmp);
                 }
             }

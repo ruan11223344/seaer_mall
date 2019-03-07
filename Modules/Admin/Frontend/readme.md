@@ -2,7 +2,7 @@
 
 1.获取验证码
 ```
-url:http://域名/api/utils/get_captcha
+url:http://域名/api/admin/utils/get_captcha
 请求方法:get
 参数:"无"  
   
@@ -20,7 +20,7 @@ url:http://域名/api/utils/get_captcha
 
 2.获取access_token
 ```
-url:http://域名/api/utils/get_captcha
+url:http://域名/api/admin/auth/get_access_token
 请求方法:get
 json参数:
 {
@@ -46,3 +46,148 @@ json参数:
 }
 ```
   
+3.获取用户列表
+```
+url:http://域名/api/admin/user_manager/get_user_list
+请求方法:get
+json参数:
+{
+	"size":20,  //获取数量大小
+	"page":1   //分页
+}
+返回:
+{
+    "code": 200,
+    "message": "成功!",
+    "data": {
+        "data": [
+            {
+                "num": 1,
+                "register_time": "2019-01-07",
+                "af_id": "AF_CN_c1dce03043",
+                "member_id": "admin",
+                "email": "ruan4215@gmail.com",
+                "contact_full_name": "王尼玛",
+                "sex": "Mrs",
+                "phone_num": "+8613672009476",
+                "address": "湖北省黄石市西塞山去王子大战飞机温度计的时间23后 手动",
+                "last_login": "2019-03-08"
+            },
+            {
+                "num": 2,
+                "register_time": "2019-01-18",
+                "af_id": "AF_CN_c1dce03047",
+                "member_id": "ruan11223344",
+                "email": "13672009476@qq.com",
+                "contact_full_name": "wang ni ma",
+                "sex": "Mr",
+                "phone_num": null,
+                "address": null,
+                "last_login": ""
+            },
+            {
+                "num": 3,
+                "register_time": "2019-01-18",
+                "af_id": "AF_KE_c1dce03057",
+                "member_id": "test444",
+                "email": "test1@qq.com",
+                "contact_full_name": "wang ni massssss",
+                "sex": "Mr",
+                "phone_num": null,
+                "address": null,
+                "last_login": ""
+            },
+            {
+                "num": 4,
+                "register_time": "2019-01-08",
+                "af_id": "AF_CN_7a49b34079",
+                "member_id": "tests",
+                "email": "421566927@qq.com",
+                "contact_full_name": "王飞飞",
+                "sex": "Miss",
+                "phone_num": "+8613672009476",
+                "address": "湖北省黄石市西塞山去王子大战飞机温度计的时间23后 手动",
+                "last_login": ""
+            },
+            {
+                "num": 5,
+                "register_time": "2019-03-06",
+                "af_id": "AF_KE_febbd7b082",
+                "member_id": "testssssgr",
+                "email": "goj8@foxmail.com",
+                "contact_full_name": "wang ni massssss",
+                "sex": "Mr",
+                "phone_num": null,
+                "address": null,
+                "last_login": ""
+            },
+            {
+                "num": 6,
+                "register_time": "2019-03-06",
+                "af_id": "AF_KE_219b46908d3",
+                "member_id": "testssssgrssss",
+                "email": "diy8867@qq.com",
+                "contact_full_name": "wang ni massssss",
+                "sex": "Mr",
+                "phone_num": null,
+                "address": null,
+                "last_login": ""
+            },
+            {
+                "num": 7,
+                "register_time": "2019-03-06",
+                "af_id": "AF_KE_219b469083",
+                "member_id": "testssssgrs",
+                "email": "diy886@qq.com",
+                "contact_full_name": "wang ni massssss",
+                "sex": "Mr",
+                "phone_num": null,
+                "address": null,
+                "last_login": ""
+            }
+        ],
+        "size": 20,
+        "cur_page": 1,
+        "total_page": 1,
+        "total_size": 7
+    }
+}
+```
+
+4.搜索用户列表
+```
+url:http://域名/api/admin/user_manager/get_user_list
+请求方法:get
+json参数:
+{
+	"size":20,  //获取数量大小
+	"page":1,   //分页
+	"keywords":"ruan11223344" //关键词 member_id 或 email
+}
+返回:
+{
+    "code": 200,
+    "message": "成功!",
+    "data": {
+        "data": [
+            {
+                "num": 1,
+                "register_time": "2019-01-18",
+                "af_id": "AF_CN_c1dce03047",
+                "member_id": "ruan11223344",
+                "email": "13672009476@qq.com",
+                "contact_full_name": "wang ni ma",
+                "sex": "Mr",
+                "phone_num": null,
+                "address": null,
+                "last_login": ""
+            }
+        ],
+        "size": 20,
+        "cur_page": 1,
+        "total_page": 1,
+        "total_size": 1
+    }
+}
+```
+

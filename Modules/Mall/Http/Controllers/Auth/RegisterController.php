@@ -215,7 +215,7 @@ class RegisterController extends Controller
               );
 
             }
-            UtilsService::WriteLog('user','register','create',$user->id,$user->id);
+            UtilsService::WriteLog('user','auth','register',$user->id,$user->id);
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();

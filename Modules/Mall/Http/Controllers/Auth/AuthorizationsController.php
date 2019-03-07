@@ -15,10 +15,12 @@ use Illuminate\Support\Str;
 use Khsing\World\Models\City;
 use Khsing\World\Models\Country;
 use Khsing\World\Models\Division;
+use Modules\Admin\Service\UtilsService;
 use Modules\Mall\Entities\BusinessRange;
 use Modules\Mall\Entities\BusinessType;
 use Modules\Mall\Entities\Company;
 use Modules\Mall\Entities\Products;
+use Modules\Mall\Entities\User;
 use Modules\Mall\Entities\UsersExtends;
 use Modules\Mall\Http\Controllers\MessagesController;
 use Modules\Mall\Http\Controllers\Shop\ProductsController;
@@ -116,7 +118,12 @@ class AuthorizationsController extends Controller
             ];
             if($refresh_token == false){
                 $this->clearLoginAttempts();
+                $user = User::where('name',$this->username)->orWhere('email',$this->username)->get()->first();
+                if($user != null){
+                    UtilsService::WriteLog('user','auth','login',$user->id,$user->id);
+                }
             }
+
 
             return $this->echoSuccessJson('Success!',$data);
         } catch (OAuthServerException $e) {
