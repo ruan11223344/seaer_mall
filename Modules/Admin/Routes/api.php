@@ -20,6 +20,7 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
         Route::prefix('user_manager')->group(function (){
             Route::get('get_user_list', 'UserManagerController@getUserList')->middleware('passport-custom-provider')->name('admin.user.list');
             Route::get('search_user_list', 'UserManagerController@searchUserList')->middleware('passport-custom-provider')->name('admin.user.search');
+            Route::post('set_inquiry', 'UserManagerController@setInquiry')->middleware('passport-custom-provider')->name('admin.user.setInquiry');
         });
 
         Route::prefix('utils')->group(function (){
