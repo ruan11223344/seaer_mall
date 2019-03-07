@@ -55,14 +55,13 @@
                 </div>
             </div>
             <ul class="read-main-up-item">
-                <li v-for="(item, index) of infoData.attachment_list" :key="index">
-                    <v-img width="12" hegiht="12" imgSrc=""></v-img>
-                    <span>{{ Object.keys(item)[0] }}</span>
+                <li v-for="(item, index) of infoData.attachment_list_url" :key="index" class="read-main-up-item-list">
+                    <!-- <v-img width="12" hegiht="12" imgSrc=""></v-img> -->
+                    <a :href="item">
+                        <v-img width="13" height="13" :imgSrc="require('@/assets/img/fj.png')"></v-img>
+                    </a>
+                    <a :href="item">Enclosure</a>
                 </li>
-                <!-- <li>
-                    <v-img width="12" hegiht="12" imgSrc=""></v-img>
-                    <span>{{ 'attachment1.rar (17.2k)' }}</span>
-                </li> -->
             </ul>
         </section>
     </div>
@@ -114,7 +113,7 @@
                 }).then(({ code, data }) => {
                     if(code == 200) {
                         this.infoData = data[0]
-                        // console.log(this.infoData)
+                        console.log(this.infoData)
                         this.infoQuery = datas
                         // 标记为已读
                         this.onRead()
@@ -335,7 +334,7 @@
                     cursor: pointer;
                     font-size: 16px;
                     line-height: 38px;
-                    color: #666666;
+                    color: #f0883a;
                     height: 38px;
                     padding: 0px 8px 0px 3px;
                     transition: all 0.2s;
@@ -355,12 +354,16 @@
                 padding: 20px 39px;
 
                 & > li {
-                    .flex();
-                    & > span:last-of-type {
+                    .flex(flex-start, center);
+                    & > a:last-of-type {
                         font-size: 14px;
                         line-height: 2;
                         color: #999999;
-                        margin-left: 6px;
+                        margin-left: 10px;
+                    }
+
+                    & > a:last-of-type:hover {
+                        color: #f0883a;
                     }
                 }
             }

@@ -1,12 +1,6 @@
 <template>
     <div style="backgroundColor: #f5f5f9; paddingBottom: 37px">
-        <section class="container main-title">
-            <!-- <Breadcrumb separator='<b style="color:#666666">></b>'>
-                <BreadcrumbItem to="/">Home</BreadcrumbItem>
-                <BreadcrumbItem style="color:#666666">{{ 'success' }}</BreadcrumbItem>
-            </Breadcrumb> -->
-            <!-- <v-Breadcrumb title="Supplier Homepage" :url="`/company/home?&company_id=${$route.query.company_id}`" :Breadcrumbs="[ 'consulting' ]"></v-Breadcrumb> -->
-        </section>
+        <section class="container main-title"></section>
 
         <section class="container success-main">
             <v-img width="129" height="131" :imgSrc="require('@/assets/img/success.png')"></v-img>
@@ -22,12 +16,11 @@
 
 <script>
     import Img from '@/components/Img'
-    // import Breadcrumb  from '@/components/Breadcrumb'
 
     export default {
         methods: {
             onReturn() {
-                this.$router.go(-1)
+                this.$router.go(-2)
             }
         },
         components: {

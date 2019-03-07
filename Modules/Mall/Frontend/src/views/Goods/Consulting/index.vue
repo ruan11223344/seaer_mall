@@ -80,7 +80,7 @@
                                 action="//jsonplaceholder.typicode.com/posts/"
                                 :before-upload="onbeforeUpload"
                                 style="width:85px">
-                                <label class="label">Attach Files</label>
+                                <label class="label" style="color: #f0883a;">Attach Files</label>
                             </Upload> 
                             <span>
                                 <!-- 文件类型 -->
