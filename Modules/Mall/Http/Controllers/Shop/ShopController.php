@@ -460,7 +460,7 @@ class ShopController extends Controller
                 $main_products_str = '';
                 if($main_products != null){
                     $main_products_arr = explode(',',$main_products);
-                    if(count($main_products_arr > 1)){
+                    if(count($main_products_arr) > 1){
                         foreach ($main_products_arr as $vs){
                             $main_products_str .= $vs .'、';
                         }
