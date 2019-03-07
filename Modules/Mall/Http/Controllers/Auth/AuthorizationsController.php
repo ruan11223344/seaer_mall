@@ -103,7 +103,7 @@ class AuthorizationsController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return $this->echoErrorJson('Verification code verification failed!'.$validator->messages());
+                return $this->echoErrorJson('Verification code verification failed!'.$validator->messages(),['need_captcha'=>true]);
             }
         }
 
@@ -130,7 +130,7 @@ class AuthorizationsController extends Controller
             if($refresh_token == false){
                 $this->incrementLoginAttempts();
             }
-            return $this->echoErrorJson($e->getMessage());
+            return $this->echoErrorJson($e->getMessage(),['need_captcha'=>false]);
         }
     }
 

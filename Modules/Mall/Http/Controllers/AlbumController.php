@@ -38,7 +38,13 @@ class AlbumController extends Controller
     }
 
     public static function getAlbumInfo(){
-        return AlbumUser::where(['user_id'=>Auth::id(),'soft_delete'=>false])->get()->toArray();
+        $data = [];
+        AlbumUser::where(['user_id'=>Auth::id(),'soft_delete'=>false])->get()->map(function ($v)use(&$data){
+            $tmp = $v->toArray();
+            $tmp['photo_count'] = $v->album_photo->count();
+            array_push($data,$tmp);
+        });
+        return $data;
     }
 
     public function createAlbum(Request $request){
