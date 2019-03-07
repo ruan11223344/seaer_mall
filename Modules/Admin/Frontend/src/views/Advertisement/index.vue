@@ -1,12 +1,65 @@
 <template>
     <el-main>
-        <div>广告位列表</div>
+        <div style="marginBottom: 20px;">广告位列表</div>
         <template>
             <el-table
                 ref="singleTable"
                 :data="tableData"
                 style="width: 100%"
-                height="684px"
+                size="mini"
+                >
+
+                <el-table-column
+                    align="center"
+                    label="序号"
+                    type="index"
+                    >
+                </el-table-column>
+
+                <el-table-column
+                    align="center"
+                    property="date"
+                    label="广告位名称"
+                    >
+                </el-table-column>
+
+                <el-table-column
+                    align="center"
+                    property="date"
+                    label="宽度"
+                    >
+                </el-table-column>
+
+                <el-table-column
+                    align="center"
+                    property="name"
+                    label="宽度"
+                    >
+                </el-table-column>
+
+                <el-table-column
+                    align="center"
+                    label="操作"
+                    width="180px"
+                    >
+                    <template slot-scope="scope">
+                        <button
+                            class="edit"
+                            @click="handleEdit(scope.$index, scope.row)"
+                            >
+                            编辑
+                        </button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </template>
+
+        <div style="marginTop: 40px;marginBottom: 20px;">幻灯片广告</div>
+        <template>
+            <el-table
+                ref="singleTable"
+                :data="tableData"
+                style="width: 100%"
                 size="mini"
                 >
 
