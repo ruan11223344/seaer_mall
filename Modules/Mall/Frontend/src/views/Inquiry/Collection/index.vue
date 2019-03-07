@@ -31,7 +31,7 @@
             </template>
         </Table>
 
-        <Table v-show="num == 1" :height="formData.length > 8 ? 530 : ''" :columns="columns12" :data="formData">
+        <Table v-show="num == 1" :height="formData.length > 8 ? 530 : ''" :columns="columns12" :data="formData" @on-selection-change="onChange">
             <!-- 内容 -->
             <template slot-scope="{ row }" slot="Content">
                 <div class="Send-main-content">
