@@ -191,3 +191,26 @@ json参数:
 }
 ```
 
+
+5.设置用户是否能够使用询盘 （翻转接口)
+```
+url:http://域名/api/admin/user_manager/set_inquiry
+请求方法:post
+json参数:
+{
+	"user_id":1
+}
+
+返回:
+{
+    "code": 200,
+    "message": "设置用户询盘成功!",
+    "data": {
+        "user_id": 1,
+        "allow_inquiry": true
+    }
+}
+```
+
+
+

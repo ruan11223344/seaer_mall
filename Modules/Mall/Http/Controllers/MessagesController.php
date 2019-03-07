@@ -37,6 +37,7 @@ class MessagesController extends Controller
      * @return mixed
      */
 
+
     static function extraRequestToStr($object){
         $str = '';
         if($object !== null){
@@ -51,6 +52,11 @@ class MessagesController extends Controller
         $str =rtrim($str, ',');
         return $str;
     }
+
+    public static function getAllowInquiry(){
+        return Auth::user()->usersExtends->allow_inquiry;
+    }
+
 
     public function sendMailNotification($to_user_id,$message,$is_reply = false){
         $to_user_ex = UsersExtends::where('user_id',$to_user_id)->first();
@@ -205,6 +211,9 @@ class MessagesController extends Controller
     }
 
     public function createMessage(Request $request){
+        if(self::getAllowInquiry() == false){
+            return $this->echoErrorJson('您被禁止使用询盘功能!');
+        }
         $this->function_name = 'createMessage';
         $user_id = Auth::id();
         $data = $request->all();
@@ -334,8 +343,10 @@ class MessagesController extends Controller
         return $this->echoSuccessJson('Success!',array_merge($message_data,$participant_data));
     }
 
-
     public function replyMessage(Request $request){
+        if(self::getAllowInquiry() == false){
+            return $this->echoErrorJson('您被禁止使用询盘功能!');
+        }
         $this->function_name = 'replyMessage';
         $data = $request->all();
         $validator = Validator::make($data, [
