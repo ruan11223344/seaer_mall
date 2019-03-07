@@ -322,10 +322,6 @@
                     const formData = new FormData()
                     formData.append('business_license_img', files)
                     this.UpBusinessLicense(formData).then(({ name, path, url }) => {
-                        // name: "5a449a3004429.png"
-                        // path: "mall/users/AF_CN_c1dce03043/private/155123859271619548.png"
-                        // url: "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall
-
                         // 获取图片路径
                         this.$set(this.formData.business_info, 'business_license_path', path)
                         this.$set(this.formData.business_info, 'business_license_url', url)
@@ -345,7 +341,7 @@
             onSave(formData) {
                 
                 const obj = {
-                    company_business_type_id: this.type_id,
+                    company_business_type_id: this.formData.basic_info.business_type_id,
                     company_name: formData.basic_info.company_name,
                     company_name_in_china: formData.basic_info.company_name_in_china,
                     company_province_id: formData.basic_info.company_province_id, // 省份

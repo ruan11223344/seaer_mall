@@ -15,7 +15,7 @@
 
         <!-- 轮播 -->
         <section class="PicturePreview-Carousel">
-            <swiper :options="swiperOption" ref="swiperOption">
+            <swiper :options="swiperOption" ref="swiperOption" style="width: 885px;">
                 <!-- 渲染 -->
                 <swiper-slide v-for="(item, index) in FormData" :key="index">
                     <div

@@ -93,7 +93,7 @@
             top: -2px;
             margin-bottom: 11px;
             font-weight: bold;
-            text-align: center;
+            // text-align: center;
         }
 
         &-dl {

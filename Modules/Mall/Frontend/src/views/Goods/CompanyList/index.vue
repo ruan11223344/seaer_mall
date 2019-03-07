@@ -1,32 +1,32 @@
 <template>
     <div>
         <main class="main">
-            <!-- <section class="container main-title">
-                <v-Breadcrumb
-                    title="Home"
-                    :Breadcrumbs="[ 'List of commodities' ]"
-                    :url="`/home`"
-                    >
-                </v-Breadcrumb>
-            </section> -->
             <!-- 店铺详情 -->
             <section class="container main-content">
-                <template v-for="(item, index) in CompanyData">
-                    <div class="container main-content-list" :key="index">
-                        <img class="container main-content-list-img" :src="require('@/assets/img/cm.png')" alt="">
-                        <div class="container main-content-list-text">
-                            <div class="container main-content-list-text-top">
-                                {{ item.company_name }}
-                                <img :src="item.company_country_name == 'Kenya' ? require('@/assets/img/ya.png') : require('@/assets/img/ina.png')" alt="">
+                <template v-if="CompanyData.length">
+                    <template v-for="(item, index) in CompanyData">
+                        <div class="container main-content-list" :key="index">
+                            <img class="container main-content-list-img" :src="require('@/assets/img/cm.png')" alt="">
+                            <div class="container main-content-list-text">
+                                <div class="container main-content-list-text-top">
+                                    {{ item.company_name }}
+                                    <img :src="item.company_country_name == 'Kenya' ? require('@/assets/img/ya.png') : require('@/assets/img/ina.png')" alt="">
+                                </div>
+                                <div class="container main-content-list-text-content">
+                                    Telephone：{{ item.telephone }}
+                                </div>
+                                <div class="container main-content-list-text-bottom">
+                                    Address：{{ item.company_detailed_address }}
+                                </div>
                             </div>
-                            <div class="container main-content-list-text-content">
-                                Telephone：{{ item.telephone }}
-                            </div>
-                            <div class="container main-content-list-text-bottom">
-                                Address：{{ item.company_detailed_address }}
-                            </div>
+                            <button class="container main-content-list-btn" type="button" @click="onClick(item.id)">View shop</button>
                         </div>
-                        <button class="container main-content-list-btn" type="button" @click="onClick(item.id)">View shop</button>
+                    </template>
+                </template>
+
+                <template v-else>
+                    <div style="height: 500px;lineHeight: 500px;fontSize: 40px;">
+                        The company you are searching for does not exist
                     </div>
                 </template>
             </section>
@@ -96,6 +96,7 @@
 
     .main {
         .bg-color(light);
+        padding-top: 20px;
             
         // 头部
         &-title {

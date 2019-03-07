@@ -2,11 +2,11 @@
     <router-link :to="`/goods/details?product_id=${data.product_id}&company_id=${data.company_id}`">
         <v-img width="228" height="228" :img-src="data.product_main_pic_url"></v-img>
         <article class="content">
-            <div class="title">
-                <Tooltip :content="data.product_name ">
+            <Tooltip :content="data.product_name">
+                <div class="title">
                     {{ data.product_name }}
-                </Tooltip>
-            </div>
+                </div>
+            </Tooltip>
             <div class="price">{{ data.product_price }}</div>
             <div class="Pieces">{{ data.product_moq }}</div>
         </article>
@@ -38,14 +38,15 @@
 
     .title  {
         .color(black);
-        .textHiddens(2);
         width: 208px;
-        min-height: 38px;
+        height: 38px;
         padding: 0px 20px;
         text-align: center;
         font-size: 16px;
         line-height: 1.2;
         margin-top: 10px;
+        .textHiddens(2);
+        overflow: hidden;
     }
 
     .price {

@@ -38,27 +38,6 @@
                 </div>
             </div>
         </div>
-        
-        <!-- <section style="marginTop:20px;">
-            <template>
-                <Page :total="100" :page-size="8" style="textAlign: center" />
-            </template>
-        </section> -->
-
-        <!-- 富文本编辑 -->
-        <!-- <v-modality-template title="Company Overview">
-            <div slot="main" class="navList-edit">
-                <quill-editor ref="myTextEditor"
-                    class="navList-edit-editor"
-                    theme="Snow"
-                    v-model="editor"
-                    :options="editorOption"
-                    >
-                </quill-editor>
-
-                <button type="button" class="navList-edit-Preservation">Preservation</button>
-            </div>
-        </v-modality-template> -->
     </div>
 </template>
 

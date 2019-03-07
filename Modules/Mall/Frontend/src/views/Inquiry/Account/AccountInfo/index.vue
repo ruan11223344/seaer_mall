@@ -7,33 +7,33 @@
             <article class="accountInfo-block-article">
                 <div class="accountInfo-block-article-list">
                     <label for="" class="accountInfo-block-article-list-label">Member ID:</label>
-                    <span class="accountInfo-block-article-list-text">{{ formData.member_id }}</span>
+                    <span class="accountInfo-block-article-list-text">{{ formData.member_id || '——'  }}</span>
                 </div>
                 <div class="accountInfo-block-article-list">
                     <label for="" class="accountInfo-block-article-list-label">Emali Address:</label>
-                    <span class="accountInfo-block-article-list-text">{{ formData.email_address }}</span>
+                    <span class="accountInfo-block-article-list-text">{{ formData.email_address || '——'  }}</span>
                 </div>
                 <div class="accountInfo-block-article-list">
                     <label for="" class="accountInfo-block-article-list-label">Contact Full Name:</label>
-                    <span class="accountInfo-block-article-list-text">{{ formData.contact_full_name }}</span>
+                    <span class="accountInfo-block-article-list-text">{{ formData.contact_full_name || '——'  }}</span>
                 </div>
                 <div class="accountInfo-block-article-list">
                     <label for="" class="accountInfo-block-article-list-label">Mobilephone:</label>
                     <span class="accountInfo-block-article-list-text">
-                        {{ formData.country != 'Kenya' ? '+86' : '+254' + '  ' + formData.mobile_phone }}
+                        {{ formData.country != 'Kenya' ? '+86' : '+254' + '  ' + formData.mobile_phone || '——'  }}
                     </span>
                 </div>
                 <div class="accountInfo-block-article-list">
                     <label for="" class="accountInfo-block-article-list-label">Country:</label>
-                    <span class="accountInfo-block-article-list-text">{{ formData.country }}</span>
+                    <span class="accountInfo-block-article-list-text">{{ formData.country || '——'  }}</span>
                 </div>
                 <div class="accountInfo-block-article-list">
                     <label for="" class="accountInfo-block-article-list-label">Province/City:</label>
-                    <span class="accountInfo-block-article-list-text">{{ formData["province/city"] }}</span>
+                    <span class="accountInfo-block-article-list-text">{{ formData["province/city"] || '——'  }}</span>
                 </div>
                 <div class="accountInfo-block-article-list">
                     <label for="" class="accountInfo-block-article-list-label">Address:</label>
-                    <span class="accountInfo-block-article-list-text">{{ formData.address }}</span>
+                    <span class="accountInfo-block-article-list-text">{{ formData.address || '——'  }}</span>
                 </div>
             </article>
         </section>

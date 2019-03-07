@@ -9,35 +9,35 @@
                 <article class="companyinfo-block-article">
                     <div class="companyinfo-block-article-list">
                         <label for="" class="companyinfo-block-article-list-label">Business Type:</label>
-                        <span class="companyinfo-block-article-list-text">{{ formData.basic_info.business_type }}</span>
+                        <span class="companyinfo-block-article-list-text">{{ formData.basic_info.business_type || '——' }}</span>
                     </div>
                     <div class="companyinfo-block-article-list">
                         <label for="" class="companyinfo-block-article-list-label">Company Name:</label>
-                        <span class="companyinfo-block-article-list-text">{{ formData.basic_info.company_name }}</span>
+                        <span class="companyinfo-block-article-list-text">{{ formData.basic_info.company_name || '——' }}</span>
                     </div>
                     <div class="companyinfo-block-article-list">
                         <label for="" class="companyinfo-block-article-list-label">Company Name In China:</label>
-                        <span class="companyinfo-block-article-list-text">{{ formData.basic_info.company_name_in_china }}</span>
+                        <span class="companyinfo-block-article-list-text">{{ formData.basic_info.company_name_in_china || '——' }}</span>
                     </div>
                     <div class="companyinfo-block-article-list">
                         <label for="" class="companyinfo-block-article-list-label">Country:</label>
-                        <span class="companyinfo-block-article-list-text">{{ formData.basic_info.country_name }}</span>
+                        <span class="companyinfo-block-article-list-text">{{ formData.basic_info.country_name || '——' }}</span>
                     </div>
                     <div class="companyinfo-block-article-list">
                         <label for="" class="companyinfo-block-article-list-label">Province/City:</label>
-                        <span class="companyinfo-block-article-list-text">{{ formData.basic_info["province/city"] }}</span>
+                        <span class="companyinfo-block-article-list-text">{{ formData.basic_info["province/city"] || '——' }}</span>
                     </div>
                     <div class="companyinfo-block-article-list">
                         <label for="" class="companyinfo-block-article-list-label">Address:</label>
-                        <span class="companyinfo-block-article-list-text">{{ formData.basic_info.address }}</span>
+                        <span class="companyinfo-block-article-list-text">{{ formData.basic_info.address || '——' }}</span>
                     </div>
                     <div class="companyinfo-block-article-list">
                         <label for="" class="companyinfo-block-article-list-label">Telephone:</label>
-                        <span class="companyinfo-block-article-list-text">{{ formData.basic_info.telephone }}</span>
+                        <span class="companyinfo-block-article-list-text">{{ formData.basic_info.telephone || '——' }}</span>
                     </div>
                     <div class="companyinfo-block-article-list">
                         <label for="" class="companyinfo-block-article-list-label">Website:</label>
-                        <span class="companyinfo-block-article-list-text">{{ formData.basic_info.website }}</span>
+                        <span class="companyinfo-block-article-list-text">{{ formData.basic_info.website || '——' }}</span>
                     </div>
                 </article>
             </section>

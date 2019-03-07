@@ -56,7 +56,8 @@
                         this.SET_SHOP_ALL(res)
                         this.$router.push('/goods/companylist')
                     }).catch(err => {
-                        this.$Message.error(err.message)
+                        this.SET_SHOP_ALL([])
+                        this.$router.push('/goods/companylist')
                     })
                 }
             }

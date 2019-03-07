@@ -2,7 +2,7 @@
     <div>
         <header>
             <router-link to="/home" tag="div" class="login-head">
-                <img :src="require('@/assets/img/home/logo.png')" alt="">
+                <img :src="require('@/assets/img/home/logo.png')" alt="" style="cursor: pointer;">
             </router-link>
         </header>
         <div style="backgroundColor: #f5f5f9; paddingBottom: 37px">
