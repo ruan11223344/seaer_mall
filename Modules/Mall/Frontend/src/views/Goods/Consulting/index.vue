@@ -1,104 +1,110 @@
 <template>
-    <div style="backgroundColor: #f5f5f9; paddingBottom: 37px">
-        <section class="container main-title">
-            <!-- <v-Breadcrumb title="Supplier Homepage" :url="`/company/home?&company_id=${$route.query.company_id}`" :Breadcrumbs="[ 'consulting' ]"></v-Breadcrumb> -->
-        </section>
+    <div>
+        <header>
+            <router-link to="/home" tag="div" class="login-head">
+                <img :src="require('@/assets/img/home/logo.png')" alt="">
+            </router-link>
+        </header>
+        <div style="backgroundColor: #f5f5f9; paddingBottom: 37px">
+            <section class="container main-title"></section>
 
-        <main class="container consulting-main">
-            <div class="consulting-main-body">
-                <div class="consulting-main-body-title" v-if="user">From "{{ user.user.email }}" <span>Edit</span></div>
-                <!-- 目标 -->
-                <div class="consulting-main-body-content">
-                    <div class="consulting-main-body-content-label">To</div>
-                    <div class="consulting-main-body-content-goods">
-                        <span class="consulting-main-body-content-goods-title">{{ Company_Detail.basic_info.company_name }}</span>
-                        <div>
-                            <!-- <v-img width="61" height="50" imgSrc=""></v-img> -->
-                            <img :src="$route.query.url" style="width: 87px; height: 87px;" alt="">
+            <main class="container consulting-main">
+                <div class="consulting-main-body">
+                    <div class="consulting-main-body-title" v-if="user">From "{{ user.user.email }}" 
+                        <!-- <span>Edit</span> -->
+                    </div>
+                    <!-- 目标 -->
+                    <div class="consulting-main-body-content">
+                        <div class="consulting-main-body-content-label">To</div>
+                        <div class="consulting-main-body-content-goods">
+                            <span class="consulting-main-body-content-goods-title">{{ Company_Detail.basic_info.company_name }}</span>
+                            <div>
+                                <!-- <v-img width="61" height="50" imgSrc=""></v-img> -->
+                                <img :src="$route.query.url" style="width: 87px; height: 87px;" alt="">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- 主题 -->
-                <div class="consulting-main-body-content" style="marginTop: 24px;marginBottom: 32px;">
-                    <div class="consulting-main-body-content-label" style="marginTop: 12px;">Subject</div>
-                    <div class="consulting-main-body-content-subject">{{ $route.query.name}}</div>
-                </div>
-                <!-- 采购 -->
-                <div class="consulting-main-body-content">
-                    <div class="consulting-main-body-content-label" style="lineHeight: 34px;">Purchase Quantity</div>
-                    <div class="consulting-main-body-content-purchase">
-                        <InputNumber size="small" :step="100" class="consulting-main-body-content-purchase-input" :max="9999999999" :min="1" v-model="fromItem.quantity"></InputNumber>
-                        <!-- <Select style="width:183px;" v-model="fromItem.unit" @on-change="onUnit" value="Pieces" size="small"> -->
-                        <Select style="width:183px;" v-model="fromItem.unit" value="Pieces" size="small">
-                            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                        </Select>
-                        <!-- <Input size="small" type="" style="marginLeft: 8px;" v-show="is_select" v-model="fromItem.unit"></Input> -->
-                        <!-- <input  type="text" "> -->
+                    <!-- 主题 -->
+                    <div class="consulting-main-body-content" style="marginTop: 24px;marginBottom: 32px;">
+                        <div class="consulting-main-body-content-label" style="marginTop: 12px;">Subject</div>
+                        <div class="consulting-main-body-content-subject">{{ $route.query.name}}</div>
                     </div>
-                </div>
-                <!-- 额外了解 -->
-                <div class="consulting-main-body-content" style="marginTop: 22px;marginBottom: 29px;">
-                    <div class="consulting-main-body-content-label">Extra Request</div>
-                    <div class="consulting-main-body-content-extra">
-                        <CheckboxGroup v-model="fromItem.social">
-                            <Checkbox label="Price" style="marginRight: 35px; fontSize: 16px;">
-                                <span>Price</span>
-                            </Checkbox>
-                            <Checkbox label="Product" style="marginRight: 35px; fontSize: 16px;">
-                                <span>Product Spectfications</span>
-                            </Checkbox>
-                            <Checkbox label="Proile" style="fontSize: 16px;">
-                                <span>Company Proile</span>
-                            </Checkbox>
-                        </CheckboxGroup>
+                    <!-- 采购 -->
+                    <div class="consulting-main-body-content">
+                        <div class="consulting-main-body-content-label" style="lineHeight: 34px;">Purchase Quantity</div>
+                        <div class="consulting-main-body-content-purchase">
+                            <InputNumber size="small" :step="100" class="consulting-main-body-content-purchase-input" :max="9999999999" :min="1" v-model="fromItem.quantity"></InputNumber>
+                            <!-- <Select style="width:183px;" v-model="fromItem.unit" @on-change="onUnit" value="Pieces" size="small"> -->
+                            <Select style="width:183px;" v-model="fromItem.unit" value="Pieces" size="small">
+                                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            </Select>
+                            <!-- <Input size="small" type="" style="marginLeft: 8px;" v-show="is_select" v-model="fromItem.unit"></Input> -->
+                            <!-- <input  type="text" "> -->
+                        </div>
                     </div>
-                </div>
-                <!-- 内容 -->
-                <div class="consulting-main-body-content">
-                    <div class="consulting-main-body-content-label">Content</div>
-                    <!-- <textarea class="consulting-main-body-content-content" name="" id="" cols="30" rows="10" v-model="fromItem.content"></textarea> -->
-                    <Input
-                        class="consulting-main-body-content-content"
-                        type="textarea"
-                        :autosize="{ minRows: 5, maxRows: 5 }"
-                        v-model="fromItem.content"
-                    />
-                    <div class="consulting-main-body-content-prompt">please enter the content for your inquiry</div>
-                </div>
-                <!-- 上传文件 -->
-                <div class="consulting-main-body-content" style="marginTop: 34px;">
-                    <div class="consulting-main-body-content-label"></div>
-                    <div class="consulting-main-body-content-upload">
-                        <Upload
-                            multiple
-                            action="//jsonplaceholder.typicode.com/posts/"
-                            :before-upload="onbeforeUpload"
-                            style="width:85px">
-                            <label class="label">Attach Files</label>
-                        </Upload> 
-                        <span>
-                            <!-- 文件类型 -->
-                            &nbsp;- Supports jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt, rar and zip
-                            <br>
-                            &nbsp;- Max upload 3 files;Max. total size: 3MB
-                        </span>
+                    <!-- 额外了解 -->
+                    <div class="consulting-main-body-content" style="marginTop: 22px;marginBottom: 29px;">
+                        <div class="consulting-main-body-content-label">Extra Request</div>
+                        <div class="consulting-main-body-content-extra">
+                            <CheckboxGroup v-model="fromItem.social">
+                                <Checkbox label="Price" style="marginRight: 35px; fontSize: 16px;">
+                                    <span>Price</span>
+                                </Checkbox>
+                                <Checkbox label="Product" style="marginRight: 35px; fontSize: 16px;">
+                                    <span>Product Spectfications</span>
+                                </Checkbox>
+                                <Checkbox label="Proile" style="fontSize: 16px;">
+                                    <span>Company Proile</span>
+                                </Checkbox>
+                            </CheckboxGroup>
+                        </div>
                     </div>
-                </div>
-                <div class="consulting-main-body-content">
-                    <div class="consulting-main-body-content-label"></div>
-                    <div class="consulting-main-body-content-fileName" v-show="fromItem.files" v-for="(file, index) in fromItem.files" :key="index">
-                        <v-img width="13" height="13" :imgSrc="require('@/assets/img/fj.png')"></v-img>
-                        <!-- <span>{{ fromItem.files.name }}</span> -->
-                        <span>{{ file.name }}</span>
-                        <span @click="onDelete(index)">
-                            <v-img width="16" style="cursor: pointer" height="16" :imgSrc="require('@/assets/img/qx.png')" ></v-img>
-                        </span>
+                    <!-- 内容 -->
+                    <div class="consulting-main-body-content">
+                        <div class="consulting-main-body-content-label">Content</div>
+                        <!-- <textarea class="consulting-main-body-content-content" name="" id="" cols="30" rows="10" v-model="fromItem.content"></textarea> -->
+                        <Input
+                            class="consulting-main-body-content-content"
+                            type="textarea"
+                            :autosize="{ minRows: 5, maxRows: 5 }"
+                            v-model="fromItem.content"
+                        />
+                        <div class="consulting-main-body-content-prompt">please enter the content for your inquiry</div>
                     </div>
+                    <!-- 上传文件 -->
+                    <div class="consulting-main-body-content" style="marginTop: 34px;">
+                        <div class="consulting-main-body-content-label"></div>
+                        <div class="consulting-main-body-content-upload">
+                            <Upload
+                                multiple
+                                action="//jsonplaceholder.typicode.com/posts/"
+                                :before-upload="onbeforeUpload"
+                                style="width:85px">
+                                <label class="label">Attach Files</label>
+                            </Upload> 
+                            <span>
+                                <!-- 文件类型 -->
+                                &nbsp;- Supports jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt, rar and zip
+                                <br>
+                                &nbsp;- Max upload 3 files;Max. total size: 3MB
+                            </span>
+                        </div>
+                    </div>
+                    <div class="consulting-main-body-content">
+                        <div class="consulting-main-body-content-label"></div>
+                        <div class="consulting-main-body-content-fileName" v-show="fromItem.files" v-for="(file, index) in fromItem.files" :key="index">
+                            <v-img width="13" height="13" :imgSrc="require('@/assets/img/fj.png')"></v-img>
+                            <!-- <span>{{ fromItem.files.name }}</span> -->
+                            <span>{{ file.name }}</span>
+                            <span @click="onDelete(index)">
+                                <v-img width="16" style="cursor: pointer" height="16" :imgSrc="require('@/assets/img/qx.png')" ></v-img>
+                            </span>
+                        </div>
+                    </div>
+                    <button class="consulting-main-body-content-btn" @click="onSend">Send Inquiry</button>
                 </div>
-                <button class="consulting-main-body-content-btn" @click="onSend">Send Inquiry</button>
-            </div>
-        </main>
-
+            </main>
+        </div>
     </div>
 </template>
 
@@ -222,6 +228,7 @@
                     data.append('extra_request[]', JSON.stringify(extra_request)) //非必填 额外要求 值要求:json字符串对象
                 }
 
+                this.$Spin.show()
                 this.$request({
                     url: '/message/create_message',
                     method: 'post',
@@ -231,8 +238,9 @@
                     if(code == 200) {
                         this.$router.push('/goods/success')
                     }
+                    this.$Spin.hide()
                 }).catch(err => {
-                    // console.log(err);
+                    this.$Spin.hide()
                 })
 
                 return true
@@ -250,6 +258,19 @@
 
 <style lang="less" scoped>
     @import url('../../../assets/css/index');
+
+    .login {
+        .bg-color(white);
+        &-head {
+            .flex(flex-start, center);
+            height: 88px;
+            margin-left: 18.2%;
+
+            & > img {
+                .width(181px, 53px);
+            }
+        }
+    }
 
     // 头部
     .main-title {

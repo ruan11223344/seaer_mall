@@ -1,7 +1,7 @@
 <template>
     <div class="main-goods-right">
         <figure class="main-goods-right-head">
-            <img :src="Company_Detail.shop_info.avatar_url" alt="">
+            <img :src="Company_Detail.shop_info.avatar_url || require('@/assets/img/login/avatar.png')" alt="">
             <figcaption>{{  Company_Detail.basic_info.contact_full_name }}</figcaption>
         </figure>
         <article class="main-goods-right-content">

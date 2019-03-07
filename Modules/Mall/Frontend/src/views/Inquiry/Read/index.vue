@@ -45,7 +45,7 @@
         </section>
         <!-- 询问信息 -->
         <!-- <section class="read-main-info" v-html="infoData.content"></section> -->
-        <Input v-model="infoData.content" class="read-main-info" type="textarea" :rows="5" :autosize="{minRows: 5,maxRows: 5}" disabled />
+        <Input v-model="infoData.content" class="read-main-info" type="textarea" :rows="5" :autosize="{minRows: 5,maxRows: 5}" />
         <section class="read-main-up" v-if="infoData.attachment_list">
             <div class="read-main-up-title">
                 <v-img width="13" height="13" :imgSrc="require('@/assets/img/fj.png')"></v-img>
@@ -53,17 +53,6 @@
                     Attached
                     <span class="read-main-up-title-file-num">({{ infoData.attachment_list.length }} pieces)</span>
                 </div>
-                <!-- <template>
-                    <Upload
-                        class="read-main-up-title-file"
-                        multiple
-                        :before-upload="onUpBefore"
-                        :show-upload-list="false"
-                        action="//jsonplaceholder.typicode.com/posts/">
-                        Attached
-                        <span class="read-main-up-title-file-num">({{ 2 }} pieces)</span>
-                    </Upload>
-                </template> -->
             </div>
             <ul class="read-main-up-item">
                 <li v-for="(item, index) of infoData.attachment_list" :key="index">
@@ -125,6 +114,7 @@
                 }).then(({ code, data }) => {
                     if(code == 200) {
                         this.infoData = data[0]
+                        // console.log(this.infoData)
                         this.infoQuery = datas
                         // 标记为已读
                         this.onRead()

@@ -36,7 +36,6 @@ service.interceptors.request.use(
             const token = auth.getCookies()
             config.headers['Authorization'] = 'Bearer ' + token;
         }
-
         return config
     },
     error => {
