@@ -90,12 +90,12 @@
                             </span>
                         </div>
                     </div>
-                    <div class="consulting-main-body-content">
+                    <div class="consulting-main-body-content" style="flex-direction: column">
                         <div class="consulting-main-body-content-label"></div>
                         <div class="consulting-main-body-content-fileName" v-show="fromItem.files" v-for="(file, index) in fromItem.files" :key="index">
                             <v-img width="13" height="13" :imgSrc="require('@/assets/img/fj.png')"></v-img>
                             <!-- <span>{{ fromItem.files.name }}</span> -->
-                            <span>{{ file.name }}</span>
+                            <span class="consulting-main-body-content-fileName-span">{{ file.name }}</span>
                             <span @click="onDelete(index)">
                                 <v-img width="16" style="cursor: pointer" height="16" :imgSrc="require('@/assets/img/qx.png')" ></v-img>
                             </span>
@@ -265,7 +265,6 @@
             .flex(flex-start, center);
             height: 88px;
             margin-left: 18.2%;
-
             & > img {
                 .width(181px, 53px);
             }
@@ -394,7 +393,16 @@
 
                 &-fileName {
                     .flex(flex-start, center);
+                    width: 449px;
                     height: 16px;
+                    margin-left: 144px;
+                    margin-top: 20px;
+
+                    &-span {
+                        width: 449px;
+                        display: block;
+                        .textHidden();
+                    }
 
                     & > span:nth-child(2) {
                         margin-left: 9px;

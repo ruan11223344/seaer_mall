@@ -62,7 +62,6 @@
         },
         components: {
             'v-card': Card,
-            // "v-Breadcrumb": Breadcrumb 
         },
         watch: {
             Product_All() {
