@@ -32,7 +32,10 @@
         },
         methods: {
             onGetUser: getData.onGetUser,
-            getSessionStorage: Cookies.getSessionStorage
+            getSessionStorage: Cookies.getSessionStorage,
+            setSessionStorage: Cookies.setSessionStorage,
+            removeSessionStorage: Cookies.removeSessionStorage,
+            getCookies: Cookies.getCookies
         },
         computed: {
         },
@@ -40,7 +43,13 @@
             this.user = this.getSessionStorage()
         },
         mounted() {
-            
+            if(!this.getSessionStorage() && this.getCookies()) {
+                this.onGetUser().then(res =>{
+                    this.removeSessionStorage()
+                    this.setSessionStorage(res)
+                    this.user = this.getSessionStorage()
+                })
+            }
         },
     }
 </script>
