@@ -6,7 +6,7 @@
             </router-link>
             <figcaption class="card-footer">
                 <div class="card-footer-title">{{ fromData.album_name }}</div>
-                <div class="card-footer-subheading">Total {{ len }} photos</div>
+                <div class="card-footer-subheading">Total {{ fromData.photo_count }} photos</div>
             </figcaption>
         </figure>
         <button type="button" class="card-edit" @click="editShow=true">Edit</button>
@@ -68,22 +68,6 @@
             onShow() {
                 this.editShow = false
             },
-            // 获取图片列表
-            onGetAlbumList() {
-                this.$request({
-                    url: '/album/album_photo_list',
-                    method: 'get',
-                    params: {
-                        album_id: this.fromData.id
-                    }
-                }).then(res => {
-                    if(res.code == 200) {
-                        this.len = res.data.length
-                    }
-                }).catch(err => {
-                    return false
-                })
-            },
             // 修改相册
             onEdit() {
                 this.$request({
@@ -115,7 +99,6 @@
             }
         },
         mounted() {
-            this.onGetAlbumList()
         },
         components: {
             "v-img": Img,

@@ -88,7 +88,7 @@
                 let formData = new FormData();
 
                 formData.append('images[]', this.formLeft.files);
-
+                this.$Spin.show()
                 this.$request({
                     url: '/album/upload_img_to_album',
                     method: 'post',
@@ -102,8 +102,11 @@
                             content: res.message,
                             duration: 3
                         })
+                        this.$Spin.hide()
                     }
+                    
                 }).catch(err => {
+                    this.$Spin.hide()
                     return false
                 })
             },
@@ -119,6 +122,7 @@
                         "album_id": this.formLeft.model
                     }
                 }).then(res => {
+                    this.$Spin.hide()
                     if(res.code == 200) {
                         this.onShow()
                         this.$Message.info({
@@ -133,6 +137,7 @@
                         })
                     }
                 }).catch(err => {
+                    this.$Spin.hide()
                     return false
                 })
             }
@@ -146,7 +151,7 @@
     }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
     @import url('../../../../assets/css/index.less');
 
     .uploadAlbum {
@@ -165,16 +170,11 @@
             border: none;
             font-size: 18px;
             color: #ffffff;
-            // margin: 44px auto;
         }
 
         &-tips {
             font-size: 14px;
             color: #999999;
         }
-    }
-
-    .ivu-select-dropdown {
-        z-index: 10001 !important;
     }
 </style>

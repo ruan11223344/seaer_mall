@@ -79,6 +79,7 @@
                 this.createShow = false
             },
             onUploadShow(index) {
+                this.onGetAlbumList()
                 this.uploadShow = false
             },
             onGetAlbumList() {

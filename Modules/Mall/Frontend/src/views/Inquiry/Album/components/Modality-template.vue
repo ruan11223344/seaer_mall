@@ -35,7 +35,7 @@
         position: fixed;
         top: 0px;
         left: 0px;
-        z-index: 10000;
+        z-index: 10001;
 
         &-block {
             position: absolute;

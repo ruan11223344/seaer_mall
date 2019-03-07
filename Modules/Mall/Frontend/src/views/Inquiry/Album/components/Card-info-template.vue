@@ -31,7 +31,7 @@
                             {{ item.created_at }}
                         </div>
                         <div class="cardInfo-body-block">
-                            Originai size: {{ info.ImageWidth.value  + ' x ' + info.ImageHeight.value }}
+                            Originai size: {{ item.photo_size }}
                         </div>
                     </template>
 
@@ -119,15 +119,15 @@
         },
         methods: {
             onGetImgInfo(image_path) {
-                this.$request({
-                    url: '/album/get_img_info',
-                    method: 'get',
-                    params: {
-                        image_path: image_path
-                    }
-                }).then(res => {
-                    this.info = res
-                })
+                // this.$request({
+                //     url: '/album/get_img_info',
+                //     method: 'get',
+                //     params: {
+                //         image_path: image_path
+                //     }
+                // }).then(res => {
+                //     this.info = res
+                // })
             },
             onCopy() {
                 this.$Message.info('Success copy')
@@ -165,7 +165,7 @@
             }
         },
         mounted() {
-            this.onGetImgInfo(this.item.photo_path)
+            // this.onGetImgInfo(this.item.photo_path)
         },
         components: {
             "v-img": Img,
