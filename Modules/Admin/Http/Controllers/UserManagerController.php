@@ -270,6 +270,7 @@ class UserManagerController extends Controller
         $admin->offset(($page-1)*$size)->limit($size)->get()->map(function ($v,$k)use(&$admin_data_list,$page,$size){
             $tmp = [];
             $tmp['num'] = $k+1+(($page-1)*$size);//序号
+            $tmp['admin_id'] = $v->id;//序号
             $tmp['admin_name'] = $v->name;//序号
             $admin_log = AdminLog::where(
                 [
