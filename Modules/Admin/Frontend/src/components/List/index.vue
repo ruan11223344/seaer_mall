@@ -3,10 +3,10 @@
         <section class="title">
             <div class="title-left">
                 <span>用户列表</span>
-                <span>共2000条</span>
+                <span>共{{ total.total }}条</span>
             </div>
 
-            <div class="title-right">
+            <div class="title-right" v-if="inputBool">
                 <el-input placeholder="请输入“会员ID”、“Email”搜索相关数据" v-model="search" class="title-right-input">
                     <el-button type="primary" slot="append" icon="el-icon-search" class="title-right-search"></el-button>
                 </el-input>
@@ -19,7 +19,9 @@
             <el-pagination
                 background
                 layout="prev, pager, next"
-                :total="1000"
+                :total="total.total"
+                :page-size="total.size"
+                @current-change="onCurrentChange"
                 >
             </el-pagination>
         </section>
@@ -33,8 +35,21 @@
                 search: null
             }
         },
+        props: {
+            total: {
+                type: Object,
+                default: {
+                    total: 0,
+                    size: 10
+                }
+            },
+            inputBool: false
+        },
         methods: {
-            
+            // 分页
+            onCurrentChange(num) {
+                this.$emit('on-change-num', num)
+            }
         }
     }
 </script>
@@ -45,6 +60,8 @@
         width: 100%;
 
         .title {
+            height: 40px;
+            margin-bottom: 20px;
             @include mixin-flex(space-between, center);
 
             &-left {

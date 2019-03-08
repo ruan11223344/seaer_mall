@@ -33,8 +33,6 @@
 </template>
 
 <script>
-    // import getRequest from "@/utils/getRequest";
-
     export default {
         data() {
             var validateUser = (rule, value, callback) => {
