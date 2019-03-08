@@ -540,7 +540,7 @@ json参数:
 14.编辑管理员信息
 ```
 url:http://域名/api/admin/user_manager/edit_admin
-请求方法:get
+请求方法:post
 json参数:
 {
 	"admin_id":1,  //必填 管理员id
@@ -575,5 +575,63 @@ json参数:
     "code": 200,
     "message": "删除管理员成功!",
     "data": []
+}
+```
+
+16.全部商品列表获取
+```
+url:http://域名/api/admin/product_manager/get_product_list
+请求方法:post
+json参数:
+{
+	"page":1,
+	"size":3
+}
+
+返回:
+{
+    "code": 200,
+    "message": "获取商品列表数据成功!",
+    "data": {
+        "data": [
+            {
+                "num": 1,
+                "product_id": 33,
+                "product_origin_id": "PD_CN_a49b34079_8f538e50",
+                "product_price": "10-8",
+                "company_name": "wangzi  compangys",
+                "company_detail_address": "湖北省xxsdsadjkdsajkdsajdkjsakdj111111",
+                "product_status": 1,
+                "product_audit_status": 0,
+                "product_status_str": "等待审核"
+            },
+            {
+                "num": 2,
+                "product_id": 34,
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "product_price": "100-2010",
+                "company_name": "wangzi  compangys",
+                "company_detail_address": "湖北省xxsdsadjkdsajkdsajdkjsakdj111111",
+                "product_status": 1,
+                "product_audit_status": 2,
+                "product_status_str": "未通过审核"
+            },
+            {
+                "num": 3,
+                "product_id": 35,
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "product_price": "100-2010",
+                "company_name": "wangzi  compangys",
+                "company_detail_address": "湖北省xxsdsadjkdsajkdsajdkjsakdj111111",
+                "product_status": 1,
+                "product_audit_status": 1,
+                "product_status_str": "出售中"
+            }
+        ],
+        "size": 3,
+        "cur_page": 1,
+        "total_page": 9,
+        "total_size": 25
+    }
 }
 ```

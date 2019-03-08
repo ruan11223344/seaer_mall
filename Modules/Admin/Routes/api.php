@@ -38,6 +38,10 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
             Route::get('get_role_permissions', 'RoleController@getRolePermissions')->middleware('passport-custom-provider')->name('admin.role.permissions');
         });
 
+        Route::prefix('product_manager')->group(function (){
+            Route::get('get_product_list', 'ProductManagerController@getProductList')->middleware('passport-custom-provider')->name('admin.product.list');
+        });
+
         Route::prefix('utils')->group(function (){
             Route::get('get_captcha', 'UtilsController@getCaptcha')->name('admin.get.captcha');
         });
