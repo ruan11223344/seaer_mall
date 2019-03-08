@@ -291,7 +291,7 @@ class UserManagerController extends Controller
         $res_data['cur_page'] =$page;
         $res_data['total_page'] = (int)ceil($count/$size);
         $res_data['total_size'] = $count;
-        return $res_data;
+        return $this->echoSuccessJson('获取管理员列表成功!',$res_data);
     }
 
     public static function getAdminData($admin_id){
