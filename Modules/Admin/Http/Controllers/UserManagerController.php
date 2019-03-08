@@ -337,12 +337,23 @@ class UserManagerController extends Controller
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
+
         $admin_id = $request->input('admin_id');
         $admin_name = $request->input('admin_name',null);
         $password = $request->input('password',null);
         $role_id = $request->input('role_id');
 
-        $admin_obj = Admin::find($admin_id);
+        if(Admin::withTrashed()->where(
+            [
+                ['name','=',$admin_name],
+                ['id','!=',$admin_id],
+            ]
+        )->exists()){
+            return $this->echoErrorJson('不能使用该管理员名称,已经有相同的管理员名称存在了!');
+        }
+
+
+            $admin_obj = Admin::find($admin_id);
         if($password != null){
             $admin_obj->password = bcrypt($password);
         }
