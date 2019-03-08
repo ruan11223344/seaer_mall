@@ -122,7 +122,7 @@ class ProductManagerController extends Controller
 
     }
 
-    public function getWaitAuditProductList(Request $request){
+    public function getProductInfo(Request $request){
 
     }
 

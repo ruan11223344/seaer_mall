@@ -132,21 +132,9 @@ class RoleController extends Controller
         }
 
         $role_id = $request->input('role_id');
-
         $all_permissions = $request->input('all_permissions',false);
-        if($all_permissions){
-            self::giveAllPermissionsToRole($role_id);
-            return $this->echoSuccessJson('修改权限组成功!');
-        }
-
         $role_name = $request->input('role_name',null);
-
         $permissions_list = $request->input('permissions_list');
-
-        $permissions_list_arr = [];
-        foreach ($permissions_list as $v){
-            $permissions_list_arr[] = Permission::find($v);
-        }
 
         $admin = Role::find($role_id);
 
@@ -154,6 +142,17 @@ class RoleController extends Controller
             $admin->name = $role_name;
             $admin->save();
         }
+
+        if($all_permissions){
+            self::giveAllPermissionsToRole($role_id);
+            return $this->echoSuccessJson('修改权限组成功!');
+        }
+
+        $permissions_list_arr = [];
+        foreach ($permissions_list as $v){
+            $permissions_list_arr[] = Permission::find($v);
+        }
+        
 
         $admin->detachPermissions(Permission::all());
         $admin->attachPermissions($permissions_list_arr);
