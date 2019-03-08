@@ -191,7 +191,6 @@ json参数:
 }
 ```
 
-
 5.设置用户是否能够使用询盘 （翻转接口)
 ```
 url:http://域名/api/admin/user_manager/set_inquiry
@@ -294,3 +293,122 @@ json参数:
 }
 ```
 
+7.创建管理员
+```
+url:http://域名/api/admin/auth/add_admin
+请求方法:post
+json参数:
+{
+	"admin_name":"张文俊1", //管理员名
+	"password":"123456",   //密码 
+	"password_confirmation":"123456",  //重复密码
+	"role_id":1  //权限组id
+}
+
+返回:
+
+{
+    "code": 200,
+    "message": "创建管理员成功!",
+    "data": []
+}
+```
+
+8.获取权限组列表
+```
+url:http://域名/api/admin/role_manager/get_role_list
+请求方法:get
+json参数:
+{
+	"admin_name":"张文俊1", //管理员名
+	"password":"123456",   //密码 
+	"password_confirmation":"123456",  //重复密码
+	"role_id":1  //权限组id
+}
+
+返回:
+
+{
+    "code": 200,
+    "message": "获取角色列表成功!",
+    "data": [
+        {
+            "role_id": 1,
+            "role_name": "一级管理员",
+            "role_display_name": "一级管理员",
+            "description": null
+        }
+    ]
+}
+```
+
+9.添加角色(权限组)
+```
+url:http://域名/api/admin/role_manager/add_role
+请求方法:post
+json参数:
+{
+	"role_name":"三级管理员",  //角色名
+	"permissions_list":[1]   //权限列表
+}
+
+返回:
+{
+    "code": 200,
+    "message": "创建权限组成功!",
+    "data": {
+        "role_name": "三级管理员",
+        "role_id": 4
+    }
+}
+```
+
+9.修改角色(权限组)
+```
+url:http://域名/api/admin/role_manager/edit_role
+请求方法:post
+json参数:
+{
+	"role_name":"test管理员",  //要修改的角色名
+	"role_id":"3",            //角色id
+	"all_permissions":false,  //是否拥有所有权限
+	"permissions_list":[1,2]  //权限id列表  数组
+}
+
+返回:
+{
+    "code": 200,
+    "message": "修改权限组成功!",
+    "data": [
+        {
+            "permission_id": 1,
+            "permission_name": "admin.user.admin.list",
+            "display_name": "获取管理员列表",
+            "description": "获取管理员列表详情"
+        },
+        {
+            "permission_id": 2,
+            "permission_name": "admin.user.admin.test",
+            "display_name": "ffff",
+            "description": "ssdssd"
+        }
+    ]
+}
+```
+
+10.删除角色(权限组) 
+```
+url:http://域名/api/admin/role_manager/delete_role
+请求方法:post
+json参数:
+{
+	"role_id":3  //角色id
+}
+
+返回:
+{
+    "code": 200,
+    "message": "删除权限组成功!",
+    "data": []
+}
+```

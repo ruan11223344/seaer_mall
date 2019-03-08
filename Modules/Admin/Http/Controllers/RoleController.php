@@ -8,12 +8,13 @@ use Modules\Admin\Entities\Permission;
 use Modules\Admin\Entities\Role;
 use App\Utils\EchoJson;
 use Illuminate\Support\Facades\Validator;
+use Modules\Mall\Http\Controllers\Shop\ProductsController;
 
 class RoleController extends Controller
 {
     use EchoJson;
 
-    public function getRoleList(Request $request){
+    public function getRoleList(){
         $data_list = [];
         Role::all()->map(function ($v)use(&$data_list){
             $tmp = [];
@@ -26,14 +27,15 @@ class RoleController extends Controller
         return $this->echoSuccessJson('获取角色列表成功!',$data_list);
     }
 
-
     public function addRole(Request $request){
         $data = $request->all();
 
         Validator::extend('permissions_list_check', function($attribute, $value,$parameters,$validator){
-            if(Permission::find($value) == null){
-                $validator->setCustomMessages(['permissions_list_check' => 'permissions_id don\'t exists!:permissions id:'.$value]);
-                return false;
+            foreach ($value as $v){
+                if(Permission::find($v) == null){
+                    $validator->setCustomMessages(['permissions_list_check' => 'permissions_id don\'t exists!:permissions id:'.$v]);
+                    return false;
+                }
             }
             return true;
         }); //检测
@@ -69,7 +71,7 @@ class RoleController extends Controller
         return $this->echoSuccessJson('创建权限组成功!',['role_name'=>$admin->name,'role_id'=>$admin->id]);
     }
 
-    public static function getAllPermissionsToRole($role_id){
+    public static function giveAllPermissionsToRole($role_id){
         $admin = Role::find($role_id);
         $admin->attachPermissions(Permission::all());
     }
@@ -100,7 +102,7 @@ class RoleController extends Controller
 
         $all_permissions = $request->input('all_permissions',false);
         if($all_permissions){
-            self::getAllPermissionsToRole($role_id);
+            self::giveAllPermissionsToRole($role_id);
             return $this->echoSuccessJson('修改权限组成功!');
         }
 
@@ -120,11 +122,12 @@ class RoleController extends Controller
             $admin->save();
         }
 
-        $oldPermissions = $admin->getPermissionIds();
-        $admin->detachPermissions($oldPermissions);
+        $admin->detachPermissions(Permission::all());
         $admin->attachPermissions($permissions_list_arr);
 
-        return $this->echoSuccessJson('修改权限组成功!');
+        $role_permission = PermissionController::getPermissionByRole($role_id);
+
+        return $this->echoSuccessJson('修改权限组成功!',$role_permission);
 
     }
 
@@ -149,7 +152,10 @@ class RoleController extends Controller
         $role->perms()->sync([]); // Delete relationship data
 
         $role->forceDelete(); // Now force delete will work regardless of whether the pivot table has cascading delete
-        return $this->echoSuccessJson('删除权限组成功!');
+
+        $role_permission = PermissionController::getPermissionByRole($role_id);
+
+        return $this->echoSuccessJson('删除权限组成功!',$role_permission);
     }
 
 

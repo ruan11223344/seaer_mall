@@ -83,7 +83,13 @@ class AuthController extends Controller
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
+
         $name = $request->input('admin_name');
+
+        if(Admin::where('name',$name)->exists()){
+            return $this->echoErrorJson('管理员名已经存在!');
+        }
+
         $password = $request->input('password');
         $role_id = $request->input('role_id');
         $admin = Admin::create(
