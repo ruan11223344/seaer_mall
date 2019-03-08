@@ -69,8 +69,8 @@ class UserManagerController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'page'=>'nullable',
-            'size'=>'nullable',
+            'page'=>'required|integer',
+            'size'=>'required|integer',
         ]);
 
         if ($validator->fails()){
@@ -93,8 +93,8 @@ class UserManagerController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'page'=>'nullable',
-            'size'=>'nullable',
+            'page'=>'required|integer',
+            'size'=>'required|integer',
             'keywords'=>'required'
         ]);
 
@@ -189,8 +189,8 @@ class UserManagerController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'page'=>'nullable',
-            'size'=>'nullable',
+            'page'=>'required|integer',
+            'size'=>'required|integer',
         ]);
 
         if ($validator->fails()){
@@ -219,8 +219,8 @@ class UserManagerController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'page'=>'nullable',
-            'size'=>'nullable',
+            'page'=>'required|integer',
+            'size'=>'required|integer',
             'keywords'=>'required'
         ]);
 
@@ -250,8 +250,8 @@ class UserManagerController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'page'=>'nullable',
-            'size'=>'nullable',
+            'page'=>'required|integer',
+            'size'=>'required|integer',
         ]);
 
         if ($validator->fails()){
