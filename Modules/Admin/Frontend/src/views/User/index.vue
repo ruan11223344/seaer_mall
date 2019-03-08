@@ -134,6 +134,7 @@
                 this.$set(this.total, 'num', num)
                 this.onGetTableData()
             },
+            // 获取用户数据
             onGetTableData() {
                 this.$GetRequest.getUserList( this.total.size, this.total.num )
                     .then(res => {
@@ -142,6 +143,7 @@
                     }
                 )
             },
+            // 操作
             handleEdit(user_id, index, allow_inquiry) {
                 this.$PutRequest.putInquiryJurisdiction(user_id)
                     .then(res => {
@@ -159,6 +161,7 @@
                     }
                 )
             },
+            // 搜索
             onChangeSearch(key) {
                 if(key == '') {
                     this.onGetTableData()

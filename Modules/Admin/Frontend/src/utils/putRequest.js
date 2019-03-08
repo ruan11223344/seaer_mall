@@ -45,6 +45,24 @@ class PutRequest {
             })
         })
     }
+
+    // 9.添加角色(权限组)
+    putAddRole(data) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/role_manager/add_role',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
+
 }
 
 export default new PutRequest()

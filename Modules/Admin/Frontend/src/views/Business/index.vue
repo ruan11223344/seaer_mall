@@ -151,6 +151,7 @@
                     }
                 )
             },
+            // 获取商家数据
             onGetBusinessList() {
                 this.$GetRequest.getMerchantList(this.total.size, this.total.num)
                     .then(res => {
@@ -159,6 +160,7 @@
                     }
                 )
             },
+            // 搜索
             onChangeSearch(key) {
                 if(key == '') {
                     this.onGetBusinessList()

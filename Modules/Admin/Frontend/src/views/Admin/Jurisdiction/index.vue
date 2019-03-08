@@ -3,11 +3,11 @@
         <el-form :model="formLabelAlign">
             <el-form-item>
                 <span slot="label">权限组</span>
-                <el-input v-model="formLabelAlign.name" style="width: 100%; max-width: 560px;"></el-input>
+                <el-input v-model="formLabelAlign.role_name" style="width: 100%; max-width: 560px;"></el-input>
             </el-form-item>
             <el-form-item>
                 <span slot="label">权限组</span>
-                <el-checkbox v-model="checked">所有权限</el-checkbox>
+                <el-checkbox v-model="formLabelAlign.all_permissions">所有权限</el-checkbox>
                 <span>(勾选后选中全部操作功能，可根据需要从设置详情中进行分组设置)</span>
             </el-form-item>
         </el-form>
@@ -25,9 +25,9 @@
                     v-model="checkedCities1"
                     >
                     <el-checkbox
-                        v-for="city in cities"
+                        v-for="(city, index) in cities"
                         :label="city"
-                        :key="city" 
+                        :key="index" 
                         class="group-checkbox"
                         >{{city}}
                     </el-checkbox>
@@ -41,12 +41,12 @@
         <section class="group">
             <template>
                 <el-checkbox-group 
-                    v-model="checkedCities1"
+                    v-model="checkedCities2"
                     >
                     <el-checkbox
-                        v-for="city in cities"
+                        v-for="(city, index) in cities"
                         :label="city"
-                        :key="city" 
+                        :key="index" 
                         class="group-checkbox"
                         >{{city}}
                     </el-checkbox>
@@ -54,7 +54,7 @@
             </template>
         </section>
 
-        <el-button type="primary" class="sub">保存</el-button>
+        <el-button type="primary" class="sub" @click="onSub">保存</el-button>
     </div>
 </template>
 
@@ -63,13 +63,31 @@
         data() {
             return {
                 formLabelAlign: {
-                    name: '',
-                    region: '',
-                    type: ''
+                    role_name: '',
+                    all_permissions: false,
+                    permissions_list: []
                 },
                 checked: false,
                 checkedCities1: [],
-                cities: ['设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作', '设置操作']
+                checkedCities2: [],
+                cities: ['设置操作', '设置操作', '设置操作', '设置操作']
+            }
+        },
+        methods: {
+            // 保存
+            onSub() {
+                this.$PutRequest.putAddRole(this.formLabelAlign)
+                    .then(res => {
+                        this.$router.go(-1)
+                    }
+                ).catch(err => {
+                        this.$message({
+                            showClose: true,
+                            message: err.message,
+                            type: 'error'
+                        })
+                    }
+                )
             }
         },
     }

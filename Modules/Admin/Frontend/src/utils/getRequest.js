@@ -73,6 +73,22 @@ class getRequest {
             })
         })
     }
+
+    // 8.获取权限组列表
+    getJurisdictionList() {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/role_manager/get_role_list',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
+
 }
 
 export default new getRequest()
