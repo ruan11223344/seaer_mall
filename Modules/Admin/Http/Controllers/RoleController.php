@@ -8,7 +8,6 @@ use Modules\Admin\Entities\Permission;
 use Modules\Admin\Entities\Role;
 use App\Utils\EchoJson;
 use Illuminate\Support\Facades\Validator;
-use Modules\Mall\Http\Controllers\Shop\ProductsController;
 
 class RoleController extends Controller
 {
@@ -27,10 +26,30 @@ class RoleController extends Controller
         return $this->echoSuccessJson('获取角色列表成功!',$data_list);
     }
 
+    public function getRolePermissions(Request $request){
+        $data = $request->all();
+
+        $validator = Validator::make($data,[
+            'role_id'=>'required|exists:roles,id',
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
+        }
+
+        $role_id = $request->input('role_id');
+
+        $permission_list = PermissionController::getPermissionByRole($role_id);
+        return $this->echoSuccessJson('获取角色已有权限列表成功!',$permission_list);
+    }
+
     public function addRole(Request $request){
         $data = $request->all();
 
         Validator::extend('permissions_list_check', function($attribute, $value,$parameters,$validator){
+            if($value == null){
+                return true;
+            }
             foreach ($value as $v){
                 if(Permission::find($v) == null){
                     $validator->setCustomMessages(['permissions_list_check' => 'permissions_id don\'t exists!:permissions id:'.$v]);
@@ -42,7 +61,8 @@ class RoleController extends Controller
 
         $validator = Validator::make($data,[
             'role_name'=>'required|string',
-            'permissions_list'=>'array|permissions_list_check'
+            'permissions_list'=>'array|permissions_list_check',
+            'all_permissions'=>'boolean'
         ]);
 
         if ($validator->fails()){
@@ -59,6 +79,13 @@ class RoleController extends Controller
         $admin->name         = $role_name;
         $admin->display_name = $role_name;
         $admin->save();
+
+        $all_permissions = $request->input('all_permissions',false);
+
+        if($all_permissions){
+            self::giveAllPermissionsToRole($admin->id);
+            return $this->echoSuccessJson('创建权限组成功!',['role_name'=>$admin->name,'role_id'=>$admin->id]);
+        }
 
         $permissions_list_arr = [];
         foreach ($permissions_list as $v){
@@ -80,9 +107,14 @@ class RoleController extends Controller
         $data = $request->all();
 
         Validator::extend('permissions_list_check', function($attribute, $value,$parameters,$validator){
-            if(Permission::find($value) == null){
-                $validator->setCustomMessages(['permissions_list_check' => 'permissions_id don\'t exists!:permissions id:'.$value]);
-                return false;
+            if($value == null){
+                return true;
+            }
+            foreach ($value as $v){
+                if(Permission::find($v) == null){
+                    $validator->setCustomMessages(['permissions_list_check' => 'permissions_id don\'t exists!:permissions id:'.$v]);
+                    return false;
+                }
             }
             return true;
         });
@@ -157,6 +189,5 @@ class RoleController extends Controller
 
         return $this->echoSuccessJson('删除权限组成功!',$role_permission);
     }
-
 
 }

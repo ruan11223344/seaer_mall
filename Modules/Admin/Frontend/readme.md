@@ -349,6 +349,7 @@ url:http://域名/api/admin/role_manager/add_role
 json参数:
 {
 	"role_name":"三级管理员",  //角色名
+	"all_permissions":false,  //注意 是否给予所有权限 如果是true  那么参数permissions_list 请传空数组 []
 	"permissions_list":[1]   //权限列表
 }
 
@@ -371,7 +372,7 @@ json参数:
 {
 	"role_name":"test管理员",  //要修改的角色名
 	"role_id":"3",            //角色id
-	"all_permissions":false,  //是否拥有所有权限
+	"all_permissions":false,  //是否给予所有权限 注意 如果是true 那么参数permissions_list 请传空数组 []
 	"permissions_list":[1,2]  //权限id列表  数组
 }
 
@@ -412,3 +413,57 @@ json参数:
     "data": []
 }
 ```
+
+11.获取角色已有权限列表(权限组) 
+```
+url:http://域名/api/admin/role_manager/get_role_permissions
+请求方法:get
+json参数:
+{
+	"role_id":7  //角色id
+}
+返回:
+{
+    "code": 200,
+    "message": "获取角色权限列表成功!",
+    "data": [
+        {
+            "permission_id": 1,
+            "permission_name": "admin.user.admin.list",
+            "display_name": "获取管理员列表",
+            "description": "获取管理员列表详情"
+        },
+        {
+            "permission_id": 2,
+            "permission_name": "admin.user.admin.test",
+            "display_name": "ffff",
+            "description": "ssdssd"
+        },
+        {
+            "permission_id": 3,
+            "permission_name": "admin.user.setInquiry",
+            "display_name": "设置询盘",
+            "description": "设置用户是否能够发送询盘"
+        },
+        {
+            "permission_id": 4,
+            "permission_name": "admin.user.merchants.list",
+            "display_name": "获取商家列表",
+            "description": "管理员是否能够获取商家列表"
+        },
+        {
+            "permission_id": 5,
+            "permission_name": "admin.user.list",
+            "display_name": "访问用户列表",
+            "description": "访问afriby非商家的用户列表"
+        },
+        {
+            "permission_id": 6,
+            "permission_name": "admin.user.search",
+            "display_name": "搜索用户列表",
+            "description": "搜索afriby非商家的用户列表"
+        }
+    ]
+}
+```
+
