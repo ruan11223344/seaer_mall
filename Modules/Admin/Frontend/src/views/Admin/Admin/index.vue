@@ -74,7 +74,16 @@
                 </el-table>
             </template>
 
-            
+            <section class="page">
+                <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="total.total"
+                    :page-size="total.size"
+                    @current-change="onCurrentChange"
+                    >
+                </el-pagination>
+            </section>
         </section>
 
         <section v-show="active == 1">
@@ -85,6 +94,7 @@
                     ref="singleTable"
                     :data="jurisdiction"
                     style="width: 100%"
+                    height="648px"
                     size="mini"
                     >
 
@@ -153,6 +163,12 @@
             handleEdit(tab, event) {
                 // console.log(tab, event);
             },
+            // 管理员分页
+            onCurrentChange(num) {
+                this.$set(this.total, 'num', num)
+                this.onGetAdmin()
+            },
+            // 获取权限组列表
             onGetJurisdiction() {
                 this.$GetRequest.getJurisdictionList()
                     .then(res => {
@@ -160,10 +176,11 @@
                     }
                 )
             },
+            // 获取管理员列表
             onGetAdmin() {
                 this.$GetRequest.getAdminList(this.total.size, this.total.num)
                     .then(res => {
-                        console.log(res)
+                        this.total.total = res.total_size
                         this.AdminData = res.data
                     }
                 ).catch(err => {
@@ -270,6 +287,11 @@
             margin-bottom: 10px;
             @include mixin-color(white);
             @include mixin-bg-color(yellow);
+        }
+
+        .page {
+            margin-top: 16px;
+            @include mixin-flex(center, center);
         }
     }
 </style>
