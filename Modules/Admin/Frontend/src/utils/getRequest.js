@@ -89,6 +89,25 @@ class getRequest {
         })
     }
 
+    // 12.获取管理员列表
+    getAdminList(size, page) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/user_manager/get_admin_list',
+                params: {
+                    "size": size,  //获取数量大小
+                    "page": page,   //分页
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
+
 }
 
 export default new getRequest()

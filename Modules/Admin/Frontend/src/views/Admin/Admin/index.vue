@@ -11,43 +11,42 @@
             <template>
                 <el-table
                     ref="singleTable"
-                    :data="tableData"
+                    :data="AdminData"
                     style="width: 100%"
-                    height="684px"
                     size="mini"
                     >
 
                     <el-table-column
                         align="center"
                         label="序号"
-                        type="index"
+                        property="num"
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
-                        property="name"
+                        property="admin_name"
                         label="登录名"
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
-                        property="name"
+                        property="last_login"
                         label="上次登录时间"
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
-                        property="name"
+                        property="login_count"
                         label="登录次数"
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
-                        property="name"
+                        property="role_name"
                         label="权限组"
                         >
                     </el-table-column>
@@ -74,6 +73,8 @@
                     </el-table-column>
                 </el-table>
             </template>
+
+            
         </section>
 
         <section v-show="active == 1">
@@ -82,22 +83,22 @@
             <template>
                 <el-table
                     ref="singleTable"
-                    :data="tableData"
+                    :data="jurisdiction"
                     style="width: 100%"
-                    height="684px"
                     size="mini"
                     >
 
                     <el-table-column
                         align="center"
                         label="序号"
-                        type="index"
+                        width="150px"
+                        property="role_id"
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
-                        property="name"
+                        property="role_name"
                         label="权限组"
                         >
                     </el-table-column>
@@ -133,8 +134,13 @@
         data() {
             return {
                 active: 0,
-                tableData: [
-                ],
+                AdminData: [],
+                jurisdiction: [],
+                total: {
+                    total: 0,
+                    size: 18,
+                    num: 1
+                }
             };
         },
         methods: {
@@ -144,21 +150,52 @@
             onJurisdiction() {
                 this.$router.push('/admin/jurisdiction')
             },
-            handleClick(tab, event) {
-                console.log(tab, event);
+            handleEdit(tab, event) {
+                // console.log(tab, event);
             },
             onGetJurisdiction() {
                 this.$GetRequest.getJurisdictionList()
                     .then(res => {
-                        console.log(res)
+                        this.jurisdiction = res
                     }
                 )
+            },
+            onGetAdmin() {
+                this.$GetRequest.getAdminList(this.total.size, this.total.num)
+                    .then(res => {
+                        console.log(res)
+                        this.AdminData = res.data
+                    }
+                ).catch(err => {
+                        this.$message({
+                            message: err.message,
+                            type: 'success'
+                        })
+                    }
+                )
+            },
+            onClcik(num) {
+                switch (num) {
+                    case 0:
+                        this.onGetAdmin()
+                        break
+                    case 1:
+                        this.onGetJurisdiction()
+                        break
+                    default:
+                        break
+                }
             }
         },
         mounted() {
-            this.onGetJurisdiction()
-        }
-    };
+            this.onClcik(this.active)
+        },
+        watch: {
+            active(newVal) {
+                this.onClcik(newVal)
+            }
+        },
+    }
 </script>
 
 <style lang="scss" scoped>

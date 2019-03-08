@@ -46,6 +46,23 @@ class PutRequest {
         })
     }
 
+    // 7.创建管理员
+    putAddAdmin(data) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/auth/add_admin',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
+
     // 9.添加角色(权限组)
     putAddRole(data) {
         return new Promise(async (resolve, reject) => {

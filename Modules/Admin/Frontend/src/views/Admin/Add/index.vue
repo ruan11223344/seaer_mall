@@ -1,18 +1,18 @@
 <template>
     <div class="jurisdiction">
         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="70px" class="demo-ruleForm">
-            <el-form-item label="登录名" prop="user">
-                <el-input type="text" v-model="ruleForm.user" style="max-width: 560px;"></el-input>
+            <el-form-item label="登录名" prop="admin_name">
+                <el-input type="text" v-model="ruleForm.admin_name" style="max-width: 560px;"></el-input>
             </el-form-item>
             <el-form-item label="密码" prop="password">
                 <el-input type="password" v-model="ruleForm.password" style="max-width: 560px;"></el-input>
             </el-form-item>
-            <el-form-item label="确认密码" prop="checkPassword">
-                <el-input type="password" v-model="ruleForm.checkPassword" style="max-width: 560px;"></el-input>
+            <el-form-item label="确认密码" prop="password_confirmation">
+                <el-input type="password" v-model="ruleForm.password_confirmation" style="max-width: 560px;"></el-input>
             </el-form-item>
-            <el-form-item label="权限组" prop="jurisdiction">
+            <el-form-item label="权限组" prop="role_id">
                 <template>
-                    <el-select v-model="ruleForm.jurisdiction" placeholder="请选择" style="width: 100%; max-width: 560px;">
+                    <el-select v-model="ruleForm.role_id" placeholder="请选择" style="width: 100%; max-width: 560px;">
                         <el-option
                             v-for="item in options"
                             :key="item.value"
@@ -33,40 +33,93 @@
 <script>
     export default {
         data() {
+            const validate = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入内容'))
+                }else {
+                    callback()
+                }
+            }
+
+            const validatorCheck = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请确认密码'))
+                }else if (value !== this.ruleForm.password) {
+                    callback(new Error('两次密码不一致'))
+                }else {
+                    callback()
+                }
+            }
+
+            const validateSelect = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请选择权限组'))
+                }else {
+                    callback()
+                }
+            }
+            
             return {
-                options: [
-                    {
-                        value: '1',
-                        label: '一级管理员'
-                    },
-                    {
-                        value: '2',
-                        label: '二级管理员'
-                    }
-                ],
+                options: [],
                 value: '',
                 ruleForm: {
-                    user: '',
+                    admin_name: '',
                     password: '',
-                    checkPassword: '',
-                    jurisdiction: ''
+                    password_confirmation: '',
+                    role_id: ''
                 },
                 rules: {
-
+                    admin_name: [
+                        { validator: validate, trigger: 'blur' }
+                    ],
+                    password: [
+                        { validator: validate, trigger: 'blur' }
+                    ],
+                    password_confirmation: [
+                        { validator: validatorCheck, trigger: 'blur' }
+                    ],
+                    role_id: [
+                        { validator: validateSelect, trigger: 'blur' }
+                    ]
                 }
             };
         },
         methods: {
+            // 创建管理员
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!')
+                        this.$PutRequest.putAddAdmin(this.ruleForm)
+                            .then(res => {
+                                this.$router.go(-1)
+                            }
+                        ).catch(err => {
+                                this.$message({
+                                    showClose: true,
+                                    message: err.message,
+                                    type: 'error'
+                                })
+                            }
+                        )
                     } else {
                         return false
                     }
                 })
+            },
+            // 8.获取权限组列表
+            onGetJurisdiction() {
+                this.$GetRequest.getJurisdictionList()
+                    .then(res => {
+                        for(let i = 0; i < res.length; i++) {
+                            this.options.push({ value: res[i].role_id, label: res[i].role_name })
+                        }
+                    }
+                )
             }
-        }
+        },
+        mounted() {
+            this.onGetJurisdiction()
+        },
     }
 </script>
 
