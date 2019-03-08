@@ -108,6 +108,43 @@ class getRequest {
         })
     }
 
+    // 16.全部商品列表获取
+    getProductList(size, page) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/product_manager/get_product_list',
+                params: {
+                    "size": size,  //获取数量大小
+                    "page": page,   //分页
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
+
+    // 17.待审核商品列表获取
+    getProductAuditList(size, page) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/product_manager/get_product_audit_list',
+                params: {
+                    "size": size,  //获取数量大小
+                    "page": page,   //分页
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
 }
 
 export default new getRequest()
