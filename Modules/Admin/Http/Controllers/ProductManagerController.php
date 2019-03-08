@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use League\OAuth2\Server\AuthorizationServer;
+use Modules\Mall\Entities\BusinessType;
 use Modules\Mall\Entities\Company;
 use Modules\Mall\Entities\Products;
 use Modules\Mall\Http\Controllers\Shop\ProductsController;
@@ -49,6 +50,7 @@ class ProductManagerController extends Controller
             $tmp = [];
             $tmp['num'] = $k+1+(($page-1)*$size);
             $tmp['product_id'] = $v->id;
+            $tmp['product_name'] = $v->product_name;
             $tmp['product_origin_id'] = $v->product_origin_id;
             $tmp['product_price'] = $product_price;
             $company = Company::find($v->company_id);
@@ -123,7 +125,45 @@ class ProductManagerController extends Controller
     }
 
     public function getProductInfo(Request $request){
+        $data = $request->all();
 
+        $validator = Validator::make($data, [
+            'product_id'=>'required|exists:product,id,deleted_at,NULL',
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
+        }
+
+        $product_id = $request->input('product_id');
+
+        $product = Products::find($product_id);
+        $company = Company::find($product->company_id);
+        $company_info = [];
+        $company_info['company_business_type_id'] = $company->company_business_type_id;
+        $company_info['company_business_type_str'] = $company->company_business_type_id != null ? BusinessType::find($company->company_business_type_id)->cn_name : "";
+
+        $business_range = $company->company_business_range_ids;
+        $business_range_str = '';
+        if($business_range != null){
+            $business_range_arr = explode(',',$business_range);
+            BusinessRange::whereIn('id',$business_range_arr)->get()->map(function ($v,$k) use(&$business_range_str){
+                $business_range_str.= ' '.$v->name.'、';
+            });
+            $business_range_str = mb_substr($business_range_str,0,mb_strlen($business_range_str)-1);
+        }
+        $company_info['company_business_range_ids'] = $company->company_business_range_ids;
+        $company_info['company_business_range_ids_str'] = $business_range_str;
+
+
+
+
+        $res_data = [];
+        $res_data['company_info'] = $company_info;
+        $res_data['business_info'] = 1;
+        $res_data['product_price'] = 1;
+        $res_data['product_details'] = 1;
+        $res_data['publish_time'] = 1;
     }
 
 }
