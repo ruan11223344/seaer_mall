@@ -1,12 +1,11 @@
 <template>
     <el-main>
-        <v-list>
+        <v-list :total="total">
             <template slot="table">
                 <el-table
                     ref="singleTable"
                     :data="tableData"
                     style="width: 100%"
-                    height="684px"
                     size="mini"
                     >
 
@@ -105,74 +104,28 @@
     export default {
         data() {
             return {
-                tableData: [
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1517 弄'
-                    },
-                    {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                    },
-                    {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1517 弄'
-                    },
-                    {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    }
-                ],
+                tableData: [],
+                total: {
+                    total: 0,
+                    size: 18,
+                    num: 1
+                }
             }
         },
         methods: {
             handleEdit() {
 
+            },
+            onGetBusinessList() {
+                this.$GetRequest.getMerchantList(this.total.size, this.total.num)
+                    .then(res => {
+                        console.log(res)
+                    }
+                )
             }
+        },
+        mounted() {
+            this.onGetBusinessList()
         },
         components: {
             'v-list': List

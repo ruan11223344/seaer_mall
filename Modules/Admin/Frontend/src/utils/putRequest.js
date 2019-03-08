@@ -28,13 +28,13 @@ class PutRequest {
     }
 
     // 5.设置用户是否能够使用询盘 （翻转接口)
-    putInquiryJurisdiction() {
+    putInquiryJurisdiction(id) {
         return new Promise(async (resolve, reject) => {
             await request({
                 url: '/admin/user_manager/set_inquiry',
                 method: 'post',
                 data: {
-                    "user_id": 1
+                    "user_id": id
                 }
             }).then(res => {
                 if(res.code == 200) {

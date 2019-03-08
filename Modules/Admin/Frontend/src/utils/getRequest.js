@@ -56,13 +56,13 @@ class getRequest {
     }
 
     // 6.获取商家列表
-    getMerchantList() {
+    getMerchantList(size, page) {
         return new Promise(async (resolve, reject) => {
             await request({
                 url: '/admin/user_manager/get_merchant_list',
                 params: {
-                    "size":20,  //获取数量大小
-                    "page":1,   //分页
+                    "size": size,  //获取数量大小
+                    "page": page,   //分页
                 }
             }).then(res => {
                 if(res.code == 200) {
