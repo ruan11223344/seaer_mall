@@ -100,6 +100,7 @@ class RoleController extends Controller
 
     public static function giveAllPermissionsToRole($role_id){
         $admin = Role::find($role_id);
+        $admin->detachPermissions(Permission::all());
         $admin->attachPermissions(Permission::all());
     }
 
