@@ -40,6 +40,7 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
 
         Route::prefix('product_manager')->group(function (){
             Route::get('get_product_list', 'ProductManagerController@getProductList')->middleware('passport-custom-provider')->name('admin.product.list');
+            Route::get('get_product_audit_list', 'ProductManagerController@getAuditProductList')->middleware('passport-custom-provider')->name('admin.product.auditList');
         });
 
         Route::prefix('utils')->group(function (){

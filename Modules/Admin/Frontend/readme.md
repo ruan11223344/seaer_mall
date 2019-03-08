@@ -581,7 +581,7 @@ json参数:
 16.全部商品列表获取
 ```
 url:http://域名/api/admin/product_manager/get_product_list
-请求方法:post
+请求方法:get
 json参数:
 {
 	"page":1,
@@ -632,6 +632,42 @@ json参数:
         "cur_page": 1,
         "total_page": 9,
         "total_size": 25
+    }
+}
+```
+
+17.待审核商品列表获取
+```
+url:http://域名/api/admin/product_manager/get_product_audit_list
+请求方法:get
+json参数:
+{
+	"page":1,
+	"size":3
+}
+
+返回:
+{
+    "code": 200,
+    "message": "获取待审核商品列表数据成功!",
+    "data": {
+        "data": [
+            {
+                "num": 1,
+                "product_id": 33,
+                "product_origin_id": "PD_CN_a49b34079_8f538e50",
+                "product_price": "10-8",
+                "company_name": "wangzi  compangys",
+                "company_detail_address": "湖北省xxsdsadjkdsajkdsajdkjsakdj111111",
+                "product_status": 1,
+                "product_audit_status": 0,
+                "product_status_str": "等待审核"
+            }
+        ],
+        "size": 3,
+        "cur_page": 1,
+        "total_page": 1,
+        "total_size": 1
     }
 }
 ```

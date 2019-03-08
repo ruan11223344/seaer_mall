@@ -98,6 +98,30 @@ class ProductManagerController extends Controller
         return $this->echoSuccessJson('获取商品列表数据成功!',$res_data);
     }
 
+    public function getAuditProductList(Request $request){
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'page'=>'required|integer',
+            'size'=>'required|integer',
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
+        }
+        $page = $request->input('page');
+        $size = $request->input('size');
+        $product_orm = new Products();
+        $res_data = self::getProductFormatData($product_orm->where(
+            [
+                'product_status'=>ProductsController::PRODUCT_STATUS_SALE,
+                'product_audit_status'=>ProductsController::PRODUCT_AUDIT_STATUS_CHECKING,
+            ]
+        ),$page,$size);
+        return $this->echoSuccessJson('获取待审核商品列表数据成功!',$res_data);
+
+    }
+
     public function getWaitAuditProductList(Request $request){
 
     }
