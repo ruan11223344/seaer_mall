@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Modules\Admin\Entities\AdminLog;
 use Modules\Admin\Entities\UserLog;
-use Modules\Mall\Entities\Permission;
+use Modules\Admin\Entities\Permission;
 use Zizaco\Entrust\Entrust;
 
 class UtilsService
