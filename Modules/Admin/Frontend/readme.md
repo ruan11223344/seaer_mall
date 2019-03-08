@@ -467,3 +467,51 @@ json参数:
 }
 ```
 
+12.获取管理员列表
+```
+url:http://域名/api/admin/user_manager/get_admin_list
+请求方法:get
+json参数:
+{
+	"size":20,
+	"page":1
+}
+
+返回:
+{
+    "data": [
+        {
+            "num": 1,
+            "admin_name": "admin",
+            "last_login": "2019-03-08",
+            "login_count": 1,
+            "role_name": "五级管理员"
+        },
+        {
+            "num": 2,
+            "admin_name": "admind",
+            "last_login": "2019-03-09",
+            "login_count": 2,
+            "role_name": ""
+        },
+        {
+            "num": 3,
+            "admin_name": "张文俊",
+            "last_login": "",
+            "login_count": 0,
+            "role_name": ""
+        },
+        {
+            "num": 4,
+            "admin_name": "张文俊1",
+            "last_login": "",
+            "login_count": 0,
+            "role_name": ""
+        }
+    ],
+    "size": 20,
+    "cur_page": 1,
+    "total_page": 1,
+    "total_size": 4
+}
+```
