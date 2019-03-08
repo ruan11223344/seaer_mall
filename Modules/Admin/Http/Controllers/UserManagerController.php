@@ -267,7 +267,7 @@ class UserManagerController extends Controller
         $count = $admin->count();
 
         $admin_data_list =[];
-        $admin->get()->map(function ($v,$k)use(&$admin_data_list,$page,$size){
+        $admin->offset(($page-1)*$size)->limit($size)->get()->map(function ($v,$k)use(&$admin_data_list,$page,$size){
             $tmp = [];
             $tmp['num'] = $k+1+(($page-1)*$size);//序号
             $tmp['admin_name'] = $v->name;//序号
