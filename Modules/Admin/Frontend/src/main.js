@@ -3,11 +3,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import putRequest from '@/utils/putRequest.js'
-import getRequest from '@/utils/getRequest.js'
+import PutRequest from '@/utils/putRequest.js'
+import GetRequest from '@/utils/getRequest.js'
+import Auth from '@/utils/auth.js'
 
-Vue.prototype.$getRequest = getRequest
-Vue.prototype.$putRequest = putRequest
+
+Vue.prototype.$GetRequest = GetRequest
+Vue.prototype.$PutRequest = PutRequest
+Vue.prototype.$Auth = Auth
 
 // 清除默认样式
 import "@/style/reset.css"

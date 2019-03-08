@@ -22,7 +22,7 @@ import axios from 'axios'
 
 // 创建axios实例
 const service = axios.create({
-    baseURL: 'http://www.seaer.local/api', // api 的 base_url
+    baseURL: 'http://admin.seaer.local/api', // api 的 base_url
     timeout: 15000, // 请求超时时间
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
 })

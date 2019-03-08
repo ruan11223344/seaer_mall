@@ -1,4 +1,4 @@
-## 接口说明 域名 admin.seaer.com
+## 接口说明 域名 admin.seaer.local
 
 1.获取验证码
 ```

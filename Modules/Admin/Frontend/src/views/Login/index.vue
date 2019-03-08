@@ -11,16 +11,16 @@
                         <el-input type="text" v-model="ruleForm.username" size="small"></el-input>
                     </el-form-item>
                     <el-form-item label="Password" prop="password">
-                        <el-input type="usernameword" v-model="ruleForm.password" size="small"></el-input>
+                        <el-input type="password" v-model="ruleForm.password" size="small"></el-input>
                     </el-form-item>
                     <el-form-item prop="code">
-                        <el-input v-model.number="ruleForm.code" style="width: 379px;" size="small"></el-input>
-                        <div class="main-block-form-code">
-                            <img src="" alt="">
+                        <el-input v-model="ruleForm.code" style="width: 379px;" size="small"></el-input>
+                        <div class="main-block-form-code" v-loading="!imgPath">
+                            <img v-if="imgPath" :src="imgPath.img" alt="" style="width: 100%; height: 100%;display: block;" @click="onCode">
                         </div>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" size="small" style="width: 100%;" @click="submitForm">Login</el-button>
+                        <el-button type="primary" size="small" style="width: 100%;" @click="submitForm('ruleForm')">Login</el-button>
                     </el-form-item>
                 </el-form>
             </section>
@@ -50,11 +50,17 @@
 
             var validatePassword = (rule, value, callback) => {
                 if (value === '') {
-                callback(new Error('Incorrect Password.'))
-                } else if (value !== this.ruleForm.username) {
-                callback(new Error('Incorrect Password!'))
+                    callback(new Error('Incorrect Password.'))
                 } else {
-                callback();
+                    callback()
+                }
+            }
+
+            var validateCode = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('Incorrect Code.'))
+                } else {
+                    callback()
                 }
             }
 
@@ -70,30 +76,58 @@
                     ],
                     password: [
                         { validator: validatePassword, trigger: 'blur' }
+                    ],
+                    code: [
+                        { validator: validateCode, trigger: 'blur' }
                     ]
-                }
+                },
+                imgPath: null
             }
         },
         methods: {
+            onCode() {
+                this.imgPath = null
+                this.$GetRequest.getCode()
+                    .then(res => {
+                        this.imgPath = res
+                    }
+                )
+            },
             submitForm(formName) {
-                // this.$refs[formName].validate((valid) => {
-                // if (valid) {
-                //     alert('submit!')
-                // } else {
-                //     return false;
-                // }
-                // });
-                this.$router.push('/')
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        const loading = this.$loading({
+                            lock: true,
+                            text: 'Loading',
+                            spinner: 'el-icon-loading',
+                            background: 'rgba(0, 0, 0, 0.7)'
+                        })
+                        this.$PutRequest.putToken(this.imgPath.key, this.ruleForm)
+                            .then(res => {
+                                this.$Auth.setCookies(res.access_token)
+                                this.$Auth.refreshCookies(res.access_token)
+                                this.$router.push('/')
+                                loading.close()
+                            }
+                        ).catch(err => {
+                                this.$message({
+                                    message: err.message,
+                                    type: 'warning'
+                                })
+                                this.onCode()
+                                loading.close()
+                            }
+                        )
+                    } else {
+                        this.onCode()
+                        return false;
+                    }
+                })
             }
         },
         mounted() {
-            // getRequest.getCode().then(res => {
-            // })
-            // this.$getRequest.getCode().then(res => {
-            //     console.log(res)
-            // }).catch(err => {
-            //     console.log(err)
-            // })
+
+           this.onCode()
         },
     }
 </script>

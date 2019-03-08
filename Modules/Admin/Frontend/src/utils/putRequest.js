@@ -1,8 +1,8 @@
 import request from "./request"
 
-class putRequest {
+class PutRequest {
     // 2.获取access_token
-    putToken() {
+    putToken(key, obj) {
         return new Promise(async (resolve, reject) => {
             await request({
                 url: '/admin/auth/get_access_token',
@@ -11,10 +11,10 @@ class putRequest {
                     "grant_type":"password",   //必填  固定值
                     "client_id":"2",    //必填  固定值
                     "client_secret":"LfmILOffY40xTlFbJT2Q0V8gWyyu99cwlElNPKrK",   //必填  固定值
-                    "username":"admind", //必填  用户名 或者 邮箱
-                    "password":"123456", //必填  密码 
-                    "captcha":"2u687",    //必填  验证码
-                    "key":"$2y$10$qYJzuz7BppnkJL9KmAYdCeH/stpP0F6znSZAWUom9n5I.h7HM7VCO",  //必填   验证码key
+                    "username": obj.username, //必填  用户名 或者 邮箱
+                    "password": obj.password, //必填  密码 
+                    "captcha": obj.code,    //必填  验证码
+                    "key": key,  //必填   验证码key
                     "provider":"admins"  //必填  固定值
                 }
             }).then(res => {
@@ -47,4 +47,4 @@ class putRequest {
     }
 }
 
-export default new putRequest()
+export default new PutRequest()
