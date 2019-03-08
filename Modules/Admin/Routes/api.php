@@ -32,6 +32,7 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
             Route::post('edit_role', 'RoleController@editRole')->middleware('passport-custom-provider')->name('admin.role.edit');
             Route::post('delete_role', 'RoleController@deleteRole')->middleware('passport-custom-provider')->name('admin.role.delete');
             Route::get('get_role_list', 'RoleController@getRoleList')->middleware('passport-custom-provider')->name('admin.role.list');
+            Route::get('get_role_permissions', 'RoleController@getRolePermissions')->middleware('passport-custom-provider')->name('admin.role.permissions');
         });
 
         Route::prefix('utils')->group(function (){
