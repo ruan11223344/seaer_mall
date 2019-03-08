@@ -35,26 +35,26 @@ class UserManagerController extends Controller
             ProductsController::PUBLISH_PRODUCT_STATUS_BANNED,
         ];
 
+
         $user_data_list = [];
         $user_orm_clone = clone $user_orm;
         $count = $user_orm_clone->whereIn('users_extends.publish_product_status',$user_status_list)->count();
         $user_orm->whereIn('users_extends.publish_product_status',$user_status_list)->offset(($page-1)*$size)->limit($size)->get()->map(function ($v,$k)use(&$user_data_list,$page,$size,$user_status_list){
             $tmp = [];
-
-                $tmp['num'] = $k+1+(($page-1)*$size);//序号
-                $tmp['user_id'] = $v->id;//序号
-                $tmp['register_time'] = Carbon::parse($v->created_at)->format('Y-m-d');//序号
-                $tmp['af_id'] = $v->af_id;//序号
-                $tmp['member_id'] = $v->name;//序号
-                $tmp['email'] = $v->email;//序号
-                $tmp['contact_full_name'] = $v->contact_full_name;//序号
-                $tmp['sex'] = $v->sex;//序号
-                $tmp['phone_num'] = $v->mobile_phone;//序号
-                $tmp['address'] = $v->detailed_address;//序号
-                $user_log = UserLog::where('user_id',$v->id)->orderBy('created_at','desc');
-                $tmp['last_login'] = $user_log->exists() ? Carbon::parse($user_log->get()->first()->created_at)->format('Y-m-d') : '';//序号
-                $tmp['allow_inquiry'] = $v->allow_inquiry == 1 ? true : false;//序号
-                array_push($user_data_list,$tmp);
+            $tmp['num'] = $k+1+(($page-1)*$size);//序号
+            $tmp['user_id'] = $v->user_id;//序号
+            $tmp['register_time'] = Carbon::parse($v->created_at)->format('Y-m-d');//序号
+            $tmp['af_id'] = $v->af_id;//序号
+            $tmp['member_id'] = $v->name;//序号
+            $tmp['email'] = $v->email;//序号
+            $tmp['contact_full_name'] = $v->contact_full_name;//序号
+            $tmp['sex'] = $v->sex;//序号
+            $tmp['phone_num'] = $v->mobile_phone;//序号
+            $tmp['address'] = $v->detailed_address;//序号
+            $user_log = UserLog::where('user_id',$v->id)->orderBy('created_at','desc');
+            $tmp['last_login'] = $user_log->exists() ? Carbon::parse($user_log->get()->first()->created_at)->format('Y-m-d') : '';//序号
+            $tmp['allow_inquiry'] = $v->allow_inquiry == 1 ? true : false;//序号
+            array_push($user_data_list,$tmp);
         });
         $res_data = [];
         $res_data['data'] = $user_data_list;
@@ -80,11 +80,10 @@ class UserManagerController extends Controller
         $page = $request->input('page',1);
         $size = $request->input('size',20);
 
-
         UtilsService::CreatePermissions('访问用户列表','访问afriby非商家的用户列表');
         $res_data = self::getUserData(User::join('users_extends', function ($join) {
             $join->on('users.id', '=','users_extends.user_id');
-        }),$page,$size);
+        })->select('users.id as user_id')->select('users.*')->select('users_extends.*'),$page,$size);
 
         return $this->echoSuccessJson('成功!',$res_data);
     }
