@@ -133,7 +133,6 @@
             onChangeNum(num) {
                 this.$set(this.total, 'num', num)
                 this.onGetTableData()
- 
             },
             onGetTableData() {
                 this.$GetRequest.getUserList( this.total.size, this.total.num )
@@ -161,12 +160,16 @@
                 )
             },
             onChangeSearch(key) {
-                this.$GetRequest.getSearchUserList(this.total.size, this.total.num, key)
-                    .then(res => {
-                        this.$set(this.total, 'total', res.total_size)
-                        this.tableData = res.data
-                    }
-                )
+                if(key == '') {
+                    this.onGetTableData()
+                }else {
+                    this.$GetRequest.getSearchUserList(this.total.size, this.total.num, key)
+                        .then(res => {
+                            this.$set(this.total, 'total', res.total_size)
+                            this.tableData = res.data
+                        }
+                    )
+                }
             }
         },
         mounted() {
