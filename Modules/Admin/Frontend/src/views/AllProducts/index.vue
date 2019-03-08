@@ -130,7 +130,7 @@
                         this.productData = res.data
                     }
                 ).catch(err => {
-
+                        return false
                     }
                 )
             },

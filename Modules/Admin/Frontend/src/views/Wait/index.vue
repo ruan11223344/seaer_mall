@@ -1,67 +1,80 @@
 <template>
     <el-main>
-        <v-list>
+        <v-list
+            :total="total"
+            :inputBool="true"
+            @on-change-num="onChangeNum"
+            >
             <template slot="table">
                 <el-table
                     ref="singleTable"
-                    :data="tableData"
+                    :data="waitData"
                     style="width: 100%"
-                    height="684px"
                     size="mini"
                     >
 
                     <el-table-column
                         align="center"
                         label="序号"
-                        type="index"
+                        width="100px"
+                        property="num"
+                        show-overflow-tooltip
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
-                        property="date"
+                        property="product_id"
+                        width="100px"
                         label="产品编号"
+                        show-overflow-tooltip
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
-                        property="name"
+                        property="product_name"
                         label="商品名称"
+                        show-overflow-tooltip
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
-                        property="name"
+                        property="product_price"
                         label="商品价格（KSh）"
+                        show-overflow-tooltip
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
-                        property="name"
+                        property="company_name"
                         label="店铺商家"
+                        show-overflow-tooltip
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
-                        property="name"
+                        property="company_detail_address"
                         label="地址"
+                        show-overflow-tooltip
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
-                        property="name"
+                        property="product_status_str"
                         label="商品状态"
+                        show-overflow-tooltip
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
                         label="操作"
+                        width="183px"
                         >
                         <template slot-scope="scope">
                             <button
@@ -90,104 +103,38 @@
     export default {
         data() {
             return {
-                tableData: [
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1517 弄'
-                    },
-                    {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                    },
-                    {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1517 弄'
-                    },
-                    {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                    }
-                ],
+                waitData: [],
+                total: {
+                    total: 0,
+                    size: 18,
+                    num: 1
+                }
             }
         },
         methods: {
             handleEdit() {
 
+            },
+            // 分页
+            onChangeNum(num) {
+                this.$set(this.total, 'num', num)
+                this.onGetWaitList()
+            },
+            // 获取待审核商品
+            onGetWaitList() {
+                this.$GetRequest.getProductAuditList(this.total.size, this.total.num)
+                    .then(res => {
+                        console.log(res)
+                        this.$set(this.total, 'total', res.total_size)
+                        this.waitData = res.data
+                    }
+                ).catch(err => {
+                    return false
+                })
             }
+        },
+        mounted() {
+            this.onGetWaitList()
         },
         components: {
             'v-list': List
