@@ -36,14 +36,14 @@ class getRequest {
     }
 
     // 4.搜索用户列表
-    getSearchUserList() {
+    getSearchUserList(size, page, key) {
         return new Promise(async (resolve, reject) => {
             await request({
                 url: '/admin/user_manager/get_user_list',
                 params: {
-                    "size":20,  //获取数量大小
-                    "page":1,   //分页
-                    "keywords":"ruan11223344" //关键词 member_id 或 email
+                    "size": size,  //获取数量大小
+                    "page": page,   //分页
+                    "keywords": key //关键词 member_id 或 email
                 }
             }).then(res => {
                 if(res.code == 200) {

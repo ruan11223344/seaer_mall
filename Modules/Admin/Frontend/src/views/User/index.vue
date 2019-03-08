@@ -1,6 +1,11 @@
 <template>
     <el-main>
-        <v-list :total="total" @on-change-num="onChangeNum" :inputBool="true" empty-text="-">
+        <v-list
+            :total="total"
+            @on-change-num="onChangeNum"
+            @on-change-input="onChangeSearch"
+            :inputBool="true"
+            >
             <template slot="table">
                 <el-table
                     ref="singleTable"
@@ -152,6 +157,14 @@
                             message: res.message,
                             type: 'error'
                         });
+                    }
+                )
+            },
+            onChangeSearch(key) {
+                this.$GetRequest.getSearchUserList(this.total.size, this.total.num, key)
+                    .then(res => {
+                        this.$set(this.total, 'total', res.total_size)
+                        this.tableData = res.data
                     }
                 )
             }

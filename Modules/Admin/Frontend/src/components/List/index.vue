@@ -7,8 +7,12 @@
             </div>
 
             <div class="title-right" v-if="inputBool">
-                <el-input placeholder="请输入“会员ID”、“Email”搜索相关数据" v-model="search" class="title-right-input">
-                    <el-button type="primary" slot="append" icon="el-icon-search" class="title-right-search"></el-button>
+                <el-input
+                    placeholder="请输入“会员ID”、“Email”搜索相关数据"
+                    v-model="search"
+                    class="title-right-input"
+                    >
+                    <el-button  type="primary" slot="append" icon="el-icon-search" class="title-right-search"></el-button>
                 </el-input>
             </div>
         </section>
@@ -32,7 +36,8 @@
     export default {
         data() {
             return {
-                search: null
+                search: null,
+                time: null
             }
         },
         props: {
@@ -49,8 +54,21 @@
             // 分页
             onCurrentChange(num) {
                 this.$emit('on-change-num', num)
+            },
+            // 搜索
+            onChangeSearch(val) {
+                clearTimeout(this.time)
+
+                this.time = setTimeout(() => {
+                    this.$emit('on-change-input', val)
+                }, 500)
             }
-        }
+        },
+        watch: {
+            search(newVal) {
+                this.onChangeSearch(newVal)
+            }
+        },
     }
 </script>
 
