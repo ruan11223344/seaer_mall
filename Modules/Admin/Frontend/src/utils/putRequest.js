@@ -80,6 +80,22 @@ class PutRequest {
         })
     }
 
+    // 14.编辑管理员信息
+    putEditAdmin(data) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/user_manager/edit_admin',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
 }
 
 export default new PutRequest()

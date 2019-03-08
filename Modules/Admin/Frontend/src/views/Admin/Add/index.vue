@@ -89,22 +89,50 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.$PutRequest.putAddAdmin(this.ruleForm)
-                            .then(res => {
-                                this.$router.go(-1)
-                            }
-                        ).catch(err => {
-                                this.$message({
-                                    showClose: true,
-                                    message: err.message,
-                                    type: 'error'
-                                })
-                            }
-                        )
+                        const admin_id = this.$route.query.admin_id
+                        if(admin_id != undefined) {
+                            this.onEdit(admin_id)
+                        }else {
+                            this.onEstablish()
+                        }
                     } else {
                         return false
                     }
                 })
+            },
+            // 创建
+            onEstablish() {
+                this.$PutRequest.putAddAdmin(this.ruleForm)
+                    .then(res => {
+                        this.$router.go(-1)
+                    }
+                ).catch(err => {
+                        this.$message({
+                            showClose: true,
+                            message: err.message,
+                            type: 'error'
+                        })
+                    }
+                )
+            },
+            onEdit(admin_id) {
+                this.$PutRequest.putEditAdmin({
+                    admin_id: admin_id,  //必填 管理员id
+                    admin_name: this.ruleForm.admin_name,
+                    password:  this.ruleForm.password,
+                    role_id:  this.ruleForm.role_id
+                })
+                    .then(res => {
+                        this.$router.go(-1)
+                    }
+                ).catch(err => {
+                        this.$message({
+                            showClose: true,
+                            message: err.message,
+                            type: 'error'
+                        })
+                    }
+                )
             },
             // 8.获取权限组列表
             onGetJurisdiction() {

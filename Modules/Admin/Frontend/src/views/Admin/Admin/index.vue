@@ -65,7 +65,7 @@
                             </button>
                             <button
                                 class="edit"
-                                @click="handleEdit(scope.$index, scope.row)"
+                                @click="onAdminEdit(scope.row.admin_id)"
                                 >
                                 编辑
                             </button>
@@ -127,7 +127,7 @@
                             </button>
                             <button
                                 class="edit"
-                                @click="handleEdit(scope.$index, scope.row)"
+                                @click="onAdminEdit(scope.row.admin_id)"
                                 >
                                 编辑
                             </button>
@@ -148,7 +148,7 @@
                 jurisdiction: [],
                 total: {
                     total: 0,
-                    size: 18,
+                    size: 17,
                     num: 1
                 }
             };
@@ -159,6 +159,10 @@
             },
             onJurisdiction() {
                 this.$router.push('/admin/jurisdiction')
+            },
+            // 管理员编辑
+            onAdminEdit(admin_id) {
+                this.$router.push('/admin/add?admin_id=' + admin_id)
             },
             handleEdit(tab, event) {
                 // console.log(tab, event);
