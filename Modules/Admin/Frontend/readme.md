@@ -515,3 +515,65 @@ json参数:
     "total_size": 4
 }
 ```
+
+13.获取管理员详细信息
+```
+url:http://域名/api/admin/user_manager/get_admin_info
+请求方法:get
+json参数:
+{
+	"admin_id":1
+}
+
+返回:
+{
+    "code": 200,
+    "message": "获取管理员信息成功!",
+    "data": {
+        "admin_name": "admin",
+        "role_name": "五级管理员",
+        "role_id": 7
+    }
+}
+```
+
+14.编辑管理员信息
+```
+url:http://域名/api/admin/user_manager/edit_admin
+请求方法:get
+json参数:
+{
+	"admin_id":1,  //必填 管理员id
+	"admin_name":"admin", //要更改成管理员登录名 如果不改 传null 或者不传键
+	"password":123456,  //要更改成管理员密码 如果不改 传null 或者不传键
+	"role_id":6 //必填 要改成哪个权限组的id 
+}
+
+返回:
+{
+    "code": 200,
+    "message": "编辑管理员成功!",
+    "data": {
+        "admin_name": "admin",
+        "role_name": "四级管理员",
+        "role_id": 6
+    }
+}
+```
+
+15.删除管理员
+```
+url:http://域名/api/admin/user_manager/delete_admin
+请求方法:post
+json参数:
+{
+	"admin_id":6
+}
+
+返回:
+{
+    "code": 200,
+    "message": "删除管理员成功!",
+    "data": []
+}
+```

@@ -25,6 +25,9 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
             Route::get('get_merchant_list', 'UserManagerController@getMerchantsList')->middleware('passport-custom-provider')->name('admin.user.merchants.list');
             Route::get('search_merchant_list', 'UserManagerController@searchMerchantsList')->middleware('passport-custom-provider')->name('admin.user.merchants.search');
             Route::get('get_admin_list', 'UserManagerController@getAdminList')->middleware('passport-custom-provider')->name('admin.user.admin.list');
+            Route::get('get_admin_info', 'UserManagerController@getAdminInfo')->middleware('passport-custom-provider')->name('admin.user.admin.info');
+            Route::post('edit_admin', 'UserManagerController@editAdmin')->middleware('passport-custom-provider')->name('admin.user.admin.edit');
+            Route::post('delete_admin', 'UserManagerController@deleteAdmin')->middleware('passport-custom-provider')->name('admin.user.admin.delete');
         });
 
         Route::prefix('role_manager')->group(function (){

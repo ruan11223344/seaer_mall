@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use League\OAuth2\Server\AuthorizationServer;
 use Modules\Admin\Entities\Admin;
 use Modules\Admin\Entities\AdminLog;
+use Modules\Admin\Entities\Role;
 use Modules\Admin\Entities\UserLog;
 use Modules\Admin\Service\UtilsService;
 use Modules\Mall\Entities\Products;
@@ -280,7 +281,7 @@ class UserManagerController extends Controller
             $admin_log_clone = clone $admin_log;
             $tmp['last_login'] = $admin_log->exists() ? Carbon::parse($admin_log->get()->first()->created_at)->format('Y-m-d') : '';//序号
             $tmp['login_count'] = $admin_log_clone->count();//序号
-            $tmp['role_name'] = 'r';//序号 //todo 完成角色写入
+            $tmp['role_name'] = $v->roles()->exists() ? $v->roles()->get()->first()->name : "";
             array_push($admin_data_list,$tmp);
         });
 
@@ -291,6 +292,95 @@ class UserManagerController extends Controller
         $res_data['total_page'] = (int)ceil($count/$size);
         $res_data['total_size'] = $count;
         return $res_data;
+    }
+
+    public static function getAdminData($admin_id){
+        $admin_obj = Admin::find($admin_id);
+        $admin_role_info = $admin_obj->roles()->exists() ? $admin_obj->roles()->get()->first() : null;
+        $res_data = [
+            'admin_name'=>$admin_obj->name,
+            'role_name'=>$admin_role_info != null ? $admin_role_info->name : "",
+            'role_id'=>$admin_role_info != null ? $admin_role_info->id : "",
+        ];
+        return $res_data;
+    }
+
+    public function getAdminInfo(Request $request){
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'admin_id'=>'required|exists:admins,id,deleted_at,NULL',
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
+        }
+
+        $admin_id = $request->input('admin_id');
+        $res_data = self::getAdminData($admin_id);
+
+        return $this->echoSuccessJson('获取管理员信息成功!',$res_data);
+    }
+
+    public function editAdmin(Request $request){
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'admin_id'=>'required|exists:admins,id,deleted_at,NULL',
+            'admin_name'=>'nullable',
+            'password'=>'nullable',
+            'role_id'=>'required|exists:roles,id'
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
+        }
+
+        $admin_id = $request->input('admin_id');
+        $admin_name = $request->input('admin_name',null);
+        $password = $request->input('password',null);
+        $role_id = $request->input('role_id');
+
+        $admin_obj = Admin::find($admin_id);
+        if($password != null){
+            $admin_obj->password = bcrypt($password);
+        }
+
+        if($admin_name != null){
+            $admin_obj->name = $admin_name;
+        }
+
+        $admin_obj->save();
+        $adminRole  = Role::where('id',$role_id)->get();
+        $admin_obj->detachRoles();
+        $admin_obj->attachRoles($adminRole);
+        $res_data = self::getAdminData($admin_id);
+
+        return $this->echoSuccessJson('编辑管理员成功!',$res_data);
+
+    }
+
+    public function deleteAdmin(Request $request){
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'admin_id'=>'required|exists:admins,id,deleted_at,NULL',
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
+        }
+
+        $admin_id = $request->input('admin_id');
+
+        $admin_obj = Admin::find($admin_id);
+
+        $admin_obj->detachRoles();
+
+        $admin_obj->delete();
+
+        return $this->echoSuccessJson('删除管理员成功!');
+
     }
 
 }

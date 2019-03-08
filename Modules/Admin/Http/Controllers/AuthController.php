@@ -86,7 +86,7 @@ class AuthController extends Controller
 
         $name = $request->input('admin_name');
 
-        if(Admin::where('name',$name)->exists()){
+        if(Admin::withTrashed()->where('name',$name)->exists()){
             return $this->echoErrorJson('管理员名已经存在!');
         }
 
@@ -98,7 +98,6 @@ class AuthController extends Controller
                'password'=>bcrypt($password)
            ]
         );
-
 
         $adminRole  = Role::where('id',$role_id)->get();
         $admin->attachRoles($adminRole);

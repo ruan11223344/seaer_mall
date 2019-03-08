@@ -7,12 +7,14 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\Authenticatable;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Admin extends Model
 {
-    use EntrustUserTrait,HasApiTokens,Notifiable,Authenticatable;
+    use HasApiTokens,Notifiable,Authenticatable,SoftDeletes;
+    use EntrustUserTrait{
+        EntrustUserTrait::restore insteadof SoftDeletes;
+    }
     protected $table = 'admins';
-
     protected $fillable = [
         'name', 'email', 'password',
     ];
