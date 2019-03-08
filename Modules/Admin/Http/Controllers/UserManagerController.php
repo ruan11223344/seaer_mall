@@ -107,7 +107,7 @@ class UserManagerController extends Controller
         UtilsService::CreatePermissions('搜索用户列表','搜索afriby非商家的用户列表');
         $res_data = self::getUserData(User::join('users_extends', function ($join) {
             $join->on('users.id', '=','users_extends.user_id');
-        })->where('name', 'like','%'.$keywords.'%')->orWhere('email','like','%'.$keywords.'%'),$page,$size);
+        })->where('name', 'like','%'.$keywords.'%')->orWhere('email','like','%'.$keywords.'%')->select('users.id as user_id')->select('users.*')->select('users_extends.*'),$page,$size);
 
         return $this->echoSuccessJson('成功!',$res_data);
     }
