@@ -115,6 +115,7 @@
                     }
                 )
             },
+            // 编辑
             onEdit(admin_id) {
                 this.$PutRequest.putEditAdmin({
                     admin_id: admin_id,  //必填 管理员id

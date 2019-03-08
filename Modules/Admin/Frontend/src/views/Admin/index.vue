@@ -1,6 +1,8 @@
 <template>
     <el-main>
-        <router-view />
+        <keep-alive>
+            <router-view />
+        </keep-alive>
     </el-main>
 </template>
 

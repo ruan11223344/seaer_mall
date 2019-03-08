@@ -80,6 +80,23 @@ class PutRequest {
         })
     }
 
+    // 9.修改角色(权限组)
+    putEditRole(data) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/role_manager/edit_role',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
+
     // 14.编辑管理员信息
     putEditAdmin(data) {
         return new Promise(async (resolve, reject) => {

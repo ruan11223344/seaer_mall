@@ -127,7 +127,7 @@
                             </button>
                             <button
                                 class="edit"
-                                @click="onAdminEdit(scope.row.admin_id)"
+                                @click="onJurisdictionEdit(scope.row.role_id)"
                                 >
                                 编辑
                             </button>
@@ -172,15 +172,7 @@
                 this.$set(this.total, 'num', num)
                 this.onGetAdmin()
             },
-            // 获取权限组列表
-            onGetJurisdiction() {
-                this.$GetRequest.getJurisdictionList()
-                    .then(res => {
-                        this.jurisdiction = res
-                    }
-                )
-            },
-            // 获取管理员列表
+             // 获取管理员列表
             onGetAdmin() {
                 this.$GetRequest.getAdminList(this.total.size, this.total.num)
                     .then(res => {
@@ -195,6 +187,19 @@
                     }
                 )
             },
+            // 权限组编辑
+            onJurisdictionEdit(role_id) {
+                this.$router.push('/admin/jurisdiction?role_id=' + role_id)
+            },
+            // 获取权限组列表
+            onGetJurisdiction() {
+                this.$GetRequest.getJurisdictionList()
+                    .then(res => {
+                        this.jurisdiction = res
+                    }
+                )
+            },
+           
             onClcik(num) {
                 switch (num) {
                     case 0:
@@ -214,6 +219,9 @@
         watch: {
             active(newVal) {
                 this.onClcik(newVal)
+            },
+            '$route': function () {
+                this.onClcik(this.active)
             }
         },
     }

@@ -76,7 +76,37 @@
         methods: {
             // 保存
             onSub() {
+                const role_id = this.$route.query.role_id
+
+                if(role_id != undefined) {
+                    this.onEdit(role_id)
+                }else {
+                    this.onEstablish()
+                }
+            },
+            // 权限组创建
+            onEstablish() {
                 this.$PutRequest.putAddRole(this.formLabelAlign)
+                    .then(res => {
+                        this.$router.go(-1)
+                    }
+                ).catch(err => {
+                        this.$message({
+                            showClose: true,
+                            message: err.message,
+                            type: 'error'
+                        })
+                    }
+                )
+            },
+            // 编辑
+            onEdit(role_id) {
+                this.$PutRequest.putEditRole({
+                    role_id: role_id,  //必填 管理员id
+                    role_name: this.formLabelAlign.role_name,
+                    all_permissions:  this.formLabelAlign.all_permissions,
+                    permissions_list:  this.formLabelAlign.permissions_list
+                })
                     .then(res => {
                         this.$router.go(-1)
                     }
