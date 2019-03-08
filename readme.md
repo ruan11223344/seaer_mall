@@ -28,6 +28,8 @@
 
 10.跨域包: https://github.com/barryvdh/laravel-cors
 
+11.后台权限管理: https://github.com/Zizaco/entrust 
+
 ##前端脚手架:
 参考:https://github.com/yyx990803/laravel-vue-cli-3
 
