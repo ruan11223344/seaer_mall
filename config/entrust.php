@@ -19,7 +19,7 @@ return [
     | the role if it is in a different namespace.
     |
     */
-    'role' => 'Modules\Mall\Entities\Role',
+    'role' => 'Modules\Admin\Entities\Role',
 
     /*
     |--------------------------------------------------------------------------
@@ -51,7 +51,7 @@ return [
     | Update the User if it is in a different namespace.
     |
     */
-    'user' => 'Modules\Mall\Entities\User',
+    'user' => 'Modules\Admin\Entities\Admin',
 
     /*
     |--------------------------------------------------------------------------
@@ -95,7 +95,7 @@ return [
     | Update the permission if it is in a different namespace.
     |
     */
-    'permission' => 'Modules\Mall\Entities\Permission',
+    'permission' => 'Modules\Admin\Entities\Permission',
 
     /*
     |--------------------------------------------------------------------------

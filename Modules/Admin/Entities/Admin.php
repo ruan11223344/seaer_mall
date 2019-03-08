@@ -11,8 +11,9 @@ use Illuminate\Auth\Authenticatable;
 class Admin extends Model
 {
     use EntrustUserTrait,HasApiTokens,Notifiable,Authenticatable;
-    protected $fillable = [
+    protected $table = 'admins';
 
+    protected $fillable = [
         'name', 'email', 'password',
     ];
 

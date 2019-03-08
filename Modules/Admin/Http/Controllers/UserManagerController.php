@@ -247,7 +247,51 @@ class UserManagerController extends Controller
     }
 
     public function getAdminList(Request $request){
+        $data = $request->all();
 
+        $validator = Validator::make($data, [
+            'page'=>'nullable',
+            'size'=>'nullable',
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
+        }
+
+        UtilsService::CreatePermissions('获取管理员列表','获取管理员列表详情');
+
+
+        $page = $request->input('page',1);
+        $size = $request->input('size',20);
+        $admin = new Admin();
+        $count = $admin->count();
+
+        $admin_data_list =[];
+        $admin->get()->map(function ($v,$k)use(&$admin_data_list,$page,$size){
+            $tmp = [];
+            $tmp['num'] = $k+1+(($page-1)*$size);//序号
+            $tmp['admin_name'] = $v->name;//序号
+            $admin_log = AdminLog::where(
+                [
+                    ['admin_id','=',$v->id],
+                    ['type','=','auth'],
+                    ['action','=','login']
+                ]
+            )->orderBy('created_at','desc');
+            $admin_log_clone = clone $admin_log;
+            $tmp['last_login'] = $admin_log->exists() ? Carbon::parse($admin_log->get()->first()->created_at)->format('Y-m-d') : '';//序号
+            $tmp['login_count'] = $admin_log_clone->count();//序号
+            $tmp['role_name'] = 'r';//序号 //todo 完成角色写入
+            array_push($admin_data_list,$tmp);
+        });
+
+
+        $res_data['data'] = $admin_data_list;
+        $res_data['size'] = $size;
+        $res_data['cur_page'] =$page;
+        $res_data['total_page'] = (int)ceil($count/$size);
+        $res_data['total_size'] = $count;
+        return $res_data;
     }
 
 }
