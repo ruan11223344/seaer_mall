@@ -441,10 +441,7 @@ legitimate, and does not infringe legitimate the rights and interests of third p
     import 'quill/dist/quill.core.css'
     import 'quill/dist/quill.snow.css'
     import 'quill/dist/quill.bubble.css'
-
     import { quillEditor } from 'vue-quill-editor'
-    // 高亮
-    // import hljs from 'highlight.js'
 
     export default {
         data() {

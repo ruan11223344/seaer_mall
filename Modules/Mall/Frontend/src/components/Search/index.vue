@@ -19,7 +19,7 @@
     import getData from "@/utils/getData"
     import auth from "@/utils/auth"
     import { mapMutations } from "vuex"
-    import nanoid from "nanoid"
+    import Hashes from "jshashes"
 
     export default {
         data() {
@@ -46,10 +46,13 @@
                 if(this.select == 'Products') {
                     // 搜索商品
                     this.onSearchProduct(this.value).then(async res => {
-                        const id = nanoid()
+                        const SHA1 = new Hashes.SHA1
+                        const time = Math.random().toString()
+                        const id = SHA1.hex(time)
                         await auth.setProductAllStorage(res)
                         this.$router.push('/goods/list?' + id)
                     }).catch(async err => {
+                        
                         await auth.setProductAllStorage([])
                         this.$router.push('/goods/list')
                         // this.$Message.error(err.message)

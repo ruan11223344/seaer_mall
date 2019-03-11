@@ -124,7 +124,6 @@
     import 'vue-image-lightbox/dist/vue-image-lightbox.min.css'
     // 公共方法
     import getData from '@/utils/getData'
-    // import md5 from 'md5'
 
     export default {
         data() {
