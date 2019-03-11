@@ -218,7 +218,7 @@
                         headers:{'Content-Type':'multipart/form-data'}
                     }).then(res => {
                         if(res.code == 200) {
-                            this.$Message.info('Delete successful!')
+                            this.$Message.success('Delete successful!')
                             this.GetRequest()
                             this.participant_id = []
                         }else {
@@ -265,10 +265,10 @@
                     },
                 }).then(res => {
                     if(res.code == 200) {
-                        this.$Message.info('Marking success!')
+                        this.$Message.success('Marking success!')
                         this.GetRequest()
                     }else {
-                        this.$Message.info('Marking failed!')
+                        this.$Message.success('Marking failed!')
                     }
                 }).catch(err => {
                     // console.log(err)

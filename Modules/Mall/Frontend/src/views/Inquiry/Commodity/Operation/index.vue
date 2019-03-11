@@ -313,6 +313,8 @@
                 &-text {
                     font-size: 14px;
                     color: #666666;
+
+                    
                 }
             }
 
@@ -344,6 +346,11 @@
                         line-height: 1.2;
                         color: #666666;
 
+                        & > p {
+                            width: 320px;
+                            .textHidden();
+                        }
+                        
                         & > p:last-child {
                             font-size: 12px;
                             color: #999999;

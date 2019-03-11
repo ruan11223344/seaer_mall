@@ -72,7 +72,7 @@
                 }else {
                     callback()
                 }
-            };
+            }
 
             const validatorEmail = (rule, value, callback) => {
                 const Rex = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/gi
@@ -84,7 +84,7 @@
                 }else {
                     callback()
                 }
-            };
+            }
 
             return {
                 imgCode: '',
@@ -137,6 +137,7 @@
                 }).catch(err => err)
             },
             updateFrom() { // 发送表单
+                this.$Spin.show()
                 this.$request({
                     url: '/auth/send_register_email',
                     method: 'post',
@@ -155,10 +156,12 @@
                         this.SET_REGEMAIL({ Email: this.formCustom.email, redirect_to: data.redirect_to})
                         this.$router.push('/registered/two')
                     }else {
-                        this.$Message.warning('Verification code error, please input the correct verification code')
+                        this.$Message.warning(res.message)
                     }
+                    this.$Spin.hide()
                     this.getCode()
                 }).catch(err => {
+                    this.$Spin.hide()
                     this.getCode()
                     return false
                 })

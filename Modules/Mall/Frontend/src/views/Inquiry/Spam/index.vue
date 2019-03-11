@@ -141,10 +141,10 @@
                     },
                 }).then(res => {
                     if(res.code == 200) {
-                        this.$Message.info('Marking success!')
+                        this.$Message.success('Marking success!')
                         this.GetData()
                     }else {
-                        this.$Message.info('Marking failed!')
+                        this.$Message.success('Marking failed!')
                     }
                 }).catch(err => {
                     return false
