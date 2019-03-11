@@ -5,7 +5,9 @@
                 <v-img width="91" height="81" :imgSrc="require('@/assets/img/wenjianj.png')"></v-img>
             </router-link>
             <figcaption class="card-footer">
-                <div class="card-footer-title">{{ fromData.album_name }}</div>
+                <Tooltip :content="fromData.album_name">
+                    <div class="card-footer-title">{{ fromData.album_name }}</div>
+                </Tooltip>
                 <div class="card-footer-subheading">Total {{ fromData.photo_count }} photos</div>
             </figcaption>
         </figure>
@@ -124,9 +126,12 @@
             // border-top: 0px;
 
             &-title {
+                width: 150px;
+                text-align: center;
                 font-size: 16px;
                 color: #666666;
                 cursor: pointer;
+                .textHidden() 
             }
 
             &-subheading {
