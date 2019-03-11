@@ -1,12 +1,14 @@
 <template>
     <div class="BannerSetting">
         <div class="BannerSetting-title">Shop Banner:</div>
-        <div class="BannerSetting-banner">
-            <img :src="path" alt="">
+        <LightBox :images="images" ref="lightbox" :showLightBox="false" :showThumbs="false" :showCaption="false">11</LightBox>
+        <div class="BannerSetting-banner" :style="`background: url(${path}) center center`" @click="onClick">
+            <!-- <img :src="path" alt=""> -->
         </div>
         <div class="BannerSetting-btns">
+            
             <Upload
-                action="//jsonplaceholder.typicode.com/posts/"
+                action=""
                 style="display: inline-block;"
                 :before-upload="onUpload"
                 :show-upload-list="false"
@@ -29,13 +31,21 @@
     import Cropper from "@/components/Cropper"
     import upData from "@/utils/upData.js"
     import getData from "@/utils/getData.js"
+    import LightBox from 'vue-image-lightbox'
+require('vue-image-lightbox/dist/vue-image-lightbox.min.css')
 
     export default {
         data() {
             return {
                 url: '',
                 show: false,
-                path: ''
+                path: '',
+                images: [
+                    {
+
+                    }
+                ],
+                showBox: false
             }
         },
         methods: {
@@ -50,8 +60,8 @@
             // 阻止默认上传
             async onUpload(file) {
                 this.url = await this.getObjectURL(file)
-                
                 this.show = true
+
                 return false
             },
             onShow(bool) {
@@ -68,6 +78,10 @@
                 }else {
                     this.$Message.warning('Please upload the banner picture of the store')
                 }
+            },
+            onClick() {
+                this.$set(this.images[0], 'src', this.path)
+                this.$refs.lightbox.showImage(0)
             }
         },
         mounted() {
@@ -80,7 +94,8 @@
             })
         },
         components: {
-            "v-cropper": Cropper
+            "v-cropper": Cropper,
+            LightBox
         }
     }
 </script>
@@ -111,6 +126,7 @@
             height: 103px;
             background-color: #f2f6f9;
             margin-top: 22px;
+            cursor: pointer;
             // display: flex;
             // justify-content: flex-start;
             // align-items: flex-start;
