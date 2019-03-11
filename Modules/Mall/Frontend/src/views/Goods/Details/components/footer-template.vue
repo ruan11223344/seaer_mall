@@ -1,7 +1,7 @@
 <template>
     <div class="main-footer">
         <h1 class="main-footer-title">Product Description</h1>
-        <div class="main-footer-content ql-editor" v-html="product_details">
+        <div class="ql-editor main-footer-content" v-html="product_details">
 
         </div>
         <!-- <div class="main-footer-table">
@@ -177,11 +177,11 @@
         //     width: 100%;
         //     height: 607px;
         // }
-
         &-content {
-
+            padding: 0px;
             img {
                 width: 1220px;
+                max-width: 1220px !important;
                 height: auto;
                 display: block;
             }
