@@ -123,9 +123,7 @@
                     })
             },
             onGetData() {
-                if(!this.Company_Detail) {
-                    this.getCompany()
-                }
+                this.getCompany()
 
                 this.onGetProductDetails()
             },

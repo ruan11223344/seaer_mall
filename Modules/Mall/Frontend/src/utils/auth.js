@@ -42,13 +42,9 @@ export default {
         return sessionStorage.removeItem(user);
     },
     // 搜索的商品数据
-    // Product_All
     getProductAllStorage() {
         const data = JSON.parse(sessionStorage.getItem(Product))
         return data
-    },
-    removeProductAllStorage() {
-        // return Cookies.remove(Product)
     },
     setProductAllStorage(value) {
         const json = JSON.stringify(value)

@@ -67,9 +67,7 @@
         },
         created() {
             this.user = this.getSessionStorage()
-            if(!this.Company_Detail) {
-                this.getCompany()
-            }
+            this.getCompany()
         },
         components: {
             'v-nav': Header,
