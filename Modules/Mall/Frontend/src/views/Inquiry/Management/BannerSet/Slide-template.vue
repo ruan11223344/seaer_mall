@@ -165,8 +165,7 @@
                 //         this.slideData.push({ img_url: res[i].url, img_jump: res[i].url_path })
                 //     }
 
-                    
-                // }else {
+                // }else { 
                 //     this.slideData.push({ img_url: '', img_jump: '' })
                 // }
             })

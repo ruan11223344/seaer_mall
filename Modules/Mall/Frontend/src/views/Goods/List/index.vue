@@ -29,7 +29,7 @@
 <script>
     import Card from "@/components/Card"
     import getData from '@/utils/getData'
-    import { mapState } from 'vuex'
+    import auth from '@/utils/auth'
     // import Breadcrumb  from '@/components/Breadcrumb'
 
     export default {
@@ -40,11 +40,11 @@
                     total: 0,
                     num: 1
                 },
-                ProductData: []
+                ProductData: [],
+                Product_All: []
             }
         },
         computed: {
-            ...mapState([ 'Product_All' ])
         },
         methods: {
             filterAll: getData.filterAll,
@@ -53,21 +53,24 @@
                 this.$set(this.total, 'num', index)
                 this.filterAll(this.Product_All, this.total)
                     .then(res => this.ProductData = res)
+            },
+            ongGetAll() {
+                this.Product_All = auth.getProductAllStorage()
+
+                this.total.total = this.Product_All.length
+                this.filterAll(this.Product_All, this.total)
+                    .then(res => this.ProductData = res)
             }
         },
         mounted() {
-            this.total.total = this.Product_All.length
-            this.filterAll(this.Product_All, this.total)
-                .then(res => this.ProductData = res)
+            this.ongGetAll()
         },
         components: {
             'v-card': Card,
         },
         watch: {
-            Product_All() {
-                this.total.total = this.Product_All.length
-                this.filterAll(this.Product_All, this.total)
-                    .then(res => this.ProductData = res)
+            '$route': function () {
+                this.ongGetAll()
             }
         },
     }

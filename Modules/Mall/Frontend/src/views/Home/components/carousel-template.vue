@@ -23,7 +23,7 @@
         data () {
             return {
                 setting: {
-                    autoplay: false,
+                    autoplay: true,
                     autoplaySpeed: 3000,
                     dots: 'inside',
                     radiusDot: false,

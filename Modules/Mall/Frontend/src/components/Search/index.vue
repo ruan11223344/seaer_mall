@@ -17,7 +17,9 @@
 
 <script>
     import getData from "@/utils/getData"
+    import auth from "@/utils/auth"
     import { mapMutations } from "vuex"
+    import nanoid from "nanoid"
 
     export default {
         data() {
@@ -37,17 +39,18 @@
             }
         },
         methods: {
-            ...mapMutations([ 'SET_PRODUCT_ALL', 'SET_SHOP_ALL' ]),
+            ...mapMutations([ 'SET_SHOP_ALL' ]),
             onSearchProduct: getData.onSearchProduct,
             onSearchShop: getData.onSearchShop,
             onClick() {
                 if(this.select == 'Products') {
                     // 搜索商品
                     this.onSearchProduct(this.value).then(async res => {
-                        await this.SET_PRODUCT_ALL(res)
-                        this.$router.push('/goods/list')
+                        const id = nanoid()
+                        await auth.setProductAllStorage(res)
+                        this.$router.push('/goods/list?' + id)
                     }).catch(async err => {
-                        await this.SET_PRODUCT_ALL([])
+                        await auth.setProductAllStorage([])
                         this.$router.push('/goods/list')
                         // this.$Message.error(err.message)
                     })

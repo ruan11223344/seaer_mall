@@ -7,6 +7,9 @@ const RefreshKey = 'refresh-token'
 
 const user = 'User_info'
 
+const Product = 'Product_All'
+
+
 export default {
     getCookies() {
         return Cookies.get(TokenKey)
@@ -38,5 +41,18 @@ export default {
         // 从 sessionStorage 删除保存的数据
         return sessionStorage.removeItem(user);
     },
-    
+    // 搜索的商品数据
+    // Product_All
+    getProductAllStorage() {
+        const data = JSON.parse(sessionStorage.getItem(Product))
+        return data
+    },
+    removeProductAllStorage() {
+        // return Cookies.remove(Product)
+    },
+    setProductAllStorage(value) {
+        const json = JSON.stringify(value)
+        return sessionStorage.setItem(Product, json)
+    },
+
 }

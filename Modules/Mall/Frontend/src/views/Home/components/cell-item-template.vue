@@ -56,7 +56,7 @@
 
 <script>
     import getData from "@/utils/getData"
-    import { mapMutations } from "vuex"
+    import auth from '@/utils/auth'
 
     export default {
         data() {
@@ -79,7 +79,6 @@
             }
         },
         methods: {
-            ...mapMutations([ 'SET_PRODUCT_ALL' ]),
             onGetCategoryProduct: getData.onGetCategoryProduct,
             onOver(index) {
                 if(this.arr.length > 1) {
@@ -96,11 +95,11 @@
             onClick(id) {
                 this.onGetCategoryProduct(id)
                     .then(res => {
-                        this.SET_PRODUCT_ALL(res)
+                        auth.setProductAllStorage(res)
                         this.$router.push('/goods/list')
                     })
                     .catch(err => {
-                        this.SET_PRODUCT_ALL([])
+                        auth.setProductAllStorage([])
                         this.$router.push('/goods/list')
                     })
             }

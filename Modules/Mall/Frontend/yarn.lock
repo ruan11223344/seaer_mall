@@ -5024,6 +5024,11 @@ jsesc@~0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
 
+jshashes@^1.0.7:
+  version "1.0.7"
+  resolved "http://registry.npm.taobao.org/jshashes/download/jshashes-1.0.7.tgz#bed8c97a0e9632fd0513916f55f76dd5486be59f"
+  integrity sha1-vtjJeg6WMv0FE5FvVfdt1Uhr5Z8=
+
 json-loader@^0.5.4:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/json-loader/-/json-loader-0.5.7.tgz#dca14a70235ff82f0ac9a3abeb60d337a365185d"
@@ -5575,6 +5580,11 @@ multicast-dns@^6.0.1:
 nan@^2.9.2:
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.10.0.tgz#96d0cd610ebd58d4b4de9cc0c6828cda99c7548f"
+
+nanoid@^2.0.1:
+  version "2.0.1"
+  resolved "http://registry.npm.taobao.org/nanoid/download/nanoid-2.0.1.tgz#deb55cac196e3f138071911dabbc3726eb048864"
+  integrity sha1-3rVcrBluPxOAcZEdq7w3JusEiGQ=
 
 nanomatch@^1.2.9:
   version "1.2.13"

@@ -10,8 +10,7 @@
 </template>
 
 <script>
-    // Product_All
-    import { mapMutations } from "vuex"
+    import auth from '@/utils/auth'
 
     export default {
         props: {
@@ -26,12 +25,11 @@
             data_product_All: Array
         },
         methods: {
-            ...mapMutations([ 'SET_PRODUCT_ALL' ]),
-            onClick() {
-                this.SET_PRODUCT_ALL(this.data_product_All)
+            async onClick() {
+                await auth.setProductAllStorage(this.data_product_All)
                 this.$router.push('/goods/list')
             }
-        },
+        }
     }
 </script>
 
