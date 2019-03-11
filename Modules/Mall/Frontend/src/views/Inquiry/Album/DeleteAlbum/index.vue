@@ -28,7 +28,9 @@
                 this.$emit('on-show', bool)
             },
             onDelete() {
+                console.log(this.dataId)
                 if(this.dataId != false) {
+
                     this.$request({
                         url: '/album/modify_photos',
                         method: 'post',
@@ -40,7 +42,6 @@
 
                         if(res.code == 200) {
                             this.onShow(true)
-
                             this.$Message.info({
                                 content: res.message,
                                 duration: 3
@@ -59,7 +60,6 @@
                 }else {
                     this.onShow(false)
                 }
-                
             }
         },
         components: {

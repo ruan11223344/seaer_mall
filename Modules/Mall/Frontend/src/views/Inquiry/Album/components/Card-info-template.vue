@@ -21,9 +21,9 @@
                 <div class="cardInfo-info cardInfo-body">
                     <div class="cardInfo-info-block">
                         <div class="cardInfo-info-block-title">{{ $route.query.name }}</div>
-                        <div>
+                        <!-- <div>
                             <img :src="require('@/assets/img/icon/bianj.png')" alt="" :style="{ width: '17px', height: '16px' }">
-                        </div>
+                        </div> -->
                     </div>
                     
                     <template v-if="bool">

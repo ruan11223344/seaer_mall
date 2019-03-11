@@ -13,57 +13,73 @@
             </div>
         </section>
 
-        <!-- 按钮集合 -->
-        <section class="albumlist-buttonAggregate">
-            <div class="albumlist-buttonAggregate-left">
-                <span @click="onSelect(!single)">
-                    <Checkbox v-model="single"></Checkbox>
-                </span>
-                <!-- <button type="button" class="albumlist-buttonAggregate-left-btn">Cancel</button> -->
-                <button type="button" class="albumlist-buttonAggregate-left-btn" @click="deletAlbum=true">Delete</button>
-                <button type="button" class="albumlist-buttonAggregate-left-btn" @click="moveAlbum=true">Move to other ablum</button>
-            </div>
-            <!-- <div class="albumlist-buttonAggregate-right">
-                <span class="albumlist-buttonAggregate-right-sort">Sort by</span>
-                <Select v-model="model1" style="width:200px" placeholder="Descending date">
-                    <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                </Select>
-            </div> -->
-        </section>
+        <template v-if="formData != null">
+            <template v-if="formData.length">
+                <!-- 按钮集合 -->
+                <section class="albumlist-buttonAggregate">
+                    <div class="albumlist-buttonAggregate-left">
+                        <span>
+                            <Checkbox v-model="single" @on-change="onSelect"></Checkbox>
+                        </span>
+                        <!-- <button type="button" class="albumlist-buttonAggregate-left-btn">Cancel</button> -->
+                        <button type="button" class="albumlist-buttonAggregate-left-btn" @click="deletAlbum=true">Delete</button>
+                        <button type="button" class="albumlist-buttonAggregate-left-btn" @click="moveAlbum=true">Move to other ablum</button>
+                    </div>
+                    <!-- <div class="albumlist-buttonAggregate-right">
+                        <span class="albumlist-buttonAggregate-right-sort">Sort by</span>
+                        <Select v-model="model1" style="width:200px" placeholder="Descending date">
+                            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        </Select>
+                    </div> -->
+                </section>
+                <!-- 提示 -->
+                <!-- <section class="albumlist-Tips">
+                    When use 'Replace' function, please make sure you upload the same image format.
+                </section> -->
 
-        <!-- 提示 -->
-        <!-- <section class="albumlist-Tips">
-            When use 'Replace' function, please make sure you upload the same image format.
-        </section> -->
+                <!-- 图片 -->
+                <template>
+                    <div style="marginTop: 13px;" class="albumlist-card">
+                        <v-card-info :item="item" v-for="(item, index) in formData" :key="index" @on-changes="onChanges" @on-getData="onGetAlbumList" class="albumlist-card-list"></v-card-info>
+                    </div>
+                </template>
 
-        <!-- 图片 -->
-        <template>
-            <div style="marginTop: 13px;" class="albumlist-card">
-                <v-card-info :item="item" v-for="(item, index) in formData" :key="index" @on-changes="onChanges" @on-getData="onGetAlbumList" class="albumlist-card-list"></v-card-info>
-            </div>
-            
-        </template>
+                <!-- 删除图片 -->
+                <template>
+                    <v-deletealbum :dataId="formData | GetAlbumId" v-show="deletAlbum" @on-show="onDeleteShow"></v-deletealbum>
+                </template>
 
-        <!-- 删除图片 -->
-        <template>
-            <v-deletealbum :dataId="formData | GetAlbumId" v-show="deletAlbum" @on-show="onDeleteShow"></v-deletealbum>
-        </template>
+                <!-- 移动到其他相册 -->
+                <!-- <template>
+                    <v-move-other-album v-show="AlbumTips"></v-move-other-album>
+                </template> -->
 
-        <!-- 移动到其他相册 -->
-        <!-- <template>
-            <v-move-other-album v-show="AlbumTips"></v-move-other-album>
-        </template> -->
+                <!-- 移动到其他相册操作 -->
+                <template>
+                    <v-move-other-albums :dataId="formData | GetAlbumId" v-show="moveAlbum" @on-show="onMoveAlbum"></v-move-other-albums>
+                </template>
 
-        <!-- 移动到其他相册操作 -->
-        <template>
-            <v-move-other-albums :dataId="formData | GetAlbumId" v-show="moveAlbum" @on-show="onMoveAlbum"></v-move-other-albums>
-        </template>
-
-        <section style="marginTop:20px;">
-            <template>
-                <Page :total="total.total" :page-size="10" style="textAlign: center" @on-change="onPages"/>
+                <section style="marginTop:20px;">
+                    <template>
+                        <Page :total="total.total" :page-size="10" style="textAlign: center" @on-change="onPages"/>
+                    </template>
+                </section>
             </template>
-        </section>
+
+            <template v-else>
+                <div style="display: flex;alignItems: center;justifyContent: center;height: 500px;textAlign: center;">
+                    <span style="fontSize: 20px;">
+                        You haven't uploaded pictures yet. Please upload pictures and fill in your album as soon as possible.
+                    </span>
+                </div>
+            </template>
+        </template>
+
+        <template v-else>
+            <div style="height: 500px;display: flex;alignItems: center;justifyContent: center">
+                <Spin size="large"></Spin>
+            </div>
+        </template>
     </div>
 </template>
 
@@ -119,26 +135,13 @@
                 single: false,
                 deletAlbum: false,
                 moveAlbum: false,
-                formData: [],
+                formData: null,
                 data: [],
                 total: {
                     size: 10,
                     total: 0,
                     num: 1
                 }
-            }
-        },
-        computed: {
-            filterData() {
-                const arr = []
-
-                for(let item of this.formData) {
-                    if(item.single == true) {
-                        arr.push(item.id)
-                    }
-                }
-
-                return arr
             }
         },
         filters: {
@@ -193,7 +196,6 @@
                     if(res.code == 200) {
                         this.data = res.data
                         this.filterAll(res.data)
-                        // this.filterFormData(res.data)
                     }
                 }).catch(err => {
                     return false
@@ -207,25 +209,13 @@
                 const dataFrom = data.slice(num * size - 10, num * size)
 
                 dataFrom.forEach((value, index) => {
-                    // console.log(value.photo_url);
-                    
                     this.formData.push(value)
                 })
-
-                // this.filterFormData(this.formData)
-            },
-            // 过滤
-            // filterFormData(data) {
-            //     console.log(data);
                 
-            //     const datas = data
-            //     for(let item of datas) {
-            //         item.single = false
-            //     }
-
-            //     return datas
-            // },
-            
+                for(let index in this.formData) {
+                    this.$set(this.formData[index], 'single', false)
+                }
+            },
             // 全选
             onSelect(bool) {
                 for(let index in this.formData) {
@@ -236,16 +226,17 @@
             onChanges() {
                 const arr = []
                 for(let i = 0; i < this.formData.length; i++) {
-                    arr.push(this.formData[i].single)
+                    if(this.formData[i].single == undefined) {
+                        arr.push(false)
+                    }else {
+                        arr.push(this.formData[i].single)
+                    }
                 }
-
                 if(arr.includes(false)) {
                     this.single = false
                 }else {
                     this.single = true
                 }
-                
-                return false
             },
             // 分页
             onPages(index) {
@@ -281,6 +272,7 @@
         min-height: 772px;
         .bg-color(white);
         padding: 21px 30px;
+        
 
         &-title {
             .flex();

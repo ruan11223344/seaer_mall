@@ -124,7 +124,6 @@
             onGetWaitList() {
                 this.$GetRequest.getProductAuditList(this.total.size, this.total.num)
                     .then(res => {
-                        console.log(res)
                         this.$set(this.total, 'total', res.total_size)
                         this.waitData = res.data
                     }
