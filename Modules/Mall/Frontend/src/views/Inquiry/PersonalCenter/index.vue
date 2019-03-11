@@ -188,7 +188,7 @@
     .personal {
         align-self: flex-start;
         width: 944px;
-        height: 772px;
+        height: auto;
         // background-color: #ffffff;
         // padding: 21px 30px;
 

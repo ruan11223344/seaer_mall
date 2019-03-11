@@ -1,5 +1,5 @@
 <template>
-    <aside class="inquire-aside">
+    <aside class="inquire-aside" :style="$route.path == '/inquiryList/personalpenter' ? 'height: 555px' : ''">
         <ul>
             <li v-for="(item, index) in menuList" :key="index">
                 <div ref="menuList" class="inquire-aside-title" @click="onClick(item,index)">
@@ -157,9 +157,6 @@
                     },
                 ]
             }
-        },
-        props: {
-
         },
         methods: {
             onClick(item, index) {

@@ -1,7 +1,7 @@
 <template>
     <div class="main-footer">
         <h1 class="main-footer-title">Product Description</h1>
-        <div class="main-footer-content" v-html="product_details">
+        <div class="main-footer-content ql-editor" v-html="product_details">
 
         </div>
         <!-- <div class="main-footer-table">
@@ -27,6 +27,10 @@
 </template>
 
 <script>
+    import 'quill/dist/quill.bubble.css'
+    import 'quill/dist/quill.core.css'
+    import 'quill/dist/quill.snow.css'
+
     export default { 
         props: ['product_details'],
         data() {
@@ -98,15 +102,15 @@
     .main-footer {
         width: 100%;
 
-        // &-title {
-        //     .lineHeight(50px);
-        //     width: 100%;
-        //     padding-left: 20px;
-        //     font-size: 16px;
-        //     color: #333333;
-        //     background-color: #f7f7fc;
-        //     border-top: 2px solid #f0883a;
-        // }
+        &-title {
+            .lineHeight(50px);
+            width: 100%;
+            padding-left: 20px;
+            font-size: 16px;
+            color: #333333;
+            background-color: #f7f7fc;
+            border-top: 2px solid #f0883a;
+        }
 
         // &-box {
         //     .bg-color(whiteDark);

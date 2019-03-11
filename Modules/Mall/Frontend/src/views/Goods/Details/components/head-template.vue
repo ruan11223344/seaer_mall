@@ -8,9 +8,10 @@
                 @click="$router.push('/home')"
             >
             <h1>{{ Company_Detail.basic_info.company_name }}</h1>
-            <div class="details-head-container-collection">
+            <div class="details-head-container-collection"
+                @click="onCollection"
+                >
                 <img
-                    @click="onCollection"
                     :src="Company_Detail.is_favorites_company ? require('@/assets/img/details/sc2.png') : require('@/assets/img/details/sc1.png')" class="details-head-container-collection-icon" />
                 <span>Favorites Supplier</span>
             </div>
@@ -92,6 +93,7 @@
                 line-height: 1;
                 color: #f0883a;
                 padding: 0px 5px;
+                cursor: pointer;
 
                 &-icon {
                     position: relative;

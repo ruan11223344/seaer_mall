@@ -4,11 +4,11 @@
             <img :src="require('@/assets/img/home/logo.png')" alt="">
         </router-link>
         <div>
-            <Input v-model="value" style="width: 597px" size="default">
+            <Input v-model="value" style="width: 597px" size="default" @on-enter="onClick">
                 <Select v-model="select" slot="prepend" style="width:127px;background: #f5f5f5" size="default">
                     <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
-                <div slot="append" style="width:115px;position: relative;" class="box-search" @click="onClick">
+                <div slot="append" style="width:115px;position: relative;cursor: pointer;" class="box-search" @click="onClick">
                 </div>
             </Input>
         </div>

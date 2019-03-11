@@ -93,7 +93,9 @@
             top: -2px;
             margin-bottom: 11px;
             font-weight: bold;
+            overflow: hidden;
             // text-align: center;
+            .textHiddens(2);
         }
 
         &-dl {

@@ -448,11 +448,11 @@
     import getData from "@/utils/getData"
     import upData from "@/utils/upData"
 
+    import { quillEditor } from 'vue-quill-editor'
     // 富文本编辑器
     import 'quill/dist/quill.core.css'
     import 'quill/dist/quill.snow.css'
     import 'quill/dist/quill.bubble.css'
-    import { quillEditor } from 'vue-quill-editor'
     
     import { mapState } from 'vuex'
 
