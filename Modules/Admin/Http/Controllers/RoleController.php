@@ -152,7 +152,7 @@ class RoleController extends Controller
         foreach ($permissions_list as $v){
             $permissions_list_arr[] = Permission::find($v);
         }
-        
+
 
         $admin->detachPermissions(Permission::all());
         $admin->attachPermissions($permissions_list_arr);
