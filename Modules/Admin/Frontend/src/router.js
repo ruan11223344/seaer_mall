@@ -25,13 +25,13 @@ const router = new Router({
                     meta: [ '用户管理', '用户' ],
                     component: () => import('./views/User')
                 },
-                {
+                { // 用户管理----商家
                     path: 'business',
                     name: 'business',
                     meta: [ '用户管理', '商家' ],
                     component: () => import('./views/Business')
                 },
-                {
+                { // 用户管理----管理员
                     path: 'admin',
                     name: 'admin',
                     component: () => import('./views/Admin'),
@@ -56,31 +56,45 @@ const router = new Router({
                         }
                     ]
                 },
-                {
-                    path: 'allproducts',
-                    name: 'allproducts',
-                    meta: [ '商品管理', '全部商品' ],
-                    component: () => import('./views/AllProducts')
+                { // 商品管理
+                    path: 'products',
+                    name: 'products',
+                    component: () => import('./views/Products'),
+                    children: [
+                        {
+                            path: 'allproducts',
+                            name: 'allproducts',
+                            meta: [ '商品管理', '全部商品' ],
+                            component: () => import('./views/Products/AllProducts')
+                        },
+                        {
+                            path: 'wait',
+                            name: 'wait',
+                            meta: [ '商品管理', '待审核商品' ],
+                            component: () => import('./views/Products/Wait')
+                        },
+                    ]
                 },
-                {
-                    path: 'wait',
-                    name: 'wait',
-                    meta: [ '商品管理', '待审核商品' ],
-                    component: () => import('./views/Wait')
-                },
-                {
+                { // 文章管理
                     path: 'article',
                     name: 'article',
-                    meta: [ '文章管理', '系统文章' ],
-                    component: () => import('./views/Article')
+                    component: () => import('./views/Article'),
+                    children: [
+                        {
+                            path: 'systemarticle',
+                            name: 'systemarticle',
+                            meta: [ '文章管理', '系统文章' ],
+                            component: () => import('./views/Article/System')
+                        },
+                        {
+                            path: 'agreement',
+                            name: 'agreement',
+                            meta: [ '文章管理', '会员协议' ],
+                            component: () => import('./views/Article/Agreement')
+                        },
+                    ]
                 },
-                {
-                    path: 'agreement',
-                    name: 'agreement',
-                    meta: [ '文章管理', '会员协议' ],
-                    component: () => import('./views/Agreement')
-                },
-                {
+                { // 广告管理
                     path: 'advertisement',
                     name: 'advertisement',
                     component: () => import('./views/Advertisement'),
@@ -99,17 +113,30 @@ const router = new Router({
                         }
                     ]
                 },
-                {
+                { // 系统公告
                     path: 'bulletin',
                     name: 'bulletin',
                     meta: [ '系统公告', '系统公告' ],
                     component: () => import('./views/Bulletin')
                 },
-                {
-                    path: 'feedback',
-                    name: 'feedback',
-                    meta: [ '意见反馈', '反馈信息' ],
-                    component: () => import('./views/Feedback')
+                { // 意见反馈
+                    path: 'opinion',
+                    name: 'opinion',
+                    component: () => import('./views/Opinion'),
+                    children: [
+                        {
+                            path: 'feedback',
+                            name: 'feedback',
+                            meta: [ '意见反馈', '反馈信息' ],
+                            component: () => import('./views/Opinion/Feedback')
+                        },
+                        {
+                            path: 'details',
+                            name: 'details',
+                            meta: [ '意见反馈', '反馈信息', '详情' ],
+                            component: () => import('./views/Opinion/Details')
+                        }
+                    ]
                 },
                 { // 消息
                     path: 'news',

@@ -32,8 +32,8 @@
                     <span slot="title" class="title">商品管理</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="/allproducts" class="item">全部商品</el-menu-item>
-                    <el-menu-item index="/wait" class="item">待审核商品</el-menu-item>
+                    <el-menu-item index="/products/allproducts" class="item">全部商品</el-menu-item>
+                    <el-menu-item index="/products/wait" class="item">待审核商品</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
             <el-submenu index="4">
@@ -42,8 +42,8 @@
                     <span slot="title" class="title">文章管理</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="/article" class="item">系统文章</el-menu-item>
-                    <el-menu-item index="/agreement" class="item">会员协议</el-menu-item>
+                    <el-menu-item index="/article/systemarticle" class="item">系统文章</el-menu-item>
+                    <el-menu-item index="/article/agreement" class="item">会员协议</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
             <el-submenu index="5">
@@ -70,7 +70,7 @@
                     <span slot="title" class="title">意见反馈</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="/feedback" class="item">反馈信息</el-menu-item>
+                    <el-menu-item index="/opinion/feedback" class="item">反馈信息</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
         </el-menu>

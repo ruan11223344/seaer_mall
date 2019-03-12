@@ -1,6 +1,11 @@
 <template>
     <el-main>
         <v-list>
+            <template slot="btn">
+                <button class="btn">
+                    +新增
+                </button>
+            </template>
             <template slot="table">
                 <el-table
                     ref="singleTable"
@@ -12,43 +17,22 @@
 
                     <el-table-column
                         align="center"
-                        property="date"
-                        label="添加时间"
+                        label="序号"
+                        type="index"
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
                         property="date"
-                        label="会员ID"
+                        label="标题"
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
                         property="name"
-                        label="所留联系方式（电话、邮箱）"
-                        >
-                    </el-table-column>
-
-                    <el-table-column
-                        align="center"
-                        property="date"
-                        label="内容"
-                        >
-                    </el-table-column>
-
-                    <el-table-column
-                        align="center"
-                        property="name"
-                        label="用户类型"
-                        >
-                    </el-table-column>
-
-                    <el-table-column
-                        align="center"
-                        property="date"
-                        label="状态"
+                        label="发布时间"
                         >
                     </el-table-column>
 
@@ -62,13 +46,13 @@
                                 class="del"
                                 @click="handleEdit(scope.$index, scope.row)"
                                 >
-                                查看详情
+                                删除
                             </button>
                             <button
                                 class="edit"
                                 @click="handleEdit(scope.$index, scope.row)"
                                 >
-                                回复
+                                编辑
                             </button>
                         </template>
                     </el-table-column>
@@ -180,6 +164,15 @@
 </script>
 
 <style lang="scss" scoped>
+
+    .btn {
+        font-size: 16px;
+        width: 71px;
+        height: 25px;
+        border: none;
+        @include mixin-color(white);
+        @include mixin-bg-color(yellow);
+    }
 
     .del {
         width: 74px;
