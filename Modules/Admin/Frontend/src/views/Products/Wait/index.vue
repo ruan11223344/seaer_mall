@@ -155,9 +155,17 @@
         methods: {
             // 点击提交
             onSub() {
+                if(this.action == 'reject' && this.reject_message == '') {
+                    this.$message({
+                        showClose: true,
+                        message: '请填写不通过原因',
+                        type: 'warning'
+                    })
 
-                if(this.reject_message != '') {
-                    this.$PutRequest.putProductAudit({
+                    return false
+                }
+
+                this.$PutRequest.putProductAudit({
                         product_id: this.product_id,
                         action: this.action,
                         reject_message: this.reject_message
@@ -186,13 +194,6 @@
                             this.modality = false
 
                         })
-                }else {
-                    this.$message({
-                        showClose: true,
-                        message: '请填写不通过原因',
-                        type: 'warning'
-                    })
-                }
             },
             // 隐藏模态框
             onHide() {
