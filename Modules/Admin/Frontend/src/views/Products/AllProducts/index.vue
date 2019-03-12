@@ -115,7 +115,7 @@
         },
         methods: {
             handleEdit() {
-
+                this.$router.push('/products/details')
             },
             // 分页
             onChangeNum(num) {

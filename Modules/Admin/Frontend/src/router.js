@@ -73,6 +73,12 @@ const router = new Router({
                             meta: [ '商品管理', '待审核商品' ],
                             component: () => import('./views/Products/Wait')
                         },
+                        {
+                            path: 'details',
+                            name: 'details',
+                            meta: [ '商品管理', '全部商品', '商品详情' ],
+                            component: () => import('./views/Products/Details')
+                        }
                     ]
                 },
                 { // 文章管理
