@@ -145,6 +145,24 @@ class getRequest {
             })
         })
     }
+
+    // 18.商品审核点击商品详情获取
+    getProductInfo(product_id) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/product_manager/get_product_info',
+                params: {
+                    "product_id": product_id
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
 }
 
 export default new getRequest()

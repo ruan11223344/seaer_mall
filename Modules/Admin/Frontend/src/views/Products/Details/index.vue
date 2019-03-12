@@ -4,113 +4,121 @@
             商品状态 <span class="state-wait">等待审核</span>
         </section>
 
-        <section class="company">
-            <div class="title">公司信息</div>
-            <article class="company-block">
-                <div class="company-block-type">
-                    业务类型：<span>贸易公司</span>
-                </div>
-                <div class="company-block-name">
-                    <p>公司名称：<span>Wuhan Sier International Co.,LTD.</span></p>
-                    <p>公司中文名称：<span>武汉思迩电子商务有限公司</span></p>
-                </div>
-                <div class="company-block-address">
-                    <p>国家：<span>中国</span></p>
-                    <p>省/市：<span>湖北武汉</span></p>
-                    <p>地址：<span>东湖高新技术开发区光谷三路777号A座605室</span></p>
-                </div>
-                <div class="company-block-contact">
-                    <p>电话：<span>+86 027-65520870</span></p>
-                    <p>网站：<span>https：//www.seaer.com.cn</span></p>
-                </div>
-            </article>
-        </section>
-
-       <section class="business">
-            <div class="title">商业信息</div>
-            <article class="business-block">
-                <div class="business-block-range">
-                    <p>经营范围：<span>农业和食品</span></p>
-
-                </div>
-
-                <div class="business-block-product">
-                    <p>主营产品：<span>大蒜，苹果</span></p>
-                </div>
-
-                <div class="business-block-brief">
-                    <p>公司简介：<span>我们在非洲拥有十年的本地销售经验。从事S2B，B2B，B2C和O2O等跨境电子商务业务。 其经营产品涵盖建材，家具，家居用品，汽摩配件，服装，鞋包，3C，IT数码，家电，电脑，电子产品，美容假发，化妆品，母婴用品，工艺品，日用品，玩具，文具，体育用品，运动户外用品，珠宝，电动车及其配件，实现“买世界，卖世界”，为不同国家的买家和卖家提供一站式服务管家服务。</span></p>
-                </div>
-
-                <div class="business-block-license">
-                    <p>营业执照：<span>91420100MA4KXE9Q0A</span></p>
-                </div>
-
-                <div class="business-block-enclosure">
-                    <p>附件：</p>
-                    <div></div>
-                </div>
-            </article>
-        </section>
-
-        <section class="commodity">
-            <div class="title">商品信息</div>
-            <article class="commodity-block">
-                <div class="commodity-block-type">
-                    <p>产品类别：<span>农业 > 食品</span></p>
-                </div>
-
-                <div class="commodity-block-name">
-                    <p>产品名称：<span>Pure white garlic wholesale</span></p>
-                </div>
-
-                <div class="commodity-block-num">
-                    <p>SKU编号：<span>kfehffeijg524514</span></p>
-                </div>
-
-                <div class="commodity-block-word">
-                    <p>关键词：<span>食品-食品-食品</span></p>
-                </div>
-
-                <div class="commodity-block-img">
-                    <p>产品图片</p>
-                    <div></div>
-                </div>
-
-                <div class="commodity-block-word">
-                    <p>产品属性：<span>Color-red、Color-red、Color-red</span></p>
-                </div>
-
-                <div class="commodity-block-price">
-                    <p>价格：<span>Ladder Price</span></p>
-                    <div>
-                        <p>≥10 KSh 10-100</p>
-                        <p>≥10 KSh 10-100</p>
-                        <p>≥10 KSh 10-100</p>
+        <template v-if="company_info != null">
+            <section class="company">
+                <div class="title">公司信息</div>
+                <article class="company-block">
+                    <div class="company-block-type">
+                        业务类型：<span>{{ company_info.company_business_type_str }}</span>
                     </div>
-                </div>
-
-                <div class="commodity-block-details">
-                    <p>商品详情</p>
-                    <div class="commodity-block-details-box">
-                        <swiper :options="swiperOption" style="height: 608px;overflow: hidden;zIndex: 0">
-                            <swiper-slide style="height: auto;">
-                                <div v-for="(item, index) in 100" :key="index"> {{ item }}</div>
-                            </swiper-slide>
-                            <div class="swiper-scrollbar" slot="scrollbar"></div>
-                        </swiper>
+                    <div class="company-block-name">
+                        <p>公司名称：<span>{{ company_info.company_name }}</span></p>
+                        <p>公司中文名称：<span>{{ company_info.company_name_in_china }}</span></p>
                     </div>
-                </div>
+                    <div class="company-block-address">
+                        <p>国家：<span>{{ company_info.company_country == 'China' ? '中国' : '肯尼亚' }}</span></p>
+                        <p>省/市：<span>{{ company_info['province/city'] }}</span></p>
+                        <p>地址：<span>{{ company_info.company_detailed_address }}</span></p>
+                    </div>
+                    <div class="company-block-contact">
+                        <p>电话：<span>{{ company_info.company_mobile_phone }}</span></p>
+                        <p>网站：<span>{{ company_info.company_website }}</span></p>
+                    </div>
+                </article>
+            </section>
+        </template>
 
-                <div class="commodity-block-word">
-                    <p>店铺所属类别：<span>食品-食品-食品</span></p>
-                </div>
+        <template v-if="company_info != null">
+            <section class="business">
+                <div class="title">商业信息</div>
+                <article class="business-block">
+                    <div class="business-block-range">
+                        <p>经营范围：<span>{{ company_info.company_business_range_ids_str }}</span></p>
 
-                <div class="commodity-block-word">
-                    <p>发布时间：<span>2017-10-10 12:20</span></p>
-                </div>
-            </article>
-        </section>
+                    </div>
+
+                    <div class="business-block-product">
+                        <p>主营产品：<span>{{ company_info.company_main_products }}</span></p>
+                    </div>
+
+                    <div class="business-block-brief">
+                        <p>公司简介：<span>{{ company_info.company_profile }}</span></p>
+                    </div>
+
+                    <div class="business-block-license">
+                        <p>营业执照：<span>{{ company_info.company_business_license }}</span></p>
+                    </div>
+
+                    <div class="business-block-enclosure">
+                        <p>附件：</p>
+                        <div>
+                            <img :src="company_info.company_business_license_pic_url" alt="" style="width: 100%;height: 100%; display: block;">
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </template>
+
+        <template v-if="product_info != null">
+            <section class="commodity">
+                <div class="title">商品信息</div>
+                <article class="commodity-block">
+                    <div class="commodity-block-type">
+                        <p>产品类别：<span>{{ product_info.product_categories_str }}</span></p>
+                    </div>
+
+                    <div class="commodity-block-name">
+                        <p>产品名称：<span>{{ product_info.product_name }}</span></p>
+                    </div>
+
+                    <div class="commodity-block-num">
+                        <p>SKU编号：<span>{{ product_info.product_sku_no }}</span></p>
+                    </div>
+
+                    <div class="commodity-block-word">
+                        <p>关键词：<span>{{ product_info.product_keywords_str }}</span></p>
+                    </div>
+
+                    <div class="commodity-block-img">
+                        <p>产品图片</p>
+                        <div></div>
+                    </div>
+
+                    <div class="commodity-block-word">
+                        <p>产品属性：<span>{{ product_info.product_attr_str }}</span></p>
+                    </div>
+
+                    <div class="commodity-block-price">
+                        <p>价格：<span>{{ product_info.product_price_type }} Price</span></p>
+                        <div>
+                            <!-- <p v-for="(item, index) in product_info.product_price_str_arr" :key="index">
+                                ≥10 KSh 10-100
+                            </p> -->
+                        </div>
+                    </div>
+
+                    <div class="commodity-block-details">
+                        <p>商品详情</p>
+                        <div class="commodity-block-details-box">
+                            <swiper :options="swiperOption" style="height: 608px;overflow: hidden;zIndex: 0">
+                                <swiper-slide style="height: auto;">
+                                    <div v-for="(item, index) in 100" :key="index"> {{ item }}</div>
+                                </swiper-slide>
+                                <div class="swiper-scrollbar" slot="scrollbar"></div>
+                            </swiper>
+                        </div>
+                    </div>
+
+                    <!-- <div class="commodity-block-word">
+                        <p>店铺所属类别：<span>食品-食品-食品</span></p>
+                    </div> -->
+
+                    <div class="commodity-block-word">
+                        <p>发布时间：<span>{{ product_publish_time }}</span></p>
+                    </div>
+                </article>
+            </section>
+        </template>
     </div>
 </template>
 
@@ -120,6 +128,21 @@
     import 'swiper/dist/css/swiper.css'
 
     export default {
+        beforeRouteEnter(to, from, next) {
+            next(that => {
+                that.$GetRequest.getProductInfo(to.query.product_id)
+                    .then(res => {
+                        that.company_info = res.company_info
+                        that.product_info = res.product_info
+                        that.product_publish_time = res.product_publish_time
+
+                        console.log(that.product_info)
+                    })
+                    .catch(err => {
+                        that.$message.error(err.message)
+                    })
+            })
+        },
         data() {
             return {
                 swiperOption: {
@@ -128,14 +151,19 @@
                     freeMode: true,
                     scrollbar: {
                         el: '.swiper-scrollbar',
-                        hide: false, //滚动条是否自动隐藏。默认：false，不会自动隐藏。
-                        draggable: true, //该参数设置为true时允许拖动滚动条。
-                        snapOnRelease: true, //如果设置为false，释放滚动条时slide不会自动贴合。
-                        dragSize: 30, //设置滚动条指示的尺寸。默认'auto': 自动，或者设置num(px)。
+                        hide: false,
+                        draggable: true,
+                        snapOnRelease: true,
+                        dragSize: 30,
                     },
                     mousewheel: true
-                }
+                },
+                company_info: null,
+                product_info: null,
+                product_publish_time: null
             }
+        },
+        mounted() {
         },
         components: {
             swiper,

@@ -113,6 +113,23 @@ class PutRequest {
             })
         })
     }
+
+    // 19.审核商品
+    putProductAudit(data) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/product_manager/product_audit',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
 }
 
 export default new PutRequest()

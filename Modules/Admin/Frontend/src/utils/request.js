@@ -1,24 +1,23 @@
 import axios from 'axios'
-// import auth from '../utils/auth'
-// import router from '../router'
+import auth from '../utils/auth'
+import router from '../router'
 
-// function refreshToken() {
-//     const token = auth.getCookies()
-//     const refToken = auth.getRefCookies()
+function refreshToken() {
+    const token = auth.getCookies()
+    const refToken = auth.getRefCookies()
     
-//     if(token && refToken) {
-//         upData.upRegToken(refToken)
-//             .then((res) => {
-//                 auth.removeCookies()
-//                 auth.removeRefreshKey()
-//                 auth.setCookies(res.data.access_token)
-//                 auth.refreshCookies(res.data.refresh_token)
-//             })
-//     }else {
-//         router.push('/login')
-//     }
-// }
-
+    if(token && refToken) {
+        upData.upRegToken(refToken)
+            .then((res) => {
+                auth.removeCookies()
+                auth.removeRefreshKey()
+                auth.setCookies(res.data.access_token)
+                auth.refreshCookies(res.data.refresh_token)
+            })
+    }else {
+        router.push('/login')
+    }
+}
 
 // 创建axios实例
 const service = axios.create({
@@ -31,10 +30,10 @@ const service = axios.create({
 service.interceptors.request.use(
     config => {
         // token 存在则携带token
-        // if (auth.getCookies()) {
-        //     const token = auth.getCookies()
-        //     config.headers['Authorization'] = 'Bearer ' + token;
-        // }
+        if (auth.getCookies()) {
+            const token = auth.getCookies()
+            config.headers['Authorization'] = 'Bearer ' + token;
+        }
         return config
     },
     error => {
@@ -47,12 +46,11 @@ service.interceptors.request.use(
 // response 拦截器  
 service.interceptors.response.use(
     response => {
-        // if(response.data.code == 401) {
-        //     refreshToken()
-        // }else {
-        //     return response.data
-        // }
-
+        if(response.data.code == 401) {
+            refreshToken()
+        }else {
+            return response.data
+        }
         return response.data
     },
     error => {

@@ -81,7 +81,7 @@
                         <template slot-scope="scope">
                             <button
                                 class="del"
-                                @click="handleEdit(scope.$index, scope.row)"
+                                @click="onDetails(scope.row.product_id)"
                                 >
                                 查看详情
                             </button>
@@ -114,6 +114,9 @@
             }
         },
         methods: {
+            onDetails(product_id) {
+                this.$router.push('/products/details?product_id=' + product_id)
+            },
             handleEdit() {
                 this.$router.push('/products/details')
             },
