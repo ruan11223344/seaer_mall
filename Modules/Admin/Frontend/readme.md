@@ -671,3 +671,108 @@ json参数:
     }
 }
 ```
+
+18.商品审核点击商品详情获取
+```
+url:http://域名/api/admin//product_manager/get_product_info
+请求方法:get
+json参数:
+{
+	"product_id":33  //商品id
+}
+
+返回:
+{
+    "code": 200,
+    "message": "成功!",
+    "data": {
+        "company_info": {
+            "company_business_type_id": "2",
+            "company_business_type_str": "贸易公司",
+            "company_name": "wangzi  compangys",
+            "company_name_in_china": "王子有限公司",
+            "company_country": "China",
+            "province/city": "Nyanza Sumale",
+            "company_detailed_address": "湖北省xxsdsadjkdsajkdsajdkjsakdj111111",
+            "company_mobile_phone": "+8617671770827",
+            "company_website": "http://www.qq.com/",
+            "company_business_range_ids": "10,11,12,13",
+            "company_business_range_ids_str": " Electrical & Electronics、 Furniture、 Health & Medicine、 Industrial Equipment & Components",
+            "company_main_products": "飞机,毛线,军舰",
+            "company_main_products_str": "飞机、毛线、军舰",
+            "company_profile": "我们公司打手电阿萨德阿萨德奥术大师多阿萨德撒的撒的撒大声地打的阿萨德阿萨德撒的阿萨德 阿斯顿撒多撒打算打打",
+            "company_business_license": "421002600458688",
+            "company_business_license_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/private/155117078539651851.jpeg"
+        },
+        "product_info": {
+            "product_categories_id": "31",
+            "product_categories_str": "Auto & Transportation > Transmission Parts > Intermediate Gear",
+            "product_name": "超级无敌玩毛车玩具13fffxxx333",
+            "product_sku_no": "100025",
+            "product_keywords": [
+                "玩具",
+                "赛车"
+            ],
+            "product_keywords_str": "玩具-赛车",
+            "product_images_url": [
+                "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/http://www.xx.com/2.jpg",
+                "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/http://www.xx.com/2.jpg",
+                "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/http://www.xx.com/2.jpg",
+                "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/http://www.xx.com/2.jpg"
+            ],
+            "product_attr_arr": [
+                "颜色",
+                "颜rrr色",
+                "容f量",
+                "容g量",
+                "尺v寸",
+                "尺s寸"
+            ],
+            "product_attr_str": "颜色、颜rrr色、容f量、容g量、尺v寸、尺s寸",
+            "product_price_type": "ladder",
+            "product_price_str_arr": [
+                {
+                    "moq": "MOQ: 10-20 Pieces",
+                    "unit": "Pieces",
+                    "price": "10"
+                },
+                {
+                    "moq": "MOQ: 21-30 Pieces",
+                    "unit": "Pieces",
+                    "price": "9"
+                },
+                {
+                    "moq": "MOQ: ≥31",
+                    "unit": "Pieces",
+                    "price": "8"
+                }
+            ]
+        },
+        "product_publish_time": ""
+    }
+}
+```
+
+19.审核商品
+```
+url:http://域名/api/admin/product_manager/product_audit
+请求方法:post
+json参数:
+{
+	{
+    "product_id":33,    //商品id
+    "action":"reject",      // reject 或 allow 两个值
+    "reject_message":"包含裸露图片信息。"  //action为allow时不填或者不传
+    }
+}
+
+返回:
+{
+    "code": 200,
+    "message": "操作成功!",
+    "data": []
+}
+```
+
+20.

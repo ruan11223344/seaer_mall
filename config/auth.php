@@ -45,6 +45,11 @@ return [
             'driver' => 'passport',
             'provider' => 'users',
         ],
+
+        'admin' => [
+            'driver' => 'session', // 用户信息存到session里
+            'provider' => 'admins', // 添加admin provider
+        ]
     ],
 
     /*
@@ -71,7 +76,7 @@ return [
         ],
 
          'admins' => [
-             'driver' => 'database',
+             'driver' => 'eloquent',
              'model' => Modules\Admin\Entities\Admin::class,
          ],
     ],
