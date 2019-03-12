@@ -110,6 +110,12 @@ const router = new Router({
                     name: 'feedback',
                     meta: [ '意见反馈', '反馈信息' ],
                     component: () => import('./views/Feedback')
+                },
+                { // 消息
+                    path: 'news',
+                    name: 'news',
+                    meta: [ '消息' ],
+                    component: () => import('./views/News/index.vue')
                 }
             ]
         },

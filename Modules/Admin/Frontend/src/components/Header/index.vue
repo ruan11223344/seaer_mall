@@ -11,7 +11,7 @@
         <section class="right">
             <el-badge :value="100" :max="1">
                 <!-- <img :src="require('@/assets/xiaox.png')" alt=""> -->
-                <div class="right-email"></div>
+                <div class="right-email" @click="$router.push('/news')"></div>
             </el-badge>
             <div class="right-avatar">
 
