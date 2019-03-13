@@ -146,8 +146,6 @@ class ShopController extends Controller
                         return false;
                     }
 
-
-
                     if(isset($v['url_jump'])){
                         if($v['url_jump'] != null){
                             if(mb_stripos($v['url_jump'],$site_domain) === false){
@@ -176,7 +174,7 @@ class ShopController extends Controller
         $shop_obj = Shop::where('company_id',$company_id);
         $input_slides_url_list = $request->input('slides_list');
         if($shop_obj->exists()){
-            $slides_url_list = $shop_obj->get()->first()->slides_url_list;
+            /*$slides_url_list = $shop_obj->get()->first()->slides_url_list;
 
             if($slides_url_list != null){
                 $db_sort_list = array_column($slides_url_list,'sort');
@@ -193,11 +191,11 @@ class ShopController extends Controller
                 }
                 $re_order =array_column($slides_url_list,'sort');
                 array_multisort($re_order,SORT_ASC, $slides_url_list);
-            }
+            }*/
 
             
             $shop_obj->get()->first()->update([
-                'slides_url_list'=>$slides_url_list == null ? $input_slides_url_list : $slides_url_list
+                'slides_url_list'=>$input_slides_url_list
             ]);
         }else{
             Shop::create([
