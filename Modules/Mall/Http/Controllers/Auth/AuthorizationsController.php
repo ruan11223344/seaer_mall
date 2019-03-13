@@ -375,7 +375,7 @@ class AuthorizationsController extends Controller
                     if($v['show_home_page'] == false){
                         unset($shop_group_data[$k]);
                     }else{
-                        if(is_array($v['children']) && count($v['children'] > 0)){
+                        if(is_array($v['children']) && count($v['children']) > 0){
                             foreach ($v['children'] as $kk=>$vv){
                                 if($vv['show_home_page'] == false){
                                     unset($v['children'][$kk]);
