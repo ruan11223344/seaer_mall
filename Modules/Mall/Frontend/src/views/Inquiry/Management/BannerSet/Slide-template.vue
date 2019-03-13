@@ -41,7 +41,7 @@
                             :before-upload="onUpload"
                             :show-upload-list="false"
                             >
-                            <button type="button" class="SlideSet-cards-list-upload-button">Upload</button>
+                            <button type="button" class="SlideSet-cards-list-upload-button" @click="onClick(index)">Upload</button>
                         </Upload>
                         <img :src="require('@/assets/img/icon/shanc.png')" alt="" @click="onDel(index)">
                     </div>
@@ -53,8 +53,8 @@
         <div class="SlideSet-save">
             <button type="button" @click="onSave">Save</button>
         </div>
+
         <v-cropper :url="url" :autoCropWidth="940" :autoCropHeight="440" @on-cropper="onCropper" @on-show="onShow" v-show="show"></v-cropper>
-        
     </div>
 </template>
 
@@ -83,9 +83,34 @@
                 show: false,
                 num: 1,
                 slideData: [
-                    
+                    {
+                        img_url: '',
+                        img_path: '',
+                        img_jump: '',
+                    },
+                    {
+                        img_url: '',
+                        img_path: '',
+                        img_jump: ''
+                    },
+                    {
+                        img_url: '',
+                        img_path: '',
+                        img_jump: ''
+                    },
+                    {
+                        img_url: '',
+                        img_path: '',
+                        img_jump: ''
+                    },
+                    {
+                        img_url: '',
+                        img_path: '',
+                        img_jump: ''
+                    }
                 ],
-                slideLists: []
+                slideLists: [],
+                index: -1
             }
         },
         methods: {
@@ -95,35 +120,22 @@
             getObjectURL: getData.getObjectURL,
             // 截图
             onCropper(data) {
-                const len = this.slideData.length
-
                 this.upSlides(data).then(async res => {
                     if(res.code == 200) {
-                        // 世界上最遥远的距离if else
-                        if(len < 5){
-                            await this.$set(this.slideData, len - 1 ,res.data)
-                            await this.slideData.push({
-                                img_url: '',
-                                img_path: '',
-                                img_jump: ''
-                            })
-                        }else {
-                            if(len < 6 && this.slideData[4].img_url == '') {
-                                this.$set(this.slideData, 4 ,res.data)
-                            }
-                        }
+                        await this.$set(this.slideData, this.index , res.data)
                     }
                 })
             },
+            onClick(i) {
+                this.index = i
+            },
             // 删除
             onDel(index) {
-                this.slideData.length > 0 ? this.$delete(this.slideData, index) : false
-
-                this.slideData.length == 0 ? this.slideData.push({
+                this.$set(this.slideData, index, {
                     img_url: '',
                     img_path: '',
                     img_jump: ''
-                }) : false
+                })
             },
             // 阻止默认上传
             onUpload(file) {
@@ -137,37 +149,35 @@
                 this.show = bool
             },
             onSave() {
-                if(this.slideData.length > 0 && this.slideData[0].img_url != '' && this.slideData[0].img_jump != '' ) {
-                    const slides = this.slideData
-                    const arr = []
+                const slides = this.slideData
 
-                    slides.forEach((value, index) => {
-                        if(value.img_path != '' && value.img_url != '' && value.img_jump != '') {
-                            arr.push({ sort: index + 1, url_path: value.img_path, url_jump: value.img_jump })
-                        }
+                const arr = []
+
+                slides.forEach((value, index) => {
+                    if(value.img_path != '' && value.img_path != '' && value.img_jump != '') {
+                        arr.push({ sort: index + 1, url_path: value.img_path, url_jump: value.img_jump })
+                    }
+                })
+
+                this.upSetSlides(arr).then(res => {
+                    res.code == 200 ? this.$Message.info(res.message) : this.$Message.error(res.message)
+
+                    this.onGetSlidesList().then(res => {
+                        this.slideLists = res
                     })
-
-                    this.upSetSlides(arr).then(res => {
-                        res.code == 200 ? this.$Message.info(res.message) : this.$Message.error(res.message)
-
-                        this.onGetSlidesList().then(res => {
-                            this.slideLists = res
-                        })
-                    })
-                }
+                })
             }
         },
         created() {
             this.onGetSlidesList().then(res => {
                 this.slideLists = res
-                // if(res.length) {
-                //     for(let i = 0; i < res.length; i++) {
-                //         this.slideData.push({ img_url: res[i].url, img_jump: res[i].url_path })
-                //     }
-
-                // }else { 
-                //     this.slideData.push({ img_url: '', img_jump: '' })
-                // }
+                for(let { sort, url, url_path, url_jump } of res) {
+                    this.$set(this.slideData, sort - 1, {
+                        img_url: url,
+                        img_path: url_path,
+                        img_jump: url_jump
+                    })
+                }
             })
         },
         mounted() {

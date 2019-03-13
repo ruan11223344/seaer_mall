@@ -160,6 +160,7 @@
             .flex(flex-start, center);
             height: 88px;
             margin-left: 18.2%;
+            cursor: pointer;
 
             & > img {
                 .width(181px, 53px);

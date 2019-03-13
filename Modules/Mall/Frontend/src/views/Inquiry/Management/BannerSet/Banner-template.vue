@@ -3,7 +3,6 @@
         <div class="BannerSetting-title">Shop Banner:</div>
         <LightBox :images="images" ref="lightbox" :showLightBox="false" :showThumbs="false" :showCaption="false">11</LightBox>
         <div class="BannerSetting-banner" :style="`background: url(${path}) center center`" @click="onClick">
-            <!-- <img :src="path" alt=""> -->
         </div>
         <div class="BannerSetting-btns">
             
@@ -80,8 +79,10 @@ require('vue-image-lightbox/dist/vue-image-lightbox.min.css')
                 }
             },
             onClick() {
-                this.$set(this.images[0], 'src', this.path)
-                this.$refs.lightbox.showImage(0)
+                if(this.path != '') {
+                    this.$set(this.images[0], 'src', this.path)
+                    this.$refs.lightbox.showImage(0)
+                }
             }
         },
         mounted() {
@@ -127,15 +128,12 @@ require('vue-image-lightbox/dist/vue-image-lightbox.min.css')
             background-color: #f2f6f9;
             margin-top: 22px;
             cursor: pointer;
-            // display: flex;
-            // justify-content: flex-start;
-            // align-items: flex-start;
+            border: 1px solid #cccccc;
 
             & > img {
                 width: 100%;
                 height: 100%;
                 display: block;
-                // transform: scale(0.25261, 0.6866) translateX(-2840px) translateY(-35px);
             }
         }
 
