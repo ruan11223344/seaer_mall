@@ -283,6 +283,7 @@
                     font-size: 16px;
                     line-height: 1.2;
                     color: #000000;
+                    overflow: hidden;
                     .textHiddens(2);
                 }
 
