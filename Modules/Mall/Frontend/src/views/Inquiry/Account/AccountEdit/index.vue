@@ -107,8 +107,8 @@
                 formData: null,
                 ProvinceAddress: [],
                 CityAddress: [],
-                province: '',
-                city: ''
+                province: -1,
+                city: -1
             }
         },
         methods: {
@@ -144,10 +144,11 @@
         mounted() {
             this.formData = JSON.parse(this.$route.query.formData)
 
-            const name = this.formData['province/city'].split(' ')
-
-            this.province = name[0]
-            this.city = name[1]
+            if(this.formData['province/city'] != null) {
+                const name = this.formData['province/city'].split(' ')
+                this.province = name[0]
+                this.city = name[1]
+            }
 
             this.getProvinceAddress(this.formData.country != 'Kenya' ? 'cn' : 'ke ').then(res => {
                 res.data.forEach(element => {

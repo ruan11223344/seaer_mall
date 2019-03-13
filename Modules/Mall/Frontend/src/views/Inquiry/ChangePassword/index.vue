@@ -47,7 +47,6 @@
     import Title from "../components/Title"
     import getData from "@/utils/getData"
     import upData from "@/utils/upData"
-    import auth from "@/utils/auth"
 
     export default {
         data () {
@@ -104,15 +103,11 @@
         },
         methods: {
             onChangePassword: upData.onChangePassword,
-            removeRefreshKey: auth.removeRefreshKey,
-            removeCookies: auth.removeCookies,
             onSave(name) {
                 this.$refs[name].validate((valid) => {
                     if(valid) {
                         this.onChangePassword(this.formItem).then(res => {
-                            this.removeRefreshKey()
-                            this.removeCookies()
-                            this.$router.push('/login')
+                            this.$Message.success('Successful password modification')
                         })
                     }
                 })

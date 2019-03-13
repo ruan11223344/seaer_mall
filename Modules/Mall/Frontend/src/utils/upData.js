@@ -384,7 +384,6 @@ const upData = {
                 data: data
             }).then(res => {
                 if(res.code == 200) {
-                    this.$Message.info(res.message)
                     resolve(res.data)
                 }else {
                     this.$Message.error(res.message)
