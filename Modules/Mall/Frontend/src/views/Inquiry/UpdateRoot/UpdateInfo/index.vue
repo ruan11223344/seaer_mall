@@ -682,6 +682,11 @@
                             
                             this.upSaveAlbumImg({ photo_name_url_list:[ res.data], upload_to_default_album: true })
                                 .then(res => {
+                                    const key = Object.keys(res.data.success)
+
+                                    for(let item in key) {
+                                        this.$set(this.formItem, 'editor', this.formItem.editor + `<p><img src="${res.data.success[key[item]]}"></p>`)
+                                    }
                                     this.$Message.info('Uploaded to default album')
                                 })
                         }else {
