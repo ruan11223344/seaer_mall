@@ -193,6 +193,7 @@ class ProductManagerController extends Controller
         $cate_arr = ProductsCategoriesController::getCategoriesParentTreeStr([$product->product_categories_id]);
         $product_info['product_categories_str'] = $product->product_categories_id != null && $cate_arr != null ? array_values($cate_arr)[0]['name'] : "";
         $product_info['product_name'] = $product->product_name;
+        $product_info['product_details'] = $product->product_details;
         $product_info['product_sku_no'] = $product->product_sku_no;
         $product_info['product_keywords'] = $product->product_keywords;
         $product_info['product_keywords_str'] = $product->product_keywords != null ? implode('-',$product->product_keywords) : "";
@@ -223,27 +224,20 @@ class ProductManagerController extends Controller
         $product_price_array = $products_price->toArray();
         $price_array = [];
         if($product_price_array['price_type'] == 'base'){
-            $tmp = [];
-            $tmp['unit'] = $product_price_array['base_price'][0]['unit'];
-            $tmp['moq'] = 'MOQ: '.$product_price_array['base_price'][0]['min_order'].' '.$tmp['unit'];
-            $tmp['price'] = $product_price_array['base_price'][0]['min_order_price'];
+            $tmp = '≥'. $product_price_array['base_price'][0]['min_order'] .' Ksh ' .$product_price_array['base_price'][0]['min_order_price'];
             array_push($price_array,$tmp);
         }elseif ($product_price_array['price_type'] == 'ladder'){
             foreach ($product_price_array['ladder_price'] as $v){
                 $re_order =array_column($product_price_array['ladder_price'],'min_order');
                 array_multisort($re_order,SORT_ASC, $product_price_array['ladder_price']);
                 for ($i=0;$i<count($product_price_array['ladder_price']);$i++){
-                    $tmp = [];
+                    $price = $product_price_array['ladder_price'][$i]['order_price'];
                     if($i < count($product_price_array['ladder_price'])-1){
                         $min_order = $product_price_array['ladder_price'][$i]['min_order'];
                         $max_order = ($product_price_array['ladder_price'][$i+1]['min_order']);
-                        $tmp['moq'] = $i == 0 ? 'MOQ: '.$min_order.'-'.$max_order.' '. $product_price_array['ladder_price'][$i]['unit'] : 'MOQ: '.($min_order+1).'-'.$max_order.' '. $product_price_array['ladder_price'][$i]['unit'];
-                        $tmp['unit'] = $v['unit'];
-                        $tmp['price'] = $product_price_array['ladder_price'][$i]['order_price'];
+                        $tmp = $i == 0 ? '≥'.$min_order.'-'.$max_order.' '. 'Ksh '.$price : '≥'.($min_order+1).'-'.$max_order.' '. 'Ksh '.$price;
                     }else{
-                        $tmp['moq'] = 'MOQ: ≥'.''. ($product_price_array['ladder_price'][$i]['min_order']+1);
-                        $tmp['unit'] = $v['unit'];
-                        $tmp['price'] = $product_price_array['ladder_price'][$i]['order_price'];
+                        $tmp = '≥'.''. ($product_price_array['ladder_price'][$i]['min_order']+1).' Ksh '.$price;
                     }
                     if(!in_array($tmp,$price_array)){
                         array_push($price_array,$tmp);
