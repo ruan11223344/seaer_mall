@@ -304,6 +304,10 @@ const newRouter = new Router({
                     component: () => import("./views/Company/Profile/index.vue")
                 }
             ]
+        },
+        {
+            path: '*',
+            component: () => import("./views/404/index.vue")
         }
     ]
 })
