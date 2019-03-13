@@ -269,6 +269,10 @@ const newRouter = new Router({
                 { // 修改密码
                     path: 'changepass',
                     component: () => import("./views/Inquiry/ChangePassword/index.vue")
+                },
+                { // 咨询
+                    path: 'notice',
+                    component: () => import("./views/Inquiry/Notice/index.vue")
                 }
             ]
         },

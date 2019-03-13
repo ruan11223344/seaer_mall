@@ -51,6 +51,11 @@
                                 name:'Edit My Photo',
                                 path: 'picture',
                                 url: '/inquiryList/picture',
+                            },
+                            {
+                                name: 'Notice',
+                                path: 'notice',
+                                url: '/inquiryList/notice',
                             }
                         ]
                     },

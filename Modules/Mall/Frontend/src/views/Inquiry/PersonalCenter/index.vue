@@ -60,7 +60,7 @@
                 <div class="personal-main-right-Notice">
                     <div class="personal-main-right-Notice-title">
                         <span>Notice</span>
-                        <span>
+                        <span @click="$router.push('/inquiryList/notice')" style="cursor: pointer">
                             More
                             <Icon type="ios-arrow-forward" />
                         </span>
