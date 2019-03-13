@@ -69,8 +69,12 @@
                 },
                 RuleData: {
                     sort: [
-                        { type: 'number', message: 'Must be number type || Enter only numbers under 128', validator: validateSort, trigger: 'blur' }
-                    ],
+                        {   type: 'number',
+                            message: 'Must be number type || Enter only numbers under 128',
+                            validator: validateSort,
+                            trigger: 'blur'
+                        }
+                    ]
                 }
             }
         },

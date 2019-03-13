@@ -76,7 +76,7 @@
                     {
                         title: 'Products Name',
                         slot: 'Content',
-                        align: 'center',
+                        align: 'left',
                         sortable: true
                     },
                     {

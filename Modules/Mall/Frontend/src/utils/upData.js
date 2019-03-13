@@ -462,6 +462,22 @@ const upData = {
             })
         })
     },
+    // 79.登出接口
+    async UpOut() {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/auth/logout',
+                method: 'post',
+            }).then(res => {
+                if(res.code == 200) {
+                    this.$Message.info(res.message)
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            })
+        })
+    }
 }
 
 export default upData

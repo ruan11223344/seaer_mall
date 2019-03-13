@@ -5,13 +5,26 @@
                 Home
                 <span class="company-nav-item-list-hr"></span>
             </router-link>
-            <li class="company-nav-item-list company-nav-item-list-hover" @mouseover="products=true" @mouseout="products=false">
-                Products
-                <Icon type="ios-arrow-down" color="white"/>
-                <div class="company-nav-item-list-hover-children" v-show="products">
-                    <span>Building materials</span>
-                    <span>Building materials</span>
-                </div>
+            <li class="company-nav-item-list company-nav-item-list-hover">
+                <Dropdown style="margin-left: 20px" @on-click="onClick">
+                    <a href="javascript:void(0)" style="color: #fff">
+                        Products
+                        <Icon type="ios-arrow-down"></Icon>
+                    </a>
+                    <template v-if="Company_Detail">
+                        <template v-if="Company_Detail.shop_info.shop_group.length">
+                            <DropdownMenu slot="list">
+                                <DropdownItem
+                                    v-for="(item, index) in Company_Detail.shop_info.shop_group"
+                                    :key="index"
+                                    :name="item.group_name + ' ' + item.id"
+                                    >
+                                    {{ item.group_name }}
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </template>
+                    </template>
+                </Dropdown>
             </li>
             <router-link :to="'/company/profile?company_id=' + $route.query.company_id" tag="li" class="company-nav-item-list">
                 About us
@@ -26,13 +39,22 @@
 </template>
 
 <script>
+    import { mapState } from "vuex"
+
     export default {
         data() {
             return {
                 products: false
             }
         },
+        computed: {
+            ...mapState([ 'Company_Detail' ])
+        },
         methods: {
+            onClick(value) {
+                const arr = value.split(' ')
+                this.$router.push(`/company/all?group_id=${arr[1]}&company_id=${this.$route.query.company_id}&group_name=${arr[0]}`)
+            }
         },
     }
 </script>

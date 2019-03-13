@@ -2,7 +2,20 @@
     <div class="container">
         <nav class="nav">
             <router-link class="nav-list" v-if="!user" tag="div" to="/login">Sign In</router-link>
-            <router-link class="nav-list" tag="div" v-else to="/inquiryList/personalpenter">{{ user.user.name }}</router-link>
+            
+
+            <div class="nav-list Customer" v-else>
+                <!-- 下拉 -->
+                <div>
+                    <span>{{ user.user.name }}</span>
+                    <Icon type="ios-arrow-down" style="marginLeft:2px;"/>
+                </div>
+                <ul>
+                    <router-link tag="li" to="/inquiryList/personalpenter">User center</router-link>
+                    <li @click="onOut">Logout</li>
+                </ul>
+            </div>
+
             <router-link class="nav-list" tag="div" to="/registered/one">Join Free</router-link>
             <div class="nav-list Customer">
                 <!-- 下拉 -->
@@ -22,6 +35,7 @@
 
 <script>
     import getData from "@/utils/getData"
+    import upData from "@/utils/upData"
     import Cookies from "@/utils/auth"
 
     export default {
@@ -32,10 +46,24 @@
         },
         methods: {
             onGetUser: getData.onGetUser,
+            UpOut: upData.UpOut,
             getSessionStorage: Cookies.getSessionStorage,
             setSessionStorage: Cookies.setSessionStorage,
+            // 删除用户
+            removeCookies: Cookies.removeCookies,
+            removeRefreshKey: Cookies.removeRefreshKey,
             removeSessionStorage: Cookies.removeSessionStorage,
-            getCookies: Cookies.getCookies
+            getCookies: Cookies.getCookies,
+            // 登出
+            onOut() {
+                this.UpOut()
+                    .then(res => {
+                        this.removeCookies()
+                        this.removeRefreshKey()
+                        this.removeSessionStorage()
+                        this.$router.push('/login')
+                    })
+            }
         },
         computed: {
         },
