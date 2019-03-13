@@ -233,7 +233,7 @@ class AlbumController extends Controller
             try{
                 $oss->size($value['path']);
             }catch (\Exception $e){
-                array_push($res_data['un_success'],[$value['name']=>$value['path']]);
+                array_push($res_data['un_success'],[$value['name']=>UtilsController::getPathFileUrl($value['path'])]);
                 Log::error($e->getMessage());
                 continue;
             }
@@ -243,7 +243,7 @@ class AlbumController extends Controller
                 $tmp['created_at'] = $carbon;
                 $tmp['photo_name'] = $value['name'];
                 $tmp['photo_url'] = $value['path'];
-                $res_data['success'] = [$value['name']=>$value['path']];
+                $res_data['success'] = [$value['name']=>UtilsController::getPathFileUrl($value['path'])];
                 $insert_data[] = $tmp;
             }
         }
