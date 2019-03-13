@@ -3,7 +3,7 @@
         <div>
             <v-img width="112" height="112" :imgSrc="require('@/assets/img/tips.png')"></v-img>
         </div>
-        <div class="tips-main-text">You must complete your company information before displaying a new product. </div>
+        <div class="tips-main-text">Your company information is under review and cannot be published </div>
         <div>
             <button type="button" class="tips-main-btn" @click="$router.push('/inquiryList/company/companyedit')">Click here</button>
         </div>
