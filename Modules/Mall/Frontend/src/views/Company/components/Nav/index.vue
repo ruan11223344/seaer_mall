@@ -83,7 +83,9 @@
                 .width(100%, 1px);
                 .bg-color(white);
                 position: absolute;
+                left: 50%;
                 bottom: 0px;
+                transform: translateX(-50%);
             }
         }
     }
