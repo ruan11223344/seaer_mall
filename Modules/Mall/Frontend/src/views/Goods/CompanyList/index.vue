@@ -25,9 +25,12 @@
                 </template>
 
                 <template v-else>
-                    <div style="height: 500px;lineHeight: 500px;fontSize: 40px;">
-                        The company you are searching for does not exist
-                    </div>
+                    <section class="main-tips">
+                        <img :src="require('@/assets/img/dpk.png')" alt="">
+                        <span>
+                            There are no shops in this category for the time being.
+                        </span>
+                    </section>
                 </template>
             </section>
             <!-- 分页 -->
@@ -169,6 +172,18 @@
                 }
             }
             
+        }
+
+        &-tips {
+            .flex(center, center, column);
+            height: 500px;
+            text-align: center;
+            font-size: 16px;
+            color: #666666;
+
+            & > span {
+                margin-top: 20px;
+            }
         }
 
         &-page {

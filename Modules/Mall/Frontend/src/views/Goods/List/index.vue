@@ -13,8 +13,11 @@
                 <!-- 渲染商品列表mock -->
                 <v-card class="main-content-list" :data="item" v-for="(item, index) in ProductData" :key="index"></v-card>
             </section>
-            <section v-else style="height: 500px;lineHeight: 500px;fontSize: 26px;textAlign: center;">
-                There is no merchandise in this category for the time being.
+            <section v-else class="main-tips">
+                <img :src="require('@/assets/img/spk.png')" alt="">
+                <span>
+                    There is no merchandise in this category for the time being.
+                </span>
             </section>
             <!-- 分页 -->
             <section class="container main-page">
@@ -127,6 +130,18 @@
                 margin-left: 19px;
                 text-align: center;
                 cursor: pointer;
+            }
+        }
+
+        &-tips {
+            .flex(center, center, column);
+            height: 500px;
+            text-align: center;
+            font-size: 16px;
+            color: #666666;
+
+            & > span {
+                margin-top: 20px;
             }
         }
 
