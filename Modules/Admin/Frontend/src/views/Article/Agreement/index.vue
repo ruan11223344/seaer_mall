@@ -1,8 +1,12 @@
 <template>
     <el-main>
-        <v-list>
+        <v-list
+            :total="total"
+            :inputBool="false"
+            @on-change-num="onChangeNum"
+            >
             <template slot="btn">
-                <button class="btn">
+                <button class="btn" @click="$router.push('/article/edit?type=merchants_register_agreement')">
                     +新增
                 </button>
             </template>
@@ -18,20 +22,27 @@
                     <el-table-column
                         align="center"
                         label="序号"
-                        type="index"
+                        property="num"
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
-                        property="date"
+                        property="article_title"
                         label="标题"
                         >
                     </el-table-column>
 
                     <el-table-column
                         align="center"
-                        property="name"
+                        property="article_type"
+                        label="协议类型"
+                        >
+                    </el-table-column>
+
+                    <el-table-column
+                        align="center"
+                        property="publish_time"
                         label="发布时间"
                         >
                     </el-table-column>
@@ -62,94 +73,47 @@
     export default {
         data() {
             return {
-                tableData: [
-                    {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                    },
-                    {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1517 弄'
-                    },
-                    {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                    }
-                ]
+                total: {
+                    total: 0,
+                    size: 18,
+                    num: 1
+                },
+                tableData: []
             }
         },
         methods: {
+            // 分页
+            onChangeNum(num) {
+                this.$set(this.total, 'num', num)
+                this.onGetData()
+            },
             handleEdit() {
 
+            },
+            onGetData() {
+                this.$GetRequest.getAgreementsList(this.total.size, this.total.num)
+                    .then(res => {
+                        this.$set(this.total, 'total', res.total_size)
+                        this.filtersData(res.data)
+                    })
+            },
+            filtersData(data) {
+                const arr = []
+                data.forEach(v => {
+                    arr.push({
+                        article_id: v.article_id,
+                        article_title: v.article_title,
+                        article_type: v.article_type == "buyers_register_agreement" ? '买家注册协议' : '商户注册协议',
+                        num: v.num,
+                        publish_time: v.publish_time
+                    })
+                })
+
+                this.tableData = arr
             }
+        },
+        created() {
+            this.onGetData()
         },
         components: {
             'v-list': List

@@ -6,10 +6,10 @@
             </el-col>
             <el-col :span="6">
                 <el-select v-model="select" placeholder="请选择" style="width: 100%">
-                    <el-option label="Buyers Register Agreement" value="buyers_register_agreement"></el-option>
-                    <el-option label="Merchants Register Agreement" value="merchants_register_agreement"></el-option>
-                    <el-option label="System Announcement" value="system_announcement"></el-option>
-                    <el-option label="System Article" value="system_article"></el-option>
+                    <el-option label="买家注册协议" value="buyers_register_agreement"></el-option>
+                    <el-option label="商户注册协议" value="merchants_register_agreement"></el-option>
+                    <el-option label="系统公告" value="system_announcement"></el-option>
+                    <el-option label="系统文章" value="system_article"></el-option>
                 </el-select>
             </el-col>
         </el-row>
@@ -161,6 +161,9 @@
                         this.$message.error(err.message);
                     })
             }
+        },
+        created() {
+            this.select = this.$route.query.type
         },
         components: {
             quillEditor
