@@ -355,8 +355,22 @@ class ProductManagerController extends Controller
         if($product->product_status != ProductsController::PRODUCT_STATUS_SALE || $product->product_audit_status != ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS){
             return $this->echoErrorJson('商品已经是非正常售卖状态!无法下架!');
         }
+        $product->product_status = ProductsController::PRODUCT_STATUS_WAREHOUSE;
+        $product->product_audit_status = ProductsController::PRODUCT_AUDIT_STATUS_FAIL;
+        $product->save();
+        $admin_id = Auth::id();
+        $off_shelf_message = $request->input('off_shelf_message');
+        UtilsService::WriteLog('admin','audit_product','off_shelves',$admin_id,$product->id);
+        ProductAudit::create(
+            [
+                'admin_id'=>$admin_id,
+                'product_id'=>$product->id,
+                'message'=>$off_shelf_message,
+                'status'=>'off_shelf',
+            ]
+        );
 
-
+        return $this->echoSuccessJson('操作成功!');
     }
 
 }

@@ -775,4 +775,125 @@ json参数:
 }
 ```
 
-20.
+20.下架商品
+```
+url:http://域名/api/admin/product_manager/product_off_shelf
+请求方法:post
+json参数:
+{
+	"product_id":33,  //商品id
+	"off_shelf_message":"你已经违规了!"  //消息
+}
+
+返回:
+{
+    "code": 200,
+    "message": "操作成功!",
+    "data": []
+}
+```
+
+21.发布文章
+```
+url:http://域名/api/admin/article_manager/publish_article
+请求方法:post
+json参数:
+{
+	"type":"user_agreements",  //文章类型   三个值可选 'system_article'  系统文章  ,'system_announcement' 系统公告   ,'user_agreements'   用户协议  必填。
+	"content":"用户协议内容",  必填!
+	"title":"我是大帅哥"  标题 非必填！
+}
+
+返回:
+{
+    "code": 200,
+    "message": "发布成功!",
+    "data": {
+        "type": "user_agreements",
+        "content": "用户协议内容",
+        "title": "我是大帅哥",
+        "admin_id": 10,
+        "updated_at": "2019-03-14 09:42:28",
+        "created_at": "2019-03-14 09:42:28",
+        "id": 2
+    }
+}
+```
+
+22.获取文章详情
+```
+url:http://域名/api/admin/article_manager/get_article_detail
+请求方法:post
+json参数:
+{
+	"article_id":"1"  //文章id 必填
+}
+
+返回:
+{
+    "code": 200,
+    "message": "成功!",
+    "data": {
+        "id": 1,
+        "admin_id": 10,
+        "author": null,
+        "title": "我是大帅哥",
+        "content": "是的撒大\n\r\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Iconfont-阿里巴巴矢量图标库</title>\n  <meta name=\"description\" content=\"Iconfont-国内功能很强大且图标内容很丰富的矢量图标库，提供矢量图标下载、在线存储、格式转换等功能。阿里巴巴体验团队倾力打造，设计和前端开发的便捷工具\" />\n  <meta name=\"keywords\" content=\"中国 矢量图标库 下载 在线存储 格式转换 阿里巴巴体验团队 Iconfont\" />\n  <meta name=\"google\" value=\"notranslate\">\n  <meta name=\"baidu-site-verification\" content=\"0fFS5DZPGS\" />\n\n  <script>\n    (function(){\n      var domain = location.href\n      var reg = /^http:\\/\\/(www\\.)?iconfont\\.cn/\n      if (location.protocol === 'http:' && reg.test(domain)) {\n        location.href = domain.replace(reg, 'https://www.iconfont.cn')\n      }\n    })()\n    \n  </script>\n\n  <link rel=\"shortcut icon\" href=\"//gtms04.alicdn.com/tps/i4/TB1_oz6GVXXXXaFXpXXJDFnIXXX-64-64.ico\" type=\"image/x-icon\"/>\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"//g.alicdn.com/thx/cube/1.3.1/neat.min.css\">\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"//g.alicdn.com/mm/iconfont-plus-bp/2.2.12/app/assets/index.css\">\n  <script type=\"text/javascript\" src=\"//g.alicdn.com/mm/iconfont-plus-bp/2.2.12/app/libs/sea.js\"></script>\n  <meta content=\"\" name=\"csrf-ctoken\" />\n  <meta content=\"cK9mFMAc-77AebvcaSt3F-2PIaqkLM-KYFXQ\" name=\"csrf-token\" />\n  <meta name=\"data-spm\" content=\"a313x\">\n</head>\n\n<body data-spm=\"7781069\">\n  <div id=\"root\"></div>\n  <script type=\"text/javascript\" id=\"beacon-aplus\" src=\"//g.alicdn.com/alilog/mlog/aplus_o.js\"  exparams=\"clog=o&aplus&sidx=aplusSidx&ckx=aplusCkx\"></script>\n\n  <script type=\"text/javascript\" src=\"//g.alicdn.com/mm/iconfont-plus-bp/2.2.12/app/boot.js\"></script>\n\n  <script type=\"text/javascript\">var cnzz_protocol = \" https://\";document.write(unescape(\"%3Cspan id='cnzz_stat_icon_1260547936'%3E%3C/span%3E%3Cscript src='\" + cnzz_protocol + \"s11.cnzz.com/z_stat.php%3Fid%3D1260547936' type='text/javascript'%3E%3C/script%3E\"));</script>\n\n</body>\n</html>",
+        "type": "user_agreements",
+        "deleted_at": null,
+        "created_at": "2019-03-14 09:34:05",
+        "updated_at": "2019-03-14 09:34:05"
+    }
+}
+```
+
+
+23.编辑文章
+```
+url:http://域名/api/admin/article_manager/edit_article
+请求方法:post
+json参数:
+{
+	"article_id":"1",  //文章id 
+	"content":"2323232",  //内容 非必填
+	"title":"我是传奇!"  //标题 非必填
+}
+
+返回:
+{
+    "code": 200,
+    "message": "编辑成功!",
+    "data": {
+        "id": 1,
+        "admin_id": 10,
+        "author": null,
+        "title": "等等撒的",
+        "content": "23232324",
+        "type": "user_agreements",
+        "deleted_at": null,
+        "created_at": "2019-03-14 09:34:05",
+        "updated_at": "2019-03-14 09:49:21"
+    }
+}
+```
+
+24.删除文章
+```
+url:http://域名/api/admin/article_manager/edit_article
+请求方法:post
+json参数:
+{
+	"article_id":"2"  //文章id
+}
+
+返回:
+{
+    "code": 200,
+    "message": "删除成功!",
+    "data": []
+}
+```
+
+
+
+

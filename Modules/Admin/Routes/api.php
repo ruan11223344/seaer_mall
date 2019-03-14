@@ -52,6 +52,15 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
             });
         });
 
+        Route::prefix('article_manager')->group(function (){
+            Route::group(['middleware' => ['client.credentials', 'auth:api','passport-custom-provider']], function () {
+                Route::post('publish_article', 'ArticleController@publishArticle')->name('admin.article.publish');
+                Route::get('get_article_detail', 'ArticleController@getArticleDetail')->name('admin.article.detail');
+                Route::post('edit_article', 'ArticleController@editArticle')->name('admin.article.edit');
+                Route::post('delete_article', 'ArticleController@deleteArticle')->name('admin.article.delete');
+            });
+        });
+
         Route::prefix('utils')->group(function (){
             Route::get('get_captcha', 'UtilsController@getCaptcha')->name('admin.get.captcha');
         });
