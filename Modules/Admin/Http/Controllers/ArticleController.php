@@ -33,7 +33,7 @@ class ArticleController extends Controller
     public function publishArticle(Request $request){
         $data = $request->all();
         $validator = Validator::make($data, [
-            'type'=>'required|in:user_agreements,system_announcement,system_article',
+            'type'=>'required|in:buyers_register_agreement,merchants_register_agreement,system_announcement,system_article',
             'content'=>'required',
             'title'=>'required',
             //'system_article','system_announcement','user_agreements'

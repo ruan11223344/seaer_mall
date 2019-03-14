@@ -894,6 +894,90 @@ json参数:
 }
 ```
 
+2x.获取反馈列表
+```
+url:http://域名/api/admin/feedback_manager/get_feedback_list
+请求方法:get
+json参数:
+{
+	"page":"1",  //页码  必填
+	"size":"3"   //获取数量 必填
+}
+
+返回:
+{
+    "code": 200,
+    "message": "获取回馈列表成功!",
+    "data": {
+        "data": [
+            {
+                "add_time": "2019-03-14 12:00:14",
+                "member_id": "ruan11223344",
+                "contact_way": "ruan4215@gmail.com",
+                "user_message": "我账户密码不能修改",
+                "user_type_str": "注册用户",
+                "status_str": "垃圾反馈",
+                "is_process": true,
+                "is_spam": true
+            },
+            {
+                "add_time": "2019-03-14 12:00:14",
+                "member_id": "ruan11223344",
+                "contact_way": "ruan4215@gmail.com",
+                "user_message": "我账户密码不能xxx修改",
+                "user_type_str": "注册用户",
+                "status_str": "垃圾反馈",
+                "is_process": false,
+                "is_spam": true
+            },
+            {
+                "add_time": "2019-03-14 12:00:14",
+                "member_id": "ruan11223344",
+                "contact_way": "ruan4215@gmail.com",
+                "user_message": "我账户密码不能修改",
+                "user_type_str": "注册用户",
+                "status_str": "已处理",
+                "is_process": true,
+                "is_spam": null
+            }
+        ],
+        "size": "3",
+        "cur_page": "1",
+        "total_page": 15,
+        "total_size": 43
+    }
+}
+```
+
+2x.管理员处理反馈
+```
+url:http://域名/api/admin/feedback_manager/process_feedback
+请求方法:post
+json参数:
+{
+	"feedback_id":"5",  //反馈id 必填
+	"is_spam":false,    //是否是垃圾反馈 ？ true 跟 false 两个值 必填
+	"admin_message":"fdfds但打赏的撒大是"  //管理员反馈处理结果 is_span 为true时可不传
+}
+返回:
+{
+    "code": 200,
+    "message": "处理成功!",
+    "data": {
+        "id": 5,
+        "admin_id": null,
+        "user_id": "7",
+        "user_message": "我账户密码不能修改",
+        "admin_message": "fdfds但打赏的撒大是",
+        "is_process": true,
+        "is_spam": false,
+        "contact_way": "ruan4215@gmail.com",
+        "deleted_at": null,
+        "created_at": "2019-03-14 12:00:14",
+        "updated_at": "2019-03-14 13:44:37"
+    }
+}
+```
 
 
 

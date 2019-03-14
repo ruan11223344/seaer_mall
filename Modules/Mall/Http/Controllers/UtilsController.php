@@ -17,6 +17,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
+use Modules\Admin\Http\Controllers\FeedbackController;
 use Modules\Mall\Entities\UsersExtends;
 use Swap\Laravel\Facades\Swap;
 
@@ -322,5 +323,26 @@ class UtilsController extends Controller
     public static function getMallNotice(Request $request)
     {
         //todo 获取个人中心页面的新闻。 等待后台建表后完成此方法
+    }
+
+    public function sendFeedback(Request $request){
+        $data      = $request->all();
+        $validator = Validator::make($data, [
+            'message' => 'required',
+            'contact_way' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->echoErrorJson('Form validation failed!' . $validator->messages());
+        }
+
+        $message = $request->input('message');
+        $contact_way = $request->input('contact_way');
+        $res = FeedbackController::userPubFeedback($message,Auth::id(),$contact_way);
+        if($res){
+            return $this->echoSuccessJson('发送反馈成功!');
+        }else{
+            return $this->echoErrorJson('发送反馈失败!');
+        }
     }
 }

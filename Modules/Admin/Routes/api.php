@@ -61,6 +61,13 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
             });
         });
 
+        Route::prefix('feedback_manager')->group(function (){
+            Route::group(['middleware' => ['client.credentials', 'auth:api','passport-custom-provider']], function () {
+                Route::get('get_feedback_list', 'FeedbackController@getFeedbackList')->name('admin.feedback.list');
+                Route::post('process_feedback', 'FeedbackController@processFeedback')->name('admin.feedback.process');
+            });
+        });
+
         Route::prefix('utils')->group(function (){
             Route::get('get_captcha', 'UtilsController@getCaptcha')->name('admin.get.captcha');
         });

@@ -156,6 +156,7 @@ Route::group(['domain' => env('MALL_DOMAIN'), 'middleware' => 'cors'], function 
 
         Route::group(['middleware' => ['client.credentials', 'auth:api']], function () {
             Route::post('upload_business_license', 'UtilsController@uploadBusinessLicense');
+            Route::post('send_feedback', 'UtilsController@sendFeedback');
         });
 
     });

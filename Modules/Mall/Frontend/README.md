@@ -5034,3 +5034,24 @@ url:http://域名/api/auth/logout
     "data": []
 }
 ```
+
+80.反馈发送接口
+```
+url:http://域名/api/utils/send_feedback
+请求方法:post
+请求头参数:"Accept",值:"application/json"    //必填 否则拿不到
+请求头参数:"Authorization",值:"Bearer空格+token" //必填
+ 
+json参数:
+{
+	"message":"我账户密码不能修改",  //必填
+	"contact_way":"ruan4215@gmail.com"  //必填
+}
+
+返回:
+{
+    "code": 200,
+    "message": "发送反馈成功!",
+    "data": []
+}
+```
