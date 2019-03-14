@@ -219,6 +219,25 @@ class getRequest {
             })
         })
     }
+
+    // 27.获取系统公告列表
+    getSystemList(size, page) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/article_manager/get_system_announcement_list',
+                params: {
+                    "page": page,  //必填 页码
+                    "size": size  //必填 数量
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
 }
 
 export default new getRequest()
