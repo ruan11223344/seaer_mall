@@ -305,6 +305,10 @@ const newRouter = new Router({
                 }
             ]
         },
+        { // 帮助
+            path: '/help',
+            component: () => import('./views/Help/index.vue')
+        },
         {
             path: '*',
             component: () => import("./views/404/index.vue")

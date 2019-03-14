@@ -24,7 +24,7 @@
                     <Icon type="ios-arrow-down" style="marginLeft:2px;"/>
                 </div>
                 <ul>
-                    <li>Help Center</li>
+                    <router-link tag="li" to="/help">Help Center</router-link>
                     <li>Service</li>
                 </ul>
             </div>
