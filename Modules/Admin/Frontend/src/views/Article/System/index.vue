@@ -47,13 +47,13 @@
                         <template slot-scope="scope">
                             <button
                                 class="del"
-                                @click="handleEdit(scope.$index, scope.row)"
+                                @click="onDel(scope.row.article_id)"
                                 >
                                 删除
                             </button>
                             <button
                                 class="edit"
-                                @click="handleEdit(scope.$index, scope.row)"
+                                @click="$router.push('/article/edit?article_id=' +  scope.row.article_id)"
                                 >
                                 编辑
                             </button>
@@ -85,9 +85,17 @@
                 this.$set(this.total, 'num', num)
                 this.onGetData()
             },
-            handleEdit() {
-
+            onDel(article_id) {
+                this.$PutRequest.putDelArticle(article_id)
+                    .then(res => {
+                        this.$message.success('操作成功')
+                        this.onGetData()
+                    })
+                    .catch(err => {
+                        this.$message.error(err.message)
+                    })
             },
+            // 获取数据
             onGetData() {
                 this.$GetRequest.getArticleList(this.total.size, this.total.num)
                     .then(res => {

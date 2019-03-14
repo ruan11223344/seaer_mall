@@ -164,6 +164,24 @@ class getRequest {
         })
     }
 
+    // 22.获取文章详情
+    getArticleDetail(article_id) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/article_manager/get_article_detail',
+                params: {
+                    "article_id": article_id  //文章id 必填
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
+
     // 25.获取用户协议列表
     getAgreementsList(size, page) {
         return new Promise(async (resolve, reject) => {

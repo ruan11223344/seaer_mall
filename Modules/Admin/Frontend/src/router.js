@@ -103,6 +103,12 @@ const router = new Router({
                             name: 'publish',
                             meta: [ '文章管理', '系统管理', '新增' ],
                             component: () => import('./views/Article/Publish')
+                        },
+                        {
+                            path: 'edit',
+                            name: 'edit',
+                            meta: [ '文章管理', '系统管理', '编辑' ],
+                            component: () => import('./views/Article/Edit')
                         }
                     ]
                 },

@@ -164,6 +164,42 @@ class PutRequest {
             })
         })
     }
+
+    // 23.编辑文章
+    putProductEditArticle(data) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/article_manager/edit_article',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
+
+    // 24.删除文章
+    putDelArticle(article_id) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/article_manager/delete_article',
+                method: 'post',
+                data: {
+                    article_id: article_id
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
 }
 
 export default new PutRequest()

@@ -15,7 +15,6 @@
                     ref="singleTable"
                     :data="tableData"
                     style="width: 100%"
-                    height="684px"
                     size="mini"
                     >
 
@@ -55,7 +54,7 @@
                         <template slot-scope="scope">
                             <button
                                 class="edit"
-                                @click="handleEdit(scope.$index, scope.row)"
+                                @click="$router.push('/article/edit?article_id=' +  scope.row.article_id)"
                                 >
                                 编辑
                             </button>
