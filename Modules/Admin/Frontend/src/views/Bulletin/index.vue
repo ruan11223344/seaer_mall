@@ -22,6 +22,7 @@
                         align="center"
                         label="序号"
                         property="num"
+                        show-overflow-tooltip
                         >
                     </el-table-column>
 
@@ -29,6 +30,7 @@
                         align="center"
                         property="article_title"
                         label="标题"
+                        show-overflow-tooltip
                         >
                     </el-table-column>
 
@@ -36,6 +38,7 @@
                         align="center"
                         property="publish_time"
                         label="发布时间"
+                        show-overflow-tooltip
                         >
                     </el-table-column>
 

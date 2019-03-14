@@ -6,7 +6,16 @@
 
 <script>
     export default {
-        
+        data() {
+            return {
+                tableData: {}
+            }
+        },
+        created() {
+            const obj = JSON.parse(this.$route.query.obj)
+
+            this.tableData = obj
+        }
     }
 </script>
 

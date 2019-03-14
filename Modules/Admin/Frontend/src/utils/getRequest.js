@@ -238,6 +238,25 @@ class getRequest {
             })
         })
     }
+
+    // 30.获取反馈列表
+    getFeedbackList(size, page) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/feedback_manager/get_feedback_list',
+                params: {
+                    "page": page,  //必填 页码
+                    "size": size  //必填 数量
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
 }
 
 export default new getRequest()
