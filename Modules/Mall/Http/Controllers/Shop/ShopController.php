@@ -495,6 +495,7 @@ class ShopController extends Controller
         if ($validator->fails()){
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
+
         $company_id = $request->input('company_id');
         $data =AuthorizationsController::getCompanyInfoData($company_id);
         $userEx = UsersExtends::where('company_id',$company_id)->get()->first();
