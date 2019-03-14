@@ -11,7 +11,7 @@
                 <v-search></v-search>
             </section>
         </main>
-        
+
         <section class="block">
             <div class="block-box">
                 <div class="block-box-title">Afriby.com</div>

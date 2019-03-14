@@ -130,6 +130,23 @@ class PutRequest {
             })
         })
     }
+
+    // 20.下架商品
+    putProductShelf(data) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/product_manager/product_off_shelf',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
 }
 
 export default new PutRequest()

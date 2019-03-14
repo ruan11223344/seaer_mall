@@ -87,7 +87,7 @@
                             <button
                                 v-if="scope.row.product_audit_status == 1"
                                 class="edit"
-                                @click="handleEdit(scope.$index, scope.row)"
+                                @click="onLower(scope.row)"
                                 >
                                 下架
                             </button>
@@ -139,6 +139,31 @@
                 <el-button type="primary" class="box-btn" @click="onSub">确定</el-button>
             </section>
         </v-modality>
+
+        <v-modality
+            v-show="modalityShelf"
+            @on-hide="onHide"
+            title="下架"
+            >
+            <section class="box" slot="main">
+                <el-row :gutter="20" class="box-text">
+                    <el-col :span="4">
+                        <div class="box-title" style="lineHeight: 1;">下架原因</div>
+                    </el-col>
+                    <el-col :span="20">
+                        <el-input
+                            :disabled="false"
+                            type="textarea"
+                            resize="none"
+                            :autosize="{ minRows: 10, maxRows: 10}"
+                            v-model="off_shelf_message">
+                        </el-input>
+                    </el-col>
+                </el-row>
+
+                <el-button type="primary" class="box-btn" @click="onBut">确定</el-button>
+            </section>
+        </v-modality>
     </el-main>
 </template>
 
@@ -150,8 +175,10 @@
         data() {
             return {
                 modality: false,
+                modalityShelf: false,
                 action: 'reject',
                 reject_message: '',
+                off_shelf_message: '',
                 product_id: null,
                 productData: [],
                 total: {
@@ -185,11 +212,6 @@
                                 message: '操作成功',
                                 type: 'success'
                             })
-
-                            this.reject_message = ''
-                            this.product_id = null
-                            this.modality = false
-
                             this.onGetProductList()
                         })
                         .catch(err => {
@@ -198,21 +220,62 @@
                                 message: err.message,
                                 type: 'error'
                             })
-                            this.reject_message = ''
-                            this.product_id = null
-                            this.modality = false
+                            
 
                         })
+                this.reject_message = ''
+                this.product_id = null
+                this.modality = false
+            },
+            onBut() {
+                if(this.off_shelf_message == '') {
+                    this.$message({
+                        showClose: true,
+                        message: '请填写下架原因',
+                        type: 'warning'
+                    })
+
+                    return false
+                }
+
+                this.$PutRequest.putProductShelf({ 
+                    product_id: this.product_id,
+                    off_shelf_message: this.off_shelf_message
+                })
+                    .then(res => {
+                        this.$message({
+                            showClose: true,
+                            message: '操作成功',
+                            type: 'success'
+                        })
+                        this.onGetProductList()
+                    })
+                    .catch(err => {
+                        this.$message({
+                            showClose: true,
+                            message: err.message,
+                            type: 'error'
+                        })
+                    })
+                this.off_shelf_message = ''
+                this.product_id = null
+                this.modalityShelf = false
             },
             // 隐藏模态框
             onHide() {
                 this.modality = false
+                this.modalityShelf = false
                 this.product_id = null
             },
             // 审核
             onWait({ product_id }) {
                 this.modality = true
                 this.product_id = product_id
+            },
+            // 下架
+            onLower({ product_id }) {
+                this.product_id = product_id
+                this.modalityShelf = true
             },
             onDetails(product_id) {
                 this.$router.push('/products/details?product_id=' + product_id)
@@ -286,6 +349,12 @@
 
         &-block:first-child {
             height: 40px;
+            margin-top: 22px;
+            margin-bottom: 26px;
+        }
+
+        &-text {
+            height: auto;
             margin-top: 22px;
             margin-bottom: 26px;
         }
