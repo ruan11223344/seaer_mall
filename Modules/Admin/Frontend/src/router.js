@@ -99,10 +99,10 @@ const router = new Router({
                             component: () => import('./views/Article/Agreement')
                         },
                         {
-                            path: 'edit',
-                            name: 'edit',
+                            path: 'publish',
+                            name: 'publish',
                             meta: [ '文章管理', '系统管理', '新增' ],
-                            component: () => import('./views/Article/Edit')
+                            component: () => import('./views/Article/Publish')
                         }
                     ]
                 },
