@@ -182,10 +182,6 @@ return [
          */
         Nwidart\Modules\LaravelModulesServiceProvider::class,
 
-        /*
-        * 用户追踪插件
-        */
-        PragmaRX\Tracker\Vendor\Laravel\ServiceProvider::class,
 
         /*
         * debug工具
@@ -287,10 +283,6 @@ return [
          */
         'Module' => Nwidart\Modules\Facades\Module::class,
 
-        /*
-         * 用户追踪插件
-         */
-        'Tracker' => PragmaRX\Tracker\Vendor\Laravel\Facade::class,
         /*
          * debug工具
          */
