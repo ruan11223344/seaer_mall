@@ -879,7 +879,7 @@ json参数:
 
 24.删除文章
 ```
-url:http://域名/api/admin/article_manager/edit_article
+url:http://域名/api/admin/article_manager/delete_article
 请求方法:post
 json参数:
 {
@@ -1005,7 +1005,154 @@ json参数:
 }
 ```
 
-2x.获取反馈列表
+28.获取广告管理列表
+```
+url:http://域名/api/admin/ad_manager/get_ad_list
+请求方法:get
+无参数
+
+返回:
+{
+    "code": 200,
+    "message": "获取成功!",
+    "data": {
+        "slide": [
+            {
+                "ad_id": 7,
+                "ad_name": "幻灯片1",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "enabled": true
+            },
+            {
+                "ad_id": 8,
+                "ad_name": "幻灯片2",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "enabled": true
+            },
+            {
+                "ad_id": 9,
+                "ad_name": "幻灯片3",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "enabled": true
+            },
+            {
+                "ad_id": 10,
+                "ad_name": "幻灯片4",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "enabled": true
+            },
+            {
+                "ad_id": 11,
+                "ad_name": "幻灯片5",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "enabled": true
+            },
+            {
+                "ad_id": 12,
+                "ad_name": "幻灯片6",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "enabled": true
+            }
+        ],
+        "banner": [
+            {
+                "ad_id": 1,
+                "ad_name": "Banner--1(首页顶部)",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "enabled": true
+            },
+            {
+                "ad_id": 2,
+                "ad_name": "Banner--2(首页中部)",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "enabled": true
+            },
+            {
+                "ad_id": 3,
+                "ad_name": "Banner--3(首页中部)",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "enabled": true
+            },
+            {
+                "ad_id": 4,
+                "ad_name": "广告1(首页轮播图下)",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "enabled": true
+            },
+            {
+                "ad_id": 5,
+                "ad_name": "广告2(首页轮播图下)",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "enabled": true
+            },
+            {
+                "ad_id": 6,
+                "ad_name": "广告3(首页轮播图下)",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "enabled": true
+            }
+        ]
+    }
+}
+```
+29.编辑广告
+```
+url:http://域名/api/admin/ad_manager/edit_ad
+请求方法:post
+
+{
+	"ad_id":"1",  //广告 id 必填
+	"ad_name":"我是大帅哥",  //广告名称 必填
+	"jump_url":"http://www.baidu.com",  //跳转地址 非必填
+	"image_path":"mall/users/AF_KE_76906f5084/album/155195005898604029.jpg",  //图片oss路径 必填
+	"enabled":true  //是否启用   必填
+}
+
+返回:
+{
+    "code": 200,
+    "message": "编辑更新成功!",
+    "data": []
+}
+```
+
+30.获取反馈列表
 ```
 url:http://域名/api/admin/feedback_manager/get_feedback_list
 请求方法:get
@@ -1060,7 +1207,7 @@ json参数:
 }
 ```
 
-2x.管理员处理反馈
+31.管理员处理反馈
 ```
 url:http://域名/api/admin/feedback_manager/process_feedback
 请求方法:post

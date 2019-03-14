@@ -2,27 +2,39 @@
 
 namespace Modules\Admin\Http\Controllers;
 
-use function foo\func;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use League\OAuth2\Server\AuthorizationServer;
 use Modules\Admin\Entities\Ad;
-use Psr\Http\Message\ServerRequestInterface;
 use App\Utils\EchoJson;
-use Zend\Diactoros\Response as Psr7Response;
-use League\OAuth2\Server\Exception\OAuthServerException;
 use Illuminate\Support\Facades\Validator;
-use Lcobucci\JWT\Parser;
 
 class AdManagerController extends Controller
 {
     use EchoJson;
-    public function getAdList(Request $request){
-        Ad::get()->map(function ($v,$k){
-           dd($v);
+    public function getAdList(){
+        $slide = [];
+        $banner = [];
+        Ad::get()->map(function ($v)use(&$slide,&$banner){
+           $tmp = [];
+           $tmp['ad_id'] = $v->id;
+           $tmp['ad_name'] = $v->ad_name;
+           $tmp['width'] = $v->width;
+           $tmp['height'] = $v->width;
+           $tmp['jump_url'] = $v->jump_url;
+           $tmp['image_path'] = $v->image_path;
+           $tmp['image_url'] = \Modules\Mall\Http\Controllers\UtilsController::getPathFileUrl($v->image_path);
+           $tmp['enabled'] = $v->enabled;
+
+           if($v->is_slide == true){
+               array_push($slide,$tmp);
+           }else{
+               array_push($banner,$tmp);
+           }
         });
+
+        $res_data['slide'] = $slide;
+        $res_data['banner'] = $banner;
+        return $this->echoSuccessJson('获取成功!',$res_data);
     }
 
     public function editAd(Request $request){
