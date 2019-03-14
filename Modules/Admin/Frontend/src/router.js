@@ -98,6 +98,12 @@ const router = new Router({
                             meta: [ '文章管理', '会员协议' ],
                             component: () => import('./views/Article/Agreement')
                         },
+                        {
+                            path: 'edit',
+                            name: 'edit',
+                            meta: [ '文章管理', '系统管理', '新增' ],
+                            component: () => import('./views/Article/Edit')
+                        }
                     ]
                 },
                 { // 广告管理

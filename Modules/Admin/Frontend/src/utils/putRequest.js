@@ -147,6 +147,23 @@ class PutRequest {
             })
         })
     }
+
+    // 21.发布文章
+    putProductArticle(data) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/article_manager/publish_article',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
 }
 
 export default new PutRequest()

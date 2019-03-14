@@ -81,7 +81,9 @@
 
                     <div class="commodity-block-img">
                         <p>产品图片</p>
-                        <div></div>
+                        <div v-for="(item, index) in product_info.product_images_url" :key="index">
+                            <img :src="item" alt="" style="width: 100%; height: 100%">
+                        </div>
                     </div>
 
                     <div class="commodity-block-word">
@@ -91,9 +93,9 @@
                     <div class="commodity-block-price">
                         <p>价格：<span>{{ product_info.product_price_type }} Price</span></p>
                         <div>
-                            <!-- <p v-for="(item, index) in product_info.product_price_str_arr" :key="index">
-                                ≥10 KSh 10-100
-                            </p> -->
+                            <p v-for="(item, index) in product_info.product_price_str_arr" :key="index">
+                                {{ item }}
+                            </p>
                         </div>
                     </div>
 
@@ -102,7 +104,7 @@
                         <div class="commodity-block-details-box">
                             <swiper :options="swiperOption" style="height: 608px;overflow: hidden;zIndex: 0">
                                 <swiper-slide style="height: auto;">
-                                    <div v-for="(item, index) in 100" :key="index"> {{ item }}</div>
+                                    <div v-html="product_info.product_details"></div>
                                 </swiper-slide>
                                 <div class="swiper-scrollbar" slot="scrollbar"></div>
                             </swiper>
@@ -123,9 +125,13 @@
 </template>
 
 <script>
-/*组件方式引用*/
+    /*组件方式引用*/
     import { swiper, swiperSlide } from 'vue-awesome-swiper'
     import 'swiper/dist/css/swiper.css'
+
+    import 'quill/dist/quill.bubble.css'
+    import 'quill/dist/quill.core.css'
+    import 'quill/dist/quill.snow.css'
 
     export default {
         beforeRouteEnter(to, from, next) {
@@ -135,8 +141,6 @@
                         that.company_info = res.company_info
                         that.product_info = res.product_info
                         that.product_publish_time = res.product_publish_time
-
-                        console.log(that.product_info)
                     })
                     .catch(err => {
                         that.$message.error(err.message)
@@ -294,6 +298,8 @@
                         width: 104px;
                         height: 104px;
                         background-color: #f0f1f5;
+                        margin-right: 10px;
+                        cursor: pointer;
                     }
                 }
 
