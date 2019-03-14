@@ -879,7 +879,7 @@ json参数:
 
 24.删除文章
 ```
-url:http://域名/api/admin/article_manager/edit_article
+url:http://域名/api/admin/article_manager/delete_article
 请求方法:post
 json参数:
 {
