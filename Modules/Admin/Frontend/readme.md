@@ -900,7 +900,6 @@ url:http://域名/api/admin/article_manager/get_agreements_list
 请求方法:get
 json参数:
 {
-	"type":"buyers",  //卖家注册协议 还是 买家注册协议 ？必填 buyers,merchants 二选一
 	"page":1,  //必填 页码
 	"size":1  //必填 数量
 }

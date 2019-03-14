@@ -22,8 +22,9 @@ class ArticleController extends Controller
             $tmp = [];
             $tmp['num'] = $k+1+(($page-1)*$size);
             $tmp['article_id'] = $v->id;
-            $tmp['article_title'] =$v->title;
-            $tmp['publish_time'] =Carbon::parse($v->created_at)->format('Y-m-d H:i:s');
+            $tmp['article_title'] = $v->title;
+            $tmp['publish_time'] = Carbon::parse($v->created_at)->format('Y-m-d H:i:s');
+            $tmp['article_type'] = $v->type;
             $data_list[] = $tmp;
         });
 
@@ -57,7 +58,6 @@ class ArticleController extends Controller
     public function getAgreementsList(Request $request){
         $data = $request->all();
         $validator = Validator::make($data, [
-            'type'=>'required|in:buyers,merchants',
             'page'=>'required|integer',
             'size'=>'required|integer',
         ]);
@@ -66,18 +66,13 @@ class ArticleController extends Controller
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
-        $type = $request->input('type');
-
-        if($type == "buyers"){
-            $article_type = 'buyers_register_agreement';
-        }elseif ($type == "merchants"){
-            $article_type = 'merchants_register_agreement';
-        }
 
         $page = $request->input('page',1);
         $size = $request->input('size',20);
 
-        $article_orm = Article::where('type',$article_type);
+        $article_type_list = ['buyers_register_agreement','merchants_register_agreement'];
+
+        $article_orm = Article::whereIn('type',$article_type_list);
         $res_data = self::getArticleData($article_orm,$page,$size);
         return $this->echoSuccessJson('获取用户协议列表成功!',$res_data);
     }

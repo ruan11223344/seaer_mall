@@ -71,6 +71,12 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
             });
         });
 
+        Route::prefix('ad_manager')->group(function (){
+            Route::group(['middleware' => ['client.credentials', 'auth:api','passport-custom-provider']], function () {
+                Route::get('get_ad_list', 'AdManagerController@getAdList')->name('admin.ad.list');
+            });
+        });
+
         Route::prefix('utils')->group(function (){
             Route::get('get_captcha', 'UtilsController@getCaptcha')->name('admin.get.captcha');
         });
