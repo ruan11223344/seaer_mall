@@ -2,32 +2,103 @@
 
 namespace Modules\Admin\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use League\OAuth2\Server\AuthorizationServer;
 use Modules\Admin\Entities\Article;
-use Psr\Http\Message\ServerRequestInterface;
 use App\Utils\EchoJson;
-use Zend\Diactoros\Response as Psr7Response;
-use League\OAuth2\Server\Exception\OAuthServerException;
 use Illuminate\Support\Facades\Validator;
-use Lcobucci\JWT\Parser;
 
 class ArticleController extends Controller
 {
     use EchoJson;
-    public function getSystemArticleList(Request $request){
 
+    public static function getArticleData($article_orm,$page,$size){
+        $article_clone = clone $article_orm;
+        $count = $article_clone->count();
+        $data_list =[];
+        $article_orm->offset(($page-1)*$size)->limit($size)->get()->map(function ($v,$k)use(&$data_list,$page,$size){
+            $tmp = [];
+            $tmp['num'] = $k+1+(($page-1)*$size);
+            $tmp['article_id'] = $v->id;
+            $tmp['article_title'] =$v->title;
+            $tmp['publish_time'] =Carbon::parse($v->created_at)->format('Y-m-d H:i:s');
+            $data_list[] = $tmp;
+        });
+
+        $res_data['data'] = $data_list;
+        $res_data['size'] = $size;
+        $res_data['cur_page'] =$page;
+        $res_data['total_page'] = (int)ceil($count/$size);
+        $res_data['total_size'] = $count;
+        return $res_data;
     }
 
-    public function getUserAgreementsList(Request $request){
+    public function getSystemArticleList(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'page'=>'required|integer',
+            'size'=>'required|integer',
+        ]);
 
+        if ($validator->fails()) {
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
+        }
+
+        $page = $request->input('page',1);
+        $size = $request->input('size',20);
+
+        $article_orm = Article::where('type','system_article');
+        $res_data = self::getArticleData($article_orm,$page,$size);
+        return $this->echoSuccessJson('获取系统文章列表成功!',$res_data);
+    }
+
+    public function getAgreementsList(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'type'=>'required|in:buyers,merchants',
+            'page'=>'required|integer',
+            'size'=>'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
+        }
+
+        $type = $request->input('type');
+
+        if($type == "buyers"){
+            $article_type = 'buyers_register_agreement';
+        }elseif ($type == "merchants"){
+            $article_type = 'merchants_register_agreement';
+        }
+
+        $page = $request->input('page',1);
+        $size = $request->input('size',20);
+
+        $article_orm = Article::where('type',$article_type);
+        $res_data = self::getArticleData($article_orm,$page,$size);
+        return $this->echoSuccessJson('获取用户协议列表成功!',$res_data);
     }
 
     public function getSystemAnnouncementList(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'page'=>'required|integer',
+            'size'=>'required|integer',
+        ]);
 
+        if ($validator->fails()) {
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
+        }
+
+        $page = $request->input('page',1);
+        $size = $request->input('size',20);
+
+        $article_orm = Article::where('type','system_announcement');
+        $res_data = self::getArticleData($article_orm,$page,$size);
+        return $this->echoSuccessJson('获取系统公告列表成功!',$res_data);
     }
 
     public function publishArticle(Request $request){

@@ -28,19 +28,17 @@ class FeedbackController extends Controller
         $page = $request->input('page',1);
         $size = $request->input('size',20);
         $feedback = new Feedback();
-
         $count = Feedback::count();
-
         $data_list =[];
-        $feedback->offset(($page-1)*$size)->limit($size)->get()->map(function ($v,$k)use(&$data_list){
+        $feedback->offset(($page-1)*$size)->limit($size)->get()->map(function ($v,$k)use(&$data_list,$page,$size){
             $tmp = [];
+            $tmp['num'] = $k+1+(($page-1)*$size);
             $user = User::find($v->user_id);
             $tmp['add_time'] = Carbon::parse($v->created_at)->format('Y-m-d H:i:s');
             $tmp['member_id'] = $user != null ? $user->name : '';
             $tmp['contact_way'] =$v->contact_way;
             $tmp['user_message'] =$v->user_message;
             $tmp['user_type_str'] =$user != null ? "注册用户" : "访客" ;
-            $spam = $v->is_spam == true;
             if($v->is_spam){
                 $status_str = "垃圾反馈";
             }elseif ($v->is_process){

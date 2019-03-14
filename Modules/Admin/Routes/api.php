@@ -58,6 +58,9 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
                 Route::get('get_article_detail', 'ArticleController@getArticleDetail')->name('admin.article.detail');
                 Route::post('edit_article', 'ArticleController@editArticle')->name('admin.article.edit');
                 Route::post('delete_article', 'ArticleController@deleteArticle')->name('admin.article.delete');
+                Route::get('get_agreements_list', 'ArticleController@getAgreementsList')->name('admin.article.AgreementsList');
+                Route::get('get_system_article_list', 'ArticleController@getSystemArticleList')->name('admin.article.SystemArticleList');
+                Route::get('get_system_announcement_list', 'ArticleController@getSystemAnnouncementList')->name('admin.article.SystemAnnouncementList');
             });
         });
 

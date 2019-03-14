@@ -799,7 +799,7 @@ url:http://域名/api/admin/article_manager/publish_article
 请求方法:post
 json参数:
 {
-	"type":"user_agreements",  //文章类型   三个值可选 'system_article'  系统文章  ,'system_announcement' 系统公告   ,'user_agreements'   用户协议  必填。
+	"type":"user_agreements",  //文章类型   四个值可选 buyers_register_agreement,merchants_register_agreement,system_announcement,system_article   
 	"content":"用户协议内容",  必填!
 	"title":"我是大帅哥"  标题 非必填！
 }
@@ -891,6 +891,118 @@ json参数:
     "code": 200,
     "message": "删除成功!",
     "data": []
+}
+```
+
+25.获取用户协议列表
+```
+url:http://域名/api/admin/article_manager/get_agreements_list
+请求方法:get
+json参数:
+{
+	"type":"buyers",  //卖家注册协议 还是 买家注册协议 ？必填 buyers,merchants 二选一
+	"page":1,  //必填 页码
+	"size":1  //必填 数量
+}
+
+返回:
+{
+    "code": 200,
+    "message": "获取用户协议列表成功!",
+    "data": {
+        "data": [
+            {
+                "num": 1,
+                "article_id": 4,
+                "article_title": "我是大帅哥",
+                "publish_time": "2019-03-14 14:05:51"
+            }
+        ],
+        "size": 1,
+        "cur_page": 1,
+        "total_page": 1,
+        "total_size": 1
+    }
+}
+```
+
+26.获取系统文章列表
+```
+url:http://域名/api/admin/article_manager/get_system_article_list
+请求方法:get
+json参数:
+{
+	"page":1,  //必填 页码
+	"size":1  //必填 数量
+}
+
+返回:
+{
+    "code": 200,
+    "message": "获取系统文章列表成功!",
+    "data": {
+        "data": [
+            {
+                "num": 1,
+                "article_id": 9,
+                "article_title": "我是系统文章",
+                "publish_time": "2019-03-14 14:12:29"
+            },
+            {
+                "num": 2,
+                "article_id": 10,
+                "article_title": "我是系统文章",
+                "publish_time": "2019-03-14 14:12:30"
+            },
+            {
+                "num": 3,
+                "article_id": 11,
+                "article_title": "我是系统文章",
+                "publish_time": "2019-03-14 14:12:33"
+            }
+        ],
+        "size": 4,
+        "cur_page": 1,
+        "total_page": 1,
+        "total_size": 3
+    }
+}
+```
+
+27.获取系统公告列表
+```
+url:http://域名/api/admin/article_manager/get_system_announcement_list
+请求方法:get
+json参数:
+{
+	"page":1,  //必填 页码
+	"size":1  //必填 数量
+}
+
+返回:
+{
+    "code": 200,
+    "message": "获取系统公告列表成功!",
+    "data": {
+        "data": [
+            {
+                "num": 1,
+                "article_id": 13,
+                "article_title": "我是系统公告1",
+                "publish_time": "2019-03-14 14:21:05"
+            },
+            {
+                "num": 2,
+                "article_id": 14,
+                "article_title": "我是系统公告2",
+                "publish_time": "2019-03-14 14:21:08"
+            }
+        ],
+        "size": 4,
+        "cur_page": 1,
+        "total_page": 1,
+        "total_size": 2
+    }
 }
 ```
 
