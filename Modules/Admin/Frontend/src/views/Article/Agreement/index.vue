@@ -6,7 +6,7 @@
             @on-change-num="onChangeNum"
             >
             <template slot="btn">
-                <button class="btn" @click="$router.push('/article/edit?type=merchants_register_agreement')">
+                <button class="btn" @click="$router.push('/article/publish?type=merchants_register_agreement')">
                     +新增
                 </button>
             </template>
