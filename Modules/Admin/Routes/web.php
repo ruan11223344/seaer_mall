@@ -11,6 +11,6 @@
 |
 */
 
-Route::group(['domain'=>env('ADMIN_DOMAIN')],function () {
+Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'],function () {
     Route::get('/{any}', 'AdminController@index')->where('any', '.*');
 });
