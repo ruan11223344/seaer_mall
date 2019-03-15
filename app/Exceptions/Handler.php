@@ -49,8 +49,20 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
+/*    public function render($request, Exception $exception)
+    {
+        return parent::render($request, $exception);
+    }*/
+
     public function render($request, Exception $exception)
     {
+        // 解决vue history 地址丢失问题
+        if($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException)
+        {
+            if ($exception->getStatusCode() == 404) {
+                return response()->view('welcome');
+            }
+        }
         return parent::render($request, $exception);
     }
 
