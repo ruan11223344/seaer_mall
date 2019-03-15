@@ -33,6 +33,7 @@ class FeedbackController extends Controller
         $feedback->offset(($page-1)*$size)->limit($size)->get()->map(function ($v,$k)use(&$data_list,$page,$size){
             $tmp = [];
             $tmp['num'] = $k+1+(($page-1)*$size);
+            $tmp['feedback_id'] = $v->id;
             $user = User::find($v->user_id);
             $tmp['add_time'] = Carbon::parse($v->created_at)->format('Y-m-d H:i:s');
             $tmp['member_id'] = $user != null ? $user->name : '';
