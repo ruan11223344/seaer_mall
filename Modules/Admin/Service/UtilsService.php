@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Request;
 use Modules\Admin\Entities\AdminLog;
 use Modules\Admin\Entities\UserLog;
 use Modules\Admin\Entities\Permission;
-use Zizaco\Entrust\Entrust;
 
 class UtilsService
 {
@@ -67,4 +66,5 @@ class UtilsService
             $permission->save();
         }
     }
+
 }

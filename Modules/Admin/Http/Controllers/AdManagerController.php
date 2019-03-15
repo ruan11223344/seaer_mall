@@ -11,29 +11,35 @@ use Illuminate\Support\Facades\Validator;
 class AdManagerController extends Controller
 {
     use EchoJson;
-    public function getAdList(){
+
+    public static function getAdData(){
         $slide = [];
         $banner = [];
         Ad::get()->map(function ($v)use(&$slide,&$banner){
-           $tmp = [];
-           $tmp['ad_id'] = $v->id;
-           $tmp['ad_name'] = $v->ad_name;
-           $tmp['width'] = $v->width;
-           $tmp['height'] = $v->width;
-           $tmp['jump_url'] = $v->jump_url;
-           $tmp['image_path'] = $v->image_path;
-           $tmp['image_url'] = \Modules\Mall\Http\Controllers\UtilsController::getPathFileUrl($v->image_path);
-           $tmp['enabled'] = $v->enabled;
+            $tmp = [];
+            $tmp['ad_id'] = $v->id;
+            $tmp['ad_name'] = $v->ad_name;
+            $tmp['width'] = $v->width;
+            $tmp['height'] = $v->width;
+            $tmp['jump_url'] = $v->jump_url;
+            $tmp['image_path'] = $v->image_path;
+            $tmp['image_url'] = \Modules\Mall\Http\Controllers\UtilsController::getPathFileUrl($v->image_path);
+            $tmp['enabled'] = $v->enabled;
 
-           if($v->is_slide == true){
-               array_push($slide,$tmp);
-           }else{
-               array_push($banner,$tmp);
-           }
+            if($v->is_slide == true){
+                array_push($slide,$tmp);
+            }else{
+                array_push($banner,$tmp);
+            }
         });
 
         $res_data['slide'] = $slide;
         $res_data['banner'] = $banner;
+        return $res_data;
+    }
+
+    public function getAdList(){
+        $res_data = self::getAdData();
         return $this->echoSuccessJson('获取成功!',$res_data);
     }
 

@@ -345,4 +345,9 @@ class UtilsController extends Controller
             return $this->echoErrorJson('发送反馈失败!');
         }
     }
+
+    public static function getPublicDirectory()
+    {
+        return self::OSS_FILE_PATH . '/public/';
+    }
 }

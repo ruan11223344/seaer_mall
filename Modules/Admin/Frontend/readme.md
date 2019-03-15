@@ -1237,5 +1237,25 @@ json参数:
 }
 ```
 
+32.通用上传图片接口
+```
+url:http://域名/api/admin/utils/upload_img
+请求方法:post
+
+form-data 传值  file 格式 键为img 单个文件
+
+返回:
+{
+    "code": 200,
+    "message": "Upload img successfully",
+    "data": {
+        "name": "1552612211532.jpg",
+        "url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/public/155262755451241747.jpg",
+        "path": "mall/public/155262755451241747.jpg"
+    }
+}
+```
+
+
 
 

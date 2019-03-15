@@ -4,6 +4,7 @@ namespace Modules\Mall\Http\Controllers;
 
 use App\Utils\EchoJson;
 use Illuminate\Routing\Controller;
+use Modules\Admin\Http\Controllers\AdManagerController;
 use Modules\Mall\Entities\Products;
 use Modules\Mall\Http\Controllers\Shop\ProductsController;
 
@@ -54,6 +55,11 @@ class HomeController extends Controller
         $data['product_history'] = ProductsController::getProductFormatInfo(Products::limit(20));
 
         return $this->echoSuccessJson('Success!',$data);
+    }
+
+    public function getAdInfo(){
+        $res_data = AdManagerController::getAdData();
+        return $this->echoSuccessJson('获取成功!',$res_data);
     }
 
 }
