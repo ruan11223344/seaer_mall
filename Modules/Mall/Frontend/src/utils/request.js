@@ -24,7 +24,7 @@ function refreshToken() {
 // 创建axios实例
 const service = axios.create({
     // baseURL: 'https://mall.happyhub2018.com/api', // api 的 base_url
-    baseURL: 'http://www.seaer.local/api',
+    baseURL: 'https://mall.happyhub2018.com/api',
     timeout: 15000, // 请求超时时间
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
 })
