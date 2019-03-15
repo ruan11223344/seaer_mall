@@ -140,6 +140,13 @@
         },
         methods: {
             onBeforeUpload(file) {
+                this.$PutRequest.putUploadImg(file)
+                    .then(({ url }) => {
+                        this.editor = this.editor + `<p><img src="${url}"></p>`
+                    })
+                    .catch(err => {
+                        this.$message.error(err.message)
+                    })
                 return false
             },
             // 发布

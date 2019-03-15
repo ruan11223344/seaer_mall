@@ -155,6 +155,7 @@
             height: calc(100vh - 88px - 100px);
             background: url('../../assets/login-bg.png') center center;
             position: relative;
+            display: block;
 
             &-block {
                 width: 600px;

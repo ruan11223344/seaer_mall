@@ -152,6 +152,7 @@
             Handle(data) {
                 this.$PutRequest.putProcess(data)
                     .then(res => {
+                        this.$message.success()
                         this.onGetData()
                     })
                     .catch(err => {

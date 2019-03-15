@@ -218,6 +218,27 @@ class PutRequest {
         })
     }
 
+    // 32.通用上传图片接口
+    putUploadImg(file) {
+        const fromData = new FormData()
+
+        fromData.append('img', file)
+
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/utils/upload_img',
+                method: 'post',
+                data: fromData,
+                headers: { 'Content-Type':'multipart/form-data' }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
 }
 
 export default new PutRequest()
