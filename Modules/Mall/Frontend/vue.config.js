@@ -31,7 +31,7 @@ module.exports = {
         }
     },
     // 不生成map
-    productionSourceMap: false,
+    productionSourceMap: true,
     // modify the location of the generated HTML file.
     // make sure to do this only in production.
     indexPath: process.env.NODE_ENV === 'production' ? '../Resources/views/index.blade.php' : 'index.html'
