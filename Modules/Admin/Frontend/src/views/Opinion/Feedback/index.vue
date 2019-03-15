@@ -10,7 +10,6 @@
                     ref="singleTable"
                     :data="tableData"
                     style="width: 100%"
-                    height="684px"
                     size="mini"
                     >
 
@@ -75,59 +74,109 @@
                                 >
                                 查看详情
                             </button>
-                            <button
-                                v-if="!scope.row.is_spam"
-                                style="width: 74px;"
-                                class="edit"
-                                @click="onSpam(scope.row)"
-                                >
-                                垃圾邮件
-                            </button>
-                            <button
-                                v-if="!scope.row.is_spam"
-                                class="edit"
-                                @click="handleEdit(scope.$index, scope.row)"
-                                >
-                                回复
-                            </button>
+                            <template>
+                                <button
+                                    v-if="!scope.row.is_spam"
+                                    style="width: 75px;"
+                                    class="edit"
+                                    @click="onSpam(scope.row)"
+                                    >
+                                    垃圾邮件
+                                </button>
+                                <button
+                                    v-if="!scope.row.is_process"
+                                    class="edit"
+                                    @click="handleEdit(scope.row.feedback_id)"
+                                    >
+                                    处理
+                                </button>
+                            </template>
                         </template>
                     </el-table-column>
                 </el-table>
             </template>
         </v-list>
+
+        <v-modality
+            v-show="modality"
+            @on-hide="onHide"
+            title="反馈"
+            >
+            <section class="box" slot="main">
+                <el-row :gutter="20" class="box-block">
+                    <el-col :span="24">
+                        <el-input
+                            type="textarea"
+                            resize="none"
+                            :autosize="{ minRows: 11, maxRows: 11}"
+                            v-model="reject_message">
+                        </el-input>
+                    </el-col>
+                </el-row>
+
+                <el-button type="primary" class="box-btn" @click="onSub">确定</el-button>
+            </section>
+        </v-modality>
     </el-main>
 </template>
 
 <script>
     import List from "@/components/List"
+    import Modality from "@/components/Modality"
 
     export default {
         data() {
             return {
+                modality: false,
                 tableData: [],
                 total: {
                     total: 0,
                     size: 18,
                     num: 1
-                }
+                },
+                reject_message: '',
+                feedback_id: null
             }
         },
         methods: {
+            // 隐藏模态框
+            onHide() {
+                this.modality = false
+            },
             // 分页
             onChangeNum(num) {
                 this.$set(this.total, 'num', num)
                 this.onGetData()
             },
-            onSpam({ feedback_id }) {
-                this.$PutRequest.putProcess({ feedback_id, is_spam: true, })
+            // 公共方法
+            Handle(data) {
+                this.$PutRequest.putProcess(data)
                     .then(res => {
                         this.onGetData()
                     })
                     .catch(err => {
                         this.$message.error(err.message)
                     })
+
+                this.modality = false
+                this.feedback_id = null
+                this.reject_message = ''
             },
-            handleEdit() {
+            // 垃圾邮件
+            onSpam({ feedback_id }) {
+                this.Handle({ feedback_id, is_spam: true, })
+            },
+            // 处理
+            onSub() {
+                this.Handle({
+                    feedback_id: this.feedback_id,
+                    is_spam: false,
+                    admin_message: this.reject_message
+                })
+            },
+            handleEdit(feedback_id) {
+                this.modality = true
+                this.feedback_id = feedback_id
                 // this.$router.push('/opinion/details')
             },
             onDetails(value) {
@@ -147,7 +196,8 @@
             this.onGetData()
         },
         components: {
-            'v-list': List
+            'v-list': List,
+            'v-modality': Modality
         }
     }
 </script>
@@ -168,5 +218,26 @@
         @include mixin-btn;
         @include mixin-color(white);
         @include mixin-bg-color(yellow);
+    }
+
+    .box {
+        width: 722px;
+        height: 433px - 70px;
+        padding: 0px 30px;
+        box-sizing: border-box;
+        @include mixin-bg-color(white);
+
+        &-block:first-child {
+            height: auto;
+            margin-top: 22px;
+            margin-bottom: 26px;
+        }
+
+        &-btn {
+            width: 107px;
+            margin: 0px auto;
+            margin-top: 33px;
+            display: block;
+        }
     }
 </style>

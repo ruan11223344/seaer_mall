@@ -10,11 +10,11 @@ const router = new Router({
         {
             path: '/',
             name: 'home',
-            redirect: '/home',
+            redirect: 'home',
             component: () => import('./views'),
             children: [
                 {
-                    path: '/home',
+                    path: 'home',
                     name: 'home',
                     meta: [ '首页' ],
                     component: () => import('./views/Home'),
