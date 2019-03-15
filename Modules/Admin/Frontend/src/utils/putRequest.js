@@ -200,6 +200,24 @@ class PutRequest {
             })
         })
     }
+
+    // 31.管理员处理反馈
+    putProcess(data) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/feedback_manager/process_feedback',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
+
 }
 
 export default new PutRequest()

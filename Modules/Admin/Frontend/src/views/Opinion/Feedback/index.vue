@@ -66,7 +66,7 @@
                     <el-table-column
                         align="center"
                         label="操作"
-                        width="180px"
+                        width="260px"
                         >
                         <template slot-scope="scope">
                             <button
@@ -74,6 +74,14 @@
                                 @click="onDetails(scope.row)"
                                 >
                                 查看详情
+                            </button>
+                            <button
+                                v-if="!scope.row.is_spam"
+                                style="width: 74px;"
+                                class="edit"
+                                @click="onSpam(scope.row)"
+                                >
+                                垃圾邮件
                             </button>
                             <button
                                 v-if="!scope.row.is_spam"
@@ -109,6 +117,15 @@
             onChangeNum(num) {
                 this.$set(this.total, 'num', num)
                 this.onGetData()
+            },
+            onSpam({ feedback_id }) {
+                this.$PutRequest.putProcess({ feedback_id, is_spam: true, })
+                    .then(res => {
+                        this.onGetData()
+                    })
+                    .catch(err => {
+                        this.$message.error(err.message)
+                    })
             },
             handleEdit() {
                 // this.$router.push('/opinion/details')
