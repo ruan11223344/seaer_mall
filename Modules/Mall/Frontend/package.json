@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "rm -rf ../public/{js,css,img} && vue-cli-service build --no-clean",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -32,7 +32,8 @@
     "@vue/cli-service": "^3.0.0-rc.9",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.5.21",
+    "webpack-cli": "^3.2.3"
   },
   "eslintConfig": {
     "root": true,
