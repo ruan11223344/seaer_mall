@@ -88,6 +88,7 @@ class ProductManagerController extends Controller
             $tmp['product_id'] = $v->id;
             $tmp['product_moq']  = $product_moq;
             $tmp['product_sku']  = $v->product_sku_no;
+            $tmp['product_main_pic_url'] = \Modules\Mall\Http\Controllers\UtilsController::getPathFileUrl($v->product_images[0]['main']);
             $tmp['product_name'] = $v->product_name;
             $tmp['product_origin_id'] = $v->product_origin_id;
             $tmp['product_price'] = $product_price;
