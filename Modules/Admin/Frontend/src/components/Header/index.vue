@@ -10,7 +10,6 @@
 
         <section class="right">
             <el-badge :value="100" :max="1">
-                <!-- <img :src="require('@/assets/xiaox.png')" alt=""> -->
                 <div class="right-email" @click="$router.push('/news')"></div>
             </el-badge>
             <div class="right-avatar">
@@ -21,7 +20,7 @@
                         width="200"
                         trigger="hover"
                         >
-                            <img slot="reference" :src="require('@/assets/mrtx.png')" alt="">
+                            <img slot="reference" style="cursor: pointer;" :src="require('@/assets/mrtx.png')" alt="">
 
                             <section>
                                 <div class="admin">

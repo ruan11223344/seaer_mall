@@ -1,19 +1,20 @@
 import axios from 'axios'
 import auth from '../utils/auth'
 import router from '../router'
+import putRequest from './putRequest'
 
 function refreshToken() {
     const token = auth.getCookies()
     const refToken = auth.getRefCookies()
     
     if(token && refToken) {
-        upData.upRegToken(refToken)
-            .then((res) => {
-                auth.removeCookies()
-                auth.removeRefreshKey()
-                auth.setCookies(res.data.access_token)
-                auth.refreshCookies(res.data.refresh_token)
-            })
+        // upData.upRegToken(refToken)
+        //     .then((res) => {
+        //         auth.removeCookies()
+        //         auth.removeRefreshKey()
+        //         auth.setCookies(res.data.access_token)
+        //         auth.refreshCookies(res.data.refresh_token)
+        //     })
     }else {
         router.push('/login')
     }
