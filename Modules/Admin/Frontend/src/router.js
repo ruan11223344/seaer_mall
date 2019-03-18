@@ -127,6 +127,12 @@ const router = new Router({
                             name: 'edit',
                             meta: [ '广告管理', '首页广告' ],
                             component: () => import('./views/Advertisement/Edit')
+                        },
+                        {
+                            path: 'productedit',
+                            name: 'ProductEdit',
+                            meta: [ '广告管理', '首页广告', '选择商品' ],
+                            component: () => import('./views/Advertisement/ProductEdit')
                         }
                     ]
                 },

@@ -287,6 +287,60 @@ class getRequest {
             })
         })
     }
+
+    // 36.获取首页推荐商品列表
+    getProductRecommend() {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/ad_manager/get_index_product_recommend',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
+
+    // 38.获取正在销售的商品列表
+    getSaleProduct(size, page) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/ad_manager/get_sale_product',
+                params: {
+                    "page": page,  //必填 页码
+                    "size": size  //必填 数量
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
+
+    // 39.搜索正在销售的商品列表
+    getSearchProduct(size, page, keywords) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/ad_manager/get_sale_product_search',
+                params: {
+                    "page": page,  //必填 页码
+                    "size": size,  //必填 数量
+                    "keywords": keywords
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
 }
 
 export default new getRequest()

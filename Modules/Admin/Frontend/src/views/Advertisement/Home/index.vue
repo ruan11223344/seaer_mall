@@ -109,6 +109,61 @@
                 </el-table-column>
             </el-table>
         </template>
+
+        <div style="marginTop: 40px;marginBottom: 20px;">热卖推荐</div>
+        <template>
+            <el-table
+                v-loading="product == null"
+                ref="singleTable"
+                :data="product"
+                style="width: 100%"
+                size="mini"
+                >
+
+                <el-table-column
+                    align="center"
+                    label="序号"
+                    type="index"
+                    >
+                </el-table-column>
+
+                <el-table-column
+                    align="center"
+                    property="product_name"
+                    label="商品名称"
+                    >
+                </el-table-column>
+
+                <el-table-column
+                    align="center"
+                    property="shop_name"
+                    label="所属店铺"
+                    >
+                </el-table-column>
+
+                <el-table-column
+                    align="center"
+                    property="upload_time"
+                    label="上传时间"
+                    >
+                </el-table-column>
+
+                <el-table-column
+                    align="center"
+                    label="操作"
+                    width="180px"
+                    >
+                    <template slot-scope="scope">
+                        <button
+                            class="edit"
+                            @click="onProductEdit(scope.row.index_product_recommend_id, scope.row.product_id)"
+                            >
+                            编辑
+                        </button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </template>
     </div>
 </template>
 
@@ -117,7 +172,8 @@
         data() {
             return {
                 banner: null,
-                slide: null
+                slide: null,
+                product: null
             }
         },
         methods: {
@@ -125,11 +181,22 @@
                 const obj = JSON.stringify(data)
                 this.$router.push('/advertisement/edit?obj=' + obj)
             },
+            onProductEdit(index_product_recommend_id, product_id) {
+                this.$router.push('/advertisement/productedit?index_product_recommend_id=' + index_product_recommend_id + '&product_id=' + product_id)
+            },
             GetAdList() {
                 this.$GetRequest.getAdList()
                     .then(({ banner, slide }) => {
                         this.banner = banner
                         this.slide = slide
+                    })
+                    .catch(err => {
+                        this.$message.error(err.message)
+                    })
+
+                this.$GetRequest.getProductRecommend()
+                    .then(res => {
+                        this.product = res
                     })
                     .catch(err => {
                         this.$message.error(err.message)

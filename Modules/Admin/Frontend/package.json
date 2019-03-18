@@ -9,6 +9,7 @@
     "dependencies": {
         "axios": "^0.18.0",
         "chart.js": "^2.7.3",
+        "dayjs": "^1.8.10",
         "element-ui": "^2.6.1",
         "js-cookie": "^2.2.0",
         "vue": "^2.6.6",

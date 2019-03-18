@@ -20,7 +20,7 @@
 // 背景颜色
 @mixin mixin-bg-color($bg) {
     @if $bg == red {
-        background-color: red;
+        background-color: #de2727;
     } @else if $bg == black {
         background-color: black;
     } @else if $bg == white {

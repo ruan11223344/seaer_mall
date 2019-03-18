@@ -296,6 +296,23 @@ class PutRequest {
             })
         })
     }
+
+    // 37.编辑首页推荐商品
+    putEditProductRecommend(data) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/ad_manager/edit_index_product_recommend',
+                method: 'post',
+                data: data,
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
 }
 
 export default new PutRequest()
