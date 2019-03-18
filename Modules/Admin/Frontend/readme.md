@@ -1342,10 +1342,9 @@ url:http://域名/api/admin/auth/get_access_token
 36.获取首页推荐商品列表
 ```
 url:http://域名/api/admin/ad_manager/get_index_product_recommend
-请求方法:post
+请求方法:get
 
 无参数
-
 返回:
 {
     "code": 200,
