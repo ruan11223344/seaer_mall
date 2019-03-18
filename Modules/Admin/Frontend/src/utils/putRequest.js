@@ -263,11 +263,11 @@ class PutRequest {
                 url: '/admin/auth/get_access_token',
                 method: 'post',
                 data: {
-                    "grant_type": "refresh_token", //类型
-                    "client_id": 2, //客户端id（固定值)
-                    "client_secret": "LfmILOffY40xTlFbJT2Q0V8gWyyu99cwlElNPKrK", //客户端秘钥（固定值)
-                    "refresh_token": Token, //刷新tonken值 从获取token接口中获取
-                    "provider": "admins" //必填 固定值
+                    "grant_type":"refresh_token",
+                    "client_id":"2",
+                    "client_secret":"LfmILOffY40xTlFbJT2Q0V8gWyyu99cwlElNPKrK",
+                    "provider":"admins",
+                    "refresh_token":Token
                 }
             }).then(res => {
                 if(res.code == 200) {
