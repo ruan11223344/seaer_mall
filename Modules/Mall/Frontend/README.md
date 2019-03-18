@@ -5072,13 +5072,14 @@ url:http://域名/api/home/get_ad_info
         "slide": [
             {
                 "ad_id": 7,
-                "ad_name": "幻灯片1",
+                "ad_name": "幻灯片1213",
                 "width": "1200",
                 "height": "1200",
                 "jump_url": "http://www.qq.com",
-                "image_path": null,
-                "image_url": null,
-                "enabled": true
+                "image_path": "mall/public/155288065317109041.png",
+                "image_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/public/155288065317109041.png",
+                "enabled": true,
+                "comment": "幻灯片"
             },
             {
                 "ad_id": 8,
@@ -5088,7 +5089,8 @@ url:http://域名/api/home/get_ad_info
                 "jump_url": "http://www.qq.com",
                 "image_path": null,
                 "image_url": null,
-                "enabled": true
+                "enabled": true,
+                "comment": "幻灯片"
             },
             {
                 "ad_id": 9,
@@ -5098,7 +5100,8 @@ url:http://域名/api/home/get_ad_info
                 "jump_url": "http://www.qq.com",
                 "image_path": null,
                 "image_url": null,
-                "enabled": true
+                "enabled": true,
+                "comment": "幻灯片"
             },
             {
                 "ad_id": 10,
@@ -5106,9 +5109,10 @@ url:http://域名/api/home/get_ad_info
                 "width": "1200",
                 "height": "1200",
                 "jump_url": "http://www.qq.com",
-                "image_path": null,
-                "image_url": null,
-                "enabled": true
+                "image_path": "mall/public/155288080769297298.jpg",
+                "image_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/public/155288080769297298.jpg",
+                "enabled": true,
+                "comment": "幻灯片"
             },
             {
                 "ad_id": 11,
@@ -5116,9 +5120,10 @@ url:http://域名/api/home/get_ad_info
                 "width": "1200",
                 "height": "1200",
                 "jump_url": "http://www.qq.com",
-                "image_path": null,
-                "image_url": null,
-                "enabled": true
+                "image_path": "mall/public/155288082722077784.jpg",
+                "image_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/public/155288082722077784.jpg",
+                "enabled": true,
+                "comment": "幻灯片"
             },
             {
                 "ad_id": 12,
@@ -5126,21 +5131,23 @@ url:http://域名/api/home/get_ad_info
                 "width": "1200",
                 "height": "1200",
                 "jump_url": "http://www.qq.com",
-                "image_path": null,
-                "image_url": null,
-                "enabled": true
+                "image_path": "mall/public/155288081670819230.png",
+                "image_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/public/155288081670819230.png",
+                "enabled": true,
+                "comment": "幻灯片"
             }
         ],
         "banner": [
             {
                 "ad_id": 1,
-                "ad_name": "我是大帅哥",
+                "ad_name": "Banner--1(首页顶部)132332",
                 "width": "1200",
                 "height": "1200",
-                "jump_url": "http://www.baidu.com",
-                "image_path": "mall/users/AF_KE_76906f5084/album/155195005898604029.jpg",
-                "image_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_KE_76906f5084/album/155195005898604029.jpg",
-                "enabled": true
+                "jump_url": "http://www.baidu.comasd",
+                "image_path": "mall/public/155288055552807058.png",
+                "image_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/public/155288055552807058.png",
+                "enabled": true,
+                "comment": "顶部"
             },
             {
                 "ad_id": 2,
@@ -5150,17 +5157,19 @@ url:http://域名/api/home/get_ad_info
                 "jump_url": "http://www.qq.com",
                 "image_path": null,
                 "image_url": null,
-                "enabled": true
+                "enabled": true,
+                "comment": "中部"
             },
             {
                 "ad_id": 3,
-                "ad_name": "Banner--3(首页中部)",
+                "ad_name": "Banner--3(首页底部)",
                 "width": "1200",
                 "height": "1200",
                 "jump_url": "http://www.qq.com",
                 "image_path": null,
                 "image_url": null,
-                "enabled": true
+                "enabled": true,
+                "comment": "底部"
             },
             {
                 "ad_id": 4,
@@ -5168,9 +5177,10 @@ url:http://域名/api/home/get_ad_info
                 "width": "1200",
                 "height": "1200",
                 "jump_url": "http://www.qq.com",
-                "image_path": null,
-                "image_url": null,
-                "enabled": true
+                "image_path": "mall/public/155288083385756574.png",
+                "image_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/public/155288083385756574.png",
+                "enabled": true,
+                "comment": "广告1"
             },
             {
                 "ad_id": 5,
@@ -5180,7 +5190,8 @@ url:http://域名/api/home/get_ad_info
                 "jump_url": "http://www.qq.com",
                 "image_path": null,
                 "image_url": null,
-                "enabled": true
+                "enabled": true,
+                "comment": "广告2"
             },
             {
                 "ad_id": 6,
@@ -5190,7 +5201,8 @@ url:http://域名/api/home/get_ad_info
                 "jump_url": "http://www.qq.com",
                 "image_path": null,
                 "image_url": null,
-                "enabled": true
+                "enabled": true,
+                "comment": "广告3"
             }
         ]
     }

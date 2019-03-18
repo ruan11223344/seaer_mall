@@ -175,26 +175,6 @@ class ShopController extends Controller
         $shop_obj = Shop::where('company_id',$company_id);
         $input_slides_url_list = $request->input('slides_list');
         if($shop_obj->exists()){
-            /*$slides_url_list = $shop_obj->get()->first()->slides_url_list;
-
-            if($slides_url_list != null){
-                $db_sort_list = array_column($slides_url_list,'sort');
-                foreach ($input_slides_url_list as $k=>$v){
-                    foreach ($slides_url_list as $kk=>$vv){
-                        if($v['sort'] == $vv['sort']){
-                            $slides_url_list[$kk] = $v;
-                        }elseif (!in_array($v['sort'],$db_sort_list)){
-                            if(!in_array($v,$slides_url_list)){
-                                array_push($slides_url_list,$v);
-                            }
-                        }
-                    }
-                }
-                $re_order =array_column($slides_url_list,'sort');
-                array_multisort($re_order,SORT_ASC, $slides_url_list);
-            }*/
-
-            
             $shop_obj->get()->first()->update([
                 'slides_url_list'=>$input_slides_url_list
             ]);

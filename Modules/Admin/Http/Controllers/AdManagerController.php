@@ -30,6 +30,7 @@ class AdManagerController extends Controller
             $tmp['image_path'] = $v->image_path;
             $tmp['image_url'] = \Modules\Mall\Http\Controllers\UtilsController::getPathFileUrl($v->image_path);
             $tmp['enabled'] = $v->enabled;
+            $tmp['comment'] = $v->comment;
 
             if($v->is_slide == true){
                 array_push($slide,$tmp);
