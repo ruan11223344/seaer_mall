@@ -103,7 +103,7 @@
                         this.$PutRequest.putToken(this.imgPath.key, this.ruleForm)
                             .then(res => {
                                 this.$Auth.setCookies(res.access_token)
-                                this.$Auth.refreshCookies(res.access_token)
+                                this.$Auth.refreshCookies(res.refresh_token)
                                 this.$router.push('/')
                                 loading.close()
                             }

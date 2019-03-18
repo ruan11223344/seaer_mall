@@ -239,6 +239,21 @@ class getRequest {
         })
     }
 
+    // 28.获取广告管理列表
+    getAdList() {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/ad_manager/get_ad_list',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
+
     // 30.获取反馈列表
     getFeedbackList(size, page) {
         return new Promise(async (resolve, reject) => {

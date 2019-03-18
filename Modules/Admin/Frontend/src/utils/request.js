@@ -8,13 +8,14 @@ function refreshToken() {
     const refToken = auth.getRefCookies()
     
     if(token && refToken) {
-        // upData.upRegToken(refToken)
-        //     .then((res) => {
-        //         auth.removeCookies()
-        //         auth.removeRefreshKey()
-        //         auth.setCookies(res.data.access_token)
-        //         auth.refreshCookies(res.data.refresh_token)
-        //     })
+        putRequest.putRefToken(refToken)
+            .then((res) => {
+                console.log(res)
+                auth.removeCookies()
+                auth.removeRefreshKey()
+                // auth.setCookies(res.data.access_token)
+                // auth.refreshCookies(res.data.refresh_token)
+            })
     }else {
         router.push('/login')
     }
