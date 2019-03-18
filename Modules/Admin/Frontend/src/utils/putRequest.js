@@ -201,6 +201,23 @@ class PutRequest {
         })
     }
 
+    // 29.编辑广告
+    putEditAd(data) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/ad_manager/edit_ad',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
+
     // 31.管理员处理反馈
     putProcess(data) {
         return new Promise(async (resolve, reject) => {

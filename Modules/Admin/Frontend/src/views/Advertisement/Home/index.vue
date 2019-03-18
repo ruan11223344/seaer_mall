@@ -3,8 +3,9 @@
         <div style="marginBottom: 20px;">广告位列表</div>
         <template>
             <el-table
+                v-loading="banner == null"
                 ref="singleTable"
-                :data="tableData"
+                :data="banner"
                 style="width: 100%"
                 size="mini"
                 >
@@ -18,22 +19,22 @@
 
                 <el-table-column
                     align="center"
-                    property="date"
+                    property="ad_name"
                     label="广告位名称"
                     >
                 </el-table-column>
 
                 <el-table-column
                     align="center"
-                    property="date"
+                    property="width"
                     label="宽度"
                     >
                 </el-table-column>
 
                 <el-table-column
                     align="center"
-                    property="name"
-                    label="宽度"
+                    property="height"
+                    label="高度"
                     >
                 </el-table-column>
 
@@ -45,7 +46,7 @@
                     <template slot-scope="scope">
                         <button
                             class="edit"
-                            @click="handleEdit(scope.$index, scope.row)"
+                            @click="onEdit(scope.row)"
                             >
                             编辑
                         </button>
@@ -57,8 +58,9 @@
         <div style="marginTop: 40px;marginBottom: 20px;">幻灯片广告</div>
         <template>
             <el-table
+                v-loading="slide == null"
                 ref="singleTable"
-                :data="tableData"
+                :data="slide"
                 style="width: 100%"
                 size="mini"
                 >
@@ -72,22 +74,22 @@
 
                 <el-table-column
                     align="center"
-                    property="date"
+                    property="ad_name"
                     label="广告位名称"
                     >
                 </el-table-column>
 
                 <el-table-column
                     align="center"
-                    property="date"
+                    property="width"
                     label="宽度"
                     >
                 </el-table-column>
 
                 <el-table-column
                     align="center"
-                    property="name"
-                    label="宽度"
+                    property="height"
+                    label="高度"
                     >
                 </el-table-column>
 
@@ -99,7 +101,7 @@
                     <template slot-scope="scope">
                         <button
                             class="edit"
-                            @click="handleEdit(scope.$index, scope.row)"
+                            @click="onEdit(scope.row)"
                             >
                             编辑
                         </button>
@@ -114,48 +116,20 @@
     export default {
         data() {
             return {
-                tableData: [
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                    },
-                    {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                    }
-                ]
+                banner: null,
+                slide: null
             }
         },
         methods: {
-            handleEdit() {
-                this.$router.push('/advertisement/edit')
+            onEdit(data) {
+                const obj = JSON.stringify(data)
+                this.$router.push('/advertisement/edit?obj=' + obj)
             },
             GetAdList() {
                 this.$GetRequest.getAdList()
-                    .then(res => {
-                        console.log(res)
+                    .then(({ banner, slide }) => {
+                        this.banner = banner
+                        this.slide = slide
                     })
                     .catch(err => {
                         this.$message.error(err.message)

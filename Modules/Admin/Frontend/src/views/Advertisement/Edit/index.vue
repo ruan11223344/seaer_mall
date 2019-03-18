@@ -1,40 +1,35 @@
 <template>
-    <div id="bannerEdit">
-        <el-form ref="form" :model="sizeForm" label-width="120px">
+    <div id="bannerEdit" v-loading="FormData == null">
+        <el-form ref="form" :model="FormData" label-width="120px">
             <el-form-item label="广告位名称">
-                <el-input v-model="sizeForm.name" style="width: 100%;maxWidth: 658px;"></el-input>
+                <el-input v-model="FormData.ad_name" style="width: 100%;maxWidth: 658px;"></el-input>
             </el-form-item>
             <el-form-item label="宽度">
-                1200
+                {{ FormData.width }}
             </el-form-item>
             <el-form-item label="高度">
-                150
+                {{ FormData.height }}
             </el-form-item>
-            <el-form-item label="广告位图片预览">
-                <img style="width: 660px; height: 82px;backgroundColor: #eeeeee;display: block;" src="" alt="">
+            <el-form-item label="广告位图片预览" v-loading="loadding">
+                <img style="width: 660px; height: 82px;backgroundColor: #eeeeee;display: block;" :src="FormData.image_url" alt="">
             </el-form-item>
             <el-form-item label="图片上传">
                 <el-upload
-                    class="upload-demo"
-                    action="https://jsonplaceholder.typicode.com/posts/"
-                    :on-preview="handlePreview"
-                    :on-remove="handleRemove"
-                    :before-remove="beforeRemove"
+                    action=""
                     multiple
                     :limit="3"
-                    :on-exceed="handleExceed"
-                    :file-list="fileList">
-                    <el-button style="backgroundColor: #dfdfdf;border: none;color: #666666;fontSize: 16px;" type="primary">点击上传</el-button>
-                    <div slot="tip" class="tips">系统支持的图片格式为:gif,jpg,jpeg,png</div>
+                    :before-upload="onBeforeUpload"
+                    >
+                    <el-button size="" type="primary">点击上传</el-button>
                 </el-upload>
             </el-form-item>
             <el-form-item label="URL 跳转">
-                <el-input v-model="sizeForm.name" style="width: 100%;maxWidth: 658px;"></el-input>
+                <el-input v-model="FormData.jump_url" style="width: 100%;maxWidth: 658px;"></el-input>
             </el-form-item>
             <el-form-item label="广告状态">
                 <template>
-                    <el-radio v-model="radio" label="1">开启</el-radio>
-                    <el-radio v-model="radio" label="2">关闭</el-radio>
+                    <el-radio v-model="radio" :label="true">开启</el-radio>
+                    <el-radio v-model="radio" :label="false">关闭</el-radio>
                 </template>
                 <div>可将广告关闭,将不会显示广告,开启则显示</div>
             </el-form-item>
@@ -46,32 +41,54 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        radio: '1',
-        sizeForm: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        }
-      };
-    },
-    methods: {
-      onSubmit() {
-        console.log('submit!');
-      }
+    export default {
+        data() {
+            return {
+                radio: true,
+                FormData: null,
+                loadding: false
+            }
+        },
+        methods: {
+            onBeforeUpload(file) {
+                this.loadding = true
+                this.$PutRequest.putUploadImg(file)
+                    .then(({ path, url }) => {
+                        this.$set(this.FormData, 'image_path', path)
+                        this.$set(this.FormData, 'image_url', url)
+                        this.loadding = false
+                    })
+                    .catch(err => {
+                        this.$message.error(err.message)
+                        this.loadding = false
+                    })
+
+                return false
+            },
+            onSubmit() {
+                this.$PutRequest.putEditAd({
+                    "ad_id": this.FormData.ad_id,  //广告 id 必填
+                    "ad_name": this.FormData.ad_name,  //广告名称 必填
+                    "jump_url": this.FormData.jump_url,  //跳转地址 非必填
+                    "image_path": this.FormData.image_path,  //图片oss路径 必填
+                    "enabled": this.radio  //是否启用   必填
+                })
+                    .then(res => {
+                        this.$router.go(-1)
+                    })
+                    .catch(err => {
+                        this.$message.error(err.message)
+                    })
+            }
+        },
+        created() {
+            const obj = JSON.parse(this.$route.query.obj)
+            this.FormData = obj
+        },
     }
-  };
 </script>
 
 <style lang="scss" scoped>
-
     #bannerEdit {
         margin-top: 60px;
         @include mixin-flex(center, center, column);
