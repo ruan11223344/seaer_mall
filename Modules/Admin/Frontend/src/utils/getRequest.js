@@ -257,6 +257,21 @@ class getRequest {
             })
         })
     }
+
+    // 33.首页统计与图表数据
+    getHomeData() {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/utils/get_index_data',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
 }
 
 export default new getRequest()
