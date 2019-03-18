@@ -1,15 +1,15 @@
 <template>
-    <el-main id="home" v-loading="!homeData">
+    <el-main id="home" v-loading="homeData == null">
         <section class="info" v-if="homeData">
             <div class="info-left">
                 <img :src="require('@/assets/yonghu.png')" alt="" class="info-left-icon">
 
                 <div class="info-left-content">
                     <p class="title">今日注册用户</p>
-                    <p class="num">200</p>
+                    <p class="num">{{ homeData.today_data.today_register }}</p>
                     <p class="title">
                         总注册用户
-                        <span class="title-num">{{ homeData.today_data.today_register }}</span>
+                        <span class="title-num">{{ homeData.total_data.total_register }}</span>
                     </p>
                 </div>
             </div>
@@ -18,10 +18,10 @@
 
                 <div class="info-center-content">
                     <p class="title">今日询盘量</p>
-                    <p class="num">200</p>
+                    <p class="num">{{ homeData.today_data.today_inquiry }}</p>
                     <p class="title">
                         总注册用户
-                        <span class="title-num">{{ homeData.today_data.today_inquiry }}</span>
+                        <span class="title-num">{{ homeData.total_data.total_inquiry }}</span>
                     </p>
                 </div>
             </div>
@@ -30,10 +30,10 @@
 
                 <div class="info-right-content">
                     <p class="title">今日上架商品</p>
-                    <p class="num">200</p>
+                    <p class="num">{{ homeData.today_data.today_product }}</p>
                     <p class="title">
                         总注册用户
-                        <span class="title-num">{{ homeData.today_data.today_product }}</span>
+                        <span class="title-num">{{ homeData.total_data.total_product }}</span>
                     </p>
                 </div>
             </div>
@@ -135,6 +135,7 @@
             this.$GetRequest.getHomeData()
                 .then(res => {
                     this.homeData = res
+                    console.log(res)
                     this.myChart(res.seven_day_data)
                 })
                 .catch(err => {
