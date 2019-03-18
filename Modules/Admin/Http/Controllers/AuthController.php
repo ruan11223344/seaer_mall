@@ -24,6 +24,7 @@ class AuthController extends Controller
 
     public function getAccessToken(AuthorizationServer $server, ServerRequestInterface $serverRequest){
         $data = $serverRequest->getParsedBody();
+        $refresh_token = $data['grant_type'] == 'refresh_token' ? true : false;
         if($data === []){
             return $this->echoErrorJson('Error!Parameter cannot be empty!',[]);
         }
@@ -50,10 +51,11 @@ class AuthController extends Controller
             ];
 
 
-
-            $admin = Admin::where('name',$data['username'])->orWhere('email',$data['username'])->get()->first();
-
-            UtilsService::WriteLog('admin','auth','login',$admin->id,$admin->id);
+            if($refresh_token == false){
+                $admin = Admin::where('name',$data['username'])->orWhere('email',$data['username'])->get()->first();
+                UtilsService::WriteLog('admin','auth','login',$admin->id,$admin->id);
+            }
+            
 
             return $this->echoSuccessJson('Success!',$res_data);
         } catch (OAuthServerException $e) {
