@@ -55,7 +55,7 @@ class AuthController extends Controller
                 $admin = Admin::where('name',$data['username'])->orWhere('email',$data['username'])->get()->first();
                 UtilsService::WriteLog('admin','auth','login',$admin->id,$admin->id);
             }
-            
+
 
             return $this->echoSuccessJson('Success!',$res_data);
         } catch (OAuthServerException $e) {

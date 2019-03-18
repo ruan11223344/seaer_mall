@@ -5196,3 +5196,145 @@ url:http://域名/api/home/get_ad_info
     }
 }
 ```
+
+82.首页商品推荐获取
+
+```
+url:http://域名/api/home/get_ad_info
+请求方法:post
+
+无参数
+
+返回:
+{
+    "code": 200,
+    "message": "获取成功!",
+    "data": {
+        "slide": [
+            {
+                "ad_id": 7,
+                "ad_name": "幻灯片1",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "image_url": null,
+                "enabled": true
+            },
+            {
+                "ad_id": 8,
+                "ad_name": "幻灯片2",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "image_url": null,
+                "enabled": true
+            },
+            {
+                "ad_id": 9,
+                "ad_name": "幻灯片3",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "image_url": null,
+                "enabled": true
+            },
+            {
+                "ad_id": 10,
+                "ad_name": "幻灯片4",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "image_url": null,
+                "enabled": true
+            },
+            {
+                "ad_id": 11,
+                "ad_name": "幻灯片5",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "image_url": null,
+                "enabled": true
+            },
+            {
+                "ad_id": 12,
+                "ad_name": "幻灯片6",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "image_url": null,
+                "enabled": true
+            }
+        ],
+        "banner": [
+            {
+                "ad_id": 1,
+                "ad_name": "我是大帅哥",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.baidu.com",
+                "image_path": "mall/users/AF_KE_76906f5084/album/155195005898604029.jpg",
+                "image_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_KE_76906f5084/album/155195005898604029.jpg",
+                "enabled": true
+            },
+            {
+                "ad_id": 2,
+                "ad_name": "Banner--2(首页中部)",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "image_url": null,
+                "enabled": true
+            },
+            {
+                "ad_id": 3,
+                "ad_name": "Banner--3(首页中部)",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "image_url": null,
+                "enabled": true
+            },
+            {
+                "ad_id": 4,
+                "ad_name": "广告1(首页轮播图下)",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "image_url": null,
+                "enabled": true
+            },
+            {
+                "ad_id": 5,
+                "ad_name": "广告2(首页轮播图下)",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "image_url": null,
+                "enabled": true
+            },
+            {
+                "ad_id": 6,
+                "ad_name": "广告3(首页轮播图下)",
+                "width": "1200",
+                "height": "1200",
+                "jump_url": "http://www.qq.com",
+                "image_path": null,
+                "image_url": null,
+                "enabled": true
+            }
+        ]
+    }
+}
+```
+

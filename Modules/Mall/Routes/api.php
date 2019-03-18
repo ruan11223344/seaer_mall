@@ -42,6 +42,7 @@ Route::group(['domain' => env('MALL_DOMAIN'), 'middleware' => 'cors'], function 
     Route::prefix('home')->group(function () {
         Route::get('index', 'HomeController@getIndex');
         Route::get('get_ad_info', 'HomeController@getAdInfo');
+        Route::get('get_index_product_recommend', 'HomeController@getIndexProductRecommend');
     });
 
     //消息系统

@@ -500,13 +500,18 @@ class ShopController extends Controller
         $data =AuthorizationsController::getCompanyInfoData($company_id);
         $userEx = UsersExtends::where('company_id',$company_id)->get()->first();
         $data['basic_info']['contact_full_name'] =  $userEx->sex.'.'.$userEx->contact_full_name;
-        $user_obj = User::find($request->input('user_id'));
+        $user_id = $request->input('user_id',null);
+        $user_obj = User::find($user_id);
         $data['is_favorites_company'] = $user_obj == null ? false : Favorites::where(
             [
                 ['company_id','=',$user_obj->company->id],
                 ['type','=','company'],
                 ['product_or_company_id','=',$company_id],
             ])->exists() ? true : false;
+
+        if($user_id != null){
+            UtilsService::WriteLog('user','company','visit',$user_id,$company_id); //记录浏览店铺日志
+        }
         return $this->echoSuccessJson('Obtain company information about Success!',$data);
     }
 

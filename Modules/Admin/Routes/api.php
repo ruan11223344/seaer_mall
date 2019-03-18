@@ -75,6 +75,8 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
             Route::group(['middleware' => ['client.credentials', 'auth:api','passport-custom-provider']], function () {
                 Route::get('get_ad_list', 'AdManagerController@getAdList')->name('admin.ad.list');
                 Route::post('edit_ad', 'AdManagerController@editAd')->name('admin.ad.edit');
+                Route::get('get_index_product_recommend', 'AdManagerController@getIndexProductRecommend')->name('admin.ad.indexProductRecommend');
+                Route::post('edit_index_product_recommend', 'AdManagerController@editIndexProductRecommend')->name('admin.ad.editIndexProductRecommend');
             });
         });
 

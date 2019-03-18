@@ -1338,3 +1338,180 @@ url:http://域名/api/admin/auth/get_access_token
 参数:"provider":"admins"  //必填  固定值
 注意:以表单提交参数或json传值！
 ```
+
+36.获取首页推荐商品列表
+```
+url:http://域名/api/admin/ad_manager/get_index_product_recommend
+请求方法:post
+
+无参数
+
+返回:
+{
+    "code": 200,
+    "message": "获取首页推荐商品成功!",
+    "data": [
+        {
+            "index_product_recommend_id": 6,
+            "product_name": "csdfs",
+            "product_id": 34,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 5,
+            "product_name": "ddwrewew",
+            "product_id": 35,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-03-01 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 4,
+            "product_name": "rerrr",
+            "product_id": 36,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-03-01 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 3,
+            "product_name": "ffff",
+            "product_id": 37,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-27 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 2,
+            "product_name": "超级无敌大飞车玩具133赛222d331",
+            "product_id": 38,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 1,
+            "product_name": "1234",
+            "product_id": 39,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 7,
+            "product_name": "123",
+            "product_id": 40,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-01-31 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 8,
+            "product_name": "ddwrewew",
+            "product_id": 41,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 9,
+            "product_name": "ddwrewew",
+            "product_id": 42,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 10,
+            "product_name": "ddwrewew",
+            "product_id": 43,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        }
+    ]
+}
+```
+
+37.编辑首页推荐商品
+```
+url:http://域名/api/admin/ad_manager/edit_index_product_recommend
+请求方法:post
+
+{
+	"index_product_recommend_id":1, //推荐id 必填
+	"product_id":47  //商品id  必填
+}
+
+
+返回:
+{
+    "code": 200,
+    "message": "更新成功!",
+    "data": [
+        {
+            "index_product_recommend_id": 6,
+            "product_name": "csdfs",
+            "product_id": 34,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 5,
+            "product_name": "ddwrewew",
+            "product_id": 35,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-03-01 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 4,
+            "product_name": "rerrr",
+            "product_id": 36,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-03-01 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 3,
+            "product_name": "ffff",
+            "product_id": 37,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-27 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 2,
+            "product_name": "超级无敌大飞车玩具133赛222d331",
+            "product_id": 38,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 7,
+            "product_name": "123",
+            "product_id": 40,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-01-31 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 8,
+            "product_name": "ddwrewew",
+            "product_id": 41,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 9,
+            "product_name": "ddwrewew",
+            "product_id": 42,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 10,
+            "product_name": "ddwrewew",
+            "product_id": 43,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 1,
+            "product_name": "ddwrewew",
+            "product_id": 47,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        }
+    ]
+}
+```
+
