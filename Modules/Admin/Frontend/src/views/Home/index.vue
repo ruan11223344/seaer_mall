@@ -1,6 +1,6 @@
 <template>
-    <el-main id="home">
-        <section class="info">
+    <el-main id="home" v-loading="!homeData">
+        <section class="info" v-if="homeData">
             <div class="info-left">
                 <img :src="require('@/assets/yonghu.png')" alt="" class="info-left-icon">
 
@@ -9,7 +9,7 @@
                     <p class="num">200</p>
                     <p class="title">
                         总注册用户
-                        <span class="title-num">300 0000</span>
+                        <span class="title-num">{{ homeData.today_data.today_register }}</span>
                     </p>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                     <p class="num">200</p>
                     <p class="title">
                         总注册用户
-                        <span class="title-num">300 0000</span>
+                        <span class="title-num">{{ homeData.today_data.today_inquiry }}</span>
                     </p>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                     <p class="num">200</p>
                     <p class="title">
                         总注册用户
-                        <span class="title-num">300 0000</span>
+                        <span class="title-num">{{ homeData.today_data.today_product }}</span>
                     </p>
                 </div>
             </div>
@@ -55,32 +55,55 @@
     import Chart from "chart.js"
 
     export default {
+        data() {
+            return {
+                homeData: null
+            }
+        },
         methods: {
-            myChart() {
+            myChart(data) {
+                const user = Object.keys(data.new_user)
+                const userData = []
+
+                for(let item in data.new_user) {
+                    userData.push(data.new_user[item])
+                }
+
+                const adminData = []
+
+                for(let item in data.new_admin_count) {
+                    adminData.push(data.new_admin_count[item])
+                }
+
+                const inquiryData = []
+
+                for(let item in data.new_inquiry) {
+                    inquiryData.push(data.new_inquiry[item])
+                }
+
                 const ctx = document.getElementById('myChart').getContext('2d');
                 const chart = new Chart(ctx, {
                     type: 'line',
-                    // type: 'polarArea',
                     data: {
-                        labels: ["2019-2-2", "2019-2-3", "2019-2-4", "2019-2-5", "2019-2-6", "2019-2-7", "2019-8"],
+                        labels: user,
                         datasets: [
                             {
                                 label: "新注册用户",
                                 backgroundColor: 'rgba(0, 0, 0, 0)',
                                 borderColor: '#628fff',
-                                data: [3, 103, 544, 222, 203, 301, 4523],
+                                data: userData,
                             },
                             {
-                                label: "新增订单",
+                                label: "新增询盘",
                                 backgroundColor: 'rgba(0, 0, 0, 0)',
                                 borderColor: 'rgb(255, 99, 132)',
-                                data: [23, 1023, 225, 232, 2330, 2130, 435],
+                                data: inquiryData,
                             },
                             {
                                 label: "新增管理员",
                                 backgroundColor: 'rgba(0, 0, 0, 0)',
                                 borderColor: '#685caf',
-                                data: [0, 130, 525, 233, 2420, 3520, 1145],
+                                data: adminData,
                             },
                         ],
                     },
@@ -97,7 +120,6 @@
                                 display: true,
                                 scaleLabel: {
                                     display: true,
-                                    // labelString: '用户'
                                 }
                             }]
                         },
@@ -107,10 +129,20 @@
                         }
                     }
                 })
-            }
+            },
+        },
+        created() {
+            this.$GetRequest.getHomeData()
+                .then(res => {
+                    this.homeData = res
+                    this.myChart(res.seven_day_data)
+                })
+                .catch(err => {
+                    this.$message.error(err.message)
+                })
         },
         mounted() {
-            this.myChart()
+            
         },
     }
 </script>
@@ -120,8 +152,6 @@
         &-content {
 
             .title {
-                // @include mixin-flex(flex-start, center);
-                // flex-wrap: wrap;
                 font-size: 18px;
                 color: #999999;
 
