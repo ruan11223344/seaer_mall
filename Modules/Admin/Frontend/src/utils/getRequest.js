@@ -243,7 +243,7 @@ class getRequest {
     getAdList() {
         return new Promise(async (resolve, reject) => {
             await request({
-                url: '/admin/ad_manager/get_ad_list',
+                url: '/admin/ad_manager/get_ad_list'
             }).then(res => {
                 if(res.code == 200) {
                     resolve(res.data)

@@ -151,8 +151,20 @@
         methods: {
             handleEdit() {
                 this.$router.push('/advertisement/edit')
+            },
+            GetAdList() {
+                this.$GetRequest.getAdList()
+                    .then(res => {
+                        console.log(res)
+                    })
+                    .catch(err => {
+                        this.$message.error(err.message)
+                    })
             }
         },
+        mounted() {
+            this.GetAdList()
+        }
     }
 </script>
 
