@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use Khsing\World\Models\City;
 use Khsing\World\Models\Country;
 use Khsing\World\Models\Division;
+use Modules\Admin\Service\UtilsService;
 use Modules\Mall\Entities\Company;
 use Modules\Mall\Entities\Favorites;
 use Modules\Mall\Entities\Products;
@@ -174,26 +175,6 @@ class ShopController extends Controller
         $shop_obj = Shop::where('company_id',$company_id);
         $input_slides_url_list = $request->input('slides_list');
         if($shop_obj->exists()){
-            /*$slides_url_list = $shop_obj->get()->first()->slides_url_list;
-
-            if($slides_url_list != null){
-                $db_sort_list = array_column($slides_url_list,'sort');
-                foreach ($input_slides_url_list as $k=>$v){
-                    foreach ($slides_url_list as $kk=>$vv){
-                        if($v['sort'] == $vv['sort']){
-                            $slides_url_list[$kk] = $v;
-                        }elseif (!in_array($v['sort'],$db_sort_list)){
-                            if(!in_array($v,$slides_url_list)){
-                                array_push($slides_url_list,$v);
-                            }
-                        }
-                    }
-                }
-                $re_order =array_column($slides_url_list,'sort');
-                array_multisort($re_order,SORT_ASC, $slides_url_list);
-            }*/
-
-            
             $shop_obj->get()->first()->update([
                 'slides_url_list'=>$input_slides_url_list
             ]);
@@ -500,13 +481,18 @@ class ShopController extends Controller
         $data =AuthorizationsController::getCompanyInfoData($company_id);
         $userEx = UsersExtends::where('company_id',$company_id)->get()->first();
         $data['basic_info']['contact_full_name'] =  $userEx->sex.'.'.$userEx->contact_full_name;
-        $user_obj = User::find($request->input('user_id'));
+        $user_id = $request->input('user_id',null);
+        $user_obj = User::find($user_id);
         $data['is_favorites_company'] = $user_obj == null ? false : Favorites::where(
             [
                 ['company_id','=',$user_obj->company->id],
                 ['type','=','company'],
                 ['product_or_company_id','=',$company_id],
             ])->exists() ? true : false;
+
+        if($user_id != null){
+            UtilsService::WriteLog('user','company','visit',$user_id,$company_id); //记录浏览店铺日志
+        }
         return $this->echoSuccessJson('Obtain company information about Success!',$data);
     }
 

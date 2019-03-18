@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Modules\Admin\Entities\ProductAudit;
+use Modules\Admin\Entities\UserLog;
+use Modules\Admin\Service\UtilsService;
 use Modules\Mall\Entities\AlbumPhoto;
 use Modules\Mall\Entities\AlbumUser;
 use Modules\Mall\Entities\Favorites;
@@ -654,6 +656,7 @@ class ProductsController extends Controller
             $is_favorites_shop    = false;
             $is_favorites_product = false;
         } else {
+            UtilsService::WriteLog('user','product','visit',$user_id,$product_id); //记录浏览商品日志
             $is_favorites_product = Favorites::where(
                 [
                     ['company_id', '=', User::find($user_id)->company->id],
@@ -668,6 +671,7 @@ class ProductsController extends Controller
                     ['product_or_company_id', '=', $product_info['company_id']],
                 ]
             )->exists();
+
         }
 
         $res = ['product_info' => $product_info, 'product_attr' => $products_attr->toArray(), 'product_price' => $products_price->toArray(), 'product_attr_array' => $product_attr_array, 'product_format_info' => $product_format_info, 'is_favorites_shop' => $is_favorites_shop, 'is_favorites_product' => $is_favorites_product];

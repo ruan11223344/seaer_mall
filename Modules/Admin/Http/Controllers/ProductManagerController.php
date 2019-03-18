@@ -2,6 +2,7 @@
 
 namespace Modules\Admin\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -57,17 +58,45 @@ class ProductManagerController extends Controller
                 $product_price = $v->products_price->currency == 'ksh' ? $base_price['min_order_price'] .'-'.$base_price['max_order_price'] : $base_price['min_order_price'] .'-'.$base_price['max_order_price'];
             }
 
+            $price_type = $v->products_price->price_type;
+            if ($price_type == 'ladder') {
+                $min_order_list = [];
+                foreach ($v->products_price->ladder_price as $kk => $vv) {
+                    $i                = [];
+                    $i['min_order']   = $vv['min_order'];
+                    $i['order_price'] = $vv['order_price'];
+                    $i['unit']        = $vv['unit'];
+                    $min_order_list[] = $i;
+                }
+
+                $re_order = array_column($min_order_list, 'min_order');
+                array_multisort($re_order, SORT_ASC, $min_order_list);
+                $min_item      = array_shift($min_order_list);
+                $min_price     = $min_item['order_price'];
+                $max_price     = array_pop($min_order_list)['order_price'];
+                $product_price = $v->products_price->currency == 'ksh' ? 'KSh ' . $min_price . '-' . $max_price : 'CNY ' . $min_price . '-' . $max_price;
+                $product_moq   = "MOQ " . $min_item['min_order'] . ' ' . $min_item['unit'];
+            } elseif ($price_type == 'base') {
+                $base_price    = $v->products_price->base_price[0];
+                $product_price = $v->products_price->currency == 'ksh' ? 'KSh ' . $base_price['min_order_price'] . '-' . $base_price['max_order_price'] : 'CNY ' . $base_price['min_order_price'] . '-' . $base_price['max_order_price'];
+                $product_moq   = "MOQ " . $base_price['min_order'] . ' ' . $base_price['unit'];
+            }
+
+
             $tmp = [];
             $tmp['num'] = $k+1+(($page-1)*$size);
             $tmp['product_id'] = $v->id;
+            $tmp['product_moq']  = $product_moq;
+            $tmp['product_sku']  = $v->product_sku_no;
+            $tmp['product_main_pic_url'] = \Modules\Mall\Http\Controllers\UtilsController::getPathFileUrl($v->product_images[0]['main']);
             $tmp['product_name'] = $v->product_name;
             $tmp['product_origin_id'] = $v->product_origin_id;
             $tmp['product_price'] = $product_price;
             $company = Company::find($v->company_id);
             $tmp['company_name'] = $company != null ? $company->company_name : "";
             $tmp['company_detail_address'] = $company != null ? $company->company_detailed_address : "";
-            $tmp['product_status'] = $v->product_status; //todo
-            $tmp['product_audit_status'] = $v->product_audit_status; //todo
+            $tmp['product_status'] = $v->product_status;
+            $tmp['product_audit_status'] = $v->product_audit_status;
             if($v->product_status == ProductsController::PRODUCT_STATUS_SALE && $v->product_audit_status == ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS){
                 $product_status_str = "出售中";
             }elseif ($v->product_status == ProductsController::PRODUCT_STATUS_SALE && $v->product_audit_status == ProductsController::PRODUCT_AUDIT_STATUS_CHECKING){
@@ -78,6 +107,7 @@ class ProductManagerController extends Controller
                 $product_status_str = "仓库中";
             }
             $tmp['product_status_str'] = $product_status_str;
+            $tmp['product_create_time'] = Carbon::parse($v->created_at)->format('Y-m-d H:i:s');
             array_push($product_data_list,$tmp);
         });
         $res_data = [];

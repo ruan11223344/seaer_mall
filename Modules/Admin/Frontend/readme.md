@@ -1338,3 +1338,295 @@ url:http://域名/api/admin/auth/get_access_token
 参数:"provider":"admins"  //必填  固定值
 注意:以表单提交参数或json传值！
 ```
+
+36.获取首页推荐商品列表
+```
+url:http://域名/api/admin/ad_manager/get_index_product_recommend
+请求方法:get
+
+无参数
+返回:
+{
+    "code": 200,
+    "message": "获取首页推荐商品成功!",
+    "data": [
+        {
+            "index_product_recommend_id": 6,
+            "product_name": "csdfs",
+            "product_id": 34,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 5,
+            "product_name": "ddwrewew",
+            "product_id": 35,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-03-01 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 4,
+            "product_name": "rerrr",
+            "product_id": 36,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-03-01 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 3,
+            "product_name": "ffff",
+            "product_id": 37,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-27 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 2,
+            "product_name": "超级无敌大飞车玩具133赛222d331",
+            "product_id": 38,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 1,
+            "product_name": "1234",
+            "product_id": 39,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 7,
+            "product_name": "123",
+            "product_id": 40,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-01-31 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 8,
+            "product_name": "ddwrewew",
+            "product_id": 41,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 9,
+            "product_name": "ddwrewew",
+            "product_id": 42,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 10,
+            "product_name": "ddwrewew",
+            "product_id": 43,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        }
+    ]
+}
+```
+
+37.编辑首页推荐商品
+```
+url:http://域名/api/admin/ad_manager/edit_index_product_recommend
+请求方法:post
+
+{
+	"index_product_recommend_id":1, //推荐id 必填
+	"product_id":47  //商品id  必填
+}
+
+
+返回:
+{
+    "code": 200,
+    "message": "更新成功!",
+    "data": [
+        {
+            "index_product_recommend_id": 6,
+            "product_name": "csdfs",
+            "product_id": 34,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 5,
+            "product_name": "ddwrewew",
+            "product_id": 35,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-03-01 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 4,
+            "product_name": "rerrr",
+            "product_id": 36,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-03-01 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 3,
+            "product_name": "ffff",
+            "product_id": 37,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-27 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 2,
+            "product_name": "超级无敌大飞车玩具133赛222d331",
+            "product_id": 38,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 7,
+            "product_name": "123",
+            "product_id": 40,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-01-31 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 8,
+            "product_name": "ddwrewew",
+            "product_id": 41,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 9,
+            "product_name": "ddwrewew",
+            "product_id": 42,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 10,
+            "product_name": "ddwrewew",
+            "product_id": 43,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        },
+        {
+            "index_product_recommend_id": 1,
+            "product_name": "ddwrewew",
+            "product_id": 47,
+            "shop_name": "wangzi  compangys",
+            "upload_time": "2019-02-25 16:25:32"
+        }
+    ]
+}
+```
+
+38.获取正在销售的商品列表
+```
+url:http://域名/api/admin/ad_manager/get_sale_product
+请求方法:get
+
+{
+	"page":1,
+	"size":10
+}
+
+
+返回:
+{
+    "code": 200,
+    "message": "获取商品数据成功!",
+    "data": {
+        "data": [
+            {
+                "num": 1,
+                "product_id": 32,
+                "product_moq": "MOQ 150 Pieces",
+                "product_sku": "100023",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_name": "超级无敌大飞车玩具13fffxxxx",
+                "product_origin_id": "PD_CN_a49b34079_58ccc0f0",
+                "product_price": "KSh 100-2010",
+                "company_name": "wangzi  compangys",
+                "company_detail_address": "湖北省xxsdsadjkdsajkdsajdkjsakdj111111",
+                "product_status": 1,
+                "product_audit_status": 1,
+                "product_status_str": "出售中",
+                "product_create_time": "2019-02-21 17:37:47"
+            },
+            {
+                "num": 2,
+                "product_id": 35,
+                "product_moq": "MOQ 150 Pieces",
+                "product_sku": "100023",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_name": "ddwrewew",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "product_price": "KSh 100-2010",
+                "company_name": "wangzi  compangys",
+                "company_detail_address": "湖北省xxsdsadjkdsajkdsajdkjsakdj111111",
+                "product_status": 1,
+                "product_audit_status": 1,
+                "product_status_str": "出售中",
+                "product_create_time": "2019-03-01 16:25:32"
+            }
+        ],
+        "size": 2,
+        "cur_page": 1,
+        "total_page": 12,
+        "total_size": 23
+    }
+}
+```
+
+39.搜索正在销售的商品列表
+```
+url:http://域名/api/admin/ad_manager/get_sale_product_search
+请求方法:get
+
+{
+	"page":1,
+	"size":10,
+	"keywords":"飞车"
+}
+
+
+返回:
+{
+    "code": 200,
+    "message": "获取商品数据成功!",
+    "data": {
+        "data": [
+            {
+                "num": 1,
+                "product_id": 32,
+                "product_moq": "MOQ 150 Pieces",
+                "product_sku": "100023",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_name": "超级无敌大飞车玩具13fffxxxx",
+                "product_origin_id": "PD_CN_a49b34079_58ccc0f0",
+                "product_price": "KSh 100-2010",
+                "company_name": "wangzi  compangys",
+                "company_detail_address": "湖北省xxsdsadjkdsajkdsajdkjsakdj111111",
+                "product_status": 1,
+                "product_audit_status": 1,
+                "product_status_str": "出售中",
+                "product_create_time": "2019-02-21 17:37:47"
+            },
+            {
+                "num": 2,
+                "product_id": 35,
+                "product_moq": "MOQ 150 Pieces",
+                "product_sku": "100023",
+                "product_main_pic_url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/users/AF_CN_7a49b34079/product/155047099099801852.jpeg",
+                "product_name": "ddwrewew",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "product_price": "KSh 100-2010",
+                "company_name": "wangzi  compangys",
+                "company_detail_address": "湖北省xxsdsadjkdsajkdsajdkjsakdj111111",
+                "product_status": 1,
+                "product_audit_status": 1,
+                "product_status_str": "出售中",
+                "product_create_time": "2019-03-01 16:25:32"
+            }
+        ],
+        "size": 2,
+        "cur_page": 1,
+        "total_page": 12,
+        "total_size": 23
+    }
+}
+```
