@@ -71,7 +71,10 @@ class HomeController extends Controller
             $product_id_list[] = $v['product_id'];
         }
 
-        $product_orm = Products::whereIn("id",$product_id_list);
+        $product_orm = Products::whereIn("id",$product_id_list)->where([
+            ['product_status','=',ProductsController::PRODUCT_STATUS_SALE],
+            ['product_audit_status','=',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS],
+        ]);
 
         $product_data = [];
 

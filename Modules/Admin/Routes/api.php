@@ -17,7 +17,8 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
             Route::post('get_access_token', 'AuthController@getAccessToken')->middleware('passport-custom-provider');
             Route::group(['middleware' => ['client.credentials', 'auth:api','passport-custom-provider']], function () {
                 Route::post('logout', 'AuthController@logout');
-                Route::post('add_admin', 'AuthController@addAdmin');
+                Route::post('add_admin', 'AuthController@addAdmin')->name('admin.add');
+                Route::get('get_admin_info', 'AuthController@getAdminInfo');
             });
         });
         Route::prefix('user_manager')->group(function (){
@@ -40,6 +41,7 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
                 Route::post('delete_role', 'RoleController@deleteRole')->name('admin.role.delete');
                 Route::get('get_role_list', 'RoleController@getRoleList')->name('admin.role.list');
                 Route::get('get_role_permissions', 'RoleController@getRolePermissions')->name('admin.role.permissions');
+                Route::get('get_permissions_list', 'RoleController@getPermissionsList')->name('admin.permissions.list');
             });
         });
         Route::prefix('product_manager')->group(function (){

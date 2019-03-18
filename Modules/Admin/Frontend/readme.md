@@ -1630,3 +1630,61 @@ url:http://域名/api/admin/ad_manager/get_sale_product_search
     }
 }
 ```
+
+40.获取所有权限列表
+```
+url:http://域名/api/admin/role_manager/get_permissions_list
+请求方法:get
+
+无参数
+
+返回:
+{
+    "code": 200,
+    "message": "获取权限列表成功!",
+    "data": [
+        {
+            "permission_id": 1,
+            "permission_name": "admin.user.admin.list",
+            "display_name": "获取管理员列表",
+            "description": "获取管理员列表详情"
+        },
+        {
+            "permission_id": 3,
+            "permission_name": "admin.user.setInquiry",
+            "display_name": "设置询盘",
+            "description": "设置用户是否能够发送询盘"
+        },
+        {
+            "permission_id": 4,
+            "permission_name": "admin.user.merchants.list",
+            "display_name": "获取商家列表",
+            "description": "管理员是否能够获取商家列表"
+        },
+        {
+            "permission_id": 5,
+            "permission_name": "admin.user.list",
+            "display_name": "访问用户列表",
+            "description": "访问afriby非商家的用户列表"
+        },
+        {
+            "permission_id": 6,
+            "permission_name": "admin.user.search",
+            "display_name": "搜索用户列表",
+            "description": "搜索afriby非商家的用户列表"
+        },
+        {
+            "permission_id": 7,
+            "permission_name": "admin.role.permissions",
+            "display_name": "获取角色(权限组)的所有权限",
+            "description": "是否能够获取角色(权限组)的所有权限"
+        },
+        {
+            "permission_id": 8,
+            "permission_name": "admin.permissions.list",
+            "display_name": "获取所有权限列表",
+            "description": "是否能够获取所有权限列表"
+        }
+    ]
+}
+```

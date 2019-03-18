@@ -73,6 +73,8 @@ class AuthController extends Controller
     }
 
     public function addAdmin(Request $request){
+        UtilsService::CreateCheckPermissions('添加管理员','管理员是否能够添加新的管理员');
+
         $data = $request->all();
 
         $validator = Validator::make($data,[
@@ -84,6 +86,7 @@ class AuthController extends Controller
         if ($validator->fails()){
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
+
 
 
         $name = $request->input('admin_name');
@@ -105,5 +108,11 @@ class AuthController extends Controller
         $admin->attachRoles($adminRole);
 
         return $this->echoSuccessJson('创建管理员成功!');
+    }
+
+    public function getAdminInfo(){
+        $admin_info = [];
+        $admin_info['name'] = Auth::user()->name;
+
     }
 }

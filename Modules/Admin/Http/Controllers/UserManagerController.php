@@ -67,6 +67,7 @@ class UserManagerController extends Controller
     }
 
     public function getUserList(Request $request){
+        UtilsService::CreateCheckPermissions('访问用户列表','访问afriby非商家的用户列表');
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -78,10 +79,10 @@ class UserManagerController extends Controller
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
+
         $page = $request->input('page',1);
         $size = $request->input('size',20);
 
-        UtilsService::CreatePermissions('访问用户列表','访问afriby非商家的用户列表');
         $res_data = self::getUserData(User::join('users_extends', function ($join) {
             $join->on('users.id', '=','users_extends.user_id');
         })->select('users.id as user_id')->select('users.*')->select('users_extends.*'),$page,$size);
@@ -90,6 +91,8 @@ class UserManagerController extends Controller
     }
 
     public function searchUserList(Request $request){
+        UtilsService::CreateCheckPermissions('搜索用户列表','搜索afriby非商家的用户列表');
+
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -102,10 +105,11 @@ class UserManagerController extends Controller
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
+
+
         $page = $request->input('page',1);
         $size = $request->input('size',20);
         $keywords = $request->input('keywords','');
-        UtilsService::CreatePermissions('搜索用户列表','搜索afriby非商家的用户列表');
         $res_data = self::getUserData(User::join('users_extends', function ($join) {
             $join->on('users.id', '=','users_extends.user_id');
         })->where('name', 'like','%'.$keywords.'%')->orWhere('email','like','%'.$keywords.'%')->select('users.id as user_id')->select('users.*')->select('users_extends.*'),$page,$size);
@@ -114,6 +118,8 @@ class UserManagerController extends Controller
     }
 
     public function setInquiry(Request $request){
+        UtilsService::CreateCheckPermissions('设置询盘','设置用户是否能够发送询盘');
+
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -124,7 +130,6 @@ class UserManagerController extends Controller
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
-        UtilsService::CreatePermissions('设置询盘','设置用户是否能够发送询盘');
 
         $user_id = $request->input('user_id');
         $user_obj = User::where('id',$user_id)->get()->first();
@@ -186,6 +191,8 @@ class UserManagerController extends Controller
     }
 
     public function getMerchantsList(Request $request){
+        UtilsService::CreateCheckPermissions('获取商家列表','管理员是否能够获取商家列表');
+
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -196,8 +203,6 @@ class UserManagerController extends Controller
         if ($validator->fails()){
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
-
-        UtilsService::CreatePermissions('获取商家列表','管理员是否能够获取商家列表');
 
 
         $page = $request->input('page',1);
@@ -216,6 +221,8 @@ class UserManagerController extends Controller
     }
 
     public function searchMerchantsList(Request $request){
+        UtilsService::CreateCheckPermissions('搜索商家列表','管理员是否能搜索商家列表');
+
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -228,7 +235,6 @@ class UserManagerController extends Controller
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
-        UtilsService::CreatePermissions('搜索商家列表','管理员是否能够获取商家列表');
 
         $page = $request->input('page',1);
         $size = $request->input('size',20);
@@ -247,6 +253,7 @@ class UserManagerController extends Controller
     }
 
     public function getAdminList(Request $request){
+        UtilsService::CreateCheckPermissions('获取管理员列表','获取管理员列表详情');
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -258,7 +265,6 @@ class UserManagerController extends Controller
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
-        UtilsService::CreatePermissions('获取管理员列表','获取管理员列表详情');
 
 
         $page = $request->input('page',1);
@@ -307,6 +313,7 @@ class UserManagerController extends Controller
     }
 
     public function getAdminInfo(Request $request){
+        UtilsService::CreateCheckPermissions('获得指定管理员信息','获得指定管理员信息');
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -324,6 +331,8 @@ class UserManagerController extends Controller
     }
 
     public function editAdmin(Request $request){
+        UtilsService::CreateCheckPermissions('编辑管理员','是否能够编辑管理员');
+
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -336,7 +345,6 @@ class UserManagerController extends Controller
         if ($validator->fails()){
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
-
 
         $admin_id = $request->input('admin_id');
         $admin_name = $request->input('admin_name',null);
@@ -373,6 +381,8 @@ class UserManagerController extends Controller
     }
 
     public function deleteAdmin(Request $request){
+        UtilsService::CreateCheckPermissions('删除管理员','是否能够删除管理员');
+
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -382,6 +392,7 @@ class UserManagerController extends Controller
         if ($validator->fails()){
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
+
 
         $admin_id = $request->input('admin_id');
 

@@ -8,9 +8,13 @@
 
 namespace Modules\Admin\Service;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Modules\Admin\Entities\AdminLog;
+use Modules\Admin\Entities\PermissionRole;
+use Modules\Admin\Entities\Role;
 use Modules\Admin\Entities\UserLog;
 use Modules\Admin\Entities\Permission;
 
@@ -56,7 +60,7 @@ class UtilsService
         }
     }
 
-    public static function CreatePermissions($display_name = '',$description = ''){
+    public static function CreateCheckPermissions($display_name = '',$description = ''){
         $router_name = request()->route()->getName();
         if(!Permission::where('name',$router_name)->exists()) {
             $permission = new Permission();
@@ -65,6 +69,32 @@ class UtilsService
             $permission->description = $description; // optional
             $permission->save();
         }
+
+        $admin_name = Auth::user()->name;
+
+        if($admin_name != 'admin'){
+            $role_id = DB::table('role_user')->where('user_id',Auth::id())->get()->first()->role_id;
+            if($role_id == null){
+                $arr = [
+                    'code'      => 402,
+                    'message'   => "你的账户设定角色,不能访问这个接口!",
+                    'data'      => [],
+                ];
+                return response()->json($arr);
+            }
+
+            $permission_id_list = PermissionRole::where('role_id',$role_id)->pluck('permission_id');
+            $has_permission_name_arr = Permission::whereIn('id',$permission_id_list)->pluck('name');
+            if(!in_array($router_name,$has_permission_name_arr)){
+                $arr = [
+                    'code'      => 402,
+                    'message'   => "你没有权限访问这个接口!请联系管理员!",
+                    'data'      => [],
+                ];
+                return response()->json($arr);
+            }
+        }
     }
+
 
 }
