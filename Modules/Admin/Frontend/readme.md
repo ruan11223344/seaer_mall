@@ -1131,6 +1131,7 @@ url:http://域名/api/admin/ad_manager/get_ad_list
     }
 }
 ```
+
 29.编辑广告
 ```
 url:http://域名/api/admin/ad_manager/edit_ad
@@ -1311,4 +1312,29 @@ url:http://域名/api/admin/utils/get_index_data
 }
 ```
 
+34.登出接口
+```
+url:http://域名/api/admin/auth/logout
+请求方法:post
 
+无参数
+返回:
+{
+    "code": 200,
+    "message": "登出成功!",
+    "data": []
+}
+```
+
+35.刷新token
+```
+url:http://域名/api/admin/auth/get_access_token
+请求方法:post
+请求参数说明:
+参数:"grant_type",值:"refresh_token"    //类型
+参数:"client_id",值:2              //客户端id（固定值)
+参数:"client_secret",值::"LfmILOffY40xTlFbJT2Q0V8gWyyu99cwlElNPKrK"  //客户端秘钥（固定值)
+参数:"refresh_token",值:"ruan4215@gmail.com"   //刷新tonken值 从获取token接口中获取
+参数:"provider":"admins"  //必填  固定值
+注意:以表单提交参数或json传值！
+```
