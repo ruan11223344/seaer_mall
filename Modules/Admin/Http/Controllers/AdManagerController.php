@@ -98,6 +98,18 @@ class AdManagerController extends Controller
             $tmp['shop_name'] = Company::find($item->company_id)->company_name;
             $tmp['upload_time'] = Carbon::parse($item->created_at)->format('Y-m-d H:i:s');
 
+            if($item->product_status == ProductsController::PRODUCT_STATUS_SALE && $item->product_audit_status == ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS){
+                $product_status_str = "出售中";
+            }elseif ($item->product_status == ProductsController::PRODUCT_STATUS_SALE && $item->product_audit_status == ProductsController::PRODUCT_AUDIT_STATUS_CHECKING){
+                $product_status_str = "等待审核";
+            }elseif ($item->product_status == ProductsController::PRODUCT_STATUS_SALE &&  $item->product_audit_status == ProductsController::PRODUCT_AUDIT_STATUS_FAIL){
+                $product_status_str = "未通过审核";
+            }elseif($item->product_status == ProductsController::PRODUCT_STATUS_WAREHOUSE){
+                $product_status_str = "仓库中";
+            }
+
+            $tmp['product_status_str'] = $product_status_str;
+
             array_push($res_data,$tmp);
         });
         return $res_data;
@@ -121,6 +133,22 @@ class AdManagerController extends Controller
 
         $index_product_recommend_id = $request->input('index_product_recommend_id');
         $product_id = $request->input('product_id');
+
+        $product = Products::find($product_id);
+
+        if($product->product_status != ProductsController::PRODUCT_STATUS_SALE || $product->product_audit_status != ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS){
+            return $this->echoErrorJson('更新失败!不能选择未上架的商品作为推荐商品!',self::getIndexProductRecommendData());
+        }
+
+        $re_recommend_count = IndexProductRecommend::where([
+            ['id','!=',$index_product_recommend_id],
+            ['product_id','=',$product_id],
+        ])->count();
+
+        if($re_recommend_count > 0){
+            return $this->echoErrorJson('更新失败!不能选择已经被推荐的商品!',self::getIndexProductRecommendData());
+        }
+
         $index_product_recommend = IndexProductRecommend::find($index_product_recommend_id);
         $index_product_recommend->update(
             [
