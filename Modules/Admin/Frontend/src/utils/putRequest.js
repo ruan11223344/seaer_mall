@@ -268,7 +268,8 @@ class PutRequest {
                     "client_secret":"LfmILOffY40xTlFbJT2Q0V8gWyyu99cwlElNPKrK",
                     "provider":"admins",
                     "refresh_token":Token
-                }
+                },
+                headers: {}
             }).then(res => {
                 if(res.code == 200) {
                     resolve(res.data)

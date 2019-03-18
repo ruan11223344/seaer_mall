@@ -10,11 +10,10 @@ function refreshToken() {
     if(token && refToken) {
         putRequest.putRefToken(refToken)
             .then((res) => {
-                console.log(res)
                 auth.removeCookies()
                 auth.removeRefreshKey()
-                // auth.setCookies(res.data.access_token)
-                // auth.refreshCookies(res.data.refresh_token)
+                auth.setCookies(res.access_token)
+                auth.refreshCookies(res.refresh_token)
             })
     }else {
         router.push('/login')
