@@ -93,11 +93,17 @@ class HomeController extends Controller
 
             $categories_id_list = Products::whereIn('id',$log_product_id_list)->pluck('product_categories_id');
             $company_list = Products::whereIn('id',$log_product_id_list)->pluck('company_id');
-            $company_arr = array_merge($company_list,$log_company_id_list);
+            $company_arr = array_merge($company_list->toArray(),$log_company_id_list->toArray());
 
             $p_orm = Products::whereIn('company_id',$company_arr)->whereIn('product_categories_id',$categories_id_list)->whereNotIn('id',$product_id_list)->orderBy(\DB::raw('RAND()'))->take(10);
 
-            $product_data['personal_recommend'] = ProductsController::getProductFormatInfo($p_orm);
+            $p_res = ProductsController::getProductFormatInfo($p_orm);
+            if($p_res == null){
+                $product_data['personal_recommend'] = ProductsController::getProductFormatInfo(Products::whereNotIn('id',$product_id_list)->orderBy(\DB::raw('RAND()'))->take(10));
+            }else{
+                $product_data['personal_recommend'] = $p_res;
+            }
+
         }
 
         return $this->echoSuccessJson('获取推荐商品成功!',$product_data);
