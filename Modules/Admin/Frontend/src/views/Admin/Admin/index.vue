@@ -10,6 +10,7 @@
 
             <template>
                 <el-table
+                    v-loading="loading"
                     ref="singleTable"
                     :data="AdminData"
                     style="width: 100%"
@@ -91,6 +92,7 @@
 
             <template>
                 <el-table
+                    v-loading="loading"
                     ref="singleTable"
                     :data="jurisdiction"
                     style="width: 100%"
@@ -150,8 +152,9 @@
                     total: 0,
                     size: 17,
                     num: 1
-                }
-            };
+                },
+                loading: false
+            }
         },
         methods: {
             onAdd() {
@@ -174,16 +177,19 @@
             },
              // 获取管理员列表
             onGetAdmin() {
+                this.loading = true
                 this.$GetRequest.getAdminList(this.total.size, this.total.num)
                     .then(res => {
                         this.total.total = res.total_size
                         this.AdminData = res.data
+                        this.loading = false
                     }
                 ).catch(err => {
                         this.$message({
                             message: err.message,
-                            type: 'success'
+                            type: 'error'
                         })
+                        this.loading = false
                     }
                 )
             },
@@ -193,9 +199,11 @@
             },
             // 获取权限组列表
             onGetJurisdiction() {
+                this.loading = true
                 this.$GetRequest.getJurisdictionList()
                     .then(res => {
                         this.jurisdiction = res
+                        this.loading = false
                     }
                 )
             },

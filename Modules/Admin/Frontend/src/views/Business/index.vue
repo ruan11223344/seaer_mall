@@ -8,6 +8,7 @@
             >
             <template slot="table">
                 <el-table
+                    v-loading="loading"
                     ref="singleTable"
                     :data="tableData"
                     style="width: 100%"
@@ -124,7 +125,8 @@
                     total: 0,
                     size: 18,
                     num: 1
-                }
+                },
+                loading: false
             }
         },
         methods: {
@@ -153,10 +155,12 @@
             },
             // 获取商家数据
             onGetBusinessList() {
+                this.loading = true
                 this.$GetRequest.getMerchantList(this.total.size, this.total.num)
                     .then(res => {
                         this.$set(this.total, 'total', res.total_size)
                         this.tableData = res.data
+                        this.loading = false
                     }
                 )
             },
@@ -165,10 +169,12 @@
                 if(key == '') {
                     this.onGetBusinessList()
                 }else {
+                    this.loading = true
                     this.$GetRequest.getSearchUserList(this.total.size, this.total.num, key)
                         .then(res => {
                             this.$set(this.total, 'total', res.total_size)
                             this.tableData = res.data
+                            this.loading = false
                         }
                     )
                 }

@@ -8,7 +8,7 @@
 
             <div class="title-right">
                 <el-input
-                    placeholder="请输入“会员ID”、“Email”搜索相关数据"
+                    placeholder="请输入商品名称或者商品ID搜索相关数据"
                     v-model="search"
                     class="title-right-input"
                     >
@@ -277,3 +277,6 @@
         }
     }
 </style>
+
+
+

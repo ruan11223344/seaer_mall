@@ -8,6 +8,7 @@
             >
             <template slot="table">
                 <el-table
+                    v-loading="loading"
                     ref="singleTable"
                     :data="tableData"
                     style="width: 100%"
@@ -125,7 +126,8 @@
                     total: 0,
                     size: 18,
                     num: 1
-                }
+                },
+                loading: false
             }
         },
         methods: {
@@ -136,10 +138,12 @@
             },
             // 获取用户数据
             onGetTableData() {
+                this.loading = true
                 this.$GetRequest.getUserList( this.total.size, this.total.num )
                     .then(res => {
                         this.$set(this.total, 'total', res.total_size)
                         this.tableData = res.data
+                        this.loading = false
                     }
                 )
             },
@@ -166,10 +170,12 @@
                 if(key == '') {
                     this.onGetTableData()
                 }else {
+                    this.loading = true
                     this.$GetRequest.getSearchUserList(this.total.size, this.total.num, key)
                         .then(res => {
                             this.$set(this.total, 'total', res.total_size)
                             this.tableData = res.data
+                            this.loading = false
                         }
                     )
                 }

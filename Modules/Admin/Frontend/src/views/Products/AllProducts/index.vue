@@ -8,6 +8,7 @@
             >
             <template slot="table">
                 <el-table
+                    v-loading="loading"
                     ref="singleTable"
                     :data="productData"
                     style="width: 100%"
@@ -174,6 +175,7 @@
     export default {
         data() {
             return {
+                loading: false,
                 modality: false,
                 modalityShelf: false,
                 action: 'reject',
@@ -290,19 +292,34 @@
             },
             // 获取全部商品列表
             onGetProductList() {
+                this.loading = true
                 this.$GetRequest.getProductList(this.total.size, this.total.num)
                     .then(res => {
-                        this.$set(this.total, 'total', res.total_size)
-                        this.productData = res.data
-                    }
-                ).catch(err => {
-                        return false
-                    }
-                )
+                            this.$set(this.total, 'total', res.total_size)
+                            this.productData = res.data
+                            this.loading = false
+                        }
+                    )
+                    .catch(err => {
+                            this.loading = false
+                            return false
+                        }
+                    )
             },
             // 搜索商品
-            onChangeSearch() {
-
+            onChangeSearch(key) {
+                if(key == '') {
+                    this.onGetProductList()
+                }else {
+                    this.loading = true
+                    this.$GetRequest.getSearchProduct(this.total.size, this.total.num, key)
+                        .then(res => {
+                            this.$set(this.total, 'total', res.total_size)
+                            this.productData = res.data
+                            this.loading = false
+                        }
+                    )
+                }
             }
         },
         mounted() {

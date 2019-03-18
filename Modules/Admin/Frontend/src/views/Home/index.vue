@@ -20,7 +20,7 @@
                     <p class="title">今日询盘量</p>
                     <p class="num">{{ homeData.today_data.today_inquiry }}</p>
                     <p class="title">
-                        总注册用户
+                        总询盘量
                         <span class="title-num">{{ homeData.total_data.total_inquiry }}</span>
                     </p>
                 </div>
@@ -32,7 +32,7 @@
                     <p class="title">今日上架商品</p>
                     <p class="num">{{ homeData.today_data.today_product }}</p>
                     <p class="title">
-                        总注册用户
+                        总上架商品
                         <span class="title-num">{{ homeData.total_data.total_product }}</span>
                     </p>
                 </div>
