@@ -41,6 +41,7 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
                 Route::post('delete_role', 'RoleController@deleteRole')->name('admin.role.delete');
                 Route::get('get_role_list', 'RoleController@getRoleList')->name('admin.role.list');
                 Route::get('get_role_permissions', 'RoleController@getRolePermissions')->name('admin.role.permissions');
+                Route::get('get_permissions_list', 'RoleController@getPermissionsList')->name('admin.permissions.list');
             });
         });
         Route::prefix('product_manager')->group(function (){

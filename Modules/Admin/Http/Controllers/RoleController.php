@@ -197,4 +197,18 @@ class RoleController extends Controller
         return $this->echoSuccessJson('删除权限组成功!',$role_permission);
     }
 
+    public function getPermissionsList(){
+        UtilsService::CreateCheckPermissions('获取所有权限列表','是否能够获取所有权限列表');
+        $data_list = [];
+        Permission::get()->map(function ($v)use(&$data_list){
+            $tmp = [];
+            $tmp['permission_id'] = $v->id;
+            $tmp['permission_name'] = $v->name;
+            $tmp['display_name'] = $v->display_name;
+            $tmp['description'] = $v->description;
+            array_push($data_list,$tmp);
+        });
+        return $this->echoSuccessJson('获取权限列表成功!',$data_list);
+    }
+
 }
