@@ -104,6 +104,15 @@ class HomeController extends Controller
                 $product_data['personal_recommend'] = $p_res;
             }
 
+            $product_history_list = UserLog::where([
+                ['user_id','=',$user_id],
+                ['type','=','product'],
+                ['action','=','visit']
+            ])->orderBy('created_at','desc')->pluck('type_for_id');
+
+            $product_history = ProductsController::getProductFormatInfo(Products::whereIn('products.id',$product_history_list)->leftJoin('user_log', 'user_log.type_for_id', '=', 'products.id')->orderBy('user_log.created_at','desc')->take(20));
+
+            $product_data['product_viewed'] = $product_history != null ? $product_history : [];
         }
 
         return $this->echoSuccessJson('获取推荐商品成功!',$product_data);

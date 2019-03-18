@@ -51,7 +51,7 @@ class UtilsService
                 );
             }
         }catch (\Exception $e){
-            dd($e->getMessage());
+            dd($e->getMessage()); //todo 生产环境关闭
             Log::error('Log Table is Error! Message:'.$e->getMessage());
         }
     }
