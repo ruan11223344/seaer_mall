@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use Khsing\World\Models\City;
 use Khsing\World\Models\Country;
 use Khsing\World\Models\Division;
+use Modules\Admin\Service\UtilsService;
 use Modules\Mall\Entities\Company;
 use Modules\Mall\Entities\Favorites;
 use Modules\Mall\Entities\Products;

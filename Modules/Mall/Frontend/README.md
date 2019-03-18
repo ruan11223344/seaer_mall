@@ -5060,7 +5060,7 @@ json参数:
 
 ```
 url:http://域名/api/home/get_ad_info
-请求方法:post
+请求方法:get
 
 无参数
 
