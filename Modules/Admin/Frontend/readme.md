@@ -1514,3 +1514,159 @@ url:http://域名/api/admin/ad_manager/edit_index_product_recommend
 }
 ```
 
+38.获取正在销售的商品列表
+```
+url:http://域名/api/admin/ad_manager/get_sale_product
+请求方法:get
+
+{
+	"page":1,
+	"size":10
+}
+
+
+返回:
+{
+    "code": 200,
+    "message": "获取商品数据成功!",
+    "data": {
+        "data": [
+            {
+                "num": 1,
+                "product_id": 32,
+                "product_name": "超级无敌大飞车玩具13fffxxxx",
+                "product_origin_id": "PD_CN_a49b34079_58ccc0f0",
+                "product_price": "100-2010",
+                "company_name": "wangzi  compangys",
+                "company_detail_address": "湖北省xxsdsadjkdsajkdsajdkjsakdj111111",
+                "product_status": 1,
+                "product_audit_status": 1,
+                "product_status_str": "出售中",
+                "product_create_time": "2019-02-21 17:37:47"
+            },
+            {
+                "num": 2,
+                "product_id": 35,
+                "product_name": "ddwrewew",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "product_price": "100-2010",
+                "company_name": "wangzi  compangys",
+                "company_detail_address": "湖北省xxsdsadjkdsajkdsajdkjsakdj111111",
+                "product_status": 1,
+                "product_audit_status": 1,
+                "product_status_str": "出售中",
+                "product_create_time": "2019-03-01 16:25:32"
+            }
+        ],
+        "size": 2,
+        "cur_page": 1,
+        "total_page": 12,
+        "total_size": 23
+    }
+}
+```
+
+39.搜索正在销售的商品列表
+```
+url:http://域名/api/admin/ad_manager/get_sale_product_search
+请求方法:get
+
+{
+	"page":1,
+	"size":10,
+	"keywords":"飞车"
+}
+
+
+返回:
+{
+    "code": 200,
+    "message": "获取商品数据成功!",
+    "data": {
+        "data": [
+            {
+                "num": 1,
+                "product_id": 32,
+                "product_name": "超级无敌大飞车玩具13fffxxxx",
+                "product_origin_id": "PD_CN_a49b34079_58ccc0f0",
+                "product_price": "100-2010",
+                "company_name": "wangzi  compangys",
+                "company_detail_address": "湖北省xxsdsadjkdsajkdsajdkjsakdj111111",
+                "product_status": 1,
+                "product_audit_status": 1,
+                "product_status_str": "出售中",
+                "product_create_time": "2019-02-21 17:37:47"
+            },
+            {
+                "num": 2,
+                "product_id": 38,
+                "product_name": "超级无敌大飞车玩具133赛222d331",
+                "product_origin_id": "PD_CN_a49b34079_eaf2d120",
+                "product_price": "100-2010",
+                "company_name": "wangzi  compangys",
+                "company_detail_address": "湖北省xxsdsadjkdsajkdsajdkjsakdj111111",
+                "product_status": 1,
+                "product_audit_status": 1,
+                "product_status_str": "出售中",
+                "product_create_time": "2019-02-25 16:25:32"
+            },
+            {
+                "num": 3,
+                "product_id": 51,
+                "product_name": "超级无敌大飞车玩具13fffxxx33xx3",
+                "product_origin_id": "PD_KE_1dce03043_55dbfcf0",
+                "product_price": "100-2010",
+                "company_name": "sb company",
+                "company_detail_address": null,
+                "product_status": 1,
+                "product_audit_status": 1,
+                "product_status_str": "出售中",
+                "product_create_time": "2019-03-04 11:19:35"
+            },
+            {
+                "num": 4,
+                "product_id": 52,
+                "product_name": "超级无敌ddd大飞车玩具13fffxxx33xx3",
+                "product_origin_id": "PD_KE_1dce03043_f23a2420",
+                "product_price": "100-2010",
+                "company_name": "sb company",
+                "company_detail_address": null,
+                "product_status": 1,
+                "product_audit_status": 1,
+                "product_status_str": "出售中",
+                "product_create_time": "2019-03-06 13:59:04"
+            },
+            {
+                "num": 5,
+                "product_id": 54,
+                "product_name": "超级无敌ddd大飞车玩具13fffxxxd33xx3",
+                "product_origin_id": "PD_KE_1dce03043_19ae1210",
+                "product_price": "100-2010",
+                "company_name": "sb company",
+                "company_detail_address": null,
+                "product_status": 1,
+                "product_audit_status": 1,
+                "product_status_str": "出售中",
+                "product_create_time": "2019-03-06 14:14:29"
+            },
+            {
+                "num": 6,
+                "product_id": 55,
+                "product_name": "超级无敌ddddd大飞车玩具13fffxxxd33xx3",
+                "product_origin_id": "PD_KE_1dce03043_f21261d0",
+                "product_price": "100-2010",
+                "company_name": "sb company",
+                "company_detail_address": null,
+                "product_status": 1,
+                "product_audit_status": 1,
+                "product_status_str": "出售中",
+                "product_create_time": "2019-03-06 14:20:32"
+            }
+        ],
+        "size": 10,
+        "cur_page": 1,
+        "total_page": 1,
+        "total_size": 6
+    }
+}
+```

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Modules\Admin\Entities\IndexProductRecommend;
 use Modules\Mall\Entities\Company;
 use Modules\Mall\Entities\Products;
+use Modules\Mall\Http\Controllers\Shop\ProductsController;
 
 class AdManagerController extends Controller
 {
@@ -106,7 +107,6 @@ class AdManagerController extends Controller
         return $this->echoSuccessJson("获取首页推荐商品成功!",$res_data);
     }
 
-
     public function editIndexProductRecommend(Request $request){
         $data =  $request->all();
         $validator = Validator::make($data,[
@@ -128,6 +128,47 @@ class AdManagerController extends Controller
         );
 
         return $this->echoSuccessJson('更新成功!',self::getIndexProductRecommendData());
+    }
+
+    public function getSaleProduct(Request $request){
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'page'=>'required|integer',
+            'size'=>'required|integer',
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
+        }
+
+        $page = $request->input('page',1);
+        $size = $request->input('size',20);
+        $product_orm = Products::where('product_status',ProductsController::PRODUCT_STATUS_SALE)->where('product_audit_status',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS);
+        $res_data = ProductManagerController::getProductFormatData($product_orm,$page,$size);
+        return $this->echoSuccessJson('获取商品数据成功!',$res_data);
+    }
+
+    public function getSaleProductSearch(Request $request){
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'page'=>'required|integer',
+            'size'=>'required|integer',
+            'keywords'=>'required'
+        ]);
+
+        if ($validator->fails()){
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
+        }
+        $page = $request->input('page',1);
+        $size = $request->input('size',20);
+        $keywords = $request->input('keywords');
+
+        $product_orm = Products::where('product_status',ProductsController::PRODUCT_STATUS_SALE)->where('product_audit_status',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS)->where('product_name', 'like','%'.$keywords.'%');
+
+        $res_data = ProductManagerController::getProductFormatData($product_orm,$page,$size);
+        return $this->echoSuccessJson('获取商品数据成功!',$res_data);
     }
 
 

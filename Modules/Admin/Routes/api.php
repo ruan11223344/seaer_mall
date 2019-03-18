@@ -77,6 +77,8 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
                 Route::post('edit_ad', 'AdManagerController@editAd')->name('admin.ad.edit');
                 Route::get('get_index_product_recommend', 'AdManagerController@getIndexProductRecommend')->name('admin.ad.indexProductRecommend');
                 Route::post('edit_index_product_recommend', 'AdManagerController@editIndexProductRecommend')->name('admin.ad.editIndexProductRecommend');
+                Route::get('get_sale_product', 'AdManagerController@getSaleProduct')->name('admin.ad.getSaleProduct');
+                Route::get('get_sale_product_search', 'AdManagerController@getSaleProductSearch')->name('admin.ad.getSaleProductSearch');
             });
         });
 

@@ -2,6 +2,7 @@
 
 namespace Modules\Admin\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -66,8 +67,8 @@ class ProductManagerController extends Controller
             $company = Company::find($v->company_id);
             $tmp['company_name'] = $company != null ? $company->company_name : "";
             $tmp['company_detail_address'] = $company != null ? $company->company_detailed_address : "";
-            $tmp['product_status'] = $v->product_status; //todo
-            $tmp['product_audit_status'] = $v->product_audit_status; //todo
+            $tmp['product_status'] = $v->product_status;
+            $tmp['product_audit_status'] = $v->product_audit_status;
             if($v->product_status == ProductsController::PRODUCT_STATUS_SALE && $v->product_audit_status == ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS){
                 $product_status_str = "出售中";
             }elseif ($v->product_status == ProductsController::PRODUCT_STATUS_SALE && $v->product_audit_status == ProductsController::PRODUCT_AUDIT_STATUS_CHECKING){
@@ -78,6 +79,7 @@ class ProductManagerController extends Controller
                 $product_status_str = "仓库中";
             }
             $tmp['product_status_str'] = $product_status_str;
+            $tmp['product_create_time'] = Carbon::parse($v->created_at)->format('Y-m-d H:i:s');
             array_push($product_data_list,$tmp);
         });
         $res_data = [];
