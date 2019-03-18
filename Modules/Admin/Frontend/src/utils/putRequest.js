@@ -239,6 +239,23 @@ class PutRequest {
             })
         })
     }
+
+    // 34.登出接口
+    putLogout() {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/auth/logout',
+                method: 'post',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
+
 }
 
 export default new PutRequest()

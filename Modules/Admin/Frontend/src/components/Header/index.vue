@@ -27,7 +27,7 @@
                                     <span>admin</span>
                                     <span>（超级管理员）</span>
                                 </div>
-                                <div class="out">
+                                <div class="out" @click="onOut">
                                     <div>退出登录</div>
                                     <i class="el-icon-arrow-right"></i>
                                 </div>
@@ -44,6 +44,19 @@
         data() {
             return {
                 meta: []
+            }
+        },
+        methods: {
+            onOut() {
+                this.$PutRequest.putLogout()
+                    .then(res => {
+                        this.$Auth.removeCookies()
+                        this.$Auth.removeRefreshKey()
+                        this.$router.push('/login')
+                    })
+                    .catch(err => {
+                        this.$message.error(err.message)
+                    })
             }
         },
         mounted() {

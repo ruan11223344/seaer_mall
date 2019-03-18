@@ -5,8 +5,6 @@ const TokenKey = 'afriby-token'
 
 const RefreshKey = 'refresh-token'
 
-const user = 'User_info'
-
 class Auth {
     getCookies() {
         return Cookies.get(TokenKey)
@@ -30,21 +28,6 @@ class Auth {
 
     removeRefreshKey() {
         return Cookies.remove(RefreshKey)
-    }
-
-    setSessionStorage(value) {
-        const json = JSON.stringify(value)
-        return sessionStorage.setItem(user, json)
-    }
-
-    getSessionStorage() {
-        const data = JSON.parse(sessionStorage.getItem(user))
-        return data
-    }
-
-    removeSessionStorage() {
-        // 从 sessionStorage 删除保存的数据
-        return sessionStorage.removeItem(user);
     }
 }
 

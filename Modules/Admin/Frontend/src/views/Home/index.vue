@@ -135,7 +135,6 @@
             this.$GetRequest.getHomeData()
                 .then(res => {
                     this.homeData = res
-                    console.log(res)
                     this.myChart(res.seven_day_data)
                 })
                 .catch(err => {
