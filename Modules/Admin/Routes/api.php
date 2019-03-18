@@ -17,7 +17,8 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
             Route::post('get_access_token', 'AuthController@getAccessToken')->middleware('passport-custom-provider');
             Route::group(['middleware' => ['client.credentials', 'auth:api','passport-custom-provider']], function () {
                 Route::post('logout', 'AuthController@logout');
-                Route::post('add_admin', 'AuthController@addAdmin');
+                Route::post('add_admin', 'AuthController@addAdmin')->name('admin.add');
+                Route::get('get_admin_info', 'AuthController@getAdminInfo');
             });
         });
         Route::prefix('user_manager')->group(function (){

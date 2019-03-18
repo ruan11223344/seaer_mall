@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Admin\Entities\Feedback;
+use Modules\Admin\Service\UtilsService;
 use Modules\Mall\Entities\User;
 use App\Utils\EchoJson;
 use Illuminate\Support\Facades\Validator;
@@ -14,6 +15,7 @@ class FeedbackController extends Controller
 {
     use EchoJson;
     public function getFeedbackList(Request $request){
+        UtilsService::CreateCheckPermissions('获取用户反馈列表','是否能够获取用户反馈列表');
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -77,6 +79,8 @@ class FeedbackController extends Controller
     }
 
     public function processFeedback(Request $request){
+        UtilsService::CreateCheckPermissions('处理用户反馈','是否能够处理用户反馈');
+
         $data = $request->all();
 
         $validator = Validator::make($data, [

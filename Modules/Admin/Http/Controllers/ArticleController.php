@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Modules\Admin\Entities\Article;
 use App\Utils\EchoJson;
 use Illuminate\Support\Facades\Validator;
+use Modules\Admin\Service\UtilsService;
 
 class ArticleController extends Controller
 {
@@ -37,6 +38,7 @@ class ArticleController extends Controller
     }
 
     public function getSystemArticleList(Request $request){
+        UtilsService::CreateCheckPermissions('获取系统文章列表','是否能够获取系统文章列表');
         $data = $request->all();
         $validator = Validator::make($data, [
             'page'=>'required|integer',
@@ -56,6 +58,7 @@ class ArticleController extends Controller
     }
 
     public function getAgreementsList(Request $request){
+        UtilsService::CreateCheckPermissions('获取用户协议列表','是否能够获取用户协议列表');
         $data = $request->all();
         $validator = Validator::make($data, [
             'page'=>'required|integer',
@@ -78,6 +81,7 @@ class ArticleController extends Controller
     }
 
     public function getSystemAnnouncementList(Request $request){
+        UtilsService::CreateCheckPermissions('获取系统公告列表','是否能够获取系统公告列表');
         $data = $request->all();
         $validator = Validator::make($data, [
             'page'=>'required|integer',
@@ -97,6 +101,7 @@ class ArticleController extends Controller
     }
 
     public function publishArticle(Request $request){
+        UtilsService::CreateCheckPermissions('发布文章','是否能够发布文章');
         $data = $request->all();
         $validator = Validator::make($data, [
             'type'=>'required|in:buyers_register_agreement,merchants_register_agreement,system_announcement,system_article',
@@ -121,6 +126,7 @@ class ArticleController extends Controller
     }
 
     public function getArticleDetail(Request $request){
+        UtilsService::CreateCheckPermissions('获取文章详情','是否能够获取文章详情');
         $data = $request->all();
         $validator = Validator::make($data, [
             'article_id'=>'required|exists:article,id',
@@ -141,6 +147,7 @@ class ArticleController extends Controller
     }
 
     public function editArticle(Request $request){
+        UtilsService::CreateCheckPermissions('编辑文章','是否能够编辑文章');
         $data = $request->all();
         $validator = Validator::make($data, [
             'article_id'=>'required|exists:article,id',
@@ -175,6 +182,7 @@ class ArticleController extends Controller
     }
 
     public function deleteArticle(Request $request){
+        UtilsService::CreateCheckPermissions('删除文章','是否能删除文章');
         $data = $request->all();
         $validator = Validator::make($data, [
             'article_id'=>'required|exists:article,id',

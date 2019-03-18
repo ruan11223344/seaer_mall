@@ -29,8 +29,4 @@ class PermissionController extends Controller
         return $data_list;
     }
 
-    public function getPermissionList(){
-
-    }
-
 }
