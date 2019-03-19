@@ -74,7 +74,10 @@
                         this.$router.push('/products/wait')
                         break
                     case '系统文章':
-                        this.$router.go(-1)
+                        console.log()
+                        if(this.$route.path != '/article/systemarticle') {
+                            this.$router.go(-1)
+                        }
                         break
                     case '首页广告':
                         this.$router.push('/advertisement/home')

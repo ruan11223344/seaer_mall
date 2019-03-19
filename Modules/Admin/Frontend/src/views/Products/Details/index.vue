@@ -52,7 +52,7 @@
                     <div class="business-block-enclosure">
                         <p>附件：</p>
                         <div>
-                            <img :src="company_info.company_business_license_pic_url" alt="" style="width: 100%;height: 100%; display: block;">
+                            <img :src="company_info.company_business_license_pic_url" alt="" style="width: 100%;height: 100%; display: block;cursor: pointer;" @click="openGallery([ company_info.company_business_license_pic_url ], 0)">
                         </div>
                     </div>
                 </article>
@@ -82,7 +82,7 @@
                     <div class="commodity-block-img">
                         <p>产品图片</p>
                         <div v-for="(item, index) in product_info.product_images_url" :key="index">
-                            <img :src="item" alt="" style="width: 100%; height: 100%">
+                            <img :src="item" alt="" style="width: 100%; height: 100%; cursor: pointer;" @click="openGallery(product_info.product_images_url, index)">
                         </div>
                     </div>
 
@@ -99,7 +99,7 @@
                         </div>
                     </div>
 
-                    <div class="commodity-block-details">
+                    <div class="commodity-block-details" v-if="product_info.product_details">
                         <p>商品详情</p>
                         <div class="commodity-block-details-box">
                             <swiper :options="swiperOption" style="height: 608px;overflow: hidden;zIndex: 0">
@@ -116,11 +116,19 @@
                     </div> -->
 
                     <div class="commodity-block-word">
-                        <p>发布时间：<span>{{ product_publish_time }}</span></p>
+                        <p v-if="product_publish_time">发布时间：<span>{{ product_publish_time }}</span></p>
                     </div>
                 </article>
             </section>
         </template>
+
+        <LightBox
+            :images="images"
+            ref="lightbox"
+            :show-caption="false"
+            :show-light-box="false"
+            >
+        </LightBox>
     </div>
 </template>
 
@@ -132,6 +140,8 @@
     import 'quill/dist/quill.bubble.css'
     import 'quill/dist/quill.core.css'
     import 'quill/dist/quill.snow.css'
+    import LightBox from 'vue-image-lightbox'
+    import 'vue-image-lightbox/dist/vue-image-lightbox.min.css'
 
     export default {
         beforeRouteEnter(to, from, next) {
@@ -164,14 +174,29 @@
                 },
                 company_info: null,
                 product_info: null,
-                product_publish_time: null
+                product_publish_time: null,
+                images: []
+            }
+        },
+        methods: {
+            openGallery(data, index) {
+                this.images = []
+                for (let index = 0; index < data.length; index++) {
+                    this.$set(this.images, index, {
+                        thumb: data[index],
+                        src: data[index]
+                    })
+                }
+
+                this.$refs.lightbox.showImage(index)
             }
         },
         mounted() {
         },
         components: {
             swiper,
-            swiperSlide
+            swiperSlide,
+            LightBox
         }
     }
 </script>

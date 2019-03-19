@@ -3509,6 +3509,11 @@ gzip-size@^5.0.0:
     duplexer "^0.1.1"
     pify "^3.0.0"
 
+hammerjs@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
+  integrity sha1-BO93hiz/K7edMPdpIJWTAiK/YPE=
+
 handle-thing@^2.0.0:
   version "2.0.0"
   resolved "http://registry.npm.taobao.org/handle-thing/download/handle-thing-2.0.0.tgz#0e039695ff50c93fc288557d696f3c1dc6776754"
@@ -7537,6 +7542,19 @@ vue-hot-reload-api@^2.3.0:
   version "2.3.3"
   resolved "http://registry.npm.taobao.org/vue-hot-reload-api/download/vue-hot-reload-api-2.3.3.tgz#2756f46cb3258054c5f4723de8ae7e87302a1ccf"
   integrity sha1-J1b0bLMlgFTF9HI96K5+hzAqHM8=
+
+vue-image-lightbox@^6.1.2:
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/vue-image-lightbox/-/vue-image-lightbox-6.1.2.tgz#fd3469e95613684e8114ca4fe319d545a4887481"
+  integrity sha512-INZ48EJHhFcGFX7Xw401rBG9iR1fDBPKomorxUcv7phFI28eAFfLhggie4RRlMDXQxpSl14RZtBw5syM375vdg==
+  dependencies:
+    hammerjs "^2.0.8"
+    vue-lazyload "^1.2.6"
+
+vue-lazyload@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/vue-lazyload/-/vue-lazyload-1.2.6.tgz#baa04c172d52a812608eb12c7a6bfb14f5c91079"
+  integrity sha512-6a61+pzwcfowhLRQiPdmRuJ40n/4fL/sEynu8KQZoCf5RVA0NH0X68vplLY0+lUM8mKNScYomaepV+hdjgnZhg==
 
 vue-loader@^15.6.2:
   version "15.7.0"
