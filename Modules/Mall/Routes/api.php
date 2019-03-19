@@ -144,7 +144,7 @@ Route::group(['domain' => env('MALL_DOMAIN'), 'middleware' => 'cors'], function 
                 Route::get('product_group_list', 'Shop\ProductsGroupsController@productsGroupsList')->name('shop.group.list');
                 Route::post('edit_products_group', 'Shop\ProductsGroupsController@editProductsGroup')->name('shop.group.edit');
                 Route::post('create_products_group', 'Shop\ProductsGroupsController@createProductsGroup')->name('shop.group.create');
-                Route::post('delete_products_group', 'Shop\ProductsGroupsController@deleteProductsGroup')->name('shop.group.create');
+                Route::post('delete_products_group', 'Shop\ProductsGroupsController@deleteProductsGroup')->name('shop.group.delete');
             });
         });
     });
@@ -155,6 +155,9 @@ Route::group(['domain' => env('MALL_DOMAIN'), 'middleware' => 'cors'], function 
         Route::get('get_provinces_list', 'UtilsController@getProvincesList')->name('get_provinces_list');
         Route::get('get_city_list', 'UtilsController@getCityList')->name('get_city_list');
         Route::post('currency_converter', 'UtilsController@currencyConverter');
+        Route::get('get_user_agreement', 'UtilsController@getUserAgreement');
+        Route::get('get_mall_notice', 'UtilsController@getMallNoticeList');
+        Route::get('get_article_detail', 'UtilsController@getArticleDetail');
 
         Route::group(['middleware' => ['client.credentials', 'auth:api']], function () {
             Route::post('upload_business_license', 'UtilsController@uploadBusinessLicense');

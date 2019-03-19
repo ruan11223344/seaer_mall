@@ -5499,5 +5499,128 @@ json参数:
 }
 ```
 
+83.用户注册协议获取
+```
+url:http://域名/api/utils/get_user_agreement
+请求方法:post
+
+json参数:
+{
+	"agreement_type":"merchants"     //必填 "merchants" 商家或者 "buyers" 买家
+}
+
+返回:
+{
+    "code": 200,
+    "message": "获取用户协议成功!",
+    "data": {
+        "author": null,
+        "title": "我是大帅哥",
+        "content": "xx买家用户协议内容xxsdsdsa",
+        "created_at": "2019-03-14 14:08:45",
+        "type": "merchants_register_agreement"
+    }
+}
+```
 
 
+84.用户注册协议获取
+```
+url:http://域名/api/utils/get_user_agreement
+请求方法:get
+
+json参数:
+{
+	"agreement_type":"merchants"     //必填 "merchants" 商家或者 "buyers" 买家
+}
+
+返回:
+{
+    "code": 200,
+    "message": "获取用户协议成功!",
+    "data": {
+        "article_id": 8,
+        "article_title": "1我是大帅哥",
+        "publish_time": "2019-03-15 14:08:45",
+        "article_type": "merchants_register_agreement",
+        "content": "xx买家用户协议内容xxsdsdsa",
+        "author": null
+    }
+}
+```
+
+
+85.获取系统公告列表
+```
+url:http://域名/api/utils/get_mall_notice
+请求方法:get
+
+json参数:
+{
+	"page":"1",
+	"size":3
+}
+
+返回:
+{
+    "code": 200,
+    "message": "获取系统通知列表成功!",
+    "data": {
+        "data": [
+            {
+                "num": 1,
+                "article_id": 17,
+                "article_title": "123123",
+                "publish_time": "2019-03-15 16:59:26",
+                "article_type": "system_announcement"
+            },
+            {
+                "num": 2,
+                "article_id": 16,
+                "article_title": "213213",
+                "publish_time": "2019-03-15 16:36:34",
+                "article_type": "system_announcement"
+            },
+            {
+                "num": 3,
+                "article_id": 15,
+                "article_title": "我是系统公告2",
+                "publish_time": "2019-03-14 15:52:30",
+                "article_type": "system_announcement"
+            }
+        ],
+        "size": 3,
+        "cur_page": "1",
+        "total_page": 2,
+        "total_size": 5
+    }
+}
+```
+
+86.文章详情获取
+```
+url:http://域名/api/utils/get_article_detail
+请求方法:get
+
+json参数:
+{
+	"article_id":"7"  //文章id 必填
+}
+
+返回:
+{
+    "code": 200,
+    "message": "成功!",
+    "data": {
+        "id": 7,
+        "admin_id": 10,
+        "author": null,
+        "title": "我是大帅哥",
+        "content": "买家用户协议内容xxsdsdsa",
+        "deleted_at": null,
+        "created_at": "2019-03-14 14:08:34",
+        "updated_at": "2019-03-14 14:08:34",
+        "type": "merchants_register_agreement"
+    }
+}
+```

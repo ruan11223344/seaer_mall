@@ -17,6 +17,8 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
+use Modules\Admin\Entities\Article;
+use Modules\Admin\Http\Controllers\ArticleController;
 use Modules\Admin\Http\Controllers\FeedbackController;
 use Modules\Mall\Entities\UsersExtends;
 use Swap\Laravel\Facades\Swap;
@@ -320,11 +322,6 @@ class UtilsController extends Controller
         return $this->echoSuccessJson('Upload business license successfully', $res);
     }
 
-    public static function getMallNotice(Request $request)
-    {
-        //todo 获取个人中心页面的新闻。 等待后台建表后完成此方法
-    }
-
     public function sendFeedback(Request $request){
         $data      = $request->all();
         $validator = Validator::make($data, [
@@ -350,4 +347,70 @@ class UtilsController extends Controller
     {
         return self::OSS_FILE_PATH . '/public/';
     }
+
+    public function getUserAgreement(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'agreement_type' => 'required|in:buyers,merchants',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->echoErrorJson('Form validation failed!' . $validator->messages());
+        }
+
+        $agreement_type = $request->input('agreement_type');
+
+        $agreement_orm = Article::where('type',$agreement_type == "buyers" ? "buyers_register_agreement" : "merchants_register_agreement")->orderBy('created_at','desc')->take(1);
+
+        $res_data = ArticleController::getArticleData($agreement_orm);
+
+        if(count($res_data['data']) > 0 ){
+            return $this->echoSuccessJson('获取用户协议成功!',$res_data['data'][0]);
+        }else{
+            return $this->echoErrorJson('错误,还没有设置用户协议!');
+        }
+
+    }
+
+    public function getMallNoticeList(Request $request)
+    {
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'page'=>'required|integer',
+            'size'=>'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
+        }
+
+        $page = $request->input('page',1);
+        $size = $request->input('size',20);
+
+        $article_orm = Article::where('type','system_announcement')->orderBy('created_at','desc');
+        $res_data = ArticleController::getArticleData($article_orm,$page,$size);
+        return $this->echoSuccessJson('获取系统通知列表成功!',$res_data);
+    }
+
+    public function getArticleDetail(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'article_id'=>'required|exists:article,id',
+            //'system_article','system_announcement','user_agreements'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->echoErrorJson('Form validation failed!'.$validator->messages());
+        }
+        $article_id = $request->input('article_id');
+        $article = Article::find($article_id);
+
+        if($article == null){
+            return $this->echoErrorJson('错误!这篇文章不存在!');
+        }
+
+        return $this->echoSuccessJson('成功!',$article->toArray());
+    }
+
+
 }
