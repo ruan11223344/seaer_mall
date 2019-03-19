@@ -10,6 +10,7 @@
             background-color="#4c4c4c"
             text-color="#9b9b9b"
             active-text-color="#f0883a"
+            :unique-opened="true"
             >
             <el-menu-item index="/home">
                 <img :src="require('@/assets/sy.png')" alt="" class="icon">

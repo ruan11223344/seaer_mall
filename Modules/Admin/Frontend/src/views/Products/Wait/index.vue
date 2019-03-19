@@ -4,9 +4,11 @@
             :total="total"
             :inputBool="true"
             @on-change-num="onChangeNum"
+            @on-change-input="onChangeSearch"
             >
             <template slot="table">
                 <el-table
+                    v-loading="loading"
                     ref="singleTable"
                     :data="waitData"
                     style="width: 100%"
@@ -140,6 +142,7 @@
     export default {
         data() {
             return {
+                loading: false,
                 modality: false,
                 waitData: [],
                 total: {
@@ -216,14 +219,32 @@
             },
             // 获取待审核商品
             onGetWaitList() {
+                this.loading = true
                 this.$GetRequest.getProductAuditList(this.total.size, this.total.num)
                     .then(res => {
                         this.$set(this.total, 'total', res.total_size)
                         this.waitData = res.data
+                        this.loading = false
                     }
                 ).catch(err => {
+                    this.loading = false
                     return false
                 })
+            },
+            // 搜索商品
+            onChangeSearch(key) {
+                if(key == '') {
+                    this.onGetWaitList()
+                }else {
+                    this.loading = true
+                    this.$GetRequest.getSearchProduct(this.total.size, this.total.num, key)
+                        .then(res => {
+                            this.$set(this.total, 'total', res.total_size)
+                            this.waitData = res.data
+                            this.loading = false
+                        }
+                    )
+                }
             }
         },
         mounted() {

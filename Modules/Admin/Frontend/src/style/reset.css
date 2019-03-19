@@ -180,3 +180,7 @@ input[type=reset]:focus{
 }
 .ch{display: none;}
 
+strong {
+  font-weight: bold;
+}
+

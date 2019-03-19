@@ -94,19 +94,19 @@ const router = new Router({
                         {
                             path: 'agreement',
                             name: 'agreement',
-                            meta: [ '文章管理', '会员协议' ],
+                            meta: [ '文章管理', '系统文章' ],
                             component: () => import('./views/Article/Agreement')
                         },
                         {
                             path: 'publish',
                             name: 'publish',
-                            meta: [ '文章管理', '系统管理', '新增' ],
+                            meta: [ '文章管理', '系统文章', '新增' ],
                             component: () => import('./views/Article/Publish')
                         },
                         {
                             path: 'edit',
                             name: 'edit',
-                            meta: [ '文章管理', '系统管理', '编辑' ],
+                            meta: [ '文章管理', '系统文章', '编辑' ],
                             component: () => import('./views/Article/Edit')
                         }
                     ]
@@ -175,6 +175,14 @@ const router = new Router({
             component: () => import('./views/Login')
         }
     ]
+})
+
+router.beforeEach((to, from, next) => {
+    const { path } = to
+
+    
+    // console.log(to)
+    next()
 })
 
 export default router

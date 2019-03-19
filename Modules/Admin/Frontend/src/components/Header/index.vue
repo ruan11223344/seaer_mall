@@ -3,7 +3,9 @@
         <section>
             <el-breadcrumb separator-class="el-icon-arrow-right">
                 <template v-for="(item, index) in meta">
-                    <el-breadcrumb-item :key="index">{{ item }}</el-breadcrumb-item>
+                    <el-breadcrumb-item :key="index">
+                        <span @click="onClick(item)" :class="arr.includes(item) ? 'hover' : ''">{{ item }}</span>
+                    </el-breadcrumb-item>
                 </template>
             </el-breadcrumb>
         </section>
@@ -43,7 +45,8 @@
     export default {
         data() {
             return {
-                meta: []
+                meta: [],
+                arr: [ '管理员', '全部商品', '待审核商品', '系统文章', '首页广告', '反馈信息' ]
             }
         },
         methods: {
@@ -57,6 +60,30 @@
                     .catch(err => {
                         this.$message.error(err.message)
                     })
+            },
+            onClick(key) {
+                switch (key) {
+                    case '管理员':
+                        this.$router.push('/admin/home')
+                        break
+                    case '全部商品':
+                        this.$router.push('/products/allproducts')
+                        break
+                    case '待审核商品':
+                        this.$router.push('/products/wait')
+                        break
+                    case '系统文章':
+                        this.$router.go(-1)
+                        break
+                    case '首页广告':
+                        this.$router.push('/advertisement/home')
+                        break
+                    case '反馈信息':
+                        this.$router.push('/opinion/feedback')
+                        break
+                    default:
+                        break
+                }
             }
         },
         mounted() {
@@ -99,6 +126,14 @@
 
                 
             }
+        }
+
+        .hover {
+            cursor: pointer;
+        }
+
+        .hover:hover {
+            @include mixin-color(yellow);
         }
     }
 

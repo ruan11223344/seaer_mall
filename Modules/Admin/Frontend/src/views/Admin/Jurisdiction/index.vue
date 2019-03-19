@@ -17,25 +17,25 @@
         <div class="title">权限操作设置详情</div>
 
         <div class="block">
-            <el-checkbox v-model="checked">平台模块功能</el-checkbox>
+            全部权限
         </div>
         <section class="group">
             <template>
                 <el-checkbox-group 
-                    v-model="checkedCities1"
+                    v-model="formLabelAlign.permissions_list"
                     >
                     <el-checkbox
                         v-for="(city, index) in cities"
-                        :label="city"
+                        :label="city.permission_id"
                         :key="index" 
                         class="group-checkbox"
-                        >{{city}}
+                        >{{ city.display_name }}
                     </el-checkbox>
                 </el-checkbox-group>
             </template>
         </section>
 
-        <div class="block" style="margin-top: 35px;">
+        <!-- <div class="block" style="margin-top: 35px;">
             <el-checkbox v-model="checked">商城模块功能</el-checkbox>
         </div>
         <section class="group">
@@ -45,14 +45,14 @@
                     >
                     <el-checkbox
                         v-for="(city, index) in cities"
-                        :label="city"
+                        :label="city.display_name"
                         :key="index" 
                         class="group-checkbox"
-                        >{{city}}
+                        >{{city.display_name}}
                     </el-checkbox>
                 </el-checkbox-group>
             </template>
-        </section>
+        </section> -->
 
         <el-button type="primary" class="sub" @click="onSub">保存</el-button>
     </div>
@@ -68,9 +68,8 @@
                     permissions_list: []
                 },
                 checked: false,
-                checkedCities1: [],
-                checkedCities2: [],
-                cities: ['设置操作', '设置操作', '设置操作', '设置操作']
+                // checkedCities2: [],
+                cities: []
             }
         },
         methods: {
@@ -118,6 +117,48 @@
                         })
                     }
                 )
+            },
+            // 获取所有权限列表
+            GetPermissions() {
+                this.$GetRequest.getPermissionsList()
+                    .then(res => {
+                        this.cities = res
+                    })
+                    .catch(err => {
+                        this.$message.error(err.message)
+                    })
+            },
+            // 获取已有权限列表
+            GetRoleList() {
+                const role_name = this.$route.query.role_name
+
+                this.$set(this.formLabelAlign, 'role_name', role_name)
+                this.formLabelAlign.permissions_list = []
+                this.$GetRequest.getRolePermissions(this.$route.query.role_id)
+                    .then(res => {
+                        res.forEach(({ permission_id }) => {
+                            if(!this.formLabelAlign.permissions_list.includes(permission_id)) {
+                                this.formLabelAlign.permissions_list.push(permission_id)
+                            }
+                        })
+                    })
+                    .catch(err => {
+                        this.$message.error(err.message)
+                    })
+            }
+        },
+        mounted() {
+            this.GetPermissions()
+
+            if(this.$route.query.role_id != undefined) {
+                    this.GetRoleList()
+                }
+        },
+        watch: {
+            '$route': function () {
+                if(this.$route.query.role_id != undefined) {
+                    this.GetRoleList()
+                }
             }
         },
     }

@@ -89,6 +89,24 @@ class getRequest {
         })
     }
 
+    // 11.获取角色已有权限列表(权限组)
+    getRolePermissions(role_id) {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/role_manager/get_role_permissions',
+                params: {
+                    role_id: role_id
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
+
     // 12.获取管理员列表
     getAdminList(size, page) {
         return new Promise(async (resolve, reject) => {
@@ -332,6 +350,21 @@ class getRequest {
                     "size": size,  //必填 数量
                     "keywords": keywords
                 }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
+
+    // 40.获取所有权限列表
+    getPermissionsList() {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/role_manager/get_permissions_list',
             }).then(res => {
                 if(res.code == 200) {
                     resolve(res.data)

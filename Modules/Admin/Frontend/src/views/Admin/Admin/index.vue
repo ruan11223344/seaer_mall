@@ -129,7 +129,7 @@
                             </button>
                             <button
                                 class="edit"
-                                @click="onJurisdictionEdit(scope.row.role_id)"
+                                @click="onJurisdictionEdit(scope.row.role_id, scope.row.role_name)"
                                 >
                                 编辑
                             </button>
@@ -194,8 +194,8 @@
                 )
             },
             // 权限组编辑
-            onJurisdictionEdit(role_id) {
-                this.$router.push('/admin/jurisdiction?role_id=' + role_id)
+            onJurisdictionEdit(role_id, role_name) {
+                this.$router.push('/admin/jurisdiction?role_id=' + role_id + '&role_name=' + role_name)
             },
             // 获取权限组列表
             onGetJurisdiction() {
