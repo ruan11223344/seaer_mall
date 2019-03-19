@@ -1690,7 +1690,7 @@ url:http://域名/api/admin/role_manager/get_permissions_list
 }
 ```
 
-40.获取可访问的路由
+41.获取可访问的路由
 ```
 url:http://域名/api/admin/auth/can_access_route
 请求方法:get
@@ -1712,7 +1712,7 @@ url:http://域名/api/admin/auth/can_access_route
 }
 ```
 
-41.获取账户信息
+42.获取账户信息
 ```
 url:http://域名/api/admin/auth/get_account_info
 请求方法:get
