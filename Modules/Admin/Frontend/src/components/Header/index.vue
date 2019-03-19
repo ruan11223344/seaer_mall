@@ -11,11 +11,10 @@
         </section>
 
         <section class="right">
-            <el-badge :value="100" :max="1">
+            <!-- <el-badge :value="100" :max="1">
                 <div class="right-email" @click="$router.push('/news')"></div>
-            </el-badge>
+            </el-badge> -->
             <div class="right-avatar">
-
                 <template>
                     <el-popover
                         placement="top-start"
@@ -24,10 +23,10 @@
                         >
                             <img slot="reference" style="cursor: pointer;" :src="require('@/assets/mrtx.png')" alt="">
 
-                            <section>
+                            <section v-if="user">
                                 <div class="admin">
-                                    <span>admin</span>
-                                    <span>（超级管理员）</span>
+                                    <span>{{ user.name }}</span>
+                                    <span>{{ '（' + user.role_name + '）' }}</span>
                                 </div>
                                 <div class="out" @click="onOut">
                                     <div>退出登录</div>
@@ -46,7 +45,8 @@
         data() {
             return {
                 meta: [],
-                arr: [ '管理员', '全部商品', '待审核商品', '系统文章', '首页广告', '反馈信息' ]
+                arr: [ '管理员', '全部商品', '待审核商品', '系统文章', '首页广告', '反馈信息' ],
+                user: null
             }
         },
         methods: {
@@ -55,6 +55,7 @@
                     .then(res => {
                         this.$Auth.removeCookies()
                         this.$Auth.removeRefreshKey()
+                        this.$Auth.rmUserCookies()
                         this.$router.push('/login')
                     })
                     .catch(err => {
@@ -84,10 +85,24 @@
                     default:
                         break
                 }
+            },
+            onUserInfo() {
+                this.$GetRequest.getAccountInfo()
+                    .then(res => {
+                        this.$Auth.setUserCookies(res)
+                        this.user = this.$Auth.getUserCookies()
+                    })
             }
         },
         mounted() {
             this.meta = this.$route.meta
+            const v = this.$Auth.getUserCookies()
+            if(!v) {
+                this.onUserInfo()
+            }else {
+                this.user = this.$Auth.getUserCookies()
+            }
+
         },
         watch: {
             '$route': function ({ meta }) {
@@ -105,7 +120,7 @@
         .right {
             width: 170px;
             height: 80px;
-            @include mixin-flex(space-between, center);
+            @include mixin-flex(flex-end, center);
 
             &-email {
                 width: 29px;

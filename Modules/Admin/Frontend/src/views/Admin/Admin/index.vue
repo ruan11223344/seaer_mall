@@ -66,7 +66,7 @@
                             </button>
                             <button
                                 class="edit"
-                                @click="onAdminEdit(scope.row.admin_id)"
+                                @click="onAdminEdit(scope.row)"
                                 >
                                 编辑
                             </button>
@@ -164,8 +164,9 @@
                 this.$router.push('/admin/jurisdiction')
             },
             // 管理员编辑
-            onAdminEdit(admin_id) {
-                this.$router.push('/admin/add?admin_id=' + admin_id)
+            onAdminEdit(data) {
+                const obj = JSON.stringify(data)
+                this.$router.push('/admin/add?obj=' + obj)
             },
             handleEdit(tab, event) {
                 // console.log(tab, event);

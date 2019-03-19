@@ -89,9 +89,10 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        const admin_id = this.$route.query.admin_id
-                        if(admin_id != undefined) {
-                            this.onEdit(admin_id)
+                        const obj = JSON.parse(this.$route.query.obj)
+
+                        if(obj != undefined) {
+                            this.onEdit(obj.admin_id)
                         }else {
                             this.onEstablish()
                         }
@@ -139,8 +140,21 @@
             onGetJurisdiction() {
                 this.$GetRequest.getJurisdictionList()
                     .then(res => {
-                        for(let i = 0; i < res.length; i++) {
-                            this.options.push({ value: res[i].role_id, label: res[i].role_name })
+                        const obj = JSON.parse(this.$route.query.obj)
+
+                        if(obj != undefined) {
+                            this.$set(this.ruleForm, 'admin_name', obj.admin_name)
+                            for(let i = 0; i < res.length; i++) {
+                                this.options.push({ value: res[i].role_id, label: res[i].role_name })
+
+                                if(obj.role_name == res[i].role_name) {
+                                    this.$set(this.ruleForm, 'role_id', res[i].role_id)
+                                }
+                            }
+                        }else {
+                            for(let i = 0; i < res.length; i++) {
+                                this.options.push({ value: res[i].role_id, label: res[i].role_name })
+                            }
                         }
                     }
                 )
@@ -148,6 +162,8 @@
         },
         mounted() {
             this.onGetJurisdiction()
+
+            
         },
     }
 </script>

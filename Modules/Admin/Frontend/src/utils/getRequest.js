@@ -375,6 +375,36 @@ class getRequest {
             })
         })
     }
+
+    // 40.获取可访问的路由
+    getAccessRoute() {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/auth/can_access_route',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
+
+    // 41.获取账户信息
+    getAccountInfo() {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/auth/get_account_info',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
 }
 
 export default new getRequest()

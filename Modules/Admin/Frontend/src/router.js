@@ -172,12 +172,12 @@ const router = new Router({
                         }
                     ]
                 },
-                { // 消息
-                    path: 'news',
-                    name: 'news',
-                    meta: [ '消息' ],
-                    component: () => import('./views/News/index.vue')
-                }
+                // { // 消息
+                //     path: 'news',
+                //     name: 'news',
+                //     meta: [ '消息' ],
+                //     component: () => import('./views/News/index.vue')
+                // }
             ]
         },
         {

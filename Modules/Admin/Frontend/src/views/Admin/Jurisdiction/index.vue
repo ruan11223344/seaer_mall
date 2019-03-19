@@ -135,8 +135,9 @@
                 this.$set(this.formLabelAlign, 'role_name', role_name)
                 this.formLabelAlign.permissions_list = []
                 this.$GetRequest.getRolePermissions(this.$route.query.role_id)
-                    .then(res => {
-                        res.forEach(({ permission_id }) => {
+                    .then(({ has_all_permission, permission_list }) => {
+                        this.$set( this.formLabelAlign, 'all_permissions', has_all_permission )
+                        permission_list.forEach(({ permission_id }) => {
                             if(!this.formLabelAlign.permissions_list.includes(permission_id)) {
                                 this.formLabelAlign.permissions_list.push(permission_id)
                             }

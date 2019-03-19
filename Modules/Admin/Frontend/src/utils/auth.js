@@ -29,6 +29,21 @@ class Auth {
     removeRefreshKey() {
         return Cookies.remove(RefreshKey)
     }
+
+    getUserCookies() {
+        const value = sessionStorage.getItem('user_info')
+
+        return JSON.parse(value)
+    }
+
+    setUserCookies(value) {
+        const obj = JSON.stringify(value)
+        return sessionStorage.setItem('user_info', obj)
+    }
+
+    rmUserCookies() {
+        return window.sessionStorage.removeItem('user_info')
+    }
 }
 
 export default new Auth()
