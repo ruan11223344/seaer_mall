@@ -1689,3 +1689,43 @@ url:http://域名/api/admin/role_manager/get_permissions_list
     ]
 }
 ```
+
+40.获取可访问的路由
+```
+url:http://域名/api/admin/auth/can_access_route
+请求方法:get
+
+无参数
+
+返回:
+{
+    "code": 200,
+    "message": "获取可访问路由成功!",
+    "data": {
+        "首页": true,
+        "用户管理": {
+            "管理员": true,
+            "用户": true,
+            "商家": true
+        }
+    }
+}
+```
+
+41.获取账户信息
+```
+url:http://域名/api/admin/auth/get_account_info
+请求方法:get
+
+无参数
+
+返回:
+{
+    "code": 200,
+    "message": "获取管理员信息成功!",
+    "data": {
+        "name": "admin",
+        "id": 1
+    }
+}
+```

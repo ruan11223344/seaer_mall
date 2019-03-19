@@ -15,14 +15,15 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
     Route::prefix('admin')->group(function (){
         Route::prefix('auth')->group(function (){
             Route::post('get_access_token', 'AuthController@getAccessToken')->middleware('passport-custom-provider');
-            Route::group(['middleware' => ['client.credentials', 'auth:api','passport-custom-provider']], function () {
+            Route::group(['middleware' => ['client.credentials', 'auth:api']], function () {
                 Route::post('logout', 'AuthController@logout');
                 Route::post('add_admin', 'AuthController@addAdmin')->name('admin.add');
-                Route::get('get_admin_info', 'AuthController@getAdminInfo');
+                Route::get('get_account_info', 'AuthController@getAccountInfo');
+                Route::get('can_access_route', 'AuthController@canAccessRoute');
             });
         });
         Route::prefix('user_manager')->group(function (){
-            Route::group(['middleware' => ['client.credentials', 'auth:api','passport-custom-provider']], function () {
+            Route::group(['middleware' => ['client.credentials', 'auth:api']], function () {
                 Route::get('get_user_list', 'UserManagerController@getUserList')->name('admin.user.list');
                 Route::get('search_user_list', 'UserManagerController@searchUserList')->name('admin.user.search');
                 Route::post('set_inquiry', 'UserManagerController@setInquiry')->name('admin.user.setInquiry');
@@ -35,7 +36,7 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
             });
         });
         Route::prefix('role_manager')->group(function (){
-            Route::group(['middleware' => ['client.credentials', 'auth:api','passport-custom-provider']], function () {
+            Route::group(['middleware' => ['client.credentials', 'auth:api']], function () {
                 Route::post('add_role', 'RoleController@addRole')->name('admin.role.add');
                 Route::post('edit_role', 'RoleController@editRole')->name('admin.role.edit');
                 Route::post('delete_role', 'RoleController@deleteRole')->name('admin.role.delete');
@@ -45,7 +46,7 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
             });
         });
         Route::prefix('product_manager')->group(function (){
-            Route::group(['middleware' => ['client.credentials', 'auth:api','passport-custom-provider']], function () {
+            Route::group(['middleware' => ['client.credentials', 'auth:api']], function () {
                 Route::get('get_product_list', 'ProductManagerController@getProductList')->name('admin.product.list');
                 Route::get('get_product_audit_list', 'ProductManagerController@getAuditProductList')->name('admin.product.auditList');
                 Route::get('get_product_info', 'ProductManagerController@getProductInfo')->name('admin.product.info');
@@ -55,7 +56,7 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
         });
 
         Route::prefix('article_manager')->group(function (){
-            Route::group(['middleware' => ['client.credentials', 'auth:api','passport-custom-provider']], function () {
+            Route::group(['middleware' => ['client.credentials', 'auth:api']], function () {
                 Route::post('publish_article', 'ArticleController@publishArticle')->name('admin.article.publish');
                 Route::get('get_article_detail', 'ArticleController@getArticleDetail')->name('admin.article.detail');
                 Route::post('edit_article', 'ArticleController@editArticle')->name('admin.article.edit');
@@ -67,14 +68,14 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
         });
 
         Route::prefix('feedback_manager')->group(function (){
-            Route::group(['middleware' => ['client.credentials', 'auth:api','passport-custom-provider']], function () {
+            Route::group(['middleware' => ['client.credentials', 'auth:api']], function () {
                 Route::get('get_feedback_list', 'FeedbackController@getFeedbackList')->name('admin.feedback.list');
                 Route::post('process_feedback', 'FeedbackController@processFeedback')->name('admin.feedback.process');
             });
         });
 
         Route::prefix('ad_manager')->group(function (){
-            Route::group(['middleware' => ['client.credentials', 'auth:api','passport-custom-provider']], function () {
+            Route::group(['middleware' => ['client.credentials', 'auth:api']], function () {
                 Route::get('get_ad_list', 'AdManagerController@getAdList')->name('admin.ad.list');
                 Route::post('edit_ad', 'AdManagerController@editAd')->name('admin.ad.edit');
                 Route::get('get_index_product_recommend', 'AdManagerController@getIndexProductRecommend')->name('admin.ad.indexProductRecommend');

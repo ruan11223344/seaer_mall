@@ -15,7 +15,10 @@ class FeedbackController extends Controller
 {
     use EchoJson;
     public function getFeedbackList(Request $request){
-        UtilsService::CreateCheckPermissions('获取用户反馈列表','是否能够获取用户反馈列表');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('获取用户反馈列表','是否能够获取用户反馈列表');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -79,8 +82,10 @@ class FeedbackController extends Controller
     }
 
     public function processFeedback(Request $request){
-        UtilsService::CreateCheckPermissions('处理用户反馈','是否能够处理用户反馈');
-
+        $CheckPermissions = UtilsService::CreateCheckPermissions('处理用户反馈','是否能够处理用户反馈');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $data = $request->all();
 
         $validator = Validator::make($data, [

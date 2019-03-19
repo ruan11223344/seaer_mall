@@ -67,7 +67,10 @@ class UserManagerController extends Controller
     }
 
     public function getUserList(Request $request){
-        UtilsService::CreateCheckPermissions('访问用户列表','访问afriby非商家的用户列表');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('访问用户列表','访问afriby非商家的用户列表');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -91,7 +94,10 @@ class UserManagerController extends Controller
     }
 
     public function searchUserList(Request $request){
-        UtilsService::CreateCheckPermissions('搜索用户列表','搜索afriby非商家的用户列表');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('搜索用户列表','搜索afriby非商家的用户列表');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
 
         $data = $request->all();
 
@@ -118,7 +124,10 @@ class UserManagerController extends Controller
     }
 
     public function setInquiry(Request $request){
-        UtilsService::CreateCheckPermissions('设置询盘','设置用户是否能够发送询盘');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('设置询盘','设置用户是否能够发送询盘');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
 
         $data = $request->all();
 
@@ -191,7 +200,10 @@ class UserManagerController extends Controller
     }
 
     public function getMerchantsList(Request $request){
-        UtilsService::CreateCheckPermissions('获取商家列表','管理员是否能够获取商家列表');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('获取商家列表','管理员是否能够获取商家列表');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
 
         $data = $request->all();
 
@@ -221,7 +233,10 @@ class UserManagerController extends Controller
     }
 
     public function searchMerchantsList(Request $request){
-        UtilsService::CreateCheckPermissions('搜索商家列表','管理员是否能搜索商家列表');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('搜索商家列表','管理员是否能搜索商家列表');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
 
         $data = $request->all();
 
@@ -253,7 +268,10 @@ class UserManagerController extends Controller
     }
 
     public function getAdminList(Request $request){
-        UtilsService::CreateCheckPermissions('获取管理员列表','获取管理员列表详情');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('获取管理员列表','获取管理员列表详情');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -313,7 +331,10 @@ class UserManagerController extends Controller
     }
 
     public function getAdminInfo(Request $request){
-        UtilsService::CreateCheckPermissions('获得指定管理员信息','获得指定管理员信息');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('获得指定管理员信息','获得指定管理员信息');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -331,7 +352,10 @@ class UserManagerController extends Controller
     }
 
     public function editAdmin(Request $request){
-        UtilsService::CreateCheckPermissions('编辑管理员','是否能够编辑管理员');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('编辑管理员','是否能够编辑管理员');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
 
         $data = $request->all();
 
@@ -381,7 +405,10 @@ class UserManagerController extends Controller
     }
 
     public function deleteAdmin(Request $request){
-        UtilsService::CreateCheckPermissions('删除管理员','是否能够删除管理员');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('删除管理员','是否能够删除管理员');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
 
         $data = $request->all();
 

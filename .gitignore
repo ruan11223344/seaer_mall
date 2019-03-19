@@ -4,6 +4,9 @@
 /Modules/Mall/public/*
 /Modules/Mall/public/img/*
 /Modules/Mall/Resources/views/index.blade.php
+/Modules/Admin/public/*
+/Modules/Admin/public/img/*
+/Modules/Admin/Resources/views/index.blade.php
 /storage/*.key
 /vendor
 /.idea

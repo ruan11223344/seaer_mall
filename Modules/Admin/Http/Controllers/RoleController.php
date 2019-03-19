@@ -16,7 +16,10 @@ class RoleController extends Controller
     use EchoJson;
 
     public function getRoleList(){
-        UtilsService::CreateCheckPermissions('获取角色(权限组)列表','是否能够获取角色(权限组)列表');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('获取角色(权限组)列表','是否能够获取角色(权限组)列表');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $data_list = [];
         Role::all()->map(function ($v)use(&$data_list){
             $tmp = [];
@@ -30,7 +33,10 @@ class RoleController extends Controller
     }
 
     public function getRolePermissions(Request $request){
-        UtilsService::CreateCheckPermissions('获取角色(权限组)的所有权限','是否能够获取角色(权限组)的所有权限');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('获取角色(权限组)的所有权限','是否能够获取角色(权限组)的所有权限');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $data = $request->all();
 
         $validator = Validator::make($data,[
@@ -57,7 +63,10 @@ class RoleController extends Controller
     }
 
     public function addRole(Request $request){
-        UtilsService::CreateCheckPermissions('添加角色(权限组)','是否能够添加角色(权限组)');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('添加角色(权限组)','是否能够添加角色(权限组)');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
 
         $data = $request->all();
 
@@ -120,7 +129,10 @@ class RoleController extends Controller
     }
 
     public function editRole(Request $request){
-        UtilsService::CreateCheckPermissions('修改角色(权限组)','是否能够修改角色(权限组)');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('修改角色(权限组)','是否能够修改角色(权限组)');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $data = $request->all();
 
         Validator::extend('permissions_list_check', function($attribute, $value,$parameters,$validator){
@@ -180,7 +192,10 @@ class RoleController extends Controller
     }
 
     public function deleteRole(Request $request){
-        UtilsService::CreateCheckPermissions('删除角色(权限组)','是否能够删除角色(权限组)');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('删除角色(权限组)','是否能够删除角色(权限组)');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $data = $request->all();
         $validator = Validator::make($data,[
             'role_id'=>'required|exists:roles,id',
@@ -208,7 +223,10 @@ class RoleController extends Controller
     }
 
     public function getPermissionsList(){
-        UtilsService::CreateCheckPermissions('获取所有权限列表','是否能够获取所有权限列表');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('获取所有权限列表','是否能够获取所有权限列表');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $data_list = [];
         Permission::get()->map(function ($v)use(&$data_list){
             $tmp = [];
