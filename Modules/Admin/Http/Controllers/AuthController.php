@@ -119,6 +119,16 @@ class AuthController extends Controller
         $admin_info = [];
         $admin_info['name'] = Auth::user()->name;
         $admin_info['id'] = Auth::id();
+        $role_id_obj = DB::table('role_user')->where('user_id',Auth::id());
+        $role_id_clone = clone $role_id_obj;
+        if($role_id_obj->exists()){
+            $role_id = $role_id_clone->get()->first()->role_id;
+            $role_name = Role::find($role_id)->name;
+        }else{
+            $role_name = '无权限组';
+        }
+
+        $admin_info['role_name'] = $role_name;
 
         return $this->echoSuccessJson('获取管理员信息成功!',$admin_info);
     }
@@ -175,8 +185,6 @@ class AuthController extends Controller
                 unset($data[$k]);
             }
         }
-
         return $this->echoSuccessJson('获取可访问路由成功!',$data);
-
     }
 }

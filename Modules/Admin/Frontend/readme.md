@@ -1725,7 +1725,8 @@ url:http://域名/api/admin/auth/get_account_info
     "message": "获取管理员信息成功!",
     "data": {
         "name": "admin",
-        "id": 1
+        "id": 1,
+        "role_name": "test管xx理xxxxx员"
     }
 }
 ```

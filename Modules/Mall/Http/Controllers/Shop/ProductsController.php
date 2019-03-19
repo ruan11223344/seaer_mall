@@ -401,6 +401,10 @@ class ProductsController extends Controller
                 }
             }
 
+            foreach ($update_data as $k=>$v){
+                if($product_obj->s);//todo
+            }
+
             //更新商品
             $product_obj->update($update_data);
 
