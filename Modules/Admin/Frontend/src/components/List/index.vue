@@ -2,7 +2,7 @@
     <div id="list">
         <section class="title">
             <div class="title-left">
-                <span>用户列表</span>
+                <span>{{ $route.meta[$route.meta.length - 1] }}列表</span>
                 <span>共{{ total.total }}条</span>
             </div>
 

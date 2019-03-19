@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import auth from './utils/auth'
+
 
 Vue.use(Router)
 
@@ -177,12 +179,27 @@ const router = new Router({
     ]
 })
 
+const arr = ['/login']
+
 router.beforeEach((to, from, next) => {
     const { path } = to
-
+    const TokenKey = auth.getCookies()
+    const RefreshKey = auth.getRefCookies()
     
-    // console.log(to)
-    next()
+    if(arr.includes(path)) {
+        if(TokenKey && RefreshKey) {
+            next(from.path)
+        }else {
+            next('/login')
+        }
+    }else {
+
+        if(TokenKey && RefreshKey) {
+            next()
+        }else {
+            next('/login')
+        }
+    }
 })
 
 export default router

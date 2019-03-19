@@ -312,7 +312,7 @@
                     this.onGetProductList()
                 }else {
                     this.loading = true
-                    this.$GetRequest.getSearchProduct(this.total.size, this.total.num, key)
+                    this.$GetRequest.getSearchProduct(this.total.size, this.total.num, key, '全部')
                         .then(res => {
                             this.$set(this.total, 'total', res.total_size)
                             this.productData = res.data

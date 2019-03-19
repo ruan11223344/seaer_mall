@@ -7,6 +7,7 @@
             >
             <template slot="table">
                 <el-table
+                    v-loading="loading"
                     ref="singleTable"
                     :data="tableData"
                     style="width: 100%"
@@ -135,7 +136,8 @@
                     num: 1
                 },
                 reject_message: '',
-                feedback_id: null
+                feedback_id: null,
+                loading: false
             }
         },
         methods: {
@@ -186,10 +188,12 @@
             },
             // 获取数据
             onGetData() {
+                this.loading = true
                 this.$GetRequest.getFeedbackList(this.total.size, this.total.num)
                     .then(res => {
                         this.$set(this.total, 'total', res.total_size)
                         this.tableData = res.data
+                        this.loading = false
                     })
             }
         },

@@ -12,6 +12,7 @@
             </template>
             <template slot="table">
                 <el-table
+                    v-loading="loading"
                     ref="singleTable"
                     :data="articleData"
                     style="width: 100%"
@@ -79,7 +80,8 @@
                     size: 18,
                     num: 1
                 },
-                articleData: []
+                articleData: [],
+                loading: false
             }
         },
         methods: {
@@ -100,10 +102,12 @@
             },
             // 获取数据
             onGetData() {
+                this.loading = true
                 this.$GetRequest.getArticleList(this.total.size, this.total.num)
                     .then(res => {
                         this.$set(this.total, 'total', res.total_size)
                         this.articleData = res.data
+                        this.loading = false
                     })
             }
         },

@@ -237,7 +237,7 @@
                     this.onGetWaitList()
                 }else {
                     this.loading = true
-                    this.$GetRequest.getSearchProduct(this.total.size, this.total.num, key)
+                    this.$GetRequest.getSearchProduct(this.total.size, this.total.num, key, '待审核')
                         .then(res => {
                             this.$set(this.total, 'total', res.total_size)
                             this.waitData = res.data

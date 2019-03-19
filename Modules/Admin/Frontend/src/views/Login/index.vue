@@ -8,13 +8,13 @@
             <section class="main-block">
                 <el-form  label-position="top" :model="ruleForm" status-icon :rules="rules2" ref="ruleForm" label-width="100px" class="main-block-form">
                     <el-form-item label="Username" prop="username">
-                        <el-input type="text" v-model="ruleForm.username" size="small"></el-input>
+                        <el-input type="text" v-model="ruleForm.username" size="small" @keyup.enter="submitForm('ruleForm')"></el-input>
                     </el-form-item>
                     <el-form-item label="Password" prop="password">
-                        <el-input type="password" v-model="ruleForm.password" size="small"></el-input>
+                        <el-input type="password" v-model="ruleForm.password" size="small" @keyup.enter="submitForm('ruleForm')"></el-input>
                     </el-form-item>
                     <el-form-item prop="code">
-                        <el-input v-model="ruleForm.code" style="width: 379px;" size="small"></el-input>
+                        <el-input v-model="ruleForm.code" style="width: 379px;" size="small" @keyup.enter="submitForm('ruleForm')"></el-input>
                         <div class="main-block-form-code" v-loading="!imgPath">
                             <img v-if="imgPath" :src="imgPath.img" alt="" style="width: 100%; height: 100%;display: block;" @click="onCode">
                         </div>
@@ -37,12 +37,12 @@
         data() {
             var validateUser = (rule, value, callback) => {
                 if (value === '') {
-                callback(new Error('Please enter your Email Address or Member ID.'))
+                    callback(new Error('Please enter your Email Address or Member ID.'))
                 } else {
                 if (this.ruleForm.password !== '') {
                     this.$refs.ruleForm.validateField('Please enter your Email Address or Member ID.')
                 }
-                callback();
+                    callback();
                 }
             }
 

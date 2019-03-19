@@ -12,6 +12,7 @@
             </template>
             <template slot="table">
                 <el-table
+                    v-loading="loading"
                     ref="singleTable"
                     :data="tableData"
                     style="width: 100%"
@@ -79,7 +80,8 @@
                     size: 18,
                     num: 1
                 },
-                tableData: []
+                tableData: [],
+                loading: false
             }
         },
         methods: {
@@ -99,12 +101,15 @@
                     })
             },
             onGetData() {
+                this.loading = true
                 this.$GetRequest.getSystemList(this.total.size, this.total.num)
                     .then(res => {
                         this.$set(this.total, 'total', res.total_size)
                         this.tableData = res.data
+                        this.loading = false
                     })
                     .catch(err => {
+                        this.loading = false
                         this.$message.error(err.message)
                     })
             }

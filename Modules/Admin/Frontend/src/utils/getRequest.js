@@ -341,14 +341,15 @@ class getRequest {
     }
 
     // 39.搜索正在销售的商品列表
-    getSearchProduct(size, page, keywords) {
+    getSearchProduct(size, page, keywords, name) {
         return new Promise(async (resolve, reject) => {
             await request({
                 url: '/admin/ad_manager/get_sale_product_search',
                 params: {
                     "page": page,  //必填 页码
                     "size": size,  //必填 数量
-                    "keywords": keywords
+                    "keywords": keywords,
+                    "status": name
                 }
             }).then(res => {
                 if(res.code == 200) {
