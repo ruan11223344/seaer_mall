@@ -115,7 +115,8 @@ class RegisterController extends Controller
             'password' =>  [
                 'required',
                 'confirmed',  //password_confirmation 字段必须存在
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,20}$/',
+//                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,20}$/',
+                'regex:/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/',
                 'between:6,20'
             ],
             'account_type' =>'in:0,1,2|required',
