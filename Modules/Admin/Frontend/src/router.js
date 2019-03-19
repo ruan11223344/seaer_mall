@@ -12,6 +12,15 @@ const router = new Router({
             path: '/',
             name: 'home',
             redirect: 'home',
+            beforeEnter: (to, from, next) => {
+                const TokenKey = auth.getCookies()
+                const RefreshKey = auth.getRefCookies()
+                if(TokenKey && RefreshKey) {
+                    next()
+                }else {
+                    next('/login')
+                }
+            },
             component: () => import('./views'),
             children: [
                 {
@@ -174,32 +183,20 @@ const router = new Router({
         {
             path: '/login',
             name: 'login',
+            beforeEnter: (to, from, next) => {
+                const TokenKey = auth.getCookies()
+                const RefreshKey = auth.getRefCookies()
+
+                if(TokenKey && RefreshKey) {
+                    next(from.path)
+                }else {
+                    next()
+                }
+            },
             component: () => import('./views/Login')
         }
     ]
 })
 
-const arr = ['/login']
-
-router.beforeEach((to, from, next) => {
-    const { path } = to
-    const TokenKey = auth.getCookies()
-    const RefreshKey = auth.getRefCookies()
-    
-    if(arr.includes(path)) {
-        if(TokenKey && RefreshKey) {
-            next(from.path)
-        }else {
-            next('/login')
-        }
-    }else {
-
-        if(TokenKey && RefreshKey) {
-            next()
-        }else {
-            next('/login')
-        }
-    }
-})
 
 export default router
