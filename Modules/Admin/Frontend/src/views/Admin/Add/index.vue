@@ -89,9 +89,8 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        const obj = JSON.parse(this.$route.query.obj)
-
-                        if(obj != undefined) {
+                        if(this.$route.query.obj != undefined) {
+                            const obj = JSON.parse(this.$route.query.obj)
                             this.onEdit(obj.admin_id)
                         }else {
                             this.onEstablish()

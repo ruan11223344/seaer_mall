@@ -74,7 +74,6 @@
                         this.$router.push('/products/wait')
                         break
                     case '系统文章':
-                        console.log()
                         if(this.$route.path != '/article/systemarticle') {
                             this.$router.go(-1)
                         }

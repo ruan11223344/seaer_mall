@@ -12,10 +12,15 @@ function refreshToken() {
             .then((res) => {
                 auth.removeCookies()
                 auth.removeRefreshKey()
+                auth.rmUserCookies()
                 auth.setCookies(res.access_token)
                 auth.refreshCookies(res.refresh_token)
+                window.location.reload()
             })
     }else {
+        auth.removeCookies()
+        auth.removeRefreshKey()
+        auth.rmUserCookies()
         router.push('/login')
     }
 }
