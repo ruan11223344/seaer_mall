@@ -1580,7 +1580,8 @@ url:http://域名/api/admin/ad_manager/get_sale_product_search
 {
 	"page":1,
 	"size":10,
-	"keywords":"飞车"
+	"keywords":"飞车",
+	"status":"全部"  //非必填参数  可以是  "出售中"  "全部"  "待审核"
 }
 
 

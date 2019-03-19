@@ -191,7 +191,8 @@ class AdManagerController extends Controller
         $validator = Validator::make($data, [
             'page'=>'required|integer',
             'size'=>'required|integer',
-            'keywords'=>'required'
+            'keywords'=>'required',
+            'status'=>'nullable'
         ]);
 
         if ($validator->fails()){
@@ -200,8 +201,22 @@ class AdManagerController extends Controller
         $page = $request->input('page',1);
         $size = $request->input('size',20);
         $keywords = $request->input('keywords');
-
-        $product_orm = Products::where('product_status',ProductsController::PRODUCT_STATUS_SALE)->where('product_audit_status',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS)->where('product_name', 'like','%'.$keywords.'%');
+        $status = $request->input('status',null);
+        if($status != null){
+            switch ($status){
+                case '出售中':
+                    $product_orm = Products::where('product_status',ProductsController::PRODUCT_STATUS_SALE)->where('product_audit_status',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS)->where('product_name', 'like','%'.$keywords.'%');
+                    break;
+                case '全部':
+                    $product_orm = Products::where('product_name', 'like','%'.$keywords.'%');
+                    break;
+                case '待审核':
+                    $product_orm = Products::where('product_status',ProductsController::PRODUCT_STATUS_SALE)->where('product_audit_status',ProductsController::PRODUCT_AUDIT_STATUS_CHECKING)->where('product_name', 'like','%'.$keywords.'%');
+                    break;
+            }
+        }else{
+            $product_orm = Products::where('product_status',ProductsController::PRODUCT_STATUS_SALE)->where('product_audit_status',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS)->where('product_name', 'like','%'.$keywords.'%');
+        }
 
         $res_data = ProductManagerController::getProductFormatData($product_orm,$page,$size);
         return $this->echoSuccessJson('获取商品数据成功!',$res_data);
