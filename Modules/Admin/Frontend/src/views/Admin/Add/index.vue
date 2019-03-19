@@ -140,9 +140,9 @@
             onGetJurisdiction() {
                 this.$GetRequest.getJurisdictionList()
                     .then(res => {
+                        if(this.$route.query.obj != undefined) {
                         const obj = JSON.parse(this.$route.query.obj)
 
-                        if(obj != undefined) {
                             this.$set(this.ruleForm, 'admin_name', obj.admin_name)
                             for(let i = 0; i < res.length; i++) {
                                 this.options.push({ value: res[i].role_id, label: res[i].role_name })
