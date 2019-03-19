@@ -29,31 +29,40 @@
             <section class="container main-banners">
                 <template v-if="banner != null">
                     <!-- 跳转到分类页面 -->
-                    <router-link :to="banner[3].jump_url">
-                        <v-img width="393" height="200" :img-src="item.image_url"/>
-                    </router-link>
+                    <template v-for="(item, index) in banner">
+                        <router-link :to="item.jump_url" v-if="item.comment == '广告1'" :key="index">
+                            <v-img width="393" height="200" :img-src="item.image_url"/>
+                        </router-link>
+                    </template>
+                    
+                    <template v-for="(item, index) in banner">
+                        <router-link :to="item.jump_url" v-if="item.comment == '广告2'" :key="index">
+                            <v-img width="393" height="200" :img-src="item.image_url"/>
+                        </router-link>
+                    </template>
 
-                    <router-link :to="item.jump_url">
-                        <v-img width="393" height="200" :img-src="item.image_url"/>
-                    </router-link>
+                    <template v-for="(item, index) in banner">
+                        <router-link :to="item.jump_url" v-if="item.comment == '广告3'" :key="index">
+                            <v-img width="393" height="200" :img-src="item.image_url"/>
+                        </router-link>
+                    </template>
 
-                    <router-link :to="item.jump_url">
-                        <v-img width="393" height="200" :img-src="item.image_url"/>
-                    </router-link>
                 </template>
             </section>
 
             <div class="main-container">
                 <!-- 广告 -->
                 <section class="container main-banner" v-if="banner != null">
-                    <!-- <v-img width="1220" height="122" :img-src="require('@/assets/img/home/banner3.png')" /> -->
-                    <!-- ad_center_url -->
-                    <router-link
-                        tag="div"
-                        :to="banner[1].jump_url"
-                        :style="`background: url(${banner[1].image_url}) center center;height: 122px;cursor: pointer;`"
-                        >
-                    </router-link>
+                    <template v-for="(item, index) in banner">
+                        <router-link
+                            v-if="item.comment == '中部'"
+                            :key="index"
+                            tag="div"
+                            :to="item.jump_url"
+                            :style="`background: url(${item.image_url}) center center;height: 122px;cursor: pointer;`"
+                            >
+                        </router-link>
+                    </template>
                 </section>
 
                 <div v-if="HomeData != null">
@@ -84,7 +93,6 @@
                     <!-- 商品列表 -->
                     <section class="container main-item">
                         <!-- 渲染商品列表mock -->
-                        <!-- <v-card :title="title" :price="price" :img-src="imgSrc" v-for="({title, price, imgSrc}, index) in goodsLists" :key="index"></v-card> -->
                         <template v-for="(item, index) in HomeData.product_personal_recommend">
                             <template v-if="index < 5">
                                 <v-card :data="item" :key="index"></v-card>
@@ -95,13 +103,16 @@
 
                 <!-- 广告 -->
                 <section class="container main-banner" style="marginTop: 28px" v-if="banner != null">
-                    <!-- <v-img width="1220" height="122" :img-src="require('@/assets/img/home/banner3.png')"></v-img> -->
-                    <router-link
-                        tag="div"
-                        :to="banner[2].jump_url"
-                        :style="`background: url(${banner[2].image_url}) center center;height: 122px;cursor: pointer;`"
-                        >
-                    </router-link>
+                    <template v-for="(item, index) in banner">
+                        <router-link
+                            v-if="item.comment == '底部'"
+                            :key="index"
+                            tag="div"
+                            :to="item.jump_url"
+                            :style="`background: url(${item.image_url}) center center;height: 122px;cursor: pointer;`"
+                            >
+                        </router-link>
+                    </template>
                 </section>
 
                 <!-- 历史纪录 -->
@@ -200,7 +211,7 @@
 
             this.onGetAdInfo().then(({ slide, banner }) => {
                 this.slide = slide
-                console.log(banner)
+                this.banner = banner
             })
         },
         components: {
@@ -247,7 +258,7 @@
         // 广告列
         &-banners {
             .flex(space-between);
-            .bg-color(light);
+            .bg-color(white);
             height: 200px;
             margin-top: 20px;
             margin-bottom: 20px;

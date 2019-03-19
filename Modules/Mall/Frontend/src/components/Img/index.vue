@@ -11,7 +11,6 @@
             height: '',
             imgSrc: {
                 type: String,
-                required: true
             }
         },
         data() {
