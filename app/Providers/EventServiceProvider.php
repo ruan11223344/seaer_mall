@@ -28,7 +28,7 @@ class EventServiceProvider extends ServiceProvider
      * @return void
      */
 
-    public function handle(\Laravel\Passport\Events\AccessTokenCreated $event)
+/*    public function handle(\Laravel\Passport\Events\AccessTokenCreated $event)
     {
         $provider = \Config::get('auth.guards.api.provider');
         DB::table('oauth_access_token_providers')->insert([
@@ -37,7 +37,7 @@ class EventServiceProvider extends ServiceProvider
             "created_at" => new Carbon(),
             "updated_at" => new Carbon(),
         ]);
-    }
+    }*/
 
     public function boot()
     {
