@@ -20,6 +20,7 @@ use Modules\Mall\Entities\Company;
 use Modules\Mall\Entities\RegisterTemp;
 use Modules\Mall\Entities\UsersExtends;
 use Modules\Mall\Entities\User;
+use Modules\Mall\Http\Controllers\Shop\ProductsController;
 use Modules\Mall\Http\Controllers\UtilsController;
 use Webpatser\Uuid\Uuid;
 use Illuminate\Validation\Rule;
@@ -200,6 +201,7 @@ class RegisterController extends Controller
                         'sex'=>$request->input('sex'),
                         'contact_full_name'=>$request->input('contact_full_name'),
                         'chinese_name'=>$request->input('chinese_name',null),
+                        'publish_product_status'=>ProductsController::PUBLISH_PRODUCT_STATUS_NORMAL, //TODO 直接可以发布商品
                     ]
               );
               AlbumUser::create(
