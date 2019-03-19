@@ -15,25 +15,39 @@ class ArticleController extends Controller
 {
     use EchoJson;
 
-    public static function getArticleData($article_orm,$page,$size){
+    public static function getArticleData($article_orm,$page = null,$size = null){
         $article_clone = clone $article_orm;
         $count = $article_clone->count();
         $data_list =[];
-        $article_orm->offset(($page-1)*$size)->limit($size)->get()->map(function ($v,$k)use(&$data_list,$page,$size){
-            $tmp = [];
-            $tmp['num'] = $k+1+(($page-1)*$size);
-            $tmp['article_id'] = $v->id;
-            $tmp['article_title'] = $v->title;
-            $tmp['publish_time'] = Carbon::parse($v->created_at)->format('Y-m-d H:i:s');
-            $tmp['article_type'] = $v->type;
-            $data_list[] = $tmp;
-        });
+        if($page == null){
+            $article_orm->get()->map(function ($v)use(&$data_list,$page,$size){
+                $tmp = [];
+                $tmp['article_id'] = $v->id;
+                $tmp['article_title'] = $v->title;
+                $tmp['publish_time'] = Carbon::parse($v->created_at)->format('Y-m-d H:i:s');
+                $tmp['article_type'] = $v->type;
+                $tmp['content'] = $v->content;
+                $tmp['author'] = $v->author;
+                $data_list[] = $tmp;
+            });
+            $res_data['data'] = $data_list;
+        }else{
+            $article_orm->offset(($page-1)*$size)->limit($size)->get()->map(function ($v,$k)use(&$data_list,$page,$size){
+                $tmp = [];
+                $tmp['num'] = $k+1+(($page-1)*$size);
+                $tmp['article_id'] = $v->id;
+                $tmp['article_title'] = $v->title;
+                $tmp['publish_time'] = Carbon::parse($v->created_at)->format('Y-m-d H:i:s');
+                $tmp['article_type'] = $v->type;
+                $data_list[] = $tmp;
+            });
 
-        $res_data['data'] = $data_list;
-        $res_data['size'] = $size;
-        $res_data['cur_page'] =$page;
-        $res_data['total_page'] = (int)ceil($count/$size);
-        $res_data['total_size'] = $count;
+            $res_data['data'] = $data_list;
+            $res_data['size'] = $size;
+            $res_data['cur_page'] =$page;
+            $res_data['total_page'] = (int)ceil($count/$size);
+            $res_data['total_size'] = $count;
+        }
         return $res_data;
     }
 
@@ -136,6 +150,7 @@ class ArticleController extends Controller
 
         return $this->echoSuccessJson('发布成功!',$article->toArray());
     }
+
 
     public function getArticleDetail(Request $request){
         $CheckPermissions = UtilsService::CreateCheckPermissions('获取文章详情','是否能够获取文章详情');

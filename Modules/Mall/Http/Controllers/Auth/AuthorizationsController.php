@@ -138,7 +138,7 @@ class AuthorizationsController extends Controller
     {
         $user_obj = Auth::user();
         $user = $user_obj->toArray();
-        $company = $user_obj->company->toArray();
+        $company = $user_obj->company != null ? $user_obj->company->toArray() : null;
         $user_extends = $user_obj->usersExtends->toArray();
         $publish_product = [];
         $publishProductPermissions = ProductsController::getPublishProductPermissions();
