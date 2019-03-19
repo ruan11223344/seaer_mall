@@ -341,6 +341,9 @@ class ProductsController extends Controller
                 }
             }
 
+            $tmp = [];
+            $tmp['product_audit_status'] = self::PRODUCT_AUDIT_STATUS_CHECKING;
+
             //更新价格
             if ($price_type !== null && $product_price !== null) {
                 if ($price_type == 'ladder') {
@@ -364,6 +367,7 @@ class ProductsController extends Controller
                         'ladder_price' => $price_type == 'ladder' ? $product_price : null,
                     ]
                 );
+                $product_obj->update($tmp);
             }
 
             //更新属性
@@ -373,6 +377,7 @@ class ProductsController extends Controller
                         'attr_specs' => $product_attr,
                     ]
                 );
+                $product_obj->update($tmp);
             }
 
             if ($product_publishing_time !== null) {
@@ -426,6 +431,7 @@ class ProductsController extends Controller
                     if ($p_group->user_id != Auth::id()) {
                         return $this->echoErrorJson('Error, the item group does not belong to this user!');
                     } else {
+                        $product_obj->update($tmp);
                         if (!ProductsProductsGroup::where('product_id', $product_obj->id)->exists()) {
                             ProductsProductsGroup::create(
                                 [
