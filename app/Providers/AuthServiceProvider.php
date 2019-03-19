@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Laravel\Passport\Passport;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -26,7 +25,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-        Passport::routes();
+//        Passport::routes();
         Passport::tokensExpireIn(now()->addDays(15)); //认证过期时间
         Passport::refreshTokensExpireIn(now()->addDays(30));
         Route::group(['middleware' => 'passport-administrators'], function () {

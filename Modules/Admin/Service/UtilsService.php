@@ -70,6 +70,15 @@ class UtilsService
             $permission->save();
         }
 
+        if(get_class(Auth::user()) == "Modules\Mall\Entities\User"){
+            $arr = [
+                'code'      => 402,
+                'message'   => "非法访问!",
+                'data'      => [],
+            ];
+            return response()->json($arr);
+        }
+
         $admin_name = Auth::user()->name;
 
         if($admin_name != 'admin'){
@@ -77,7 +86,7 @@ class UtilsService
             if($role_id == null){
                 $arr = [
                     'code'      => 402,
-                    'message'   => "你的账户设定角色,不能访问这个接口!",
+                    'message'   => "你的账户没有设定角色,不能访问这个接口!",
                     'data'      => [],
                 ];
                 return response()->json($arr);

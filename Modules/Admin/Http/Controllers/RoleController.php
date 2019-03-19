@@ -4,6 +4,7 @@ namespace Modules\Admin\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Modules\Admin\Entities\Permission;
 use Modules\Admin\Entities\Role;
 use App\Utils\EchoJson;
@@ -43,7 +44,16 @@ class RoleController extends Controller
         $role_id = $request->input('role_id');
 
         $permission_list = PermissionController::getPermissionByRole($role_id);
-        return $this->echoSuccessJson('获取角色已有权限列表成功!',$permission_list);
+        $res_data = [];
+        $res_data['permission_list'] = $permission_list;
+        $all_permission_count = Permission::all()->count();
+        if($all_permission_count == count($permission_list)){
+            $res_data['has_all_permission'] = true;
+        }else{
+            $res_data['has_all_permission'] = false;
+        }
+
+        return $this->echoSuccessJson('获取角色已有权限列表成功!',$res_data);
     }
 
     public function addRole(Request $request){

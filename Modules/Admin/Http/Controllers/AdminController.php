@@ -3,6 +3,7 @@
 namespace Modules\Admin\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Modules\Admin\Entities\AdminLog;
 use Modules\Admin\Entities\UserLog;
 use App\Utils\EchoJson;
