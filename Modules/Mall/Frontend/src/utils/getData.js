@@ -489,6 +489,21 @@ const getData = {
                 }
             })
         })
+    },
+
+    // 81.广告获取接口
+    onGetAdInfo() {
+        return new Promise((resolve, reject) => {
+            request({
+                url: '/home/get_ad_info',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
     }
 }
 

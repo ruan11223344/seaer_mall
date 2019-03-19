@@ -1,8 +1,10 @@
 <template>
     <div>
         <!-- 广告 -->
-        <template v-if="HomeData != null">
-            <v-banner :data_obj="HomeData.ad_header_url"></v-banner>
+        <template v-if="banner != null">
+            <template v-for="(item, index) in banner">
+                <v-banner :data_obj="item" :key="index" v-if="item.comment == '顶部'"></v-banner>
+            </template>
         </template>
         <!-- 头部导航 -->
         <header class="header">
@@ -19,15 +21,23 @@
                 <template v-if="AsideClass != null">
                     <v-cell :AsideClass="AsideClass"></v-cell>
                 </template>
-                <template v-if="HomeData != null">
-                    <v-carousel :slides="HomeData.ad_slides_url_list"></v-carousel>
+                <template v-if="slide != null">
+                    <v-carousel :slides="slide"></v-carousel>
                 </template>
             </section>
             <!-- 广告列 -->
             <section class="container main-banners">
-                <template v-if="HomeData != null">
+                <template v-if="banner != null">
                     <!-- 跳转到分类页面 -->
-                    <router-link :to="item.jump_url" v-for="(item, index) in HomeData.ad_three_url_list" :key="index">
+                    <router-link :to="banner[3].jump_url">
+                        <v-img width="393" height="200" :img-src="item.image_url"/>
+                    </router-link>
+
+                    <router-link :to="item.jump_url">
+                        <v-img width="393" height="200" :img-src="item.image_url"/>
+                    </router-link>
+
+                    <router-link :to="item.jump_url">
                         <v-img width="393" height="200" :img-src="item.image_url"/>
                     </router-link>
                 </template>
@@ -35,13 +45,13 @@
 
             <div class="main-container">
                 <!-- 广告 -->
-                <section class="container main-banner" v-if="HomeData != null">
+                <section class="container main-banner" v-if="banner != null">
                     <!-- <v-img width="1220" height="122" :img-src="require('@/assets/img/home/banner3.png')" /> -->
                     <!-- ad_center_url -->
                     <router-link
                         tag="div"
-                        :to="HomeData.ad_center_url.jump_url"
-                        :style="`background: url(${HomeData.ad_center_url.image_url}) center center;height: 122px;cursor: pointer;`"
+                        :to="banner[1].jump_url"
+                        :style="`background: url(${banner[1].image_url}) center center;height: 122px;cursor: pointer;`"
                         >
                     </router-link>
                 </section>
@@ -84,12 +94,12 @@
                 </div>
 
                 <!-- 广告 -->
-                <section class="container main-banner" style="marginTop: 28px" v-if="HomeData != null">
+                <section class="container main-banner" style="marginTop: 28px" v-if="banner != null">
                     <!-- <v-img width="1220" height="122" :img-src="require('@/assets/img/home/banner3.png')"></v-img> -->
                     <router-link
                         tag="div"
-                        :to="HomeData.ad_bottom_url.jump_url"
-                        :style="`background: url(${HomeData.ad_bottom_url.image_url}) center center;height: 122px;cursor: pointer;`"
+                        :to="banner[2].jump_url"
+                        :style="`background: url(${banner[2].image_url}) center center;height: 122px;cursor: pointer;`"
                         >
                     </router-link>
                 </section>
@@ -152,12 +162,15 @@
             return {
                 RecordIndex: 0,
                 HomeData: null,
-                AsideClass: null
+                AsideClass: null,
+                slide: null,
+                banner: null,
             }
         },
         methods: {
             onGetHome: getData.onGetHome,
             onGetAsideClass: getData.onGetAsideClass,
+            onGetAdInfo: getData.onGetAdInfo,
             onClickRecordLeft() {// 历史记录左滑动
                 this.RecordIndex <= 0 ? this.RecordIndex = 0 : this.RecordIndex--
                 const record = this.$refs.record
@@ -183,6 +196,11 @@
 
             this.onGetAsideClass().then(res => {
                 this.AsideClass = res
+            })
+
+            this.onGetAdInfo().then(({ slide, banner }) => {
+                this.slide = slide
+                console.log(banner)
             })
         },
         components: {

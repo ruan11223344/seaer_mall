@@ -20,9 +20,6 @@
             }
         },
         props: {
-            imgSrc: {
-                type: String,
-            },
             data_obj: Object
         }
     }
