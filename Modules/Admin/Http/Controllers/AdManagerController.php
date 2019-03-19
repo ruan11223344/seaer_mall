@@ -46,13 +46,19 @@ class AdManagerController extends Controller
     }
 
     public function getAdList(){
-        UtilsService::CreateCheckPermissions('获取广告列表','是否能够获取广告列表');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('获取广告列表','是否能够获取广告列表');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $res_data = self::getAdData();
         return $this->echoSuccessJson('获取成功!',$res_data);
     }
 
     public function editAd(Request $request){
-        UtilsService::CreateCheckPermissions('编辑广告','是否能够获编辑广告');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('编辑广告','是否能够获编辑广告');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $data = $request->all();
         $validator = Validator::make($data,[
             'ad_id'=>'required|exists:ad,id',
@@ -91,7 +97,6 @@ class AdManagerController extends Controller
     }
 
     public static function getIndexProductRecommendData(){
-        UtilsService::CreateCheckPermissions('获取首页推荐商品','是否能够获取首页推荐商品');
         $product_arr = IndexProductRecommend::all()->pluck('product_id');
         $res_data = [];
         Products::whereIn('id',$product_arr)->get()->map(function ($item)use(&$res_data){
@@ -125,7 +130,10 @@ class AdManagerController extends Controller
     }
 
     public function editIndexProductRecommend(Request $request){
-        UtilsService::CreateCheckPermissions('编辑首页推荐商品','是否能够编辑首页推荐商品');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('编辑首页推荐商品','是否能够编辑首页推荐商品');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $data =  $request->all();
         $validator = Validator::make($data,[
             'index_product_recommend_id'=>'required|exists:index_product_recommend,id',
@@ -165,7 +173,10 @@ class AdManagerController extends Controller
     }
 
     public function getSaleProduct(Request $request){
-        UtilsService::CreateCheckPermissions('获取所有在售商品','是否能够获取所有在售商品');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('获取所有在售商品','是否能够获取所有在售商品');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -185,7 +196,10 @@ class AdManagerController extends Controller
     }
 
     public function getSaleProductSearch(Request $request){
-        UtilsService::CreateCheckPermissions('搜索所有在售商品','是否能够搜索所有在售商品');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('搜索所有在售商品','是否能够搜索所有在售商品');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $data = $request->all();
 
         $validator = Validator::make($data, [

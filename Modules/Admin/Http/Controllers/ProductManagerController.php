@@ -121,7 +121,11 @@ class ProductManagerController extends Controller
     }
 
     public function getProductList(Request $request){
-        UtilsService::CreateCheckPermissions('获取商品列表','是否能够获取商品列表');
+        $CheckPermissions =  UtilsService::CreateCheckPermissions('获取商品列表','是否能够获取商品列表');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
+
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -141,7 +145,10 @@ class ProductManagerController extends Controller
     }
 
     public function getAuditProductList(Request $request){
-        UtilsService::CreateCheckPermissions('获取商品审核列表','是否能够获取商品审核列表');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('获取商品审核列表','是否能够获取商品审核列表');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -166,7 +173,10 @@ class ProductManagerController extends Controller
     }
 
     public function getProductInfo(Request $request){
-        UtilsService::CreateCheckPermissions('获取商品审核详情','是否能够获取获取商品审核详情');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('获取商品审核详情','是否能够获取获取商品审核详情');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -299,7 +309,10 @@ class ProductManagerController extends Controller
 
 
     public function auditProduct(Request $request){
-        UtilsService::CreateCheckPermissions('审核商品','是否能够审核商品');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('审核商品','是否能够审核商品');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -371,7 +384,10 @@ class ProductManagerController extends Controller
     }
 
     public function productOffShelf(Request $request){
-        UtilsService::CreateCheckPermissions('商品下架','是否能够商品下架');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('商品下架','是否能够商品下架');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $data = $request->all();
 
         $validator = Validator::make($data, [

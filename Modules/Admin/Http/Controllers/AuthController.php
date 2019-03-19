@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use League\OAuth2\Server\AuthorizationServer;
 use Modules\Admin\Entities\Admin;
 use Modules\Admin\Entities\AdminLog;
+use Modules\Admin\Entities\Permission;
+use Modules\Admin\Entities\PermissionRole;
 use Modules\Admin\Entities\Role;
 use Modules\Admin\Service\UtilsService;
 use Psr\Http\Message\ServerRequestInterface;
@@ -73,7 +75,10 @@ class AuthController extends Controller
     }
 
     public function addAdmin(Request $request){
-        UtilsService::CreateCheckPermissions('添加管理员','管理员是否能够添加新的管理员');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('添加管理员','管理员是否能够添加新的管理员');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
 
         $data = $request->all();
 
@@ -110,9 +115,76 @@ class AuthController extends Controller
         return $this->echoSuccessJson('创建管理员成功!');
     }
 
-    public function getAdminInfo(){
+    public function getAccountInfo(){
         $admin_info = [];
         $admin_info['name'] = Auth::user()->name;
+        $admin_info['id'] = Auth::id();
+        $role_id_obj = DB::table('role_user')->where('user_id',Auth::id());
+        $role_id_clone = clone $role_id_obj;
+        if($role_id_obj->exists()){
+            $role_id = $role_id_clone->get()->first()->role_id;
+            $role_name = Role::find($role_id)->name;
+        }else{
+            $role_name = '无权限组';
+        }
 
+        $admin_info['role_name'] = $role_name;
+
+        return $this->echoSuccessJson('获取管理员信息成功!',$admin_info);
+    }
+
+    public function canAccessRoute(){
+        $data = [];
+        $data['首页'] = true;
+        $data['用户管理'] = [];
+        $data['商品管理'] = [];
+        $data['文章管理'] = [];
+        $data['广告管理'] = [];
+        $data['系统公告'] = [];
+        $data['意见反馈'] = [];
+        $role_id = DB::table('role_user')->where('user_id',Auth::id())->get()->first()->role_id;
+        $permission_id_list = PermissionRole::where('role_id',$role_id)->pluck('permission_id');
+        $has_permission_name_arr = Permission::whereIn('id',$permission_id_list)->pluck('name')->toArray();
+        foreach ($has_permission_name_arr as $v){
+            switch ($v){
+                case 'admin.user.list':
+                    $data['用户管理']['用户'] = true;
+                    break;
+                case 'admin.user.merchants.list':
+                    $data['用户管理']['商家'] = true;
+                    break;
+                case 'admin.user.admin.list':
+                    $data['用户管理']['管理员'] = true;
+                    break;
+                case 'admin.product.list':
+                    $data['商品管理']['全部商品'] = true;
+                    break;
+                case 'admin.product.auditList':
+                    $data['商品管理']['待审核商品'] = true;
+                    break;
+                case 'admin.article.SystemArticleList':
+                    $data['文章管理']['系统文章'] = true;
+                    break;
+                case 'admin.article.AgreementsList':
+                    $data['文章管理']['会员协议'] = true;
+                    break;
+                case 'admin.ad.list':
+                    $data['广告管理']['首页广告'] = true;
+                    break;
+                case 'admin.article.SystemAnnouncementList':
+                    $data['系统公告']['系统公告'] = true;
+                    break;
+                case 'admin.feedback.list':
+                    $data['意见反馈']['反馈信息'] = true;
+                    break;
+            }
+        }
+
+        foreach ($data as $k=>$v){
+            if(is_array($v) && count($v) == 0){
+                unset($data[$k]);
+            }
+        }
+        return $this->echoSuccessJson('获取可访问路由成功!',$data);
     }
 }

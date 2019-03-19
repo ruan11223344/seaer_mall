@@ -71,12 +71,7 @@ class UtilsService
         }
 
         if(get_class(Auth::user()) == "Modules\Mall\Entities\User"){
-            $arr = [
-                'code'      => 402,
-                'message'   => "非法访问!",
-                'data'      => [],
-            ];
-            return response()->json($arr);
+            return [false,'非法访问'];
         }
 
         $admin_name = Auth::user()->name;
@@ -84,25 +79,17 @@ class UtilsService
         if($admin_name != 'admin'){
             $role_id = DB::table('role_user')->where('user_id',Auth::id())->get()->first()->role_id;
             if($role_id == null){
-                $arr = [
-                    'code'      => 402,
-                    'message'   => "你的账户没有设定角色,不能访问这个接口!",
-                    'data'      => [],
-                ];
-                return response()->json($arr);
+                return [false,'你的账户没有设定角色,不能访问这个接口!'];
             }
 
-            $permission_id_list = PermissionRole::where('role_id',$role_id)->pluck('permission_id');
-            $has_permission_name_arr = Permission::whereIn('id',$permission_id_list)->pluck('name');
+            $permission_id_list = PermissionRole::where('role_id',$role_id)->pluck('permission_id')->toArray();
+            $has_permission_name_arr = Permission::whereIn('id',$permission_id_list)->pluck('name')->toArray();
             if(!in_array($router_name,$has_permission_name_arr)){
-                $arr = [
-                    'code'      => 402,
-                    'message'   => "你没有权限访问这个接口!请联系管理员!",
-                    'data'      => [],
-                ];
-                return response()->json($arr);
+                return [false,'你没有权限访问这个接口!请联系管理员!'];
             }
         }
+
+        return [true,'ok'];
     }
 
 

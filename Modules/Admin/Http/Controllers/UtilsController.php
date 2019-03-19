@@ -19,7 +19,10 @@ class UtilsController extends Controller
     }
 
     public function uploadImg(Request $request){
-        UtilsService::CreateCheckPermissions('通用上传图片','是否能够上传图片');
+        $CheckPermissions = UtilsService::CreateCheckPermissions('通用上传图片','是否能够上传图片');
+        if($CheckPermissions[0] == false){
+            return $this->echoErrorJson($CheckPermissions[1]);
+        }
         $data      = $request->all();
         $validator = Validator::make($data, [
             'img' => 'max:2048|image',

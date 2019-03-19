@@ -392,13 +392,26 @@ class ProductsController extends Controller
                 'product_status'          => $product_publishing_time != null ? self::PRODUCT_STATUS_SALE : $put_warehouse == null ? null : $put_warehouse == true ? self::PRODUCT_STATUS_WAREHOUSE : self::PRODUCT_STATUS_SALE,
                 'product_publishing_time' => $product_publishing_time,
                 'product_details'         => $product_details,
-                'product_audit_status'    => self::PRODUCT_AUDIT_STATUS_CHECKING,
+//                'product_audit_status'    => self::PRODUCT_AUDIT_STATUS_CHECKING, //0 也 等于 null 所以状态没有被更新 下方加入判断后更新审核状态
             ];
 
             foreach ($update_data as $k => $v) {
                 if ($v == null) {
                     unset($update_data[$k]);
                 }
+            }
+
+            foreach ($update_data as $k=>$v){
+                if($product_obj->$k != $v){
+                    $changed = true;
+                    break;
+                }else{
+                    $changed = false;
+                }
+            }
+
+            if($changed){
+                $update_data['product_audit_status'] = self::PRODUCT_AUDIT_STATUS_CHECKING;
             }
 
             //更新商品
@@ -436,6 +449,15 @@ class ProductsController extends Controller
                         'status'     => 'waiting',
                     ]
                 );
+            }
+
+            $company_id = $product_obj->company_id;
+
+            if($company_id != null){
+                if(UsersExtends::where('company_id',$company_id)->exists()){
+                    $user_id = UsersExtends::where('company_id',$company_id)->get()->first()->user_id;
+                    UtilsService::WriteLog('user','product','modify',$user_id,$product_obj->id); //记录修改商品日志
+                }
             }
 
             DB::commit();
