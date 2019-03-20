@@ -36,7 +36,7 @@
                     </div>
                     <div class="shop">{{ company_name }}</div>
                     <div class="time">{{ dayjs(product_create_time).format('MMM DD,YYYY') }}</div>
-                    <button :class="$route.query.product_id == product_id ? 'btn btn-active' : 'btn'" @click="$route.query.product_id == product_id ? '' : onSub(product_id)">
+                    <button :class="allProductId.includes(product_id) ? 'btn btn-active' : 'btn'" @click="allProductId.includes(product_id) ? '' : onSub(product_id)">
                         Select
                     </button>
                 </section>
@@ -69,7 +69,8 @@
                     size: 5,
                     num: 1
                 },
-                search: ''
+                search: '',
+                allProductId: null
             }
         },
         methods: {
@@ -126,6 +127,7 @@
             }
         },
         created() {
+            this.allProductId = JSON.parse(this.$route.query.allProductId)
             this.onGetData()
         },
         watch: {

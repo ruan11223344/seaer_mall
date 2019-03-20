@@ -69,6 +69,7 @@
                     align="center"
                     label="序号"
                     type="index"
+                    show-overflow-tooltip
                     >
                 </el-table-column>
 
@@ -76,6 +77,7 @@
                     align="center"
                     property="ad_name"
                     label="广告位名称"
+                    show-overflow-tooltip
                     >
                 </el-table-column>
 
@@ -83,6 +85,7 @@
                     align="center"
                     property="width"
                     label="宽度"
+                    show-overflow-tooltip
                     >
                 </el-table-column>
 
@@ -90,6 +93,7 @@
                     align="center"
                     property="height"
                     label="高度"
+                    show-overflow-tooltip
                     >
                 </el-table-column>
 
@@ -124,6 +128,7 @@
                     align="center"
                     label="序号"
                     type="index"
+                    show-overflow-tooltip
                     >
                 </el-table-column>
 
@@ -131,6 +136,7 @@
                     align="center"
                     property="product_name"
                     label="商品名称"
+                    show-overflow-tooltip
                     >
                 </el-table-column>
 
@@ -138,6 +144,7 @@
                     align="center"
                     property="shop_name"
                     label="所属店铺"
+                    show-overflow-tooltip
                     >
                 </el-table-column>
 
@@ -145,6 +152,7 @@
                     align="center"
                     property="upload_time"
                     label="上传时间"
+                    show-overflow-tooltip
                     >
                 </el-table-column>
 
@@ -156,7 +164,7 @@
                     <template slot-scope="scope">
                         <button
                             class="edit"
-                            @click="onProductEdit(scope.row.index_product_recommend_id, scope.row.product_id)"
+                            @click="onProductEdit(scope.row.index_product_recommend_id, scope.row.product_id, scope)"
                             >
                             编辑
                         </button>
@@ -173,7 +181,8 @@
             return {
                 banner: null,
                 slide: null,
-                product: null
+                product: null,
+                allProductId: null
             }
         },
         methods: {
@@ -181,8 +190,9 @@
                 const obj = JSON.stringify(data)
                 this.$router.push('/advertisement/edit?obj=' + obj)
             },
-            onProductEdit(index_product_recommend_id, product_id) {
-                this.$router.push('/advertisement/productedit?index_product_recommend_id=' + index_product_recommend_id + '&product_id=' + product_id)
+            onProductEdit(index_product_recommend_id, product_id, scope) {
+                const arr = JSON.stringify(this.allProductId)
+                this.$router.push('/advertisement/productedit?index_product_recommend_id=' + index_product_recommend_id + '&product_id=' + product_id + '&allProductId=' + arr)
             },
             GetAdList() {
                 this.$GetRequest.getAdList()
@@ -197,6 +207,10 @@
                 this.$GetRequest.getProductRecommend()
                     .then(res => {
                         this.product = res
+                        this.allProductId = []
+                        for(let item of res) {
+                            this.allProductId.push(item.product_id)
+                        }
                     })
                     .catch(err => {
                         this.$message.error(err.message)
