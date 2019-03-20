@@ -462,20 +462,20 @@ const getData = {
             })
         })
     },
-    // 77.首页数据获取 假数据！
-    onGetHome() {
-        return new Promise((resolve, reject) => {
-            request({
-                url: '/home/index',
-            }).then(res => {
-                if(res.code == 200) {
-                    resolve(res.data)
-                }else {
-                    reject(res)
-                }
-            })
-        })
-    },
+    // // 77.首页数据获取 假数据！
+    // onGetHome() {
+    //     return new Promise((resolve, reject) => {
+    //         request({
+    //             url: '/home/index',
+    //         }).then(res => {
+    //             if(res.code == 200) {
+    //                 resolve(res.data)
+    //             }else {
+    //                 reject(res)
+    //             }
+    //         })
+    //     })
+    // },
     // 78.获取用户中心商品分类数量与图片上传数量
     onGetProductNumInfo() {
         return new Promise((resolve, reject) => {
@@ -496,6 +496,24 @@ const getData = {
         return new Promise((resolve, reject) => {
             request({
                 url: '/home/get_ad_info',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    },
+
+    // 82.首页商品推荐获取
+    onGetProductRecommend(user_id) {
+        return new Promise((resolve, reject) => {
+            request({
+                url: '/home/get_index_product_recommend',
+                params: {
+                    "user_id": user_id //当登录时填 可以更加精准的获取个人推荐商品
+                }
             }).then(res => {
                 if(res.code == 200) {
                     resolve(res.data)

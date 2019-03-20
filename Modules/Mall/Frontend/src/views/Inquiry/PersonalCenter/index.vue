@@ -5,7 +5,7 @@
                 <div class="personal-main-left-head" v-if="user">
                     <img :src="user.user_extends.avatar_url || require('@/assets/img/login/avatar.png')" alt="">
                     <dl>
-                        <dt class="personal-main-left-head-title">CHENG-NANCY</dt>
+                        <dt class="personal-main-left-head-title">{{ user.user.name }}</dt>
                         <dd>(Member ID：{{ user.user.name }})</dd>
                         <dt class="personal-main-left-head-free">Free Member</dt>
                         <dd>Membership</dd>
@@ -161,6 +161,7 @@
         },
         created() {
             this.user = this.getSessionStorage()
+            console.log(this.user)
         },
         mounted() {
             this.onGetOutboxMessag()

@@ -15,17 +15,10 @@
         },
         data() {
             return {
-                imgObj: {
-                    src: '',
-                    loading: require('@/assets/img/loading.gif')
-                },
             }
         },
         computed: {
-            filterImgs() { // 过滤
-                this.$set(this.imgObj, 'src', this.imgSrc)
-                return this.imgObj
-            }
+            
         }
     }
 </script>

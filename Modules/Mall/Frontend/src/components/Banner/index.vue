@@ -1,5 +1,5 @@
 <template>
-    <div class="banner" v-if="active">
+    <div class="banner" v-if="active == null">
         <router-link
             tag="div"
             :to="data_obj.jump_url"
@@ -7,7 +7,7 @@
             >
         </router-link>
         <div class="container">
-            <div @click="active = false">X</div>
+            <div @click="onClick">X</div>
         </div>
     </div>
 </template>
@@ -16,12 +16,21 @@
     export default {
         data() {
             return {
-                active: true
+                active: null
             }
         },
         props: {
             data_obj: Object
-        }
+        },
+        methods: {
+            onClick() {
+                sessionStorage.setItem('banner', true)
+                this.active = sessionStorage.getItem('banner')
+            }
+        },
+        created() {
+            this.active = sessionStorage.getItem('banner')
+        },
     }
 </script>
 

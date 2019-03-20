@@ -342,7 +342,7 @@
                     if(code == 200) {
                         this.$router.push('/registered/complete')
                     }else {
-                        this.$Message.warning('Verify through please register')
+                        this.$Message.warning(res.message)
                     }
                 }).catch(err => {
                     return false

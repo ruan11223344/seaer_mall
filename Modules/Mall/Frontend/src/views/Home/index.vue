@@ -68,12 +68,12 @@
                 <div v-if="HomeData != null">
                     <!-- 标题 -->
                     <section class="container main-title">
-                        <v-title left-title="Hot Recommend" :right-title="true" :data_product_All="HomeData.product_hot_recommend"></v-title>
+                        <v-title left-title="Hot Recommend" :right-title="true" :data_product_All="HomeData.hot_recommend"></v-title>
                     </section>
                     <!-- 商品列表 -->
                     <section class="container main-item">
                         <!-- 渲染商品列表mock -->
-                        <template v-for="(item, index) in HomeData.product_hot_recommend">
+                        <template v-for="(item, index) in HomeData.hot_recommend">
                             <template v-if="index < 5">
                                 <v-card :data="item" :key="index"></v-card>
                             </template>
@@ -87,13 +87,13 @@
                         <v-title
                             left-title="New Arrivals"
                             :right-title="true"
-                            :data_product_All="HomeData.product_personal_recommend">
+                            :data_product_All="HomeData.personal_recommend">
                         </v-title>
                     </section>
                     <!-- 商品列表 -->
                     <section class="container main-item">
                         <!-- 渲染商品列表mock -->
-                        <template v-for="(item, index) in HomeData.product_personal_recommend">
+                        <template v-for="(item, index) in HomeData.personal_recommend">
                             <template v-if="index < 5">
                                 <v-card :data="item" :key="index"></v-card>
                             </template>
@@ -116,8 +116,8 @@
                 </section>
 
                 <!-- 历史纪录 -->
-                <template v-if="HomeData != null">
-                    <div v-if="HomeData.product_history.length">
+                <template v-if="product_viewed != undefined">
+                    <div v-if="product_viewed.length">
                         <!-- 标题 -->
                         <section class="container main-title">
                             <v-title left-title="My Recently Viewed Items"></v-title>
@@ -129,7 +129,7 @@
                             </div>
                             <div class="main-record" ref="record">
                                 <!-- 渲染历史记录mock -->
-                                <template v-for="(item, index) in HomeData.product_history">
+                                <template v-for="(item, index) in product_viewed">
                                     <!-- <template v-if="index < 5"> -->
                                         <v-card class="main-record-list" :data="item" :key="index"></v-card>
                                     <!-- </template> -->
@@ -167,6 +167,7 @@
     import titleTemplateVue from './components/title-template.vue'
     import carouselTemplateVue from './components/carousel-template'
     import cellTemplateVue from './components/cell-template.vue'
+    import auth from '../../utils/auth.js'
 
     export default {
         data() {
@@ -176,10 +177,11 @@
                 AsideClass: null,
                 slide: null,
                 banner: null,
+                product_viewed: null
             }
         },
         methods: {
-            onGetHome: getData.onGetHome,
+            onGetProductRecommend: getData.onGetProductRecommend,
             onGetAsideClass: getData.onGetAsideClass,
             onGetAdInfo: getData.onGetAdInfo,
             onClickRecordLeft() {// 历史记录左滑动
@@ -201,8 +203,11 @@
             }
         },
         mounted() {
-            this.onGetHome().then(res => {
+            const user_id = auth.getSessionStorage()
+            console.log(user_id)
+            this.onGetProductRecommend(user_id != null ? user_id.user.id : '').then(res => {
                 this.HomeData = res
+                this.product_viewed = res.product_viewed
             })
 
             this.onGetAsideClass().then(res => {
