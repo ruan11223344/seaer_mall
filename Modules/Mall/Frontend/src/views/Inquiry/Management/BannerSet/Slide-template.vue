@@ -3,7 +3,7 @@
         <div class="SlideSet-title">Slide Settings:</div>
         <article class="SlideSet-article">
             <p>Up to 5 slides supported.</p>
-            <p>It supports JPG, JPEG, GIF, PNG as file type. The recommended size is 940*440px, less than 1 MB. The slides effect can only be valid
+            <p>It supports JPG, JPEG, GIF, PNG as file type. The recommended size is 1920*500px, less than 1 MB. The slides effect can only be valid
   when you upload more than 2 images.</p>
             <p>Press Submit to view the demo the slides effect when finished uploading.</p>
             <p>Make sure the link of the image is valid.</p>
@@ -70,7 +70,7 @@
             <button type="button" @click="onSave">Save</button>
         </div>
 
-        <v-cropper :url="url" :autoCropWidth="940" :autoCropHeight="440" @on-cropper="onCropper" @on-show="onShow" v-show="show"></v-cropper>
+        <v-cropper :url="url" :autoCropWidth="1920" :autoCropHeight="500" @on-cropper="onCropper" @on-show="onShow" v-show="show"></v-cropper>
     </div>
 </template>
 

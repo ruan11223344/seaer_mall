@@ -13,11 +13,11 @@
             <div class="company-home-main-fixed-name">{{ Company_Detail.basic_info.contact_full_name }}</div>
             <div class="company-home-main-fixed-content">
                 <div>Company Name:</div>
-                <p>
-                    <Tooltip :content="Company_Detail.basic_info.company_name">
+                <Tooltip :content="Company_Detail.basic_info.company_name">
+                    <p class="company-home-main-fixed-content-p">
                         {{ Company_Detail.basic_info.company_name }}
-                    </Tooltip>
-                </p>
+                    </p>
+                </Tooltip>
             </div>
             <div class="company-home-main-fixed-state">
                 <span>Country/Region:</span>
@@ -144,10 +144,11 @@
                 color: #333333;
             }
 
-            & > p {
+            &-p {
                 font-size: 14px;
                 letter-spacing: 0px;
                 color: #666666;
+                overflow: hidden;
                 .textHiddens(2);
             }
             

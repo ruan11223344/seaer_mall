@@ -11,7 +11,13 @@
             :height="setting.height">
             <template v-for="(item, index) in Company_Detail.shop_info.slides">
                 <CarouselItem :key="index">
-                    <img style="width: 100%; height: 100%; display: block;" :src="item.url" alt="">
+                    <a
+                        :href="item.url_jump"
+                        target="_blank"
+                        style="`display: block;`"
+                        >
+                        <img style="width: 100%; height: 100%; display: block;" :src="item.url" alt=""> 
+                    </a>
                 </CarouselItem>
             </template>
         </Carousel>
