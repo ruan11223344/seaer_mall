@@ -1,56 +1,59 @@
 <template>
-    <div v-if="ProductData">
-        <v-head-template v-if="Company_Detail" :name="Company_Detail.basic_info.company_name" :bool="ProductData.is_favorites_shop" @on-click="getCompany"></v-head-template>
-        
-        <section v-if="Company_Detail" class="details-banner" :style="`background: url(${Company_Detail.shop_info.banner.banner_url}) center center;`">
-            <!-- <img :src="Company_Detail.shop_info.banner.banner_url" alt=""> -->
-        </section>
-
-        <v-goods-nav></v-goods-nav>
-        
-        <main class="main">
-            <!-- 商品 -->
-            <section class="container main-goods">
-                <div class="main-goods-left">
-                    <div class="main-goods-left-picture">
-                        <!-- 放大镜 -->
-                        <v-zoom :imgSrc="ProductData.product_info.product_images_url[activeIndex]"></v-zoom>
-                    </div>
-                    <ul class="main-goods-left-pictureItem">
-                        <li
-                            class="main-goods-left-pictureList"
-                            :style="activeIndex==index ? 'border: 1px solid #d72b2b' : 'border: 1px solid #dddddd'"
-                            v-for="(item, index) in ProductData.product_info.product_images_url"
-                            :key="index"
-                            @click="activeIndex = index">
-                            <v-img width="58" height="58" :imgSrc="item"/>
-                        </li>
-                    </ul>
-                    <div class="main-goods-left-pictureBottom">
-                        <div class="main-goods-left-pictureBottom-icon" @click="onCollection(ProductData.product_info.id)">
-                            <img :src="ProductData.is_favorites_product ? require('@/assets/img/details/sc2.png') : require('@/assets/img/details/sc1.png')" alt="">
+    <div style="min-height: 500px;" v-loading="ProductData == null">
+        <template v-if="ProductData">
+            <v-head-template v-if="Company_Detail" :name="Company_Detail.basic_info.company_name" :bool="ProductData.is_favorites_shop" @on-click="getCompany"></v-head-template>
+            <template v-if="Company_Detail">
+                <section
+                    v-if="Object.prototype.toString.call(Company_Detail.shop_info.banner) == '[object Object]'"
+                    class="details-banner"
+                    :style="`background: url(${Company_Detail.shop_info.banner.banner_url}) center center;`">
+                </section>
+            </template>
+            <v-goods-nav></v-goods-nav>
+            
+            <main class="main">
+                <!-- 商品 -->
+                <section class="container main-goods">
+                    <div class="main-goods-left">
+                        <div class="main-goods-left-picture">
+                            <!-- 放大镜 -->
+                            <v-zoom :imgSrc="ProductData.product_info.product_images_url[activeIndex]"></v-zoom>
                         </div>
-                        <span>Add to Favorites</span>
+                        <ul class="main-goods-left-pictureItem">
+                            <li
+                                class="main-goods-left-pictureList"
+                                :style="activeIndex==index ? 'border: 1px solid #d72b2b' : 'border: 1px solid #dddddd'"
+                                v-for="(item, index) in ProductData.product_info.product_images_url"
+                                :key="index"
+                                @click="activeIndex = index">
+                                <v-img width="58" height="58" :imgSrc="item"/>
+                            </li>
+                        </ul>
+                        <div class="main-goods-left-pictureBottom">
+                            <div class="main-goods-left-pictureBottom-icon" @click="onCollection(ProductData.product_info.id)">
+                                <img :src="ProductData.is_favorites_product ? require('@/assets/img/details/sc2.png') : require('@/assets/img/details/sc1.png')" alt="">
+                            </div>
+                            <span>Add to Favorites</span>
+                        </div>
+                        <!-- 模态框 -->
                     </div>
-                    <!-- 模态框 -->
-                </div>
-                <v-content
-                    v-if="Company_Detail"
-                    @on-click="onClickImg"
-                    :url="ProductData.product_info.product_images_url[activeIndex]"
-                    :active="activeIndex"
-                    :dataFrom="ProductData"
-                    :id="Company_Detail.shop_info.af_id">
-                </v-content>
+                    <v-content
+                        v-if="Company_Detail"
+                        @on-click="onClickImg"
+                        :url="ProductData.product_info.product_images_url[activeIndex]"
+                        :active="activeIndex"
+                        :dataFrom="ProductData"
+                        :id="Company_Detail.shop_info.af_id">
+                    </v-content>
 
-                <v-right v-if="Company_Detail"></v-right>
-            </section>
+                    <v-right v-if="Company_Detail"></v-right>
+                </section>
 
-            <section class="container" style="marginTop:50px">
-                <v-footer-template :product_details="ProductData.product_info.product_details"></v-footer-template>
-            </section>
-        </main>
-      
+                <section class="container" style="marginTop:50px">
+                    <v-footer-template :product_details="ProductData.product_info.product_details"></v-footer-template>
+                </section>
+            </main>
+        </template>
     </div>
 </template>
 

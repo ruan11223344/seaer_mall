@@ -22,7 +22,10 @@ const newRouter = new Router({
         {
             path: '/login',
             name: 'login',
-            component: () => import('./views/Login')
+            component: () => import('./views/Login'),
+            beforeEnter: (to, from, next) => {
+                
+            }
         },
         {
             path: '/registered', // 注册账户

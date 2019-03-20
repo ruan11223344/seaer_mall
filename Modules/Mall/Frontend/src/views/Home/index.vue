@@ -17,7 +17,7 @@
                 <v-search></v-search>
             </section>
             <!-- 轮播图 -->
-            <section class="container main-carousel">
+            <section class="container main-carousel" v-loading="AsideClass == null">
                 <template v-if="AsideClass != null">
                     <v-cell :AsideClass="AsideClass"></v-cell>
                 </template>
@@ -26,7 +26,7 @@
                 </template>
             </section>
             <!-- 广告列 -->
-            <section class="container main-banners">
+            <section class="container main-banners" v-loading="banner == null">
                 <template v-if="banner != null">
                     <!-- 跳转到分类页面 -->
                     <template v-for="(item, index) in banner">
@@ -52,66 +52,74 @@
 
             <div class="main-container">
                 <!-- 广告 -->
-                <section class="container main-banner" v-if="banner != null">
-                    <template v-for="(item, index) in banner">
-                        <router-link
-                            v-if="item.comment == '中部'"
-                            :key="index"
-                            tag="div"
-                            :to="item.jump_url"
-                            :style="`background: url(${item.image_url}) center center;height: 122px;cursor: pointer;`"
-                            >
-                        </router-link>
+                <section class="container main-banner" v-loading="banner == null">
+                    <template v-if="banner != null">
+                        <template v-for="(item, index) in banner">
+                            <router-link
+                                v-if="item.comment == '中部'"
+                                :key="index"
+                                tag="div"
+                                :to="item.jump_url"
+                                :style="`background: url(${item.image_url}) center center;height: 122px;cursor: pointer;`"
+                                >
+                            </router-link>
+                        </template>
                     </template>
                 </section>
 
-                <div v-if="HomeData != null">
-                    <!-- 标题 -->
-                    <section class="container main-title">
-                        <v-title left-title="Hot Recommend" :right-title="true" :data_product_All="HomeData.hot_recommend"></v-title>
-                    </section>
-                    <!-- 商品列表 -->
-                    <section class="container main-item">
-                        <!-- 渲染商品列表mock -->
-                        <template v-for="(item, index) in HomeData.hot_recommend">
-                            <template v-if="index < 5">
-                                <v-card :data="item" :key="index"></v-card>
+                <div style="height:385px;" v-loading="HomeData == null">
+                    <template v-if="HomeData != null">
+                        <!-- 标题 -->
+                        <section class="container main-title">
+                            <v-title left-title="Hot Recommend" :right-title="true" :data_product_All="HomeData.hot_recommend"></v-title>
+                        </section>
+                        <!-- 商品列表 -->
+                        <section class="container main-item">
+                            <!-- 渲染商品列表mock -->
+                            <template v-for="(item, index) in HomeData.hot_recommend">
+                                <template v-if="index < 5">
+                                    <v-card :data="item" :key="index"></v-card>
+                                </template>
                             </template>
-                        </template>
-                    </section>
+                        </section>
+                    </template>
                 </div>
 
-                <div v-if="HomeData != null">
-                    <!-- 标题 -->
-                    <section class="container main-title">
-                        <v-title
-                            left-title="Personal Recommend"
-                            :right-title="true"
-                            :data_product_All="HomeData.personal_recommend">
-                        </v-title>
-                    </section>
-                    <!-- 商品列表 -->
-                    <section class="container main-item">
-                        <!-- 渲染商品列表mock -->
-                        <template v-for="(item, index) in HomeData.personal_recommend">
-                            <template v-if="index < 5">
-                                <v-card :data="item" :key="index"></v-card>
+                <div style="height:385px;" v-loading="HomeData == null">
+                    <template v-if="HomeData != null">
+                        <!-- 标题 -->
+                        <section class="container main-title">
+                            <v-title
+                                left-title="Personal Recommend"
+                                :right-title="true"
+                                :data_product_All="HomeData.personal_recommend">
+                            </v-title>
+                        </section>
+                        <!-- 商品列表 -->
+                        <section class="container main-item">
+                            <!-- 渲染商品列表mock -->
+                            <template v-for="(item, index) in HomeData.personal_recommend">
+                                <template v-if="index < 5">
+                                    <v-card :data="item" :key="index"></v-card>
+                                </template>
                             </template>
-                        </template>
-                    </section>
+                        </section>
+                    </template>
                 </div>
 
                 <!-- 广告 -->
-                <section class="container main-banner" style="marginTop: 28px" v-if="banner != null">
-                    <template v-for="(item, index) in banner">
-                        <router-link
-                            v-if="item.comment == '底部'"
-                            :key="index"
-                            tag="div"
-                            :to="item.jump_url"
-                            :style="`background: url(${item.image_url}) center center;height: 122px;cursor: pointer;`"
-                            >
-                        </router-link>
+                <section class="container main-banner" style="marginTop: 28px" v-loading="banner == null">
+                    <template v-if="banner != null">
+                        <template v-for="(item, index) in banner">
+                            <router-link
+                                v-if="item.comment == '底部'"
+                                :key="index"
+                                tag="div"
+                                :to="item.jump_url"
+                                :style="`background: url(${item.image_url}) center center;height: 122px;cursor: pointer;`"
+                                >
+                            </router-link>
+                        </template>
                     </template>
                 </section>
 

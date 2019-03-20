@@ -1,35 +1,31 @@
 <template>
-    <div>
-        <!-- 首页 -->
-        <!-- 头部导航 -->
-        <header class="header">
-            <v-nav></v-nav>
-        </header>
-
+    <div style="min-height: 500px;" v-loading="Company_Detail == null">
         <template v-if="Company_Detail">
+            <!-- 首页 -->
+            <!-- 头部导航 -->
+            <header class="header">
+                <v-nav></v-nav>
+            </header>
+
             <v-company @on-click="getCompany"></v-company>
-        </template>
 
-        <!-- banner -->
-        <template v-if="Company_Detail">
-            <template v-if="Company_Detail.shop_info.banner.banner_url">
+            <!-- banner -->
+            <template v-if="Object.prototype.toString.call(Company_Detail.shop_info.banner) == '[object Object]'">
                 <section class="banner">
                     <img :src="Company_Detail.shop_info.banner.banner_url" alt="">
                 </section>
             </template>
-        </template>
-        
-        <!-- 导航 -->
-        <v-nav-list></v-nav-list>
+            
+            <!-- 导航 -->
+            <v-nav-list></v-nav-list>
 
-        <template  v-if="Company_Detail">
             <!-- 子页面渲染 -->
             <router-view></router-view>
-        </template>
 
-        <!-- 页脚 -->
-        <v-footer-nav></v-footer-nav>
-        <v-footer></v-footer>
+            <!-- 页脚 -->
+            <v-footer-nav></v-footer-nav>
+            <v-footer></v-footer>
+        </template>
     </div>
 </template>
 

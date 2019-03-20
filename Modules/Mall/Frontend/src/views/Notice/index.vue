@@ -15,14 +15,20 @@
         <section class="Notice-block">
             <div class="Notice-block-box" v-loading="content == null">
                 <template v-if="content != null">
-                    <div class="Notice-block-box-title">{{ content.title }}</div>
-                    <time class="Notice-block-box-time">{{ content.updated_at }}</time>
+                    <div class="Notice-block-box-title">{{ content.article_title }}</div>
+                    <time class="Notice-block-box-time">{{ content.publish_time }}</time>
                     <div class="ql-editor Notice-block-box-content" v-html="content.content"></div>
                 </template>
             </div>
         </section>
+        
         <v-footer-nav></v-footer-nav>
         <v-footer></v-footer>
+
+        <!-- 右侧栏 -->
+        <section>
+            <v-aside></v-aside>
+        </section>
     </div>
 </template>
 
@@ -35,7 +41,7 @@
     import 'quill/dist/quill.bubble.css'
     import 'quill/dist/quill.core.css'
     import 'quill/dist/quill.snow.css'
-
+    import Aside from "@/components/Aside"
 
     export default {
         data() {
@@ -79,7 +85,8 @@
             'v-nav': Header,
             'v-search': Search,
             'v-footer-nav': FooterNav,
-            'v-footer': Footer
+            'v-footer': Footer,
+            'v-aside': Aside
         }
     }
 </script>

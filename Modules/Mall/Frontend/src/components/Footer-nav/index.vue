@@ -10,8 +10,8 @@
                     <dt>Help Center</dt>
                     <dd>{{'Finding & Contacting'}}</dd>
                     <dd>Novice Guide</dd>
-                    <dd>Forget the Password</dd>
-                    <dd>Register As a Merchant</dd>
+                    <router-link class="hover" tag="dd" to="/reset/find">Forget the Password</router-link>
+                    <!-- <dd>Register As a Merchant</dd> -->
                     <dd>Online Contact Us</dd>
                 </dl>
                 <dl style="marginRight:87px">

@@ -1,5 +1,5 @@
-<template >
-    <div v-if="Company_Detail">
+<template>
+    <div>
         <Carousel
             :loop="true"
             :autoplay="setting.autoplay"
@@ -21,7 +21,7 @@
                 </CarouselItem>
             </template>
         </Carousel>
-        
+
         <v-main></v-main>
     </div>
 </template>
@@ -42,7 +42,7 @@
                     trigger: 'click',
                     arrow: 'hover',
                     height: 500
-                },
+                }
             }
         },
         computed: {
