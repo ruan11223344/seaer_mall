@@ -283,7 +283,6 @@ class MessagesController extends Controller
                     'purchase_quantity'=>$request->input('purchase_quantity',null),
                     'purchase_unit'=>$request->input('purchase_unit',null),
                     'product_id'=>$product_id,
-                    'product_main_pic'=> $product_id != null ? \Modules\Mall\Http\Controllers\UtilsController::getPathFileUrl(Products::find($product_id)->product_images[0]['main']) : null,
                 ],
             ]);
 
