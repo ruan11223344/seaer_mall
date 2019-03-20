@@ -185,7 +185,8 @@ class MessagesController extends Controller
                     $tmp_data['extra_request'] = self::extraRequestToStr(json_decode($value->thread->extends)->extra_request);
                     $tmp_data['purchase_quantity'] =  $purchase_info->purchase_quantity.' '.$purchase_info->purchase_unit;
                     $tmp_data['product_id'] =  isset($purchase_info->product_id) ? $purchase_info->product_id : null;
-                    $tmp_data['product_main_pic'] =  isset($purchase_info->product_id) ? \Modules\Mall\Http\Controllers\UtilsController::getPathFileUrl(Products::find(Products::find($purchase_info->product_id)->product_images[0]['main'])) : null;
+                    $tmp_data['product_main_pic'] =  isset($purchase_info->product_id) ? \Modules\Mall\Http\Controllers\UtilsController::getPathFileUrl(
+                        Products::find($purchase_info->product_id)->product_images[0]['main']) : null;
                     $attachment_list = $value->extends['attachment_list'];
                     $tmp_data['attachment_list'] = count($attachment_list) == 0 ? null : $attachment_list;
                     $tmp_data['attachment_list_url'] = self::getAttachmentListUrl($attachment_list);
