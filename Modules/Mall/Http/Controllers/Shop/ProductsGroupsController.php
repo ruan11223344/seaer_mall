@@ -248,9 +248,30 @@ class ProductsGroupsController extends Controller
         if ($validator->fails()) {
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
+        $product_id_list = [];
         $product_group_id = $request->input('group_id');
+        $product_id_list[] = $product_group_id;
 
-        $res_data = self::getProductGroupFormatProduct($product_group_id);
+        $product_group_parent_id = ProductsGroup::find($product_group_id)->parent_id;
+        if($product_group_parent_id == 0){
+            $product_children_orm = ProductsGroup::where('parent_id',$product_group_id);
+            $product_children_orm_clone = clone $product_children_orm;
+            if($product_children_orm->exists()){
+                $product_children_orm_clone->get()->map(function ($item)use(&$product_id_list){
+                    $product_id_list[] = $item->id;
+                });
+            }
+        }
+
+        $product_id_list = ProductsProductsGroup::whereIn('product_group_id',$product_id_list)->get()->pluck('product_id');
+        $product_orm = Products::where(
+            [
+                ['product_status','=',ProductsController::PRODUCT_STATUS_SALE],
+                ['product_audit_status','=',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS]
+            ]
+        )->whereIn('id',$product_id_list);
+
+        $res_data = ProductsController::getProductFormatInfo($product_orm);
 
         return $this->echoSuccessJson('Gets the Success of the goods under the grouping!',$res_data);
     }
