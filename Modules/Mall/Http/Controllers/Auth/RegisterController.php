@@ -201,7 +201,7 @@ class RegisterController extends Controller
                         'sex'=>$request->input('sex'),
                         'contact_full_name'=>$request->input('contact_full_name'),
                         'chinese_name'=>$request->input('chinese_name',null),
-                        'publish_product_status'=>ProductsController::PUBLISH_PRODUCT_STATUS_NORMAL, //TODO 直接可以发布商品
+                        'publish_product_status'=>ProductsController::PUBLISH_PRODUCT_STATUS_NORMAL, //TODO 直接可以发布商品，可能后期关闭
                     ]
               );
               AlbumUser::create(

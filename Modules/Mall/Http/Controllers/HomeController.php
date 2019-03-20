@@ -4,6 +4,7 @@ namespace Modules\Mall\Http\Controllers;
 
 use App\Utils\EchoJson;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Modules\Admin\Entities\UserLog;
 use Modules\Admin\Http\Controllers\AdManagerController;
 use Modules\Mall\Entities\Products;
@@ -107,14 +108,10 @@ class HomeController extends Controller
                 $product_data['personal_recommend'] = $p_res;
             }
 
-            $product_history_list = UserLog::where([
-                ['user_id','=',$user_id],
-                ['type','=','product'],
-                ['action','=','visit']
-            ])->orderBy('created_at','desc')->pluck('type_for_id');
+            $product_id_list =array_unique(Products::select('products.id')->leftJoin('user_log', 'user_log.type_for_id', '=', 'products.id')->orderBy('user_log.created_at','desc')->where('user_log.user_id',$user_id)->pluck('id')->toArray());
 
-            $product_history = ProductsController::getProductFormatInfo(Products::whereIn('products.id',$product_history_list)->leftJoin('user_log', 'user_log.type_for_id', '=', 'products.id')->orderBy('user_log.created_at','desc')->take(20));
-
+            $ids_ordered = implode(',', $product_id_list);
+            $product_history =ProductsController::getProductFormatInfo(Products::whereIn('id',$product_id_list)->orderByRaw(DB::raw("FIELD(id, $ids_ordered)"))->take(20));
             $product_data['product_viewed'] = $product_history != null ? $product_history : [];
         }
 
