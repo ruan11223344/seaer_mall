@@ -844,7 +844,7 @@ class ProductsController extends Controller
     {
         $data                         = [];
         $user_obj                     = Auth::user();
-        $product_orm                  = Products::where('company_id', $user_obj->company->id);
+        $product_orm                  = Products::where('company_id',$user_obj->company->id);
         $product_num_info_str         = clone $product_orm;
         $product_selling_num          = clone $product_orm;
         $product_in_the_warehouse_num = clone $product_orm;

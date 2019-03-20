@@ -348,7 +348,10 @@ class UtilsController extends Controller
         return self::OSS_FILE_PATH . '/public/';
     }
 
-    public static function getOneArticleData($article_orm){
+    public static function getOneArticleData($article_orm,$get = false){
+            if($get){
+                $article_orm = $article_orm->get()->first();
+            }
             $tmp = [];
             $tmp['article_id'] = $article_orm->id;
             $tmp['article_title'] = $article_orm->title;
@@ -373,9 +376,33 @@ class UtilsController extends Controller
 
         $agreement_orm = Article::where('type',$agreement_type == "buyers" ? "buyers_register_agreement" : "merchants_register_agreement")->orderBy('created_at','desc')->take(1);
 
-        $res_data = self::getOneArticleData($agreement_orm);
+        $res_data = self::getOneArticleData($agreement_orm,true);
         return $this->echoSuccessJson('获取用户协议成功!',$res_data);
     }
+
+    public function getTitleArticle(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'title' => 'required|in:About Afriby.com,Help Center,Service,Finding And Contacting,Novice Guide,Register As a Merchant
+,Rule Center,Service Account Center',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->echoErrorJson('Form validation failed!' . $validator->messages());
+        }
+
+        $title = $request->input('title');
+
+        $article_orm = Article::where('title',$title);
+        $article_orm_clone = clone $article_orm;
+        if(!$article_orm_clone->exists()){
+            return $this->echoErrorJson('该文章不存在,请创建这个标题的文章!');
+        }
+        $res_data = self::getOneArticleData($article_orm,true);
+        return $this->echoSuccessJson('获取文章成功!',$res_data);
+    }
+
+
 
     public function getMallNoticeList(Request $request)
     {

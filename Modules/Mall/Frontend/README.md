@@ -5596,3 +5596,33 @@ json参数:
     }
 }
 ```
+
+86.按照标题获取系统文章
+```
+url:http://域名/api/utils/get_title_article
+请求方法:get
+
+json参数:
+{
+	"title":"About Afriby.com"  //文章标题 必填 且只能是
+	About Afriby.com,Help Center,Service,Finding And Contacting,Novice Guide,Register As a Merchant
+    ,Rule Center,Service Account Center   
+	其中一个 (逗号分割);
+}  
+
+//注意!!!!!!!!!!!!!!! Finding And Contacting 原本是 Finding & Contacting 由于url连续参数符号的原因 请替换字符串！！！！！！！！！！！！！！！！！！！！！！！
+
+返回:
+{
+    "code": 200,
+    "message": "获取文章成功!",
+    "data": {
+        "article_id": 19,
+        "article_title": "About Afriby.com",
+        "publish_time": "2019-03-20 17:34:38",
+        "article_type": "system_article",
+        "content": "我是帅哥",
+        "author": null
+    }
+}
+```
