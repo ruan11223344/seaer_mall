@@ -38,7 +38,7 @@
                 <FormItem>
                     <div>
                         <Checkbox v-model="formCustom.single">
-                            I have read and agree <router-link to="" class="Registered-one-main-single">service agreement</router-link>
+                            I have read and agree <router-link to="/notice?key=buyers" class="Registered-one-main-single">service agreement</router-link>
                         </Checkbox>
                     </div>
                 </FormItem>

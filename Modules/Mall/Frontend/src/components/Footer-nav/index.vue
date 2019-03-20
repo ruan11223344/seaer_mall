@@ -17,7 +17,7 @@
                 <dl style="marginRight:87px">
                     <dt>Terms And Conditions</dt>
                     <dd>All Categories</dd>
-                    <dd>Merchants Register Agreement</dd>
+                    <router-link class="hover" tag="dd" to="/notice?key=merchants">Merchants Register Agreement</router-link>
                     <dd>Buyers Register Agreement</dd>
                 </dl>
                 <dl style="marginRight:97px">
@@ -95,6 +95,11 @@
                     font-size: 16px;
                     padding-top: 11px;
                     letter-spacing: 0px;
+                }
+
+                dd.hover:hover {
+                    .color(Orange);
+                    cursor: pointer;
                 }
             }
             .box {

@@ -44,14 +44,36 @@
             }
         },
         methods: {
-            onGetArticleDetail: getData.onGetArticleDetail
+            onGetArticleDetail: getData.onGetArticleDetail,
+            onGetUserAgreement: getData.onGetUserAgreement
         },
         created() {
-            this.onGetArticleDetail(this.$route.query.article_id).then(res => {
-                this.content = res
-            }).catch(err => {
-                this.$Message.error(err.message)
-            })
+            switch (this.$route.query.key) {
+                case 'Notice':
+                    this.onGetArticleDetail(this.$route.query.article_id).then(res => {
+                        this.content = res
+                    }).catch(err => {
+                        this.$Message.error(err.message)
+                    })
+                    break
+                case 'buyers':
+                    this.onGetUserAgreement('buyers').then(res => {
+                        this.content = res
+                    }).catch(err => {
+                        this.$Message.error(err.message)
+                    })
+                    break
+                case 'merchants':
+                    this.onGetUserAgreement('merchants').then(res => {
+                        this.content = res
+                    }).catch(err => {
+                        this.$Message.error(err.message)
+                    })
+                    break
+                default:
+                    break
+            }
+            
         },
         components: {
             'v-nav': Header,
@@ -96,7 +118,7 @@
                 text-align: center;
                 display: block;
             }
-            
+
             &-content {
                 padding: 0px;
 

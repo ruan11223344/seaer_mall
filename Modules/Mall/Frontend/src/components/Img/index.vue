@@ -1,5 +1,5 @@
 <template>
-    <div :style="{width: width + 'px', height: height + 'px'}" class="imgBox">
+    <div :style="{width: width + 'px', height: height + 'px'}" class="imgBox" v-loading="imgSrc == ''">
         <img :src="imgSrc" class="img" />
     </div>
 </template>
@@ -11,6 +11,7 @@
             height: '',
             imgSrc: {
                 type: String,
+                default: ''
             }
         },
         data() {
