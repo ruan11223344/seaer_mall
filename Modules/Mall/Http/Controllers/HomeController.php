@@ -111,8 +111,8 @@ class HomeController extends Controller
             }
 
             $personal_recommend_count = count($product_data['personal_recommend']);
-            if($personal_recommend_count < 5){
-                $else_num = 5 - $personal_recommend_count;
+            if($personal_recommend_count < 10){
+                $else_num = 10 - $personal_recommend_count;
                 $else = ProductsController::getProductFormatInfo(Products::where([
                     ['product_status','=',ProductsController::PRODUCT_STATUS_SALE],
                     ['product_audit_status','=',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS],
