@@ -789,7 +789,7 @@
                             product_price: this.formItem.Price.animal == "ladder" ? this.formItem.Price.Ladder : [ this.formItem.Price.Base ],
                             product_details: this.formItem.editor,
                             product_publishing_time:this.formItem.disabledGroup == "Time" ? this.formItem.product_publishing_time : null,
-                            product_put_warehouse: this.formItem.disabledGroup == "Release" ? true : false,
+                            product_put_warehouse: this.formItem.disabledGroup == "Put" ? true : false,
                             product_categories_id: this.Classification,
                             product_group_id: this.formItem.product_group_id[this.formItem.product_group_id.length - 1]
                         }).then(res => {
@@ -1052,6 +1052,19 @@
         box-shadow: 0 1px 1px rgba(0,0,0,.2);
         margin-right: 4px;
     }
+
+    .demo-upload-list:nth-of-type(1)::before {
+        content: '';
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        font-size: 12px;
+        background-image: url('../../../../assets/img/main.png');
+        display: block;
+        width: 36px;
+        height: 37px;
+    }
+    
     .demo-upload-list img{
         width: 100%;
         height: 100%;

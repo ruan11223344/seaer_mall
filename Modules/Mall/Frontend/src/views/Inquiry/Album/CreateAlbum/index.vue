@@ -57,7 +57,7 @@
                         method: 'post',
                         data: {
                             album_name: this.formLeft.name,
-                            album_descriptiond: this.formLeft.info
+                            album_description: this.formLeft.info
                         }
                     }).then(res => {
                         if(res.code == 200) {

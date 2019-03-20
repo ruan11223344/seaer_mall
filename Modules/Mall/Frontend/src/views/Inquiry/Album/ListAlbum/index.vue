@@ -9,7 +9,7 @@
             <v-img width="63" height="50" :imgSrc="require('@/assets/img/wenjianj.png')"></v-img>
             <div class="albumlist-title-right">
                 <div>{{ $route.query.name }}</div>
-                <div>{{ $route.query.description == null ? $route.query.description : '' }}</div>
+                <div>{{ $route.query.description == 'null' ? '' : $route.query.description }}</div>
             </div>
         </section>
 

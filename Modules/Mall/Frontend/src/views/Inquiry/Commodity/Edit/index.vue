@@ -1082,6 +1082,19 @@ legitimate, and does not infringe legitimate the rights and interests of third p
         box-shadow: 0 1px 1px rgba(0,0,0,.2);
         margin-right: 4px;
     }
+
+    .demo-upload-list:nth-of-type(1)::before {
+        content: '';
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        font-size: 12px;
+        background-image: url('../../../../assets/img/main.png');
+        display: block;
+        width: 36px;
+        height: 37px;
+    }
+    
     .demo-upload-list img{
         width: 100%;
         height: 100%;
