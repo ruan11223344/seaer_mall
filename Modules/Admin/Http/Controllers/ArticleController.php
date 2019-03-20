@@ -140,6 +140,31 @@ class ArticleController extends Controller
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
+        $has_one_article_list = [
+            "About Afriby.com",
+            "Help Center",
+            "Service",
+            "Finding And Contacting",
+            "Novice Guide",
+            "Register As a Merchant",
+            "Rule Center",
+            "Service Account Center"
+        ];
+
+        $title = $request->input('title');
+        $type = $request->input('type');
+        $count_has_one = Article::where('title',$title)->count();
+
+        if(in_array($title,$has_one_article_list) && $count_has_one > 0){
+            return $this->echoSuccessJson('该标题的文章只能发布一篇,请修改它。');
+        }
+
+        if(in_array($title,$has_one_article_list)){
+            if($type != "system_article"){
+                return $this->echoSuccessJson('该标题的文章只能选择分类为system_article');
+            }
+        }
+
         $admin_id = Auth::id();
 
         $data['admin_id'] = $admin_id;
