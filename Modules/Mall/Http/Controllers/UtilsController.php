@@ -348,7 +348,10 @@ class UtilsController extends Controller
         return self::OSS_FILE_PATH . '/public/';
     }
 
-    public static function getOneArticleData($article_orm){
+    public static function getOneArticleData($article_orm,$get = false){
+            if($get){
+                $article_orm = $article_orm->get()->first();
+            }
             $tmp = [];
             $tmp['article_id'] = $article_orm->id;
             $tmp['article_title'] = $article_orm->title;
@@ -373,7 +376,7 @@ class UtilsController extends Controller
 
         $agreement_orm = Article::where('type',$agreement_type == "buyers" ? "buyers_register_agreement" : "merchants_register_agreement")->orderBy('created_at','desc')->take(1);
 
-        $res_data = self::getOneArticleData($agreement_orm);
+        $res_data = self::getOneArticleData($agreement_orm,true);
         return $this->echoSuccessJson('获取用户协议成功!',$res_data);
     }
 
