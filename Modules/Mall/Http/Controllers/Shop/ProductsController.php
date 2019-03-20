@@ -728,11 +728,20 @@ class ProductsController extends Controller
                 $min_item      = array_shift($min_order_list);
                 $min_price     = $min_item['order_price'];
                 $max_price     = array_pop($min_order_list)['order_price'];
-                $product_price = $v->products_price->currency == 'ksh' ? 'KSh ' . $min_price . '-' . $max_price : 'CNY ' . $min_price . '-' . $max_price;
+
+                if($max_price == null){
+                    $product_price = $v->products_price->currency == 'ksh' ? 'KSh ' . $min_price   : 'CNY ' . $min_price;
+                }else{
+                    $product_price = $v->products_price->currency == 'ksh' ? 'KSh ' . $min_price .  '-' . $max_price  : 'CNY ' . $min_price . '-' . $max_price;
+                }
+
+
                 $product_moq   = "MOQ " . $min_item['min_order'] . ' ' . $min_item['unit'];
             } elseif ($price_type == 'base') {
                 $base_price    = $v->products_price->base_price[0];
-                $product_price = $v->products_price->currency == 'ksh' ? 'KSh ' . $base_price['min_order_price'] . '-' . $base_price['max_order_price'] : 'CNY ' . $base_price['min_order_price'] . '-' . $base_price['max_order_price'];
+                $min_price     = $base_price['min_order_price'];
+                $max_price     = $base_price['max_order_price'];
+                $product_price = $v->products_price->currency == 'ksh' ? 'KSh ' . $min_price . '-' . $max_price : 'CNY ' . $min_price . '-' . $max_price;
                 $product_moq   = "MOQ " . $base_price['min_order'] . ' ' . $base_price['unit'];
             }
 
