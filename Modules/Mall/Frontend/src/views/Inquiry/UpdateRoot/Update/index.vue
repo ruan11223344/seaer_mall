@@ -26,7 +26,7 @@
                                     :class="SearchActive.id == item.categories_id ? 'product-blurry-item-list product-blurry-item-active' : 'product-blurry-item-list'"
                                     v-for="(item, index) in SearchData"
                                     :key="index"
-                                    :name="item.categories_id + '/' + item.name"
+                                    :name="item.categories_id + '~#' + item.name"
                                     />
                             </CellGroup>
                         </Card>
@@ -47,7 +47,7 @@
                                     :class="rootActive.id == item.id ? 'product-category-item-list product-category-item-active' : 'product-category-item-list'"
                                     v-for="(item, index) in rootData"
                                     :key="index"
-                                    :name="item.id + '/' + item.name"
+                                    :name="item.id + '~#' + item.name"
                                 />
                             </CellGroup>
                         </Card>
@@ -64,7 +64,7 @@
                                     :class="parentActive.id == item.id ? 'product-category-item-list product-category-item-active' : 'product-category-item-list'"
                                     v-for="(item, index) in parentData"
                                     :key="index"
-                                    :name="item.id + '/' + item.name"
+                                    :name="item.id + '~#' + item.name"
                                 />
                             </CellGroup>
                         </Card>
@@ -81,7 +81,7 @@
                                     :class="childActive.id == item.id ? 'product-category-item-list product-category-item-active' : 'product-category-item-list'"
                                     v-for="(item, index) in childData"
                                     :key="index"
-                                    :name="item.id + '/' + item.name"
+                                    :name="item.id + '~#' + item.name"
                                 />
                             </CellGroup>
                         </Card>
@@ -111,7 +111,7 @@
                                     :class="SearchActive.id == item.categories_id ? 'product-blurry-item-list product-blurry-item-active' : 'product-blurry-item-list'"
                                     v-for="(item, index) in SearchData"
                                     :key="index"
-                                    :name="item.categories_id + '/' + item.name"
+                                    :name="item.categories_id + '~#' + item.name"
                                     />
                             </CellGroup>
                         </Card>
@@ -188,7 +188,8 @@
                     name: ''
                 },
 
-                SelectId: null
+                SelectId: null,
+                name: null
             }
         },
         methods: {
@@ -236,11 +237,14 @@
             },
             // 选中搜索列表
             onClickActive(name) {
-                const arr = name.split('/')
+                const arr = name.split('~#')
                 this.$set(this.SearchActive, 'id', arr[0])
                 this.$set(this.SearchActive, 'name', arr[1])
 
                 this.SelectId = this.SearchActive.id
+
+                const item = this.SearchActive.name.split('>')
+                this.name = item[item.length - 1]
             },
             // 获取根分类列表
             GetRootList() {
@@ -257,7 +261,7 @@
                 })
             },
             onClickRootActive(name) {
-                const arr = name.split('/')
+                const arr = name.split('~#')
                 this.$set(this.rootActive, 'id', arr[0])
                 this.$set(this.rootActive, 'name', arr[1])
 
@@ -271,6 +275,8 @@
                     name: ''
                 }
                 this.SelectId = null
+                this.name = null
+
                 this.childData = []
 
                 this.GetChildList(this.rootActive.id, true)
@@ -297,14 +303,16 @@
                 })
             },
             onClickChildActive(name) {
-                const arr = name.split('/')
+                const arr = name.split('~#')
                 this.$set(this.childActive, 'id', arr[0])
                 this.$set(this.childActive, 'name', arr[1])
 
                 this.SelectId = this.childActive.id
+                this.name = this.childActive.name
+
             },
             onClickParentActive(name) {
-                const arr = name.split('/')
+                const arr = name.split('~#')
                 this.$set(this.parentActive, 'id', arr[0])
                 this.$set(this.parentActive, 'name', arr[1])
 
@@ -315,6 +323,8 @@
                 this.GetChildList(this.parentActive.id, false)
 
                 this.SelectId = this.parentActive.id
+                this.name = this.parentActive.name
+
             },
             // 查看选中的分类是否还有子分类
             GetSeachList(id) {
@@ -344,7 +354,7 @@
                                 // 存储在vuex
                                 this.SET_CLASSIFICATION(this.SelectId)
 
-                                this.$router.push('/inquiryList/uploadroot/uploadinfo')
+                                this.$router.push('/inquiryList/uploadroot/uploadinfo?name=' + this.name)
                             }
                         })
                 }else {
@@ -382,6 +392,7 @@
                     }
 
                     this.SelectId = this.childActive.id
+                    
                 }
             }
         },

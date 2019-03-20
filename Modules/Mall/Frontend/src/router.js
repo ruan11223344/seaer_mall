@@ -27,10 +27,10 @@ const newRouter = new Router({
                 const token = auth.getCookies()
 
                 if(token) {
-                    next(from.path)
-                }else {
-                    next()
+                    return next(from.path)
                 }
+
+                return next()
             }
         },
         {

@@ -2,14 +2,16 @@
     <div class="personal">
         <main class="personal-main">
             <div class="personal-main-left">
-                <div class="personal-main-left-head" v-if="user">
-                    <img :src="user.user_extends.avatar_url || require('@/assets/img/login/avatar.png')" alt="">
-                    <dl>
-                        <dt class="personal-main-left-head-title">{{ user.user.name }}</dt>
-                        <dd>(Member ID：{{ user.user.name }})</dd>
-                        <dt class="personal-main-left-head-free">Free Member</dt>
-                        <dd>Membership</dd>
-                    </dl>
+                <div class="personal-main-left-head" v-loading="user == null">
+                    <template v-if="user">
+                        <img :src="user.user_extends.avatar_url || require('@/assets/img/login/avatar.png')" alt="">
+                        <dl>
+                            <dt class="personal-main-left-head-title">{{ user.user.name }}</dt>
+                            <dd>(Member ID：{{ user.user.name }})</dd>
+                            <dt class="personal-main-left-head-free">Free Member</dt>
+                            <dd>Membership</dd>
+                        </dl>
+                    </template>
                 </div>
 
                 <div class="personal-main-left-sent">
@@ -27,33 +29,35 @@
                     </ul>
                 </div>
 
-                <div class="personal-main-left-stone" v-if="info">
-                    <div class="personal-main-left-stone-title">Stone and product tips</div>
-                    <div class="personal-main-left-stone-p">Stone infomation and pending items than you need to pay attention to.</div>
-                    <div class="personal-main-left-stone-block">
-                        <div class="personal-main-left-stone-block-Product">
-                            Product
-                            <span>{{ info.product_num_info_str }}</span>
+                <div class="personal-main-left-stone" v-loading="info == null">
+                    <template v-if="info">
+                        <div class="personal-main-left-stone-title">Stone and product tips</div>
+                        <div class="personal-main-left-stone-p">Stone infomation and pending items than you need to pay attention to.</div>
+                        <div class="personal-main-left-stone-block">
+                            <div class="personal-main-left-stone-block-Product">
+                                Product
+                                <span>{{ info.product_num_info_str }}</span>
+                            </div>
+                            <div class="personal-main-left-stone-block-Product">
+                                Image
+                                <span>{{ info.image_info_str }}</span>
+                            </div>
                         </div>
-                        <div class="personal-main-left-stone-block-Product">
-                            Image
-                            <span>{{ info.image_info_str }}</span>
+                        <div class="personal-main-left-stone-block">
+                            <router-link tag="li" to="/inquiryList/commodity/operation">
+                                Selling <span>{{ info.product_selling_num }}</span>
+                            </router-link>
+                            <router-link tag="li" to="/inquiryList/commodity/operation">
+                                Check Pending <span>{{ info.product_check_pending_num }}</span>
+                            </router-link>
+                            <router-link tag="li" to="/inquiryList/commodity/operation">
+                                Unapprove <span>{{ info.product_unapprove_num }}</span>
+                            </router-link>
+                            <router-link tag="li" to="/inquiryList/commodity/operation">
+                                In the warehouse <span>{{ info.product_in_the_warehouse_num }}</span>
+                            </router-link>
                         </div>
-                    </div>
-                    <div class="personal-main-left-stone-block">
-                        <router-link tag="li" to="/inquiryList/commodity/operation">
-                            Selling <span>{{ info.product_selling_num }}</span>
-                        </router-link>
-                        <router-link tag="li" to="/inquiryList/commodity/operation">
-                            Check Pending <span>{{ info.product_check_pending_num }}</span>
-                        </router-link>
-                        <router-link tag="li" to="/inquiryList/commodity/operation">
-                            Unapprove <span>{{ info.product_unapprove_num }}</span>
-                        </router-link>
-                        <router-link tag="li" to="/inquiryList/commodity/operation">
-                            In the warehouse <span>{{ info.product_in_the_warehouse_num }}</span>
-                        </router-link>
-                    </div>
+                    </template>
                 </div>
             </div>
             <div class="personal-main-right">
@@ -128,7 +132,8 @@
                 result: null,
                 info: null,
                 kenTime: null,
-                cnTime: null
+                cnTime: null,
+                user: null
             }
         },
         computed: {
@@ -161,7 +166,6 @@
         },
         created() {
             this.user = this.getSessionStorage()
-            console.log(this.user)
         },
         mounted() {
             this.onGetOutboxMessag()

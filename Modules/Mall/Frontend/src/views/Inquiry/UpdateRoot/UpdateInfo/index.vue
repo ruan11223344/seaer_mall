@@ -3,7 +3,7 @@
         <v-head :imgSrc="require('@/assets/img/login/bg2.png')"></v-head>
         <v-title title="Selected Subcatalog: "  class="updateInfo-title">
             <template slot="content">
-                <span class="updateInfo-title-text">{{ 'Garlic' }}</span>
+                <span class="updateInfo-title-text">{{ $route.query.name }}</span>
                 <button type="button" class="updateInfo-title-btn" @click="$router.back(-1)">Reselect</button>
             </template>
         </v-title>
