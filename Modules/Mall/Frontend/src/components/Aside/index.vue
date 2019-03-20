@@ -50,10 +50,28 @@
             </div>
         </nav>
 
+        <div class="aside-affix" @click="modal=true"></div>
+        <Modal
+            v-model="modal"
+            title="Have trouble when finding goods? Just let us know!"
+            width="800"
+            :mask-closable="true"
+            @on-ok="asyncOK">
+                <Form ref="formInline" :model="formData" :rules="ruleInline" label-position="top">
+                    <FormItem label="email" prop="email">
+                        <Input v-model="formData.email" placeholder="Enter something..." style="width: 300px" />
+                    </FormItem>
+                    <FormItem label="content" prop="content">
+                        <Input v-model="formData.content" type="textarea" :autosize="{minRows: 10,maxRows: 10}" placeholder="Enter something..." />
+                    </FormItem>
+                </Form>
+        </Modal>
     </div>
 </template>
 
 <script>
+    import upData from "@/utils/upData"
+
     export default {
         data() {
             return {
@@ -76,7 +94,15 @@
                     default: require('@/assets/img/home/top.png'),
                     active: require('@/assets/img/home/top-active.png'),
                     state: require('@/assets/img/home/top.png')
-                }
+                },
+                modal: true,
+                formData: {
+                    email: null,
+                    content: null
+                },
+                ruleInline: [
+
+                ]
             }
         },
         methods: {
@@ -94,6 +120,19 @@
                         clearInterval(clear)
                     } 
                 }, 20)
+            },
+            UpSendFeedback: upData.UpSendFeedback,
+            asyncOK() {
+                this.UpSendFeedback({
+                    "message": this.formData.email, //必填
+	                "contact_way": this.formData.content //必填
+                }).all(res => {
+                    this.formData = {
+                        email: null,
+                        content: null
+                    }
+                    this.modal = false
+                })
             }
         }
     }
@@ -111,6 +150,7 @@
 	    border: solid 1px #eeeeee;
         display: block;
         z-index: 10000;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
 
         &-item {
             .flex(center, center, column);
@@ -135,6 +175,17 @@
                 .width(12px, 1px);
                 background-color: #e3e3e3;
             }
-        }   
+        }
+
+        &-affix {
+            position: absolute;
+            right: 60px;
+            bottom: 20px;
+            width: 72px;
+            height: 110px;
+            background-image: url('../../assets/img/home/kf.png');
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
     }
 </style>

@@ -476,6 +476,24 @@ const upData = {
                 }
             })
         })
+    },
+
+    // 80.反馈发送接口
+    async UpSendFeedback(data) {
+        return await new Promise((resolve, reject) => {
+            request({
+                url: '/utils/send_feedback',
+                method: 'post',
+                data: data
+            }).then(res => {
+                if(res.code == 200) {
+                    this.$Message.info(res.message)
+                    resolve(res.data)
+                }else {
+                    this.$Message.error(res.message)
+                }
+            })
+        })
     }
 }
 
