@@ -5587,15 +5587,12 @@ json参数:
     "code": 200,
     "message": "成功!",
     "data": {
-        "id": 7,
-        "admin_id": 10,
-        "author": null,
-        "title": "我是大帅哥",
+        "article_id": 7,
+        "article_title": "我是大帅哥222",
+        "publish_time": "2019-03-14 14:08:34",
+        "article_type": "merchants_register_agreement",
         "content": "买家用户协议内容xxsdsdsa",
-        "deleted_at": null,
-        "created_at": "2019-03-14 14:08:34",
-        "updated_at": "2019-03-14 14:08:34",
-        "type": "merchants_register_agreement"
+        "author": null
     }
 }
 ```
