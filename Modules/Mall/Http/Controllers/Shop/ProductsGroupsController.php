@@ -55,19 +55,7 @@ class ProductsGroupsController extends Controller
         }
         return $arr;
     }
-
-    public static function getProductGroupFormatProduct($product_group_id){
-        $product_id_list = ProductsProductsGroup::where('product_group_id',$product_group_id)->get()->pluck('product_id');
-        $product_orm = Products::where(
-            [
-                ['product_status','=',ProductsController::PRODUCT_STATUS_SALE],
-                ['product_audit_status','=',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS]
-            ]
-        )->whereIn('id',$product_id_list);
-        $res = ProductsController::getProductFormatInfo($product_orm);
-        return $res;
-    }
-
+    
     public static function getProductGroupInfo($user_id = null){
         if($user_id == null){
             $product_group = ProductsGroup::where('user_id',Auth::id())->get()->toArray();
@@ -124,6 +112,10 @@ class ProductsGroupsController extends Controller
 
         $group_name = $request->input('group_name');
 
+        if($group_name == "Default Group"){
+            return $this->echoErrorJson('the group name can\'t be Default Group' );
+        }
+
         $re_name_check_num = ProductsGroup::where(['user_id'=>Auth::id(),'group_name'=>$group_name])->where('id','!=',$product_group->id)->count();
 
         if($re_name_check_num > 0){
@@ -179,6 +171,11 @@ class ProductsGroupsController extends Controller
         }
 
         $group_name = $request->input('group_name');
+
+        if($group_name == "Default Group"){
+            return $this->echoErrorJson('the group name can\'t be Default Group' );
+        }
+
         $re_name_check_num = ProductsGroup::where(['user_id'=>Auth::id(),'group_name'=>$group_name])->count();
 
         if($re_name_check_num > 0){
@@ -216,6 +213,10 @@ class ProductsGroupsController extends Controller
              return $this->echoErrorJson('Error!The packet message was not found!');
          }
 
+         if($product_group->group_name == "Default Group"){
+             return $this->echoSuccessJson('you can\'t delete default group!');
+         }
+
         $product_group->delete();
          if (!$product_group->trashed()) {
              return redirect()->back()->with('danger', 'Group deletion failed. Group ID：'.$product_group->id);
@@ -235,9 +236,30 @@ class ProductsGroupsController extends Controller
         if ($validator->fails()) {
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
+        $product_id_list = [];
         $product_group_id = $request->input('group_id');
+        $product_id_list[] = $product_group_id;
 
-        $res_data = self::getProductGroupFormatProduct($product_group_id);
+        $product_group_parent_id = ProductsGroup::find($product_group_id)->parent_id;
+        if($product_group_parent_id == 0){
+            $product_children_orm = ProductsGroup::where('parent_id',$product_group_id);
+            $product_children_orm_clone = clone $product_children_orm;
+            if($product_children_orm->exists()){
+                $product_children_orm_clone->get()->map(function ($item)use(&$product_id_list){
+                    $product_id_list[] = $item->id;
+                });
+            }
+        }
+
+        $product_id_list = ProductsProductsGroup::whereIn('product_group_id',$product_id_list)->get()->pluck('product_id');
+        $product_orm = Products::where(
+            [
+                ['product_status','=',ProductsController::PRODUCT_STATUS_SALE],
+                ['product_audit_status','=',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS]
+            ]
+        )->whereIn('id',$product_id_list);
+
+        $res_data = ProductsController::getProductFormatInfo($product_orm);
 
         return $this->echoSuccessJson('Gets the Success of the goods under the grouping!',$res_data);
     }
