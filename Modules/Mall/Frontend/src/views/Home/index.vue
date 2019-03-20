@@ -34,7 +34,7 @@
                             <v-img width="393" height="200" :img-src="item.image_url"/>
                         </router-link>
                     </template>
-                    
+
                     <template v-for="(item, index) in banner">
                         <router-link :to="item.jump_url" v-if="item.comment == '广告2'" :key="index">
                             <v-img width="393" height="200" :img-src="item.image_url"/>

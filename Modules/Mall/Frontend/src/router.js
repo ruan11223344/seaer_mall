@@ -24,7 +24,13 @@ const newRouter = new Router({
             name: 'login',
             component: () => import('./views/Login'),
             beforeEnter: (to, from, next) => {
-                
+                const token = auth.getCookies()
+
+                if(token) {
+                    next(from.path)
+                }else {
+                    next()
+                }
             }
         },
         {

@@ -51,35 +51,53 @@
         },
         methods: {
             onGetArticleDetail: getData.onGetArticleDetail,
-            onGetUserAgreement: getData.onGetUserAgreement
+            onGetUserAgreement: getData.onGetUserAgreement,
+            onGetTitleArticle: getData.onGetTitleArticle,
+            GetData() {
+                this.content = null
+                switch (this.$route.query.key) {
+                    case 'Notice':
+                        this.onGetArticleDetail(this.$route.query.article_id).then(res => {
+                            this.content = res
+                        }).catch(err => {
+                            this.content = ''
+                            this.$Message.error(err.message)
+                        })
+                        break
+                    case 'buyers':
+                        this.onGetUserAgreement('buyers').then(res => {
+                            this.content = res
+                        }).catch(err => {
+                            this.content = ''
+                            this.$Message.error(err.message)
+                        })
+                        break
+                    case 'merchants':
+                        this.onGetUserAgreement('merchants').then(res => {
+                            this.content = res
+                        }).catch(err => {
+                            this.content = ''
+                            this.$Message.error(err.message)
+                        })
+                        break
+                    default:
+                        this.onGetTitleArticle(this.$route.query.key).then(res => {
+                            this.content = res
+                        }).catch(err => {
+                            this.content = ''
+                            this.$Message.error(err.message)
+                        })
+                        break
+                }
+            }
         },
         created() {
-            switch (this.$route.query.key) {
-                case 'Notice':
-                    this.onGetArticleDetail(this.$route.query.article_id).then(res => {
-                        this.content = res
-                    }).catch(err => {
-                        this.$Message.error(err.message)
-                    })
-                    break
-                case 'buyers':
-                    this.onGetUserAgreement('buyers').then(res => {
-                        this.content = res
-                    }).catch(err => {
-                        this.$Message.error(err.message)
-                    })
-                    break
-                case 'merchants':
-                    this.onGetUserAgreement('merchants').then(res => {
-                        this.content = res
-                    }).catch(err => {
-                        this.$Message.error(err.message)
-                    })
-                    break
-                default:
-                    break
+            this.GetData()
+        },
+        watch: {
+            '$route': function () {
+                this.GetData()
             }
-            
         },
         components: {
             'v-nav': Header,

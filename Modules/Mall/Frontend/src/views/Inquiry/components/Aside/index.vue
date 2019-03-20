@@ -154,9 +154,11 @@
                         subItems:[
                             {
                                 name:'Rule Center',
+                                url: '/notice?key=Rule Center'
                             },
                             {
                                 name:'Service Account Center',
+                                url: '/notice?key=Service Account Center'
                             }
                         ]
                     },

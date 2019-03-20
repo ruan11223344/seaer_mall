@@ -566,6 +566,23 @@ const getData = {
         })
     },
 
+    // 86.按照标题获取系统文章
+    onGetTitleArticle(title) {
+        return new Promise((resolve, reject) => {
+            request({
+                url: '/utils/get_title_article',
+                params: {
+                    title: title
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
 }
 
 export default getData

@@ -4,21 +4,21 @@
             <nav class="footer-nav">
                 <dl style="marginRight:81px">
                     <dt>About us</dt>
-                    <dd>About  Afriby.com</dd>
+                    <router-link class="hover" tag="dd" to="/notice?key=About Afriby.com">About  Afriby.com</router-link>
                 </dl>
                 <dl style="marginRight:96px">
                     <dt>Help Center</dt>
-                    <dd>{{'Finding & Contacting'}}</dd>
-                    <dd>Novice Guide</dd>
+                    <router-link class="hover" tag="dd" to="/notice?key=Finding And Contacting">{{'Finding & Contacting'}}</router-link>
+                    <router-link class="hover" tag="dd" to="/notice?key=Novice Guide">Novice Guide</router-link>
                     <router-link class="hover" tag="dd" to="/reset/find">Forget the Password</router-link>
-                    <!-- <dd>Register As a Merchant</dd> -->
-                    <dd>Online Contact Us</dd>
+                    <router-link class="hover" tag="dd" to="/notice?key=Register As a Merchant">Register As a Merchant</router-link>
+                    <router-link class="hover" tag="dd" to="/notice?key=Online Contact Us">Online Contact Us</router-link>
                 </dl>
                 <dl style="marginRight:87px">
                     <dt>Terms And Conditions</dt>
-                    <dd>All Categories</dd>
+                    <router-link class="hover" tag="dd" to="/notice?key=All Categories">All Categories</router-link>
                     <router-link class="hover" tag="dd" to="/notice?key=merchants">Merchants Register Agreement</router-link>
-                    <dd>Buyers Register Agreement</dd>
+                    <router-link class="hover" tag="dd" to="/notice?key=Buyers Register Agreement">Buyers Register Agreement</router-link>
                 </dl>
                 <dl style="marginRight:97px">
                     <dt>Follow Us</dt>
