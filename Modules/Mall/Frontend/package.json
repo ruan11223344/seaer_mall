@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "dayjs": "^1.8.0",
+    "element-ui": "^2.6.1",
     "img-magnifier": "^0.1.2",
     "iview": "^3.2.1",
     "js-cookie": "^2.2.0",
@@ -30,6 +31,7 @@
     "@babel/polyfill": "^7.2.5",
     "@vue/cli-plugin-babel": "^3.0.0-rc.9",
     "@vue/cli-service": "^3.0.0-rc.9",
+    "babel-plugin-component": "^1.1.1",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "vue-template-compiler": "^2.5.21",

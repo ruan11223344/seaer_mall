@@ -85,7 +85,7 @@
                     <!-- 标题 -->
                     <section class="container main-title">
                         <v-title
-                            left-title="New Arrivals"
+                            left-title="Personal Recommend"
                             :right-title="true"
                             :data_product_All="HomeData.personal_recommend">
                         </v-title>

@@ -7,13 +7,17 @@ import "@/assets/css/reset.css"
 
 import store from './store'
 import iView from 'iview'
-import locale from 'iview/dist/locale/en-US';
+import locale from 'iview/dist/locale/en-US'
 import 'iview/dist/styles/iview.css'
-import '../my-theme/index.less';
+import '../my-theme/index.less'
+// 按需加载
+import { Loading } from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
 // 懒加载
 import VueLazyLoad from 'vue-lazyload'
-Vue.use(VueLazyLoad)
+
+Vue.use(VueLazyLoad).use(Loading)
  
 // 引入验证插件
 import verify from "vue-verify-plugin"

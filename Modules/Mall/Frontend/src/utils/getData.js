@@ -522,7 +522,45 @@ const getData = {
                 }
             })
         })
-    }
+    },
+
+    // 85.获取系统公告列表
+    onGetMallNotice(page, size) {
+        return new Promise((resolve, reject) => {
+            request({
+                url: '/utils/get_mall_notice',
+                params: {
+                    "page": page,
+                    "size": size
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    },
+
+    // 86.文章详情获取
+    onGetArticleDetail(article_id) {
+        return new Promise((resolve, reject) => {
+            request({
+                url: '/utils/get_article_detail',
+                params: {
+                    article_id: article_id
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    },
+
 }
 
 export default getData
