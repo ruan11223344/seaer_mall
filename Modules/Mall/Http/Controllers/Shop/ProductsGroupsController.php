@@ -55,19 +55,7 @@ class ProductsGroupsController extends Controller
         }
         return $arr;
     }
-
-    public static function getProductGroupFormatProduct($product_group_id){
-        $product_id_list = ProductsProductsGroup::where('product_group_id',$product_group_id)->get()->pluck('product_id');
-        $product_orm = Products::where(
-            [
-                ['product_status','=',ProductsController::PRODUCT_STATUS_SALE],
-                ['product_audit_status','=',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS]
-            ]
-        )->whereIn('id',$product_id_list);
-        $res = ProductsController::getProductFormatInfo($product_orm);
-        return $res;
-    }
-
+    
     public static function getProductGroupInfo($user_id = null){
         if($user_id == null){
             $product_group = ProductsGroup::where('user_id',Auth::id())->get()->toArray();
