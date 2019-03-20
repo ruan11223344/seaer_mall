@@ -184,6 +184,8 @@ class MessagesController extends Controller
                     $tmp_data['send_country'] = $user_extends->country_id == self::KE_COUNTRY_ID ? 'ke' : 'cn';
                     $tmp_data['extra_request'] = self::extraRequestToStr(json_decode($value->thread->extends)->extra_request);
                     $tmp_data['purchase_quantity'] =  $purchase_info->purchase_quantity.' '.$purchase_info->purchase_unit;
+                    $tmp_data['product_id'] =  $purchase_info->product_id;
+                    $tmp_data['product_main_pic'] =  $purchase_info->product_id != null ? \Modules\Mall\Http\Controllers\UtilsController::getPathFileUrl(Products::find(Products::find($purchase_info->product_id)->product_images[0]['main'])) : null;
                     $attachment_list = $value->extends['attachment_list'];
                     $tmp_data['attachment_list'] = count($attachment_list) == 0 ? null : $attachment_list;
                     $tmp_data['attachment_list_url'] = self::getAttachmentListUrl($attachment_list);
@@ -231,7 +233,7 @@ class MessagesController extends Controller
             'extra_request'=>'array|extra_request_object',
             'purchase_quantity'=>'required|integer',
             'purchase_unit'=>'required',
-            'product_id'=>'required|exists:products,id,deleted_at,NULL',
+            'product_id'=>'nullable|exists:products,id,deleted_at,NULL',
         ]);
 
         if ($validator->fails()){
@@ -282,7 +284,7 @@ class MessagesController extends Controller
                     'purchase_quantity'=>$request->input('purchase_quantity',null),
                     'purchase_unit'=>$request->input('purchase_unit',null),
                     'product_id'=>$product_id,
-                    'product_main_pic'=> \Modules\Mall\Http\Controllers\UtilsController::getPathFileUrl(Products::find($product_id)->product_images[0]['main']),
+                    'product_main_pic'=> $product_id != null ? \Modules\Mall\Http\Controllers\UtilsController::getPathFileUrl(Products::find($product_id)->product_images[0]['main']) : null,
                 ],
             ]);
 
