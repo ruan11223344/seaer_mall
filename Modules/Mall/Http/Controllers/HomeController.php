@@ -110,11 +110,27 @@ class HomeController extends Controller
                 $product_data['personal_recommend'] = $p_res;
             }
 
+            $personal_recommend_count = count($product_data['personal_recommend']);
+            if($personal_recommend_count < 5){
+                $else_num = 5 - $personal_recommend_count;
+                $else = ProductsController::getProductFormatInfo(Products::where([
+                    ['product_status','=',ProductsController::PRODUCT_STATUS_SALE],
+                    ['product_audit_status','=',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS],
+                ])->orderBy(\DB::raw('RAND()'))->take($else_num));
+                $product_data['personal_recommend'] = array_merge($product_data['personal_recommend'],$else);
+            }
+
+
             $product_id_list =array_unique(Products::select('products.id')->leftJoin('user_log', 'user_log.type_for_id', '=', 'products.id')->orderBy('user_log.created_at','desc')->where('user_log.user_id',$user_id)->pluck('id')->toArray());
 
             $ids_ordered = implode(',', $product_id_list);
 
-            $product_history =ProductsController::getProductFormatInfo(Products::whereIn('id',$product_id_list)->orderByRaw(DB::raw("FIELD(id, $ids_ordered)"))->take(20));
+            if(count($product_id_list) == 0){
+                $product_history =ProductsController::getProductFormatInfo(Products::whereIn('id',$product_id_list)->take(20));
+            }else{
+                $product_history =ProductsController::getProductFormatInfo(Products::whereIn('id',$product_id_list)->orderByRaw(DB::raw("FIELD(id, $ids_ordered)"))->take(20));
+            }
+
 
             $product_data['product_viewed'] = $product_history != null ? $product_history : [];
         }
