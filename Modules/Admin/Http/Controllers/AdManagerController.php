@@ -117,11 +117,13 @@ class AdManagerController extends Controller
                 $product_status_str = "仓库中";
             }
 
+
             $tmp['product_status_str'] = $product_status_str;
 
             array_push($res_data,$tmp);
         });
-        return $res_data;
+        return array_values(collect($res_data)->sortBy('index_product_recommend_id')->toArray());
+
     }
 
     public function getIndexProductRecommend(){

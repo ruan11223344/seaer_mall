@@ -27,7 +27,7 @@ class HomeController extends Controller
         return view('mall::index');
     }
 
-    public function getIndex()
+/*    public function getIndex()
     {
         $data = [];
 
@@ -57,7 +57,7 @@ class HomeController extends Controller
         $data['product_history'] = ProductsController::getProductFormatInfo(Products::limit(20));
 
         return $this->echoSuccessJson('Success!',$data);
-    }
+    }*/
 
     public function getAdInfo(){
         $res_data = AdManagerController::getAdData();
@@ -72,10 +72,12 @@ class HomeController extends Controller
             $product_id_list[] = $v['product_id'];
         }
 
+        $ids_ordered = implode(',', $product_id_list);
+
         $product_orm = Products::whereIn("id",$product_id_list)->where([
             ['product_status','=',ProductsController::PRODUCT_STATUS_SALE],
             ['product_audit_status','=',ProductsController::PRODUCT_AUDIT_STATUS_SUCCESS],
-        ]);
+        ])->orderByRaw(DB::raw("FIELD(id, $ids_ordered)"));
 
         $product_data = [];
 
@@ -111,7 +113,9 @@ class HomeController extends Controller
             $product_id_list =array_unique(Products::select('products.id')->leftJoin('user_log', 'user_log.type_for_id', '=', 'products.id')->orderBy('user_log.created_at','desc')->where('user_log.user_id',$user_id)->pluck('id')->toArray());
 
             $ids_ordered = implode(',', $product_id_list);
+
             $product_history =ProductsController::getProductFormatInfo(Products::whereIn('id',$product_id_list)->orderByRaw(DB::raw("FIELD(id, $ids_ordered)"))->take(20));
+
             $product_data['product_viewed'] = $product_history != null ? $product_history : [];
         }
 
