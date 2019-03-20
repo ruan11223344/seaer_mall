@@ -166,7 +166,7 @@ const upData = {
                 data: data
             }).then(res => {
                 if(res.code == 200) {
-                    this.$Message.info(res.message)
+                    this.$Message.success(res.message)
                     resolve(res.data)
                 }else {
                     reject(res.message)
@@ -185,7 +185,7 @@ const upData = {
                 data: data
             }).then(res => {
                 if(res.code == 200) {
-                    this.$Message.info(res.message)
+                    this.$Message.success(res.message)
                     resolve(res.data)
                 }else {
                     this.$Message.info(res.message)
@@ -256,7 +256,7 @@ const upData = {
                 method: 'post',
             }).then(res => {
                 if(res.code == 200) {
-                    this.$Message.info(res.message)
+                    this.$Message.success(res.message)
                 }else {
                     this.$Message.error(res.message)
                 }
@@ -276,7 +276,7 @@ const upData = {
                 }
             }).then(res => {
                 if(res.code == 200) {
-                    this.$Message.info(res.message)
+                    this.$Message.success(res.message)
                 }else {
                     this.$Message.error(res.message)
                 }
@@ -294,7 +294,7 @@ const upData = {
                 data: data
             }).then(res => {
                 if(res.code == 200) {
-                    this.$Message.info(res.message)
+                    this.$Message.success(res.message)
                 }else {
                     this.$Message.error(res.message)
                 }
@@ -312,7 +312,7 @@ const upData = {
                 data: data
             }).then(res => {
                 if(res.code == 200) {
-                    this.$Message.info(res.message)
+                    this.$Message.success(res.message)
                     resolve(res.data)
                 }else {
                     this.$Message.error(res.message)
@@ -331,7 +331,7 @@ const upData = {
                 data: data
             }).then(res => {
                 if(res.code == 200) {
-                    this.$Message.info(res.message)
+                    this.$Message.success(res.message)
                     resolve(res.data)
                 }else {
                     this.$Message.error(res.message)
@@ -350,7 +350,7 @@ const upData = {
                 data: data
             }).then(res => {
                 if(res.code == 200) {
-                    this.$Message.info(res.message)
+                    this.$Message.success(res.message)
                     resolve(res.data)
                 }else {
                     this.$Message.error(res.message)
@@ -367,7 +367,7 @@ const upData = {
                 data: data
             }).then(res => {
                 if(res.code == 200) {
-                    this.$Message.info(res.message)
+                    this.$Message.success(res.message)
                     resolve(res.data)
                 }else {
                     this.$Message.error(res.message)
@@ -402,7 +402,7 @@ const upData = {
                 }
             }).then(res => {
                 if(res.code == 200) {
-                    this.$Message.info(res.message)
+                    this.$Message.success(res.message)
                     resolve(res.data)
                 }else {
                     this.$Message.error(res.message)
@@ -419,7 +419,7 @@ const upData = {
                 data: data
             }).then(res => {
                 if(res.code == 200) {
-                    this.$Message.info(res.message)
+                    this.$Message.success(res.message)
                     resolve(res.data)
                 }else {
                     this.$Message.error(res.message)

@@ -204,7 +204,6 @@
         },
         mounted() {
             const user_id = auth.getSessionStorage()
-            console.log(user_id)
             this.onGetProductRecommend(user_id != null ? user_id.user.id : '').then(res => {
                 this.HomeData = res
                 this.product_viewed = res.product_viewed

@@ -8,22 +8,38 @@
             <p>Press Submit to view the demo the slides effect when finished uploading.</p>
             <p>Make sure the link of the image is valid.</p>
         </article>
-        <div class="SlideSet-banner" v-if="slideLists.length">
-            <Carousel
-                :loop="true"
-                :autoplay="setting.autoplay"
-                :autoplay-speed="setting.autoplaySpeed"
-                :dots="setting.dots"
-                :radius-dot="setting.radiusDot"
-                :trigger="setting.trigger"
-                :arrow="setting.arrow"
-                :height="setting.height">
-                <template v-for="(item, index) in slideLists">
-                    <CarouselItem :key="index">
-                        <img style="width: 741px; height: 193px; display: block;" :src="item.url" alt="">
-                    </CarouselItem>
-                </template>
-            </Carousel>
+        <div class="SlideSet-banner">
+            <template v-if="slideLists.length">
+                <Carousel
+                    :loop="true"
+                    :autoplay="setting.autoplay"
+                    :autoplay-speed="setting.autoplaySpeed"
+                    :dots="setting.dots"
+                    :radius-dot="setting.radiusDot"
+                    :trigger="setting.trigger"
+                    :arrow="setting.arrow"
+                    :height="setting.height">
+                        <CarouselItem v-if="slideLists.length > 0">
+                            <img style="width: 741px; height: 193px; display: block;" :src="slideLists[0].url" alt="">
+                        </CarouselItem>
+
+                        <CarouselItem v-if="slideLists.length > 1">
+                            <img style="width: 741px; height: 193px; display: block;" :src="slideLists[1].url" alt="">
+                        </CarouselItem>
+
+                        <CarouselItem v-if="slideLists.length > 2">
+                            <img style="width: 741px; height: 193px; display: block;" :src="slideLists[2].url" alt="">
+                        </CarouselItem>
+
+                        <CarouselItem v-if="slideLists.length > 3">
+                            <img style="width: 741px; height: 193px; display: block;" :src="slideLists[3].url" alt="">
+                        </CarouselItem>
+                        
+                        <CarouselItem v-if="slideLists.length > 4">
+                            <img style="width: 741px; height: 193px; display: block;" :src="slideLists[4].url" alt="">
+                        </CarouselItem>
+                </Carousel>
+            </template>
         </div>
         <hr class="SlideSet-hr">
         <div class="SlideSet-cards">
@@ -149,10 +165,10 @@
                 this.show = bool
             },
             onSave() {
+                this.slideLists = []
                 const slides = this.slideData
-
                 const arr = []
-
+                
                 slides.forEach((value, index) => {
                     if(value.img_path != '' && value.img_path != '' && value.img_jump != '') {
                         arr.push({ sort: index + 1, url_path: value.img_path, url_jump: value.img_jump })
@@ -161,7 +177,6 @@
 
                 this.upSetSlides(arr).then(res => {
                     res.code == 200 ? this.$Message.info(res.message) : this.$Message.error(res.message)
-
                     this.onGetSlidesList().then(res => {
                         this.slideLists = res
                     })

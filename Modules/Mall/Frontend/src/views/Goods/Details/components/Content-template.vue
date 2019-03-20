@@ -30,10 +30,10 @@
                     <span v-for="(v, i) in item.value" :key="i" style="marginRight: 10px;">{{ v }}</span>
                 </div>
             </li>
-            <li class="main-goods-content-item-list">
+            <!-- <li class="main-goods-content-item-list">
                 <div>Model Number:</div>
                 <div>{{ dataFrom.product_info.product_sku_no }}</div>
-            </li>
+            </li> -->
             <!-- <li class="main-goods-content-item-list">
                 <div>Specification:</div>
                 <div>Bulb E12/E14</div>

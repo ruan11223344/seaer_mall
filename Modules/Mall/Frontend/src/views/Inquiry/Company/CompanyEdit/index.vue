@@ -203,16 +203,9 @@
                         <Col span="15">
                             <Row>
                                 <Col span="24" class="registered-main-form-content">
-                                    <div @click="openGallery(0)" style="cursor:zoom-in;">
+                                    <div @click="openGallery(0, formData.business_info.business_license_url)" style="cursor:zoom-in;">
                                         <img style="width: 157px; height: 157px; display: block" :src="formData.business_info.business_license_url" v-show="formData.business_info.business_license_path" alt="">
                                     </div>
-                                    <!-- 图片预览 -->
-                                    <LightBox 
-                                        :images="imgSrc1"
-                                        ref="lightbox"
-                                        :show-light-box="false"
-                                        :showThumbs="false"
-                                    ></LightBox>
                                     <Upload
                                         class="registered-main-form-upload"
                                         action="//jsonplaceholder.typicode.com/posts/"
@@ -236,6 +229,14 @@
             <button type="button" @click="$router.back(-1)">Cancel</button>
             <button type="button" @click="onSave(formData)">Save</button>
         </section>
+
+        <!-- 图片预览 -->
+        <LightBox 
+            :images="imgSrc1"
+            ref="lightbox"
+            :show-light-box="false"
+            :showThumbs="false"
+        ></LightBox>
     </div>
 </template>
 
@@ -334,7 +335,11 @@
                 return false;
             },
             // 图片预览
-            openGallery(index) {
+            openGallery(index, url) {
+                this.$set(this.imgSrc1, 0, {
+                    thumb: url,
+                    src: url
+                })
                 this.$refs.lightbox.showImage(index)
             },
             // 设置公司信息

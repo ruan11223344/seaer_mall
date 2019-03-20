@@ -19,7 +19,8 @@
                             Emali Address
                         </Col>
                         <Col span="18" class-name="edit-from-text">
-                            <Input type="email" placeholder="wjcharles@163.com" v-model="formData.email_address" style="width: 563px" />
+                            {{ formData.email_address }}
+                            <!-- <Input type="email" placeholder="wjcharles@163.com" v-model="formData.email_address" style="width: 563px" /> -->
                         </Col>
                     </Row>
                 </FormItem>
