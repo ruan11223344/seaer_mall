@@ -348,6 +348,17 @@ class UtilsController extends Controller
         return self::OSS_FILE_PATH . '/public/';
     }
 
+    public static function getOneArticleData($article_orm){
+            $tmp = [];
+            $tmp['article_id'] = $article_orm->id;
+            $tmp['article_title'] = $article_orm->title;
+            $tmp['publish_time'] = Carbon::parse($article_orm->created_at)->format('Y-m-d H:i:s');
+            $tmp['article_type'] = $article_orm->type;
+            $tmp['content'] = $article_orm->content;
+            $tmp['author'] = $article_orm->author;
+            return $tmp;
+    }
+
     public function getUserAgreement(Request $request){
         $data = $request->all();
         $validator = Validator::make($data, [
@@ -362,14 +373,8 @@ class UtilsController extends Controller
 
         $agreement_orm = Article::where('type',$agreement_type == "buyers" ? "buyers_register_agreement" : "merchants_register_agreement")->orderBy('created_at','desc')->take(1);
 
-        $res_data = ArticleController::getArticleData($agreement_orm);
-
-        if(count($res_data['data']) > 0 ){
-            return $this->echoSuccessJson('获取用户协议成功!',$res_data['data'][0]);
-        }else{
-            return $this->echoErrorJson('错误,还没有设置用户协议!');
-        }
-
+        $res_data = self::getOneArticleData($agreement_orm);
+        return $this->echoSuccessJson('获取用户协议成功!',$res_data);
     }
 
     public function getMallNoticeList(Request $request)
@@ -396,20 +401,17 @@ class UtilsController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, [
             'article_id'=>'required|exists:article,id',
-            //'system_article','system_announcement','user_agreements'
         ]);
 
         if ($validator->fails()) {
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
         $article_id = $request->input('article_id');
-        $article = Article::find($article_id);
+        $article_orm = Article::find($article_id);
 
-        if($article == null){
-            return $this->echoErrorJson('错误!这篇文章不存在!');
-        }
+        $res_data = self::getOneArticleData($article_orm);
 
-        return $this->echoSuccessJson('成功!',$article->toArray());
+        return $this->echoSuccessJson('成功!',$res_data);
     }
 
 
