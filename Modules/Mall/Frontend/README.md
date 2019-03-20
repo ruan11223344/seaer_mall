@@ -5213,7 +5213,7 @@ url:http://域名/api/home/get_ad_info
 
 ```
 url:http://域名/api/home/get_index_product_recommend
-请求方法:post
+请求方法:get
 
 json参数:
 {

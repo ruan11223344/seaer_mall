@@ -122,7 +122,7 @@ class RegisterController extends Controller
             ],
             'account_type' =>'in:0,1,2|required',
             'sex'=>'in:Miss,Mr,Mrs|required',
-            'company_name' => 'required_if:account_type,0|required_if:account_type,1|string|between:2,50',
+            'company_name' => 'required_if:account_type,0|required_if:account_type,1|string|between:2,100',
             'company_name_in_china'=>[
                 'check_china'
             ],
