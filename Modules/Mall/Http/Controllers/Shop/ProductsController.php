@@ -621,7 +621,7 @@ class ProductsController extends Controller
                         $tmp['unit']  = $v['unit'];
                         $tmp['price'] = $product_price_array['ladder_price'][$i]['order_price'];
                     } else {
-                        $tmp['moq']   = 'MOQ: ≥' . '' . ($product_price_array['ladder_price'][$i]['min_order'] + 1);
+                        $tmp['moq']   = 'MOQ: ≥' . '' . ($product_price_array['ladder_price'][$i]['min_order']);
                         $tmp['unit']  = $v['unit'];
                         $tmp['price'] = $product_price_array['ladder_price'][$i]['order_price'];
                     }
