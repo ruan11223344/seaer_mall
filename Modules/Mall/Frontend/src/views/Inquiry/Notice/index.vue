@@ -72,7 +72,7 @@
                 })
             },
             onClick({ article_id }) {
-                this.$router.push('/notice?article_id=' + article_id)
+                this.$router.push('/notice?key=Notice&article_id=' + article_id)
             }
         },
         mounted() {

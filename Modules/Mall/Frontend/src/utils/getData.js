@@ -462,20 +462,7 @@ const getData = {
             })
         })
     },
-    // // 77.首页数据获取 假数据！
-    // onGetHome() {
-    //     return new Promise((resolve, reject) => {
-    //         request({
-    //             url: '/home/index',
-    //         }).then(res => {
-    //             if(res.code == 200) {
-    //                 resolve(res.data)
-    //             }else {
-    //                 reject(res)
-    //             }
-    //         })
-    //     })
-    // },
+
     // 78.获取用户中心商品分类数量与图片上传数量
     onGetProductNumInfo() {
         return new Promise((resolve, reject) => {
@@ -524,7 +511,25 @@ const getData = {
         })
     },
 
-    // 85.获取系统公告列表
+    // 83.用户注册协议获取
+    onGetUserAgreement(agreement_type) {
+        return new Promise((resolve, reject) => {
+            request({
+                url: '/utils/get_user_agreement',
+                params: {
+                    "agreement_type": agreement_type     //必填 "merchants" 商家或者 "buyers" 买家
+                }
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    },
+
+    // 84.获取系统公告列表
     onGetMallNotice(page, size) {
         return new Promise((resolve, reject) => {
             request({
@@ -543,7 +548,7 @@ const getData = {
         })
     },
 
-    // 86.文章详情获取
+    // 85.文章详情获取
     onGetArticleDetail(article_id) {
         return new Promise((resolve, reject) => {
             request({
