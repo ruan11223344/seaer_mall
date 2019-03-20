@@ -184,16 +184,15 @@ class MessagesController extends Controller
                     $tmp_data['send_country'] = $user_extends->country_id == self::KE_COUNTRY_ID ? 'ke' : 'cn';
                     $tmp_data['extra_request'] = self::extraRequestToStr(json_decode($value->thread->extends)->extra_request);
                     $tmp_data['purchase_quantity'] =  $purchase_info->purchase_quantity.' '.$purchase_info->purchase_unit;
-                    $tmp_data['product_id'] =  $purchase_info->product_id;
-                    $tmp_data['product_main_pic'] =  $purchase_info->product_id != null ? \Modules\Mall\Http\Controllers\UtilsController::getPathFileUrl(Products::find(Products::find($purchase_info->product_id)->product_images[0]['main'])) : null;
+                    $tmp_data['product_id'] =  isset($purchase_info->product_id) ? $purchase_info->product_id : null;
+                    $tmp_data['product_main_pic'] =  isset($purchase_info->product_id) ? \Modules\Mall\Http\Controllers\UtilsController::getPathFileUrl(Products::find(Products::find($purchase_info->product_id)->product_images[0]['main'])) : null;
                     $attachment_list = $value->extends['attachment_list'];
                     $tmp_data['attachment_list'] = count($attachment_list) == 0 ? null : $attachment_list;
                     $tmp_data['attachment_list_url'] = self::getAttachmentListUrl($attachment_list);
                     $quote_message = $this->messageInfo(InquiryMessages::where('id',$value->extends['quote_message_id'])->where('extends->soft_deleted_at','=',false)->where('extends->true_deleted_at','=',false)->get());
                     $tmp_data['quote_message'] = count($quote_message) == 0 ? null : $quote_message;
 //                    $tmp_data['is_flag'] = $value->extends['is_flag'];
-                    $tmp_data['type'] = 'outbox';
-                    $tmp_data['type'] = 'outbox';
+//                    $tmp_data['type'] = 'outbox';
                     array_push($res_data,$tmp_data);
                 }
             }
