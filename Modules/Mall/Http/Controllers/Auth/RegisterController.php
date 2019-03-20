@@ -15,6 +15,7 @@ use App\Utils\EchoJson;
 use Khsing\World\Models\Country;
 use Modules\Admin\Service\UtilsService;
 use Modules\Mall\Entities\AlbumUser;
+use Modules\Mall\Entities\ProductsGroup;
 use Modules\Mall\Entities\Shop;
 use Modules\Mall\Entities\Company;
 use Modules\Mall\Entities\RegisterTemp;
@@ -219,6 +220,15 @@ class RegisterController extends Controller
                       'company_id'=>$company->id,
                   ]
               );
+              ProductsGroup::create(
+                    [
+                        'group_name'=>"Default Group",
+                        'show_home_page'=>true,
+                        'parent_id'=>0,
+                        'sort'=>0,
+                        'user_id'=>$user->id
+                    ]
+                );
 
             }
             UtilsService::WriteLog('user','auth','register',$user->id,$user->id);

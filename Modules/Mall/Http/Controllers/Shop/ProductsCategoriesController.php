@@ -24,13 +24,11 @@ class ProductsCategoriesController extends Controller
         return $this->echoSuccessJson('Success!',$data);
     }
 
-
     public function getCategoriesRoot(){
         $root = ProductsCategories::whereIsRoot()->get()->toArray();
 
         return $this->echoSuccessJson('Get the root classification Success!',$root);
     }
-
 
     public function getCategoriesParent(Request $request){
         $data = $request->all();
@@ -54,7 +52,6 @@ class ProductsCategoriesController extends Controller
         return $this->echoSuccessJson('Gets the parent classification Success!',$child);
 
     }
-
 
     public function getCategoriesChild(Request $request){
         $data = $request->all();

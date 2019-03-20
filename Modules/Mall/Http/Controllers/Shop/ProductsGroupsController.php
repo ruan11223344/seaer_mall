@@ -124,6 +124,10 @@ class ProductsGroupsController extends Controller
 
         $group_name = $request->input('group_name');
 
+        if($group_name == "Default Group"){
+            return $this->echoErrorJson('the group name can\'t be Default Group' );
+        }
+
         $re_name_check_num = ProductsGroup::where(['user_id'=>Auth::id(),'group_name'=>$group_name])->where('id','!=',$product_group->id)->count();
 
         if($re_name_check_num > 0){
@@ -179,6 +183,11 @@ class ProductsGroupsController extends Controller
         }
 
         $group_name = $request->input('group_name');
+
+        if($group_name == "Default Group"){
+            return $this->echoErrorJson('the group name can\'t be Default Group' );
+        }
+
         $re_name_check_num = ProductsGroup::where(['user_id'=>Auth::id(),'group_name'=>$group_name])->count();
 
         if($re_name_check_num > 0){
@@ -214,6 +223,10 @@ class ProductsGroupsController extends Controller
         $product_group = ProductsGroup::where(['user_id'=>Auth::id(),'id'=>$request->input('product_group_id')])->get()->first();
          if($product_group == null){
              return $this->echoErrorJson('Error!The packet message was not found!');
+         }
+
+         if($product_group->group_name == "Default Group"){
+             return $this->echoSuccessJson('you can\'t delete default group!');
          }
 
         $product_group->delete();
