@@ -80,8 +80,6 @@ class AuthorizationsController extends Controller
         );
     }
 
-
-
     public function getAccessToken(AuthorizationServer $server, ServerRequestInterface $serverRequest)
     {
         $data = $serverRequest->getParsedBody();
@@ -508,8 +506,6 @@ class AuthorizationsController extends Controller
         }else{
             return $this->echoErrorJson('Write to database failed!');
         }
-
-
 
     }
 

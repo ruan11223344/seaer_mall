@@ -10,6 +10,7 @@ use Modules\Admin\Service\UtilsService;
 use Modules\Mall\Entities\InquiryMessages;
 use Modules\Mall\Entities\InquiryParticipants;
 use Modules\Mall\Entities\InquiryThreads;
+use Modules\Mall\Entities\Products;
 use Modules\Mall\Entities\User;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
@@ -29,14 +30,7 @@ class MessagesController extends Controller
     const KE_COUNTRY_ID = 56;
     const CHINA_COUNTRY_ID = 101;
 
-
     use EchoJson;
-    /**
-     * Show all of the message threads to the user.
-     *
-     * @return mixed
-     */
-
 
     static function extraRequestToStr($object){
         $str = '';
@@ -66,7 +60,6 @@ class MessagesController extends Controller
         }
         return $res_data;
     }
-
 
     public function sendMailNotification($to_user_id,$message,$is_reply = false){
         $to_user_ex = UsersExtends::where('user_id',$to_user_id)->first();
@@ -198,6 +191,7 @@ class MessagesController extends Controller
                     $tmp_data['quote_message'] = count($quote_message) == 0 ? null : $quote_message;
 //                    $tmp_data['is_flag'] = $value->extends['is_flag'];
                     $tmp_data['type'] = 'outbox';
+                    $tmp_data['type'] = 'outbox';
                     array_push($res_data,$tmp_data);
                 }
             }
@@ -237,6 +231,7 @@ class MessagesController extends Controller
             'extra_request'=>'array|extra_request_object',
             'purchase_quantity'=>'required|integer',
             'purchase_unit'=>'required',
+            'product_id'=>'required|exists:products,id,deleted_at,NULL',
         ]);
 
         if ($validator->fails()){
@@ -278,12 +273,16 @@ class MessagesController extends Controller
                 }
             }
 
+            $product_id = $request->input('product_id',null);
+
             $thread = InquiryThreads::create([
                 'subject' => $subject,
                 'extends'=>[
                     'extra_request'=>$extra_request_list,
                     'purchase_quantity'=>$request->input('purchase_quantity',null),
                     'purchase_unit'=>$request->input('purchase_unit',null),
+                    'product_id'=>$product_id,
+                    'product_main_pic'=> \Modules\Mall\Http\Controllers\UtilsController::getPathFileUrl(Products::find($product_id)->product_images[0]['main']),
                 ],
             ]);
 
@@ -486,7 +485,6 @@ class MessagesController extends Controller
         return $this->echoSuccessJson('Success!',compact('all'));
     }
 
-    //获取标记为旗帜的消息
     public function flagMessage(){
         $id = Auth::id();
         $outbox = InquiryMessages::where('user_id',$id)->where('extends->soft_deleted_at',false)->where('extends->is_flag',true)->get();
@@ -731,7 +729,6 @@ class MessagesController extends Controller
             }
         });
     }
-
 
     public function getMessageInfo(Request $request){
         $data = $request->all();
