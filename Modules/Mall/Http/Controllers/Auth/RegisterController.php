@@ -176,17 +176,20 @@ class RegisterController extends Controller
                 ]
 
             )){
-              $company = Company::create(
+                $country_id = $account_type == UsersExtends::ACCOUNT_TYPE_COMPANY_CHINA ? Country::getByCode('cn')->id : Country::getByCode('ke')->id;
+
+                $company = Company::create(
                   [
                       'user_id'=>$user->id,
                       'company_name'=>$request->input('company_name'),
                       'company_name_in_china'=>$request->input('company_name_in_china',null),
                       'company_business_license'=>$request->input('china_business_license'),
                       'company_business_license_pic_url'=>$company_business_license_pic_url,
+                      'company_country_id'=>$country_id,
+                      'company_province_id'=>$request->input('province_id'),
+                      'company_city_id'=>$request->input('city_id'),
                   ]
                 );
-
-              $country_id = $account_type == UsersExtends::ACCOUNT_TYPE_COMPANY_CHINA ? Country::getByCode('cn')->id : Country::getByCode('ke')->id;
 
               $user_extends = UsersExtends::create(
                   [
