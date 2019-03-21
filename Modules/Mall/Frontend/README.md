@@ -384,6 +384,7 @@ url:http://域名/api/message/create_message
 参数:"purchase_unit",值:"斤"  //必填 需要的数量的单位
 参数:"content",值:"香蕉是个好东西 真好吃！"  //必填 发送的主体内容
 参数:"extra_request[]",值:"{"Price" :true}"  //非必填 额外要求 值要求:json字符串对象
+参数:"product_id"  //非必填!!!!! 如果不传询盘消息详情将无法取到商品主图
 
 返回:
 {
