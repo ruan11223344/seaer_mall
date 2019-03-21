@@ -76,7 +76,6 @@
         height: 100px;
     }
     .inquiry {
-        .flex(center, center);
         width: 100%;
         min-width: 1220px;
         height: auto;

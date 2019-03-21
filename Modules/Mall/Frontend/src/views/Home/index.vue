@@ -285,7 +285,7 @@
                 margin-right: (1220px - 393px * 3) / 2;
             }
 
-            &-link:nth-child(4n) {
+            &-link:nth-of-type(3n) {
                 display: inline-block;
                 margin-right: 0px;
             }
