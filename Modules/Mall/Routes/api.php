@@ -159,10 +159,10 @@ Route::group(['domain' => env('MALL_DOMAIN'), 'middleware' => 'cors'], function 
         Route::get('get_mall_notice', 'UtilsController@getMallNoticeList');
         Route::get('get_article_detail', 'UtilsController@getArticleDetail');
         Route::get('get_title_article', 'UtilsController@getTitleArticle');
+        Route::post('send_feedback', 'UtilsController@sendFeedback');
 
         Route::group(['middleware' => ['client.credentials', 'auth:api']], function () {
             Route::post('upload_business_license', 'UtilsController@uploadBusinessLicense');
-            Route::post('send_feedback', 'UtilsController@sendFeedback');
         });
 
     });
