@@ -53,21 +53,8 @@
 
         <el-row :gutter="20" class="block">
             <el-col :offset="4" :span="20">
-                <figure class="block-box">
-                    <img src="" alt="">
-                    <figcaption></figcaption>
-                </figure>
-                <figure class="block-box">
-                    <img src="" alt="">
-                    <figcaption></figcaption>
-                </figure>
-                <figure class="block-box">
-                    <img src="" alt="">
-                    <figcaption></figcaption>
-                </figure>
-                <figure class="block-box">
-                    <img src="" alt="">
-                    <figcaption></figcaption>
+                <figure class="block-box" v-for="(item, index) in lastImg" :key="index">
+                    <img :src="item.url" alt="" @click="onClick(item.url)">
                 </figure>
             </el-col>
         </el-row>
@@ -135,7 +122,8 @@
                 },
                 title: '',
                 editor: '',
-                select: ''
+                select: '',
+                lastImg: []
             }
         },
         methods: {
@@ -148,6 +136,9 @@
                         this.$message.error(err.message)
                     })
                 return false
+            },
+            onClick(url) {
+                this.editor = this.editor + `<p><img src="${url}"></p>`
             },
             // 发布
             onSave() {
@@ -170,6 +161,10 @@
             }
         },
         created() {
+            this.$GetRequest.getLastUploadImg()
+                .then(res => {
+                    this.lastImg = res
+                })
             this.select = this.$route.query.type
         },
         components: {
@@ -202,6 +197,13 @@
             display: inline-block;
             margin-right: 35px;
             @include mixin-bg-color(white);
+
+            & > img {
+                width: 100%;
+                height: 100%;
+                display: block;
+                cursor: pointer;
+            }
         }
 
         &-box:last-child {

@@ -40,21 +40,8 @@
 
         <el-row :gutter="20" class="block">
             <el-col :offset="4" :span="20">
-                <figure class="block-box">
-                    <img src="" alt="">
-                    <figcaption></figcaption>
-                </figure>
-                <figure class="block-box">
-                    <img src="" alt="">
-                    <figcaption></figcaption>
-                </figure>
-                <figure class="block-box">
-                    <img src="" alt="">
-                    <figcaption></figcaption>
-                </figure>
-                <figure class="block-box">
-                    <img src="" alt="">
-                    <figcaption></figcaption>
+                <figure class="block-box" v-for="(item, index) in lastImg" :key="index">
+                    <img :src="item.url" alt="" @click="onClick(item.url)">
                 </figure>
             </el-col>
         </el-row>
@@ -77,6 +64,7 @@
     export default {
         data() {
             return {
+                lastImg: [],
                 // 编辑器
                 editorOption: {
                     modules: {
@@ -135,6 +123,9 @@
                     })
                 return false
             },
+            onClick(url) {
+                this.editor = this.editor + `<p><img src="${url}"></p>`
+            },
             // 发布
             onSave() {
                 const data = {
@@ -156,6 +147,10 @@
             }
         },
         created() {
+            this.$GetRequest.getLastUploadImg()
+                .then(res => {
+                    this.lastImg = res
+                })
             this.$GetRequest.getArticleDetail(this.$route.query.article_id)
                 .then(res => {
                     this.title = res.title
@@ -192,6 +187,13 @@
             display: inline-block;
             margin-right: 35px;
             @include mixin-bg-color(white);
+
+            & > img {
+                width: 100%;
+                height: 100%;
+                display: block;
+                cursor: pointer;
+            }
         }
 
         &-box:last-child {

@@ -405,6 +405,21 @@ class getRequest {
             })
         })
     }
+
+    // 43.获取管理员最近上传的照片历史
+    getLastUploadImg() {
+        return new Promise(async (resolve, reject) => {
+            await request({
+                url: '/admin/utils/get_last_upload_img',
+            }).then(res => {
+                if(res.code == 200) {
+                    resolve(res.data)
+                }else {
+                    reject(res)
+                }
+            })
+        })
+    }
 }
 
 export default new getRequest()

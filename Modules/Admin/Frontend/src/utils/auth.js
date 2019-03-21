@@ -7,27 +7,33 @@ const RefreshKey = 'refresh-token'
 
 class Auth {
     getCookies() {
-        return Cookies.get(TokenKey)
+        // return Cookies.get(TokenKey)
+        return sessionStorage.getItem(TokenKey)
     }
 
     getRefCookies() {
-        return Cookies.get(RefreshKey)
+        // return Cookies.get(RefreshKey)
+        return sessionStorage.getItem(RefreshKey)
     }
 
     setCookies(value) {
-        return Cookies.set(TokenKey, value)
+        // return Cookies.set(TokenKey, value)
+        return sessionStorage.setItem(TokenKey, value)
     }
 
     refreshCookies(value) {
-        return Cookies.set(RefreshKey, value)
+        // return Cookies.set(RefreshKey, value)
+        return sessionStorage.setItem(RefreshKey, value)
     }
 
     removeCookies() {
-        return Cookies.remove(TokenKey)
+        // return Cookies.remove(TokenKey)
+        return window.sessionStorage.removeItem(TokenKey)
     }
 
     removeRefreshKey() {
-        return Cookies.remove(RefreshKey)
+        // return Cookies.remove(RefreshKey)
+        return window.sessionStorage.removeItem(RefreshKey)
     }
 
     getUserCookies() {
