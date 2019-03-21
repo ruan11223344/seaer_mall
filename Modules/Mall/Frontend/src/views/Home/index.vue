@@ -139,7 +139,7 @@
                             <div class="main-record-arrow main-record-arrow-left" @click="onClickRecordLeft">
                                 <Icon type="ios-arrow-dropleft-circle" size="30"/>
                             </div>
-                            <div class="main-record" ref="record">
+                            <div class="main-record" ref="`record`">
                                 <!-- 渲染历史记录mock -->
                                 <template v-for="(item, index) in product_viewed">
                                     <!-- <template v-if="index < 5"> -->
