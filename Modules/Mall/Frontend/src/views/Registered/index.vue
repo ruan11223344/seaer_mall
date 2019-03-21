@@ -95,7 +95,6 @@
         }
 
         & > .main {
-            .flex(center, center);
             width: 100%;
             height: auto;
             background-color: #f0f1f5;

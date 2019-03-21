@@ -65,7 +65,7 @@
                     <div class="companyinfo-block-article-list">
                         <label for="" class="companyinfo-block-article-list-label">Attachment:</label>
                         <!-- <span class="companyinfo-block-article-list-text">https://www.seaer.com.cn</span> -->
-                        <img style="width: 197px; height: 197px; display: block;" :src="formData.business_info.business_license_url" />
+                        <img style="width: 197px; height: 197px; display: inline-block;" :src="formData.business_info.business_license_url" />
                     </div>
                 </article>
             </section>
@@ -136,7 +136,7 @@
                 padding: 15px 23px;
 
                 &-list {
-                    .flex();
+                    // .flex();
                     line-height: 1.5;
                     font-size: 16px;
                     margin: 10px 0px;
@@ -146,6 +146,8 @@
                         color: #333333;
                         margin-right: 1%;
                         text-align: right;
+                        vertical-align: top;
+                        display: inline-block;
                     }
 
                     &-text {

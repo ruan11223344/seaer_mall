@@ -91,7 +91,6 @@
                 margin-top: 20px;
 
                 &-list {
-                    .flex();
                     line-height: 1.5;
                     font-size: 16px;
                     margin: 10px 0px;
@@ -101,6 +100,8 @@
                         color: #333333;
                         margin-right: 1%;
                         text-align: right;
+                        display: inline-block;
+                        vertical-align: top;
                     }
 
                     &-text {
