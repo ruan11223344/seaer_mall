@@ -384,9 +384,9 @@ class UtilsController extends Controller
 
     public function getTitleArticle(Request $request){
         $data = $request->all();
+        $has_one_article = implode(',',  ArticleController::has_one_article_list);
         $validator = Validator::make($data, [
-            'title' => 'required|in:About Afriby.com,Help Center,Service,Finding And Contacting,Novice Guide,Register As a Merchant
-,Rule Center,Service Account Center,All Categories',
+            'title' => 'required|in:'.$has_one_article,
         ]);
 
         if ($validator->fails()) {
