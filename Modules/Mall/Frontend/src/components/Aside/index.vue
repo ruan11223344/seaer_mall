@@ -95,7 +95,7 @@
                     active: require('@/assets/img/home/top-active.png'),
                     state: require('@/assets/img/home/top.png')
                 },
-                modal: true,
+                modal: false,
                 formData: {
                     email: null,
                     content: null
