@@ -384,7 +384,7 @@ class UtilsController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, [
             'title' => 'required|in:About Afriby.com,Help Center,Service,Finding And Contacting,Novice Guide,Register As a Merchant
-,Rule Center,Service Account Center',
+,Rule Center,Service Account Center,All Categories',
         ]);
 
         if ($validator->fails()) {
