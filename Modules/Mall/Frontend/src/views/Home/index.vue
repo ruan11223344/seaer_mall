@@ -30,21 +30,21 @@
                 <template v-if="banner != null">
                     <!-- 跳转到分类页面 -->
                     <template v-for="(item, index) in banner">
-                            <router-link class="main-banners-link" :key="index" :to="item.jump_url" v-if="item.comment == '广告1'">
+                            <a target="_blank" class="main-banners-link" :key="index" :href="item.jump_url" v-if="item.comment == '广告1'">
                                 <v-img width="393" height="200" :img-src="item.image_url"/>
-                            </router-link>
+                            </a>
                     </template>
 
                     <template v-for="(item, index) in banner">
-                            <router-link class="main-banners-link" :key="index" :to="item.jump_url" v-if="item.comment == '广告2'">
+                            <a target="_blank" class="main-banners-link" :key="index" :href="item.jump_url" v-if="item.comment == '广告2'">
                                 <v-img width="393" height="200" :img-src="item.image_url"/>
-                            </router-link>
+                            </a>
                     </template>
 
                     <template v-for="(item, index) in banner">
-                            <router-link class="main-banners-link" :key="index" :to="item.jump_url" v-if="item.comment == '广告3'">
+                            <a target="_blank" class="main-banners-link" :key="index" :href="item.jump_url" v-if="item.comment == '广告3'">
                                 <v-img width="393" height="200" :img-src="item.image_url"/>
-                            </router-link>
+                            </a>
                     </template>
 
                 </template>
@@ -55,14 +55,13 @@
                 <section class="container main-banner" v-loading="banner == null">
                     <template v-if="banner != null">
                         <template v-for="(item, index) in banner">
-                            <router-link
+                            <a target="_blank"
                                 v-if="item.comment == '中部'"
                                 :key="index"
-                                tag="div"
-                                :to="item.jump_url"
-                                :style="`background: url(${item.image_url}) center center;height: 122px;cursor: pointer;`"
+                                :href="item.jump_url"
+                                :style="`display: block;background: url(${item.image_url}) center center;height: 122px;cursor: pointer;`"
                                 >
-                            </router-link>
+                            </a>
                         </template>
                     </template>
                 </section>
@@ -115,14 +114,14 @@
                 <section class="container main-banner" style="marginTop: 28px" v-loading="banner == null">
                     <template v-if="banner != null">
                         <template v-for="(item, index) in banner">
-                            <router-link
+                            <a target="_blank"
                                 v-if="item.comment == '底部'"
                                 :key="index"
-                                tag="div"
-                                :to="item.jump_url"
-                                :style="`background: url(${item.image_url}) center center;height: 122px;cursor: pointer;`"
+                                
+                                :href="item.jump_url"
+                                :style="`display: block;background: url(${item.image_url}) center center;height: 122px;cursor: pointer;`"
                                 >
-                            </router-link>
+                            </a>
                         </template>
                     </template>
                 </section>

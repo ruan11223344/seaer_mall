@@ -1,11 +1,11 @@
 <template>
     <div class="banner" v-if="active == null">
-        <router-link
-            tag="div"
-            :to="data_obj.jump_url"
-            :style="`background: url(${data_obj.image_url}) center center;height: 80px; cursor: pointer;`"
+        <a
+            target="_blank"
+            :href="data_obj.jump_url"
+            :style="`display: block;background: url(${data_obj.image_url}) center center;height: 80px; cursor: pointer;`"
             >
-        </router-link>
+        </a>
         <div class="container">
             <div @click="onClick">X</div>
         </div>
