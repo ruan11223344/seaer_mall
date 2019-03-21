@@ -64,13 +64,12 @@
                     </div>
                     <div class="companyinfo-block-article-list">
                         <label for="" class="companyinfo-block-article-list-label">Attachment:</label>
-                        <!-- <span class="companyinfo-block-article-list-text">https://www.seaer.com.cn</span> -->
                         <img style="width: 197px; height: 197px; display: inline-block;" :src="formData.business_info.business_license_url" />
                     </div>
                 </article>
             </section>
 
-            <button type="button" class="companyinfo-btn" @click="onEdit">Edit</button>
+            <button type="button" class="companyinfo-btn" @click="onEdit" v-if="!status">Edit</button>
         </template>
     </div>
 </template>
@@ -79,6 +78,7 @@
     import Title from "../../components/Title"
     import Img from "@/components/Img"
     import getData from "@/utils/getData.js"
+    import auth from "@/utils/auth"
 
     export default {
         data() {
@@ -87,6 +87,7 @@
             }
         },
         methods: {
+            getSessionStorage: auth.getSessionStorage,
             onGetCompanyInfo: getData.onGetCompanyInfo,
             onEdit() {
                 // const formData = JSON.stringify(this.formData)
@@ -100,7 +101,8 @@
             })
         },
         mounted() {
-            
+            const user = this.getSessionStorage()
+            this.status = user.publish_product.status
         },
         components: {
             "v-title": Title,
