@@ -54,4 +54,20 @@ class UtilsController extends Controller
 
 
     }
+
+    public function getLastUploadImg(){
+        $admin_id = Auth::id();
+        $res_data = [];
+        $res = AdminImage::where('admin_id',$admin_id)->orderBy('created_at','desc')->take(4)->get()->toArray();
+        if(count($res) > 0){
+            foreach ($res as $v){
+                $tmp = [];
+                $tmp['path'] = $v['image_path'];
+                $tmp['url'] = \Modules\Mall\Http\Controllers\UtilsController::getPathFileUrl($v['image_path']);
+                $tmp["created_at"] = $v['created_at'];
+                array_push($res_data,$tmp);
+            }
+        }
+        return $this->echoSuccessJson('获取管理员最近上传图片成功!',$res_data);
+    }
 }

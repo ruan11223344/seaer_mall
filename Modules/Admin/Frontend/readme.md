@@ -1730,3 +1730,39 @@ url:http://域名/api/admin/auth/get_account_info
     }
 }
 ```
+
+43.获取管理员最近上传的照片历史
+```
+url:http://域名/api/admin/utils/get_last_upload_img
+请求方法:get
+
+无参数
+
+返回:
+{
+    "code": 200,
+    "message": "获取管理员最近上传图片成功!",
+    "data": [
+        {
+            "path": "mall/public/155315018731566595.jpg",
+            "url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/public/155315018731566595.jpg",
+            "created_at": "2019-03-21 14:36:27"
+        },
+        {
+            "path": "mall/public/155315015837403274.jpg",
+            "url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/public/155315015837403274.jpg",
+            "created_at": "2019-03-21 14:35:58"
+        },
+        {
+            "path": "mall/public/155315011278751039.jpg",
+            "url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/public/155315011278751039.jpg",
+            "created_at": "2019-03-21 14:35:12"
+        },
+        {
+            "path": "mall/public/15531498331106897.jpg",
+            "url": "https://afriby-oss.oss-cn-hongkong.aliyuncs.com/mall/public/15531498331106897.jpg",
+            "created_at": "2019-03-21 14:30:33"
+        }
+    ]
+}
+```
