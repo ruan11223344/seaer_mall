@@ -606,7 +606,7 @@ class ProductsController extends Controller
             $tmp          = [];
             $tmp['unit']  = $product_price_array['base_price'][0]['unit'];
             $tmp['moq']   = 'MOQ: ' . $product_price_array['base_price'][0]['min_order'] . ' ' . $tmp['unit'];
-            $tmp['price'] = $product_price_array['base_price'][0]['min_order_price'];
+            $tmp['price'] = $product_price_array['base_price'][0]['min_order_price'] .'-'.$product_price_array['base_price'][0]['max_order_price'];
             array_push($price_array, $tmp);
         } elseif ($product_price_array['price_type'] == 'ladder') {
             foreach ($product_price_array['ladder_price'] as $v) {
