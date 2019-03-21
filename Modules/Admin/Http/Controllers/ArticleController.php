@@ -15,6 +15,18 @@ class ArticleController extends Controller
 {
     use EchoJson;
 
+    const has_one_article_list = [
+            "About Afriby.com",
+            "Help Center",
+            "Service",
+            "Finding And Contacting",
+            "Novice Guide",
+            "Register As a Merchant",
+            "Rule Center",
+            "Service Account Center",
+            "All Categories"
+        ];
+
     public static function getArticleData($article_orm,$page = null,$size = null){
         $article_clone = clone $article_orm;
         $count = $article_clone->count();
@@ -140,27 +152,16 @@ class ArticleController extends Controller
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
-        $has_one_article_list = [
-            "About Afriby.com",
-            "Help Center",
-            "Service",
-            "Finding And Contacting",
-            "Novice Guide",
-            "Register As a Merchant",
-            "Rule Center",
-            "Service Account Center",
-            "All Categories"
-        ];
 
         $title = $request->input('title');
         $type = $request->input('type');
         $count_has_one = Article::where('title',$title)->count();
 
-        if(in_array($title,$has_one_article_list) && $count_has_one > 0){
+        if(in_array($title,self::has_one_article_list) && $count_has_one > 0){
             return $this->echoSuccessJson('该标题的文章只能发布一篇,请修改它。');
         }
 
-        if(in_array($title,$has_one_article_list)){
+        if(in_array($title,self::has_one_article_list)){
             if($type != "system_article"){
                 return $this->echoSuccessJson('该标题的文章只能选择分类为system_article');
             }
@@ -176,7 +177,6 @@ class ArticleController extends Controller
 
         return $this->echoSuccessJson('发布成功!',$article->toArray());
     }
-
 
     public function getArticleDetail(Request $request){
         $CheckPermissions = UtilsService::CreateCheckPermissions('获取文章详情','是否能够获取文章详情');
@@ -255,11 +255,16 @@ class ArticleController extends Controller
             return $this->echoErrorJson('Form validation failed!'.$validator->messages());
         }
 
+
         $article_id = $request->input('article_id');
         $article = Article::find($article_id);
 
         if($article == null){
             return $this->echoErrorJson('错误!这篇文章不存在!');
+        }
+
+        if(in_array($article->title,self::has_one_article_list)){
+            return $this->echoErrorJson('不能删除该标题的文章!');
         }
 
         $article->delete();
