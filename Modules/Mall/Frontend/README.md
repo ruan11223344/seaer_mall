@@ -5035,7 +5035,7 @@ url:http://域名/api/auth/logout
 }
 ```
 
-80.反馈发送接口
+80.反馈发送接口  修改后游客也可以发送反馈
 ```
 url:http://域名/api/utils/send_feedback
 请求方法:post
@@ -5046,6 +5046,7 @@ json参数:
 {
 	"message":"我账户密码不能修改",  //必填
 	"contact_way":"ruan4215@gmail.com"  //必填
+	"user_id":2   //非必填 但是用户登录时传入~ 
 }
 
 返回:

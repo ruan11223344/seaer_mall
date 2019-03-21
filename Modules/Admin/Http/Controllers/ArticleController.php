@@ -148,7 +148,8 @@ class ArticleController extends Controller
             "Novice Guide",
             "Register As a Merchant",
             "Rule Center",
-            "Service Account Center"
+            "Service Account Center",
+            "All Categories"
         ];
 
         $title = $request->input('title');

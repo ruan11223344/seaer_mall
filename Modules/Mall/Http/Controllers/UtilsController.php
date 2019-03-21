@@ -327,6 +327,7 @@ class UtilsController extends Controller
         $validator = Validator::make($data, [
             'message' => 'required',
             'contact_way' => 'required',
+            'user_id'=>'nullable'
         ]);
 
         if ($validator->fails()) {
@@ -335,7 +336,8 @@ class UtilsController extends Controller
 
         $message = $request->input('message');
         $contact_way = $request->input('contact_way');
-        $res = FeedbackController::userPubFeedback($message,Auth::id(),$contact_way);
+        $user_id = $request->input('user_id',null);
+        $res = FeedbackController::userPubFeedback($message,$user_id,$contact_way);
         if($res){
             return $this->echoSuccessJson('发送反馈成功!');
         }else{
@@ -384,7 +386,7 @@ class UtilsController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, [
             'title' => 'required|in:About Afriby.com,Help Center,Service,Finding And Contacting,Novice Guide,Register As a Merchant
-,Rule Center,Service Account Center',
+,Rule Center,Service Account Center,All Categories',
         ]);
 
         if ($validator->fails()) {
