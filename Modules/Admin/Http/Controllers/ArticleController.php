@@ -24,7 +24,8 @@ class ArticleController extends Controller
             "Register As a Merchant",
             "Rule Center",
             "Service Account Center",
-            "All Categories"
+            "All Categories",
+            "Online Contact Us"
         ];
 
     public static function getArticleData($article_orm,$page = null,$size = null){
