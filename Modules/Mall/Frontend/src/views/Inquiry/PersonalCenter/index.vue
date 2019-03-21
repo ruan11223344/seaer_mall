@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div class="personal-main-right">
-                <div class="personal-main-right-Notice">
+                <div class="personal-main-right-Notice" v-loading="formData == null">
                     <div class="personal-main-right-Notice-title">
                         <span>Notice</span>
                         <span @click="$router.push('/inquiryList/notice')" style="cursor: pointer">
@@ -69,9 +69,13 @@
                             <Icon type="ios-arrow-forward" />
                         </span>
                     </div>
-                    <p>Afriby Kenya invites you to join us!join...</p>
-                    <p>2018 Dragon Boat Festival holiday ...</p>
-                    <p>Kenya站开通进口服务，一对一海外采...</p>
+                    <template v-for="(item, index) in formData">
+                        <p v-if="formData != null" :key="index">
+                            <a target="_blank" :href="'/notice?key=Notice&article_id=' + item.article_id">
+                                {{ item.article_title }}
+                            </a>
+                        </p>
+                    </template>
                 </div>
                 <div class="personal-main-right-time">
                     <div class="personal-main-right-time-title">Time Difference</div>
@@ -133,7 +137,8 @@
                 info: null,
                 kenTime: null,
                 cnTime: null,
-                user: null
+                user: null,
+                formData: null
             }
         },
         computed: {
@@ -146,6 +151,7 @@
             onGetProductNumInfo: getData.onGetProductNumInfo,
             onCurrency: upData.onCurrency,
             onGetSysConfig: getData.onGetSysConfig,
+            onGetMallNotice: getData.onGetMallNotice,
             onClick() {
                 this.onCurrency({
                     from: this.formItem.bool ? 'KES' : 'CNY',
@@ -162,10 +168,18 @@
                     date++
                     this.onTime(date)
                 }, 1000)
-            }
+            },
+            GetData() {
+                this.onGetMallNotice(1, 3).then(res => {
+                    this.formData = res.data
+                    console.log(this.formData)
+                })
+            },
+            
         },
         created() {
             this.user = this.getSessionStorage()
+            this.GetData()
         },
         mounted() {
             this.onGetOutboxMessag()
@@ -417,6 +431,16 @@
                         margin-top: 15px;
                         margin-left: 20px;
                         .textHidden();
+                        cursor: pointer;
+
+                        & > a {
+                            color: #666666;
+                        }
+                    }
+                    & > p:hover {
+                        & > a {
+                            color: #f0883a;
+                        }
                     }
 
                     &::before {
