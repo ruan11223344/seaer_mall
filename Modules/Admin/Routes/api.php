@@ -89,6 +89,7 @@ Route::group(['domain' => env('ADMIN_DOMAIN'), 'middleware' => 'cors'], function
             Route::get('get_captcha', 'UtilsController@getCaptcha')->name('admin.get.captcha');
             Route::group(['middleware' => ['client.credentials', 'auth:api']], function () {
                 Route::post('upload_img', 'UtilsController@uploadImg')->name('admin.uploadImg');
+                Route::get('get_last_upload_img', 'UtilsController@getLastUploadImg')->name('admin.getLastUploadImg');
                 Route::get('get_index_data', 'AdminController@getIndexData')->name('admin.index.data');
             });
         });
