@@ -25,34 +25,11 @@
                 <img style="width:28px; height:18px;" :src="Company_Detail.basic_info.country_name == 'China' ? require('@/assets/img/china.png') : require('@/assets/img/kenya.png')" alt="">
                 <span>{{ Company_Detail.basic_info.country_name }}</span>
             </div>
-            <button class="company-home-main-fixed-btn" @click="isShade=true">
+            <button class="company-home-main-fixed-btn" @click="onClick">
                 <Icon type="ios-mail" size="24"/>
                 Contact Now
             </button>
         </section>
-        <!-- 模态框 -->
-        <section class="company-home-main-shade" @click="isShade=false" v-show="isShade"></section>
-        <template v-if="user">
-            <div class="company-home-main-dialog" v-show="isShade">
-                <!-- 关闭 -->
-                <div class="company-home-main-dialog-close" @click="isShade=false">
-                    <Icon type="md-close" size="28"/>
-                </div>
-                <h1 class="company-home-main-dialog-title">Send your message to this supplier</h1>
-                <!-- <div class="company-home-main-dialog-email">From: 522151521@qq.com</div> -->
-                <div class="company-home-main-dialog-email">From: {{ user.user.email }}</div>
-                <div class="company-home-main-dialog-name">
-                    To:
-                    <!-- <v-img width="26" height="18" imgSrc=""></v-img> -->
-                    {{ Company_Detail.basic_info.contact_full_name }}
-                </div>
-                <div class="company-home-main-dialog-content">
-                    <textarea v-model="text" @focus="onFocus" @blur="onBlur"></textarea>
-                    <span>({{ this.text.length }}/4000)</span>
-                </div>
-                <button class="company-home-main-dialog-btn">send</button>
-            </div>
-        </template>
     </div>
 </template>
 
@@ -69,19 +46,14 @@
         },
         data() {
             return {
-                text: 'We suggest you detail your preduct requirements and company information here(Enter between 20-4000characters)',
-                isShade: false,
                 user: null
             }
         },
         methods: {
             getSessionStorage: Cookies.getSessionStorage,
-            onFocus() {
-                this.text == 'We suggest you detail your preduct requirements and company information here(Enter between 20-4000characters)' ? this.text = '' : ''
-            },
-            onBlur() {
-                this.text.length > 0 ? '' : this.text = 'We suggest you detail your preduct requirements and company information here(Enter between 20-4000characters)'
-            },
+            onClick() {
+                this.$router.push('/goods/consulting?af_id=' + this.Company_Detail.shop_info.af_id + '&contactCompany=true')
+            }
         },
         created() {
             this.user = this.getSessionStorage()
@@ -187,112 +159,4 @@
 	        color: #ffffff;
         }
     }
-    
-    .company-home-main-shade {
-        position: fixed;
-        top: 0px;
-        left: 0px;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.2);
-        z-index: 1000;
-    }
-
-    .company-home-main-dialog {
-        padding: 34px;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 847px;
-        height: 655px;
-        background-color: #ffffff;
-        z-index: 10000;
-
-        &-close {
-            position: absolute;
-            top: 16px;
-            right: 24px;
-            cursor: pointer; 
-        }
-
-        &-title {
-            font-size: 20px;
-            font-weight: normal;
-            font-stretch: normal;
-            line-height: 1;
-            letter-spacing: 0px;
-            color: #333333;
-        }
-
-        &-email {
-            margin-top: 33px;
-            margin-bottom: 18px;
-            font-size: 16px;
-            font-weight: normal;
-            font-stretch: normal;
-            line-height: 1;
-            letter-spacing: 0px;
-            color: #666666;
-        }
-        &-name {
-            .flex();
-            font-size: 16px;
-            line-height: 1;
-            color: #666666;
-            padding-left: 20px;
-        }
-
-        &-content {
-            position: relative;
-            margin-top: 14px;
-            margin-bottom: 75px;
-
-            & > textarea {
-                width: 783px;
-                height: 341px;
-                border: solid 1px #dddddd;
-                resize: none;
-                font-size: 14px;
-                font-weight: normal;
-                font-stretch: normal;
-                line-height: 2;
-                letter-spacing: 0px;
-                color: #cccccc;
-                padding: 0px 20px;
-            }
-
-            &::before {
-                content: 'Your inquiry content must be between 20 to 4000characters';
-                font-size: 13px;
-                line-height: 1;
-                color: #d72b2b;
-                position: absolute;
-                left: 0px;
-                bottom: -22px;
-            }
-
-            & > span {
-                position: absolute;
-                right: 25px;
-                bottom: 18px;
-                font-size: 14px;
-                line-height: 1;
-                color: #999999;
-            }
-        }
-
-        &-btn {
-            .color(white);
-            display: block;
-            width: 133px;
-            height: 39px;
-            background-color: #f0883a;
-            border: none;
-            font-size: 18px;
-            margin: 0px auto;
-        }
-    }
-
-    
 </style>

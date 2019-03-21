@@ -54,7 +54,7 @@
         },
         methods: {
             onSubmitEmail() {
-                this.$Message.warning('暂时无法联系该公司')
+                this.$router.push('/goods/consulting?af_id=' + this.Company_Detail.shop_info.af_id + '&contactCompany=true')
             }
         },
         mounted() {

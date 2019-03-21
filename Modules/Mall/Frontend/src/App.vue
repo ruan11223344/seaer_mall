@@ -49,4 +49,8 @@ export default {
         margin: 0px;
         font-family: Arial;
     }
+
+    #app {
+        min-width: 1360px;
+    }
 </style>

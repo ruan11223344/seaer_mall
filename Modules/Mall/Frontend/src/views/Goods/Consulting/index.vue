@@ -14,7 +14,7 @@
                         <!-- <span>Edit</span> -->
                     </div>
                     <!-- 目标 -->
-                    <div class="consulting-main-body-content">
+                    <div class="consulting-main-body-content" v-if="this.$route.query.contactCompany == 'false'">
                         <div class="consulting-main-body-content-label">To</div>
                         <div class="consulting-main-body-content-goods">
                             <span class="consulting-main-body-content-goods-title">{{ Company_Detail.basic_info.company_name }}</span>
@@ -27,7 +27,9 @@
                     <!-- 主题 -->
                     <div class="consulting-main-body-content" style="marginTop: 24px;marginBottom: 32px;">
                         <div class="consulting-main-body-content-label" style="marginTop: 12px;">Subject</div>
-                        <div class="consulting-main-body-content-subject">{{ $route.query.name}}</div>
+                        <!-- <div class="consulting-main-body-content-subject">{{ fromItem.subject}}</div> -->
+                        <Input class="consulting-main-body-content-subject" type="text" v-model="fromItem.subject"></Input>
+
                     </div>
                     <!-- 采购 -->
                     <div class="consulting-main-body-content">
@@ -215,7 +217,7 @@
                 for(let i = 0; i < this.fromItem.files.length; i++) { // 发送多个文件
                     data.append('attachment_list[]', this.fromItem.files[i])
                 }
-                data.append('subject', this.$route.query.name) //必填 询盘的主题 
+                data.append('subject', this.fromItem.subject) //必填 询盘的主题 
                 data.append('purchase_quantity', this.fromItem.quantity) //必填 需要的数量
                 data.append('purchase_unit', this.fromItem.unit)  //必填 需要的数量的单位
                 data.append('content', this.fromItem.content) //必填 发送的主体内容
@@ -234,9 +236,11 @@
                     method: 'post',
                     data,
                     headers:{'Content-Type': 'multipart/form-data'}
-                }).then(({code}) => {
+                }).then(({ code, message }) => {
                     if(code == 200) {
                         this.$router.push('/goods/success')
+                    }else {
+                        this.$Message.error(message)
                     }
                     this.$Spin.hide()
                 }).catch(err => {
@@ -247,6 +251,7 @@
             }
         },
         created() {
+            this.$set(this.fromItem, 'subject', this.$route.query.name)
             this.user = this.getSessionStorage()
         },
         components: {
@@ -338,10 +343,10 @@
                     .width(449px, 47px);
                     .textHidden();
                     .color(blackLight);
-                    .bg-color(light);
+                    // .bg-color(light);
                     font-size: 16px;
                     line-height: 47px;
-                    padding: 0px 14px;
+                    // padding: 0px 14px;
                     text-align: left;
                 }
 
