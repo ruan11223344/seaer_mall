@@ -43,7 +43,7 @@
             tag="button"
             type="button"
             class="main-goods-content-btn"
-            :to="'/goods/consulting?af_id=' + id + '&url=' + url + '&name=' + dataFrom.product_info.product_name + '&contactCompany=false'">
+            :to="'/goods/consulting?af_id=' + id + '&url=' + url + '&name=' + dataFrom.product_info.product_name + '&product_id=' + product_id + '&contactCompany=false'">
                 Send Inquiry
         </router-link>
     </div>
@@ -67,7 +67,7 @@
                 return arr
             }
         },
-        props: [ 'dataFrom', 'active', 'id', 'url'],
+        props: [ 'dataFrom', 'active', 'id', 'url', 'product_id'],
         methods: {
             onClickImg(index) {
                 this.$emit('on-click', index)

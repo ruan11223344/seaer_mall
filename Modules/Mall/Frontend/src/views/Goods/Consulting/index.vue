@@ -221,6 +221,7 @@
                 data.append('purchase_quantity', this.fromItem.quantity) //必填 需要的数量
                 data.append('purchase_unit', this.fromItem.unit)  //必填 需要的数量的单位
                 data.append('content', this.fromItem.content) //必填 发送的主体内容
+                data.append('product_id', this.$route.query.product_id ? this.$route.query.product_id : '')
 
                 if(this.fromItem.social.length > 0) {
                     let extra_request = {}
@@ -253,6 +254,8 @@
         created() {
             this.$set(this.fromItem, 'subject', this.$route.query.name)
             this.user = this.getSessionStorage()
+                console.log(this.$route.query.a)
+
         },
         components: {
             "v-img": Img,

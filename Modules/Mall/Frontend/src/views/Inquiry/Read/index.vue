@@ -34,7 +34,7 @@
                 <span>{{ infoData.subject }}</span>
             </div>
             <div class="read-main-card-figure">
-                <v-img width="64" height="64" :imgSrc="require('@/assets/img/china.png')"></v-img>
+                <v-img width="64" height="64" v-if="infoData.product_main_pic" :imgSrc="infoData.product_main_pic"></v-img>
                 <div class="read-main-card-figure-parameter">
                     <p>Purchase Quantity:{{ infoData.purchase_quantity }}</p>
                     <!-- 额外要求 -->
@@ -113,7 +113,6 @@
                 }).then(({ code, data }) => {
                     if(code == 200) {
                         this.infoData = data[0]
-                        console.log(this.infoData)
                         this.infoQuery = datas
                         // 标记为已读
                         this.onRead()

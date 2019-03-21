@@ -43,6 +43,7 @@
                         :url="ProductData.product_info.product_images_url[activeIndex]"
                         :active="activeIndex"
                         :dataFrom="ProductData"
+                        :product_id="$route.query.product_id"
                         :id="Company_Detail.shop_info.af_id">
                     </v-content>
 
@@ -135,6 +136,7 @@
 
                 this.onGetProductInfo(this.$route.query.product_id, user_id)
                         .then(res => this.ProductData = res)
+                        
             }
         },
         mounted() {
