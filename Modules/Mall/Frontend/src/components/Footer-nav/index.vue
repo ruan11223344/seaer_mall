@@ -4,35 +4,59 @@
             <nav class="footer-nav">
                 <dl style="marginRight:81px">
                     <dt>About us</dt>
-                    <router-link class="hover" tag="dd" to="/notice?key=About Afriby.com">About  Afriby.com</router-link>
+                    <dd>
+                        <a  class="hover" target="_blank" :href="origin + '/notice?key=About Afriby.com'">About  Afriby.com</a>
+                    </dd>
                 </dl>
                 <dl style="marginRight:96px">
                     <dt>Help Center</dt>
-                    <router-link class="hover" tag="dd" to="/notice?key=Finding And Contacting">{{'Finding & Contacting'}}</router-link>
-                    <router-link class="hover" tag="dd" to="/notice?key=Novice Guide">Novice Guide</router-link>
-                    <router-link class="hover" tag="dd" to="/reset/find">Forget the Password</router-link>
-                    <router-link class="hover" tag="dd" to="/notice?key=Register As a Merchant">Register As a Merchant</router-link>
-                    <router-link class="hover" tag="dd" to="/notice?key=Online Contact Us">Online Contact Us</router-link>
+                    <dd>
+                        <a  class="hover" target="_blank" :href="origin + '/notice?key=Finding And Contacting'">{{'Finding & Contacting'}}</a>
+                    </dd>
+                    <dd>
+                        <a  class="hover" target="_blank" :href="origin + '/notice?key=Novice Guide'">Novice Guide</a>
+                    </dd>
+                    <dd>
+                        <a  class="hover" target="_blank" :href="origin + '/reset/find'">Forget the Password</a>
+                    </dd>
+                    <dd>
+                        <a  class="hover" target="_blank" :href="origin + '/notice?key=Register As a Merchant'">Register As a Merchant</a>
+                    </dd>
+                    <dd>
+                        <a  class="hover" target="_blank" :href="origin + '/notice?key=Online Contact Us'">Online Contact Us</a>
+                    </dd>
                 </dl>
                 <dl style="marginRight:87px">
                     <dt>Terms And Conditions</dt>
-                    <router-link class="hover" tag="dd" to="/notice?key=All Categories">All Categories</router-link>
-                    <router-link class="hover" tag="dd" to="/notice?key=merchants">Merchants Register Agreement</router-link>
-                    <router-link class="hover" tag="dd" to="/notice?key=Buyers Register Agreement">Buyers Register Agreement</router-link>
+                    <dd>
+                        <a  class="hover" target="_blank" :href="origin + '/notice?key=All Categories'">All Categories</a>
+                    </dd>
+                    <dd>
+                        <a  class="hover" target="_blank" :href="origin + '/notice?key=merchants'">Merchants Register Agreement</a>
+                    </dd>
+                    <dd>
+                        <a  class="hover" target="_blank" :href="origin + '/notice?key=buyers'">Buyers Register Agreement</a>
+                    </dd>
                 </dl>
                 <dl style="marginRight:97px">
                     <dt>Follow Us</dt>
                     <dd class="box">
                         <div class="facebook">
-                            <img :src="require('@/assets/img/home/facebook.png')" alt="">
+                            <a href="https://www.facebook.com/" target="_blank">
+                                <img :src="require('@/assets/img/home/facebook.png')" alt="">
+                            </a>
                         </div>
                         <div class="tx">
-                            <img :src="require('@/assets/img/home/tx.png')" alt="">
+                            <a href="https://twitter.com/login?lang=en" target="_blank">
+                                <img :src="require('@/assets/img/home/tx.png')" alt="">
+                            </a>
                         </div>
                     </dd>
                     <dd>
                         <div class="yt">
-                            <img :src="require('@/assets/img/home/yt.png')" alt="">
+                            <a href="https://www.youtube.com/" target="_blank">
+                                <img :src="require('@/assets/img/home/yt.png')" alt="">
+                            </a>
                         </div>
                     </dd>
                 </dl>
@@ -64,7 +88,14 @@
 
 <script>
     export default {
-        
+        data() {
+            return {
+                origin: null
+            }
+        },
+        created() {
+            this.origin = window.location.origin
+        },
     }
 </script>
 
@@ -91,13 +122,16 @@
                 }
 
                 & > dd {
-                    .color(blackDark);
-                    font-size: 16px;
                     padding-top: 11px;
-                    letter-spacing: 0px;
+
+                    & > a {
+                        .color(blackDark);
+                        font-size: 16px;
+                        letter-spacing: 0px;
+                    }
                 }
 
-                dd.hover:hover {
+                dd > a.hover:hover {
                     .color(Orange);
                     cursor: pointer;
                 }
@@ -116,7 +150,7 @@
                 }
 
                 .tx {
-                    top: 3px;
+                    top: -3px;
                 }
             }
 

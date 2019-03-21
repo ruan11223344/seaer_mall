@@ -53,16 +53,18 @@
         <div class="aside-affix" @click="modal=true"></div>
         <Modal
             v-model="modal"
-            title="Have trouble when finding goods? Just let us know!"
             width="800"
             :mask-closable="true"
             @on-ok="asyncOK">
+                <div class="111" slot="header">
+                    Need Help ?
+                </div>
                 <Form ref="formInline" :model="formData" :rules="ruleInline" label-position="top">
-                    <FormItem label="email" prop="email">
-                        <Input v-model="formData.email" placeholder="Enter something..." style="width: 300px" />
+                    <FormItem prop="content">
+                        <Input v-model="formData.content" type="textarea" :autosize="{minRows: 10,maxRows: 10}" placeholder="Such as: I want to find the parts of the car (within 500 words)" />
                     </FormItem>
-                    <FormItem label="content" prop="content">
-                        <Input v-model="formData.content" type="textarea" :autosize="{minRows: 10,maxRows: 10}" placeholder="Enter something..." />
+                    <FormItem prop="email">
+                        <Input v-model="formData.email" placeholder="Please enter your contact information (email, phone)" />
                     </FormItem>
                 </Form>
         </Modal>
@@ -71,6 +73,7 @@
 
 <script>
     import upData from "@/utils/upData"
+    import auth from "@/utils/auth"
 
     export default {
         data() {
@@ -100,12 +103,12 @@
                     email: null,
                     content: null
                 },
-                ruleInline: [
-
-                ]
+                ruleInline:{},
+                user: null
             }
         },
         methods: {
+            getSessionStorage: auth.getSessionStorage,
             onClcik() {
                 let oTop = document.body.scrollTop || document.documentElement.scrollTop
 
@@ -125,8 +128,15 @@
             asyncOK() {
                 this.UpSendFeedback({
                     "message": this.formData.email, //必填
-	                "contact_way": this.formData.content //必填
-                }).all(res => {
+                    "contact_way": this.formData.content, //必填
+                    "user_id": this.user ? this.user.user.id : '' //非必填 但是用户登录时传入~ 
+                }).then(res => {
+                    this.formData = {
+                        email: null,
+                        content: null
+                    }
+                    this.modal = false
+                }).catch(err => {
                     this.formData = {
                         email: null,
                         content: null
@@ -134,7 +144,10 @@
                     this.modal = false
                 })
             }
-        }
+        },
+        created() {
+            this.user = this.getSessionStorage()
+        },
     }
 </script>
 
