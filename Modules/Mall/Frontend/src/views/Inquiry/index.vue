@@ -4,7 +4,7 @@
         <header class="header">
             <v-nav></v-nav>
         </header>
-        
+
         <div style="backgroundColor:#ffffff">
             <!-- 搜索 -->
             <section class="container search">
@@ -15,18 +15,14 @@
         <!-- 子页面渲染 -->
         <main class="inquiry">
             <div class="container inquiry-main">
-                <!-- <section class="inquiry-main-title">
-                    <Breadcrumb separator='<b style="color:#666666">></b>'>
-                        <BreadcrumbItem to="/" class="inquiry-main-title-active">Home</BreadcrumbItem>
-                        <BreadcrumbItem style="color:#666666">{{" $route.query.name" }}</BreadcrumbItem>
-                    </Breadcrumb>
-                </section> -->
                 <section class="inquiry-main-main">
                     <!-- 侧边栏 -->
-                    <v-inquiry-aside></v-inquiry-aside>
-
-                    <!-- <v-inquiry-main></v-inquiry-main> -->
-                    <router-view></router-view>
+                    <div>
+                        <v-inquiry-aside></v-inquiry-aside>
+                    </div>
+                    <div>
+                        <router-view></router-view>
+                    </div>
                 </section>
             </div>
         </main>
@@ -48,11 +44,6 @@
     import inquiryAside from "./components/Aside/index"
 
     export default {
-        data() {
-            return {
-
-            }
-        },
         components: {
             'v-nav': Header,
             'v-search': Search,
@@ -84,19 +75,19 @@
         padding-bottom: 20px;
 
         &-main {
-
             &-title {
                 margin-bottom: 8px;
-
-                // &-avtive {
-                //     & > a:hover {
-                //         color: #f0883a !important;
-                //     }
-                // }
             }
 
             &-main {
-                .flex(space-between, flex-start);
+                & > div {
+                    vertical-align: top;
+                    display: inline-block;
+                }
+
+                & > div:first-child {
+                    margin-right: 1220px - 237px - 18px - 885px - 60px;
+                }
             }
         }
     }
