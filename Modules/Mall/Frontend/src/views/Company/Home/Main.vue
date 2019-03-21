@@ -1,8 +1,12 @@
 <template>
     <main class="company-home-main">
         <div class="container company-home-main-container">
-            <v-aside></v-aside>
-            <v-content></v-content>
+            <div>
+                <v-aside></v-aside>
+            </div>
+            <div>
+                <v-content></v-content>
+            </div>
         </div>
     </main>
 </template>
@@ -31,7 +35,16 @@
 
         &-container {
             width: 1220px;
-            .flex(space-between);
+            // .flex(space-between);
+            
+            & > div {
+                display: inline-block;
+                vertical-align: top;
+            }
+
+            & > div:first-child {
+                margin-right: 1220px - 972px - 230px;
+            }
         }
     }
 </style>

@@ -109,10 +109,10 @@
         padding-top: 30px;
         border-top: 1px solid #dddddd;
         .footer-nav {
-            .flex();
-
             & > dl {
                 width: auto;
+                display: inline-block;
+                vertical-align: top;
 
                 & > dt {
                     .color(blackDark);
@@ -137,9 +137,8 @@
                 }
             }
             .box {
-                .flex();
-
                 .facebook, .tx {
+                    display: inline-block;
                     position: relative;
                     cursor: pointer;
                 }
@@ -150,7 +149,7 @@
                 }
 
                 .tx {
-                    top: -3px;
+                    top: -30px;
                 }
             }
 

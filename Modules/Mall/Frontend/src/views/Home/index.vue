@@ -30,21 +30,21 @@
                 <template v-if="banner != null">
                     <!-- 跳转到分类页面 -->
                     <template v-for="(item, index) in banner">
-                        <router-link :to="item.jump_url" v-if="item.comment == '广告1'" :key="index">
-                            <v-img width="393" height="200" :img-src="item.image_url"/>
-                        </router-link>
+                            <router-link class="main-banners-link" :key="index" :to="item.jump_url" v-if="item.comment == '广告1'">
+                                <v-img width="393" height="200" :img-src="item.image_url"/>
+                            </router-link>
                     </template>
 
                     <template v-for="(item, index) in banner">
-                        <router-link :to="item.jump_url" v-if="item.comment == '广告2'" :key="index">
-                            <v-img width="393" height="200" :img-src="item.image_url"/>
-                        </router-link>
+                            <router-link class="main-banners-link" :key="index" :to="item.jump_url" v-if="item.comment == '广告2'">
+                                <v-img width="393" height="200" :img-src="item.image_url"/>
+                            </router-link>
                     </template>
 
                     <template v-for="(item, index) in banner">
-                        <router-link :to="item.jump_url" v-if="item.comment == '广告3'" :key="index">
-                            <v-img width="393" height="200" :img-src="item.image_url"/>
-                        </router-link>
+                            <router-link class="main-banners-link" :key="index" :to="item.jump_url" v-if="item.comment == '广告3'">
+                                <v-img width="393" height="200" :img-src="item.image_url"/>
+                            </router-link>
                     </template>
 
                 </template>
@@ -78,7 +78,9 @@
                             <!-- 渲染商品列表mock -->
                             <template v-for="(item, index) in HomeData.hot_recommend">
                                 <template v-if="index < 5">
-                                    <v-card :data="item" :key="index"></v-card>
+                                    <div class="main-item-block" :key="index">
+                                        <v-card :data="item"></v-card>
+                                    </div>
                                 </template>
                             </template>
                         </section>
@@ -100,7 +102,9 @@
                             <!-- 渲染商品列表mock -->
                             <template v-for="(item, index) in HomeData.personal_recommend">
                                 <template v-if="index < 5">
-                                    <v-card :data="item" :key="index"></v-card>
+                                    <div class="main-item-block" :key="index">
+                                        <v-card :data="item"></v-card>
+                                    </div>
                                 </template>
                             </template>
                         </section>
@@ -269,11 +273,22 @@
         }
         // 广告列
         &-banners {
-            .flex(space-between);
+            // .flex(space-between);
             .bg-color(white);
             height: 200px;
             margin-top: 20px;
             margin-bottom: 20px;
+            display: block;
+
+            &-link {
+                display: inline-block;
+                margin-right: (1220px - 393px * 3) / 2;
+            }
+
+            &-link:nth-child(4n) {
+                display: inline-block;
+                margin-right: 0px;
+            }
         }
 
         &-container {
@@ -297,9 +312,18 @@
         &-item {
             width: 1220px;
             height: 340px;
-            .flex(space-between, center);
+            // .flex(space-between, center);
             overflow: hidden;
             position: relative;
+
+            &-block {
+                display: inline-block;
+                margin-right: (1220px - 228px * 5) / 4;
+            }
+
+            &-block:nth-child(5n) {
+                margin-right: 0px;
+            }
         }
 
         &-itemRecord:hover {
@@ -338,7 +362,6 @@
             position: relative;
             left: 0px;
             transition: all 0.2s;
-            .flex(space-between, center);
             &-list:first-child {
                 margin-left: 0px;
             }

@@ -133,10 +133,10 @@
             transition: all .5s;
 
             & > span:first-child {
+                width: 167px;
                 display: block;
                 overflow: hidden;
-                text-overflow:ellipsis;
-                white-space: nowrap;
+                .textHidden();
             }
             &-icon {
                 margin-right: 19px;
@@ -202,8 +202,7 @@
                 width: (505.5px - 20px) / 3;
                 text-align: left;
                 overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
+                .textHidden();
                 float: left;
                 cursor: pointer;
             }

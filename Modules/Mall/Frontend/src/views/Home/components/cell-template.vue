@@ -490,7 +490,7 @@
         &-head {
             font-size: 18px;
             .color(white);
-            .flex(flex-start, center);
+            // .flex(flex-start, center);
             margin-top: 28px;
             margin-bottom: 9px;
             padding-left: 10px;

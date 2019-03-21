@@ -30,6 +30,9 @@ module.exports = {
             config.devtool = 'cheap-module-source-map'
         }
     },
+    pluginOptions: {
+
+    },
     // 不生成map
     productionSourceMap: true,
     // modify the location of the generated HTML file.

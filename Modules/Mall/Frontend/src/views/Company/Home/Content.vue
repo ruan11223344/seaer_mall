@@ -11,7 +11,7 @@
             <div class="company-home-main-content-title">New Arrivals</div>
             <div class="company-home-main-content-first-item">
                 <!-- 渲染商品列表mock -->
-                <v-card :data="item" v-for="(item, index) in Company_Detail.shop_info.product_last_update" :key="index" class="company-home-main-content-first-item-list"></v-card>
+                <v-card :data="item" v-for="(item, index) in Company_Detail.shop_info.product_last_update" :key="index" class="company-home-main-content-first-item-lists"></v-card>
             </div>
         </div>
     </main>
@@ -60,9 +60,20 @@
                 &-list {
                     margin-right: 20px;
                     margin-bottom: 20px;
+                    display: inline-block;
                 }
 
                 &-list:nth-child(4n) {
+                    margin-right: 0px;
+                }
+
+                &-lists {
+                    margin-right: 20px;
+                    margin-bottom: 20px;
+                    display: inline-block;
+                }
+
+                &-lists:nth-child(4n) {
                     margin-right: 0px;
                 }
             }

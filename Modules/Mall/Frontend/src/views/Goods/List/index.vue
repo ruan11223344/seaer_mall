@@ -93,9 +93,6 @@
 
         // 商品列表
         &-content {
-            .flex(flex-start, center, row);
-            flex-wrap: wrap;
-
             // 商品
             &-list:first-child {
                 margin-left: 0px;
@@ -107,6 +104,7 @@
                 margin-left: 20px;
                 margin-bottom: 20px;
                 cursor: pointer;
+                display: inline-block;
             }
         }
 
