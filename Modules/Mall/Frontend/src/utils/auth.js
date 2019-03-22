@@ -2,13 +2,28 @@ import Cookies from 'js-cookie'
 
 // 配置cookie的方法
 const TokenKey = 'afriby-token'
-
 const RefreshKey = 'refresh-token'
-
 const user = 'User_info'
-
 const Product = 'Product_All'
 
+function aesEncrypt(data) {
+    let crypted = ''
+    for (let index = 0; index < data.length; index++) {
+        crypted += data.charCodeAt(index) + ','
+    }
+    return crypted;
+}
+
+function aesDecrypt(arr) {
+    const encrypted = arr.split(',')
+    let decrypted = ''
+    for (let index = 0; index < encrypted.length; index++) {
+        if(index != encrypted.length - 1) {
+            decrypted += String.fromCharCode(encrypted[index])
+        }
+    }
+    return decrypted;
+}
 
 export default {
     getCookies() {
@@ -31,10 +46,12 @@ export default {
     },
     setSessionStorage(value) {
         const json = JSON.stringify(value)
-        return sessionStorage.setItem(user, json)
+        return sessionStorage.setItem(user, aesEncrypt(json))
     },
     getSessionStorage() {
-        const data = JSON.parse(sessionStorage.getItem(user))
+        const v = sessionStorage.getItem(user)
+        if(!v) return
+        const data = JSON.parse(aesDecrypt(v))
         return data
     },
     removeSessionStorage() {
@@ -43,12 +60,14 @@ export default {
     },
     // 搜索的商品数据
     getProductAllStorage() {
-        const data = JSON.parse(sessionStorage.getItem(Product))
+        const v = sessionStorage.getItem(Product)
+        if(!v) return
+        const data = JSON.parse(aesDecrypt(v))
         return data
     },
     setProductAllStorage(value) {
         const json = JSON.stringify(value)
-        return sessionStorage.setItem(Product, json)
+        return sessionStorage.setItem(Product, aesEncrypt(json))
     },
 
 }
