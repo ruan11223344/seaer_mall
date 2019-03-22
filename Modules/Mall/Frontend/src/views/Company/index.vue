@@ -12,7 +12,13 @@
             <!-- banner -->
             <template v-if="Object.prototype.toString.call(Company_Detail.shop_info.banner) == '[object Object]'">
                 <section class="banner">
-                    <img :src="Company_Detail.shop_info.banner.banner_url" alt="">
+                    <a
+                        :href="Company_Detail.shop_info.banner.url_jump"
+                        target="_blank"
+                        style="`display: block;`"
+                        >
+                        <img :src="Company_Detail.shop_info.banner.banner_url" alt="">
+                    </a>
                 </section>
             </template>
             

@@ -1,6 +1,7 @@
 <template>
     <div>
         <Carousel
+            v-if="Company_Detail.shop_info.slides.length > 1"
             :loop="true"
             :autoplay="setting.autoplay"
             :autoplay-speed="setting.autoplaySpeed"
@@ -16,11 +17,21 @@
                         target="_blank"
                         style="`display: block;`"
                         >
-                        <img style="width: 100%; height: 100%; display: block;" :src="item.url" alt=""> 
+                        <div :style="`display: block;width: 100%; height: 500px;background: url(${item.url}) center center`"></div>
+                        <!-- <img style="width: 100%; height: 100%; display: block;" :src="item.url" alt="">  -->
                     </a>
                 </CarouselItem>
             </template>
         </Carousel>
+
+        <template v-else-if="Company_Detail.shop_info.slides.length == 1">
+            <a
+                :href="Company_Detail.shop_info.slides[0].url_jump"
+                target="_blank"
+                >
+                <div :style="`display: block;width: 100%; height: 500px;background: url(${Company_Detail.shop_info.slides[0].url}) center center`"></div>
+            </a>
+        </template>
 
         <v-main></v-main>
     </div>

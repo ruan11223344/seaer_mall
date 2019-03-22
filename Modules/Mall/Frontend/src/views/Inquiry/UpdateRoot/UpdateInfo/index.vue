@@ -285,14 +285,6 @@
                     <Col span="15" class-name="updateInfo-main">
                         <Row>
                             <Col span="24" style="height: 367px;marginBottom: 15px;">
-                                    <!-- <quill-editor ref="myTextEditor"
-                                        class="updateInfo-main-editor"
-                                        theme="Snow"
-                                        v-model="content"
-                                        :options="editorOption"
-                                        @blur="onEditorBlur($event)"
-                                        @focus="onEditorFocus($event)"
-                                        @ready="onEditorReady($event)"> -->
                                     <quill-editor ref="myTextEditor"
                                         class="updateInfo-main-editor"
                                         theme="Snow"
@@ -311,8 +303,6 @@
                                     >
                                         <button type="button" class="updateInfo-main-add" style="marginRight: 10px;">Upload Picture</button>
                                 </Upload>
-
-                                <!-- <button type="button" class="updateInfo-main-add">Select from album</button> -->
                             </Col>
                         </Row>
                         <Row>
@@ -380,18 +370,13 @@
                     <Col span="15">
                         <Row>
                             <Col span="24" class-name="updateInfo-main-Category">
-                                <!-- <Select v-model="model3" style="width:170px">
-                                    <Option v-for="item in ProductGroup" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                </Select> -->
                                 <Cascader
                                     :data="ProductGroup"
                                     change-on-select
                                     @on-change="onChangeCascader"
-                                    ></Cascader>
-                            </Col>
-                            <!-- <Col span="24">
-                                <button type="button" class="updateInfo-main-add" style="margin: 10px 0px;">New Category</button>
-                            </Col> -->
+                                    >
+                                </Cascader>
+                            </Col> 
                             <Col span="24">
                                 <div class="updateInfo-main-Category-text">
                                     Products can be subordinated to multiple categories of stores, and store categories can be customized by <span class="updateInfo-main-Category-text-span">Products > Group & Sort Products</span>
@@ -546,12 +531,7 @@
                 PhotoData: [],
                 PhotoList: [],
                 // 分组列表
-                ProductGroup: [
-                    {
-                        value: 1,
-                        lable: 2
-                    }
-                ],
+                ProductGroup: [],
                 imgName: '',
                 visible: false,
                 // 编辑器
@@ -609,9 +589,6 @@
                 },
                 single: false,
             }
-        },
-        filters: {
-            
         },
         computed: {
             ...mapState(['Classification'])
@@ -744,7 +721,7 @@
 
                     if(value.children) {
                         value.children.forEach((v, i) => {
-                            arrChild.push({ value: v.id, label: v.group_name })
+                            arrChild.push({ value: v.id, label: v.group_name + '' })
                         })
                     }
 
@@ -835,9 +812,11 @@
     }
 </script>
 
-<style lang="less" scoped>
+<style lang="less" >
     @import url('../../../../assets/css/index.less');
-
+    .ivu-cascader-menu-item {
+        padding-right: 35px !important;
+    }
     .updateInfo {
         width: 945px;
         height: auto;
@@ -1087,5 +1066,4 @@
         cursor: pointer;
         margin: 0 2px;
     }
-
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="updateInfo" v-if="formItem">
+    <div class="update_Info" v-if="formItem">
         <v-head :imgSrc="require('@/assets/img/login/bg2.png')"></v-head>
 
         <section class="Send-main-screening" style="marginBottom: 20px;">
@@ -12,7 +12,7 @@
                     <!-- Product Name -->
                     <FormItem>
                         <Row :gutter="20">
-                            <Col span="6" class-name="updateInfo-lable">
+                            <Col span="6" class-name="update_Info-lable">
                                 <span>Product Name</span>
                             </Col>
                             <Col span="15">
@@ -23,7 +23,7 @@
                     <!-- SKU No. -->
                     <FormItem prop="">
                         <Row :gutter="20">
-                            <Col span="6" class-name="updateInfo-lable">
+                            <Col span="6" class-name="update_Info-lable">
                                 <span>SKU No</span>
                             </Col>
                             <Col span="15">
@@ -34,13 +34,13 @@
                     <!-- Keyword (Up to 3) -->
                     <FormItem prop="">
                         <Row :gutter="20">
-                            <Col span="6" class-name="updateInfo-lable">
+                            <Col span="6" class-name="update_Info-lable">
                                 <span>
                                     Keyword
                                     <span style="color: #999999;fontSize: 14px;">(Up to 3)</span>
                                 </span>
                             </Col>
-                            <Col span="15" class-name="updateInfo-main">
+                            <Col span="15" class-name="update_Info-main">
                                 <Row>
                                     <Col span="24" v-for="(item, index) in formItem.keyword" :key="index" style="marginBottom: 20px;">
                                         <Row>
@@ -48,13 +48,13 @@
                                                 <Input placeholder="The suggested length of keyword is 1-4 words." v-model="formItem.keyword[index]"></Input>
                                             </Col>
                                             <Col span="2" style="textAlign: right;" v-show="formItem.keyword.length != 1">
-                                                <button type="button" class="updateInfo-main-del" @click="$delete(formItem.keyword, index)">
+                                                <button type="button" class="update_Info-main-del" @click="$delete(formItem.keyword, index)">
                                                 </button>
                                             </Col>
                                         </Row>
                                     </Col>
                                     <Col span="24">
-                                        <button type="button" class="updateInfo-main-add" @click=" formItem.keyword.length < 3 ? formItem.keyword.push('') : ''">+ Add a keyword</button>
+                                        <button type="button" class="update_Info-main-add" @click=" formItem.keyword.length < 3 ? formItem.keyword.push('') : ''">+ Add a keyword</button>
                                     </Col>
                                 </Row>
                             </Col>
@@ -63,10 +63,10 @@
                     <!-- Product Photo -->
                     <FormItem prop="">
                         <Row :gutter="20">
-                            <Col span="6" class-name="updateInfo-lable" style="lineHeight: 1;">
+                            <Col span="6" class-name="update_Info-lable" style="lineHeight: 1;">
                                 Product Photo
                             </Col>
-                            <Col span="15" class-name="updateInfo-main">
+                            <Col span="15" class-name="update_Info-main">
                                 <Row>
                                     <Col span="24">
                                         <template>
@@ -100,7 +100,7 @@
                                             </Modal>
                                         </template>
                                     </Col>
-                                    <Col span="24" class-name="updateInfo-main-font">
+                                    <Col span="24" class-name="update_Info-main-font">
                                         - Format : Jpeg、Jpg、Png; Maximum: 1M;
                                     </Col>
                                 </Row>
@@ -110,13 +110,13 @@
                     <!-- Product Attributes -->
                     <FormItem>
                         <Row :gutter="20">
-                            <Col span="6" class-name="updateInfo-lable">
+                            <Col span="6" class-name="update_Info-lable">
                                 <span>
                                     Product Attributes
                                     <span style="color: #999999;fontSize: 14px;">(Up to 3)</span>
                                 </span>
                             </Col>
-                            <Col span="15" class-name="updateInfo-main">
+                            <Col span="15" class-name="update_Info-main">
                                 <Row>
                                     <Col span="24" v-for="(item, index) in formItem.Custom" :key="index" style="marginBottom: 20px;">
                                         <Row type="flex" justify="space-between">
@@ -128,13 +128,13 @@
                                                 <Input placeholder="Attribute Value" v-model="item.value"></Input>
                                             </Col>
                                             <Col span="2" style="textAlign: right;" v-show="formItem.Custom.length != 1">
-                                                <button type="button" class="updateInfo-main-del" @click="$delete(formItem.Custom, index)">
+                                                <button type="button" class="update_Info-main-del" @click="$delete(formItem.Custom, index)">
                                                 </button>
                                             </Col>
                                         </Row>
                                     </Col>
                                     <Col span="24">
-                                        <button type="button" class="updateInfo-main-add" @click=" formItem.Custom.length < 3 ? formItem.Custom.push({ name: '', color: '' }) : ''">+ Add a new price </button>
+                                        <button type="button" class="update_Info-main-add" @click=" formItem.Custom.length < 3 ? formItem.Custom.push({ name: '', color: '' }) : ''">+ Add a new price </button>
                                     </Col>
                                 </Row>
                             </Col>
@@ -155,10 +155,10 @@
                     <!-- FOB Price -->
                     <FormItem prop="">
                         <Row :gutter="20">
-                            <Col span="6" class-name="updateInfo-lable">
+                            <Col span="6" class-name="update_Info-lable">
                                 <span>FOB Price</span>
                             </Col>
-                            <Col span="15" class-name="updateInfo-main">
+                            <Col span="15" class-name="update_Info-main">
                                 <Row>
                                     <Col span="24">
                                         <RadioGroup v-model="formItem.Price.animal">
@@ -169,13 +169,13 @@
                                     <Col span="24">
                                         <!-- Ladder Price -->
                                         <Row v-show="formItem.Price.animal != 'base'">
-                                            <Col span="24" class-name="updateInfo-main-Price"  style="marginBottom: 20px;">
-                                                <div class="updateInfo-main-Price-display"  v-for="(item, index) in formItem.Price.Ladder" :key="index" :style="index != 0 ? 'marginTop: 12px;' : ''">
+                                            <Col span="24" class-name="update_Info-main-Price"  style="marginBottom: 20px;">
+                                                <div class="update_Info-main-Price-display"  v-for="(item, index) in formItem.Price.Ladder" :key="index" :style="index != 0 ? 'marginTop: 12px;' : ''">
                                                     <div>
-                                                        <span class="updateInfo-main-Price-text" style="marginLeft: 0px;">≥</span>
+                                                        <span class="update_Info-main-Price-text" style="marginLeft: 0px;">≥</span>
                                                         <!-- 数字输入框 -->
                                                         <template>
-                                                            <InputNumber size="small" class="updateInfo-main-Price-input" :min="0" v-model="item.min_order"></InputNumber>
+                                                            <InputNumber size="small" class="update_Info-main-Price-input" :min="0" v-model="item.min_order"></InputNumber>
                                                         </template>
                                                         <!--下拉 -->
                                                         <template>
@@ -185,7 +185,7 @@
                                                         </template>
                                                     </div>
                                                     <div>
-                                                        <span class="updateInfo-main-Price-text">KSh</span>
+                                                        <span class="update_Info-main-Price-text">KSh</span>
                                                         <!-- 数字输入框 -->
                                                         <template>
                                                             <InputNumber size="small" 
@@ -197,25 +197,25 @@
                                                         </template>
                                                     </div>
                                                     <div v-show="formItem.Price.Ladder.length != 1">
-                                                        <button type="button" class="updateInfo-main-del" @click="$delete(formItem.Price.Ladder, index)">
+                                                        <button type="button" class="update_Info-main-del" @click="$delete(formItem.Price.Ladder, index)">
                                                         </button>
                                                     </div>
                                                 </div>
                                             </Col>
                                             <Col span="24">
-                                                <button type="button" class="updateInfo-main-add" @click="formItem.Price.Ladder.length < 4 ? formItem.Price.Ladder.push({ min_order: 0, unit: null, order_price: 0, }) : ''">+ Add Custom Attributes</button>
+                                                <button type="button" class="update_Info-main-add" @click="formItem.Price.Ladder.length < 4 ? formItem.Price.Ladder.push({ min_order: 0, unit: null, order_price: 0, }) : ''">+ Add Custom Attributes</button>
                                                 <span style="color: #999999;fontSize: 14px;">&nbsp;&nbsp;(Maximum 4)</span>
                                             </Col>
                                         </Row>
                                         <!-- Base Price -->
                                         <Row  v-show="formItem.Price.animal == 'base'">
-                                            <Col span="24" class-name="updateInfo-main-Price"  style="marginBottom: 20px;">
-                                                <div class="updateInfo-main-Price-display">
+                                            <Col span="24" class-name="update_Info-main-Price"  style="marginBottom: 20px;">
+                                                <div class="update_Info-main-Price-display">
                                                     <div>
-                                                        <span class="updateInfo-main-Price-text" style="marginLeft: 0px;">≥</span>
+                                                        <span class="update_Info-main-Price-text" style="marginLeft: 0px;">≥</span>
                                                         <!-- 数字输入框 -->
                                                         <template>
-                                                            <InputNumber size="small" class="updateInfo-main-Price-input" :min="1" v-model="formItem.Price.Base.min_order"></InputNumber>
+                                                            <InputNumber size="small" class="update_Info-main-Price-input" :min="1" v-model="formItem.Price.Base.min_order"></InputNumber>
                                                         </template>
                                                         <!--下拉 -->
                                                         <template>
@@ -225,7 +225,7 @@
                                                         </template>
                                                     </div>
                                                     <div>
-                                                        <span class="updateInfo-main-Price-text">KSh</span>
+                                                        <span class="update_Info-main-Price-text">KSh</span>
                                                         <!-- 数字输入框 -->
                                                         <template>
                                                             <InputNumber
@@ -235,7 +235,7 @@
                                                                 :step="10000"
                                                                 v-model="formItem.Price.Base.min_order_price"></InputNumber>
                                                         </template>
-                                                        <span class="updateInfo-main-Price-text">-</span>
+                                                        <span class="update_Info-main-Price-text">-</span>
                                                         <!-- 数字输入框 -->
                                                         <template>
                                                             <InputNumber
@@ -267,14 +267,14 @@
             <section>
                 <!-- Description -->
                 <Row :gutter="20">
-                    <Col span="6" class-name="updateInfo-lable">
+                    <Col span="6" class-name="update_Info-lable">
                         <span>Description</span>
                     </Col>
-                    <Col span="15" class-name="updateInfo-main">
+                    <Col span="15" class-name="update_Info-main">
                         <Row>
                             <Col span="24" style="height: 367px;marginBottom: 15px;">
                                     <quill-editor ref="myTextEditor"
-                                        class="updateInfo-main-editor"
+                                        class="update_Info-main-editor"
                                         theme="Snow"
                                         v-model="formItem.editor"
                                         :options="editorOption"
@@ -289,15 +289,15 @@
                                     action="//jsonplaceholder.typicode.com/posts/"
                                     :before-upload="upPicture"
                                     >
-                                        <button type="button" class="updateInfo-main-add" style="marginRight: 10px;">Upload Picture</button>
+                                        <button type="button" class="update_Info-main-add" style="marginRight: 10px;">Upload Picture</button>
                                 </Upload>
 
-                                <!-- <button type="button" class="updateInfo-main-add">Select from album</button> -->
+                                <!-- <button type="button" class="update_Info-main-add">Select from album</button> -->
                             </Col>
                         </Row>
                         <Row>
-                            <Col span="24" class-name="updateInfo-main-Album">
-                                <div class="updateInfo-main-Album-title">
+                            <Col span="24" class-name="update_Info-main-Album">
+                                <div class="update_Info-main-Album-title">
                                     {{ 'Album Uuser' }} > {{ 'Pictures All' }}
                                 </div>
                                 <template>
@@ -315,7 +315,7 @@
                                 >
                                 <div v-show="PhotoList.length">
                                     <figure
-                                        class="updateInfo-main-figure"
+                                        class="update_Info-main-figure"
                                         v-for="(item, index) in PhotoList"
                                         :key="index"
                                         @click="onAddImg(item.photo_url)"
@@ -324,7 +324,7 @@
                                     </figure>
                                 </div>
 
-                                <div class="updateInfo-main-figure" v-show="!PhotoList.length">
+                                <div class="update_Info-main-figure" v-show="!PhotoList.length">
                                     <Spin fix></Spin>
                                 </div>
                             </Col>
@@ -354,28 +354,21 @@
             <section>
                 <!-- Shop Category -->
                 <Row :gutter="20">
-                    <Col span="6" class-name="updateInfo-lable">
+                    <Col span="6" class-name="update_Info-lable">
                         <span>Group & Sort Products </span>
                     </Col>
                     <Col span="15">
                         <Row>
-                            <Col span="24" class-name="updateInfo-main-Category">
-                                <!-- <Select v-model="model3" style="width:170px">
-                                    <Option v-for="item in ProductGroup" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                </Select> -->
+                            <Col span="24" class-name="update_Info-main-Category">
                                 <Cascader
                                     :data="ProductGroup"
-                                    v-model="formItem.product_group_id"
                                     change-on-select
                                     @on-change="onChangeCascader"
                                     ></Cascader>
                             </Col>
-                            <!-- <Col span="24">
-                                <button type="button" class="updateInfo-main-add" style="margin: 10px 0px;">New Category</button>
-                            </Col> -->
                             <Col span="24">
-                                <div class="updateInfo-main-Category-text">
-                                    Products can be subordinated to multiple categories of stores, and store categories can be customized by <span class="updateInfo-main-Category-text-span">Products > Group & Sort Products</span>
+                                <div class="update_Info-main-Category-text">
+                                    Products can be subordinated to multiple categories of stores, and store categories can be customized by <span class="update_Info-main-Category-text-span">Products > Group & Sort Products</span>
                                 </div>
                             </Col>
                         </Row>
@@ -383,11 +376,11 @@
                 </Row>
                 <!-- Release -->
                 <Row :gutter="20" style="marginTop: 20px;" type="flex" align="middle">
-                    <Col span="6" class-name="updateInfo-lable">
+                    <Col span="6" class-name="update_Info-lable">
                         <span>Release</span>
                     </Col>
                     <Col span="15">
-                        <RadioGroup v-model="formItem.disabledGroup" class="updateInfo-main-Release" @on-change="onChangeRadio">
+                        <RadioGroup v-model="formItem.disabledGroup" class="update_Info-main-Release" @on-change="onChangeRadio">
                             <Radio label="Release">Release</Radio>
                             <Radio label="Time">
                                 <span style="marginRight: 10px;">Time</span>
@@ -416,16 +409,16 @@
         </template>
 
         <Row style="marginTop: 40px;">
-            <Col span="24" class-name="updateInfo-Agreement">
+            <Col span="24" class-name="update_Info-Agreement">
                 <Checkbox v-model="single"></Checkbox>
-                <div class="updateInfo-Agreement-text">
-                    Please follow <span class="updateInfo-Agreement-text-pre">the Information Publishing Rules</span>, and ensure that your information is accurate,
+                <div class="update_Info-Agreement-text">
+                    Please follow <span class="update_Info-Agreement-text-pre">the Information Publishing Rules</span>, and ensure that your information is accurate,
 legitimate, and does not infringe legitimate the rights and interests of third parties.
                 </div>
             </Col>
         </Row>
 
-        <button type="button" class="updateInfo-sub" @click="onSub">Submit</button>
+        <button type="button" class="update_Info-sub" @click="onSub">Submit</button>
     </div>
 </template>
 
@@ -595,10 +588,6 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                 single: true,
             }
         },
-        filters: {
-            
-        },
-        
         methods: {
             upAlbumImg: upData.upAlbumImg,
             upSaveAlbumImg: upData.upSaveAlbumImg,
@@ -786,7 +775,6 @@ legitimate, and does not infringe legitimate the rights and interests of third p
             },
             // 处理编辑数据
             filterEdit(data) {
-
                 const imgPaths = data.product_info.product_images
                 const imgUrls = data.product_info.product_images_url
 
@@ -813,6 +801,11 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                     min_order_price: 0,
                     max_order_price: 0,
                 })
+                
+                // const ladder_price = data.product_price.ladder_price
+
+                // const ladder_prices = []
+
                 this.$set(this.formItem.Price, 'Ladder', data.product_price.ladder_price ? data.product_price.ladder_price : [
                     {
                         min_order: 0,
@@ -820,6 +813,7 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                         order_price: 0,
                     }
                 ])
+
                 this.$set(this.formItem, 'editor', data.product_info.product_details)
                 this.$set(this.formItem, 'product_categories_id', data.product_info.product_categories_id)
                 this.$set(this.formItem, 'product_group_id', data.product_info.product_group_parent_child_id)
@@ -830,6 +824,9 @@ legitimate, and does not infringe legitimate the rights and interests of third p
             }
         },
         created() {
+            this.onGetProductInfo(this.$route.query.id)
+                .then(res => this.filterEdit(res))
+
             this.onGetProductGroup()
                 .then(data => {
                     this.filterGroup(data)
@@ -843,9 +840,6 @@ legitimate, and does not infringe legitimate the rights and interests of third p
                     this.AlbumIdlList = data
                 }
             )
-
-            this.onGetProductInfo(this.$route.query.id)
-                .then(res => this.filterEdit(res))
         },
         // 跳转拦截
         beforeRouteEnter (to, from, next) {
@@ -867,8 +861,11 @@ legitimate, and does not infringe legitimate the rights and interests of third p
 
 <style lang="less" scoped>
     @import url('../../../../assets/css/index.less');
+    .ivu-cascader-menu-item {
+        padding-right: 35px !important;
+    }
 
-    .updateInfo {
+    .update_Info {
         width: 945px;
         height: auto;
         background-color: #ffffff;
