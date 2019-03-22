@@ -20,10 +20,6 @@ const mutations = {
     SET_CLASSIFICATION(state, id) {
         state.Classification = id
     },
-    // 改变搜索的店铺数据
-    SET_SHOP_ALL(state, data) {
-        state.Shop_All = data
-    },
     // 改变公司信息
     SET_COMPANY_DETAIL(state, data) {
         state.Company_Detail = data

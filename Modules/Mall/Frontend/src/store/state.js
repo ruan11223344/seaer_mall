@@ -10,8 +10,6 @@ const state = {
     Oss_Url_Config: '',
     // 选择的分类Id
     Classification: '',
-    // 搜索的店铺数据
-    Shop_All: [],
     // 公司信息
     Company_Detail: null
 }

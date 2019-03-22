@@ -46,7 +46,7 @@
 <script>
     import getData from '@/utils/getData'
     import { mapState, mapMutations } from 'vuex'
-    import Breadcrumb  from '@/components/Breadcrumb'
+    import auth from "@/utils/auth"
 
     export default {
         data() {
@@ -56,11 +56,9 @@
                     total: 0,
                     num: 1
                 },
-                CompanyData: []
+                CompanyData: [],
+                Shop_All: []
             }
-        },
-        computed: {
-            ...mapState([ 'Shop_All' ])
         },
         methods: {
             ...mapMutations([ 'SET_COMPANY_DETAIL' ]),
@@ -72,23 +70,25 @@
                     .then(res => this.CompanyData = res)
             },
             onClick(id) {
+                this.Shop_All = auth.getShopAllStorage()
+
                 this.SET_COMPANY_DETAIL('')
                 this.$router.push('/company/home?company_id=' + id)
-            }
-        },
-        mounted() {
-            this.total.total = this.Shop_All.length
-            this.filterAll(this.Shop_All, this.total)
-                .then(res => this.CompanyData = res)
-        },
-        components: {
-            "v-Breadcrumb": Breadcrumb 
-        },
-        watch: {
-            Shop_All() {
+            },
+            ongGetAll() {
+                this.Shop_All = auth.getShopAllStorage()
                 this.total.total = this.Shop_All.length
                 this.filterAll(this.Shop_All, this.total)
                     .then(res => this.CompanyData = res)
+            }
+        },
+        created() {
+            this.ongGetAll()
+        },
+        watch: {
+            
+            '$route': function () {
+                this.ongGetAll()
             }
         }
     }

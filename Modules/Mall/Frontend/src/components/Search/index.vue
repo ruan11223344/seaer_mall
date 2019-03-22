@@ -19,7 +19,7 @@
     import getData from "@/utils/getData"
     import auth from "@/utils/auth"
     import { mapMutations } from "vuex"
-    import Hashes from "jshashes"
+    import crypto from 'crypto'
 
     export default {
         data() {
@@ -39,31 +39,32 @@
             }
         },
         methods: {
-            ...mapMutations([ 'SET_SHOP_ALL' ]),
             onSearchProduct: getData.onSearchProduct,
             onSearchShop: getData.onSearchShop,
             onClick() {
+                const time = Math.random().toString()
+                const id = crypto.createHmac('sha256', time)
+                                    .update('I love cupcakes')
+                                    .digest('hex')
+
                 if(this.select == 'Products') {
                     // 搜索商品
                     this.onSearchProduct(this.value).then(async res => {
-                        const SHA1 = new Hashes.SHA1
-                        const time = Math.random().toString()
-                        const id = SHA1.hex(time)
                         await auth.setProductAllStorage(res)
                         this.$router.push('/goods/list?' + id)
                     }).catch(async err => {
-                        
                         await auth.setProductAllStorage([])
-                        this.$router.push('/goods/list')
-                        // this.$Message.error(err.message)
+                        this.$router.push('/goods/list?' + id)
                     })
                 }else {
-                    this.onSearchShop(this.value).then(res => {
-                        this.SET_SHOP_ALL(res)
-                        this.$router.push('/goods/companylist')
-                    }).catch(err => {
-                        this.SET_SHOP_ALL([])
-                        this.$router.push('/goods/companylist')
+                    this.onSearchShop(this.value).then(async res => {
+                        
+
+                        await auth.setShopAllStorage(res)
+                        this.$router.push('/goods/companylist?' + id)
+                    }).catch(async err => {
+                        await auth.setShopAllStorage([])
+                        this.$router.push('/goods/companylist?' + id)
                     })
                 }
             }
