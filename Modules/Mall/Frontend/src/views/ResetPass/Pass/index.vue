@@ -91,12 +91,18 @@
             onGetNumId: getData.onGetNumId,
             onSubmit() {
                 if(this.$verify.check()) {
+                    this.$Spin.show()
                     this.UpResetPass({
                         token: this.token,
                         password: this.rulesFrom.password,  //新密码
                         password_confirmation: this.rulesFrom.passwordCheck  //新重复密码
                     }).then(res => {
                         this.bool = true
+                        this.$Spin.hide()
+                    }).catch(err => {
+                        this.bool = false
+                        this.$Message.error(err.message)
+                        this.$Spin.hide()
                     })
                 }
             },

@@ -108,7 +108,7 @@ const upData = {
                 if(res.code == 200) {
                     resolve(res.data)
                 }else {
-                    this.$Message.error(res.message)
+                    reject(res)
                 }
             }).catch(err => {
                 return false
