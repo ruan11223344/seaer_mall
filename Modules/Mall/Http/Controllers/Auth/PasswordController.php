@@ -170,7 +170,7 @@ class PasswordController extends Controller
         if ($token_obj->exists() && $token_obj->status == self::RESET_PASSWORD_TOKEN_ING) {
             if (($token_obj->timeout_second + Carbon::parse($token_obj->created_at)->timestamp) > time()) {
                 $password     = $request->input('password');
-                $user_obj     = User::find($token_obj->user_id)->first();
+                $user_obj     = User::find($token_obj->user_id);
                 $new_password = bcrypt($password);
                 $user_obj->update(
                     ['password' => $new_password]
