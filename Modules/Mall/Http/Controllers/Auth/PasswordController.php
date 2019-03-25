@@ -102,7 +102,7 @@ class PasswordController extends Controller
 
     public static function resetPasswordUrl($encrypt_password_token)
     {
-        return route('password.reset') . '?token=' . $encrypt_password_token;
+        return 'http://' . env('MALL_DOMAIN') . '/reset/pass?' . 'token=' . $encrypt_password_token;
     }
 
     public function getResetPasswordMemberId(Request $request)
@@ -120,7 +120,7 @@ class PasswordController extends Controller
         $token_obj = Captcha::where(['captcha' => $token, 'verify_from' => 'reset_password_by_email'])->first();
 
         if ($token_obj->exists() && $token_obj->status == self::RESET_PASSWORD_TOKEN_NORMAL) {
-            $user_obj          = User::find($token_obj->user_id)->first();
+            $user_obj          = User::find($token_obj->user_id);
             $token_obj->status = self::RESET_PASSWORD_TOKEN_ING;
             $token_obj->save();
 
@@ -189,10 +189,10 @@ class PasswordController extends Controller
         }
     }
 
-    public function getResetPasswordUrl()
+/*    public function getResetPasswordUrl()
     {
-        return redirect('http://' . env('MALL_DOMAIN') . '/auth/reset_password?'); //前端路由
-    }
+        return redirect('http://' . env('MALL_DOMAIN') . '/reset/pass?'); //前端路由
+    }*/
 
     public function changePassword(Request $request)
     {
@@ -208,6 +208,14 @@ class PasswordController extends Controller
         if (Hash::check($data['old_password'], $user_obj->password)) {
             $user_obj->password = bcrypt($data['password']);
             $user_obj->save();
+
+            $email_obj = new EMail();
+            $subject ='Your Password Changed!';
+            $userEx = $user_obj->usersExtends;
+            $user_full_name = $userEx->sex.$userEx->contact_full_name;
+            $logo_url = asset('/img/logo.png');
+            $email_obj->send($user_obj->email,$subject,compact('user_full_name','logo_url'),$email_obj::TEMPLATE_MODIFY_PASSWORD);
+
             return $this->echoSuccessJson('Password changed successfully!');
         } else {
             return $this->echoErrorJson('Original password error!');

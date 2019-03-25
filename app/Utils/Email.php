@@ -15,6 +15,7 @@ class EMail
     const TEMPLATE_PASSWORD_RESET = 'password_reset';
     const TEMPLATE_TEST = 'test';
     const TEMPLATE_MESSAGE = 'message';
+    const TEMPLATE_MODIFY_PASSWORD = 'modify_password';
 
 
     const STATUS_SUCCESS = 0;

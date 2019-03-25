@@ -61,12 +61,18 @@ class MessagesController extends Controller
         return $res_data;
     }
 
-    public function sendMailNotification($to_user_id,$message,$is_reply = false){
+    public function sendMailNotification($to_user_id,$what_message,$message_info,$is_reply = false){
         $to_user_ex = UsersExtends::where('user_id',$to_user_id)->first();
+        $inquiry_url = 'http://'.env('MALL_DOMAIN')."/inquiryList/inbox";
+        $logo_url = asset('/img/logo.png');
+        $message_form_name = $message_info['message_form_name'];
+        $message_to_name = $message_info['message_to_name'];
+        $message_to_company = $message_info['message_to_company'];
+
         if($to_user_ex->email_notification){
             $email_obj = new EMail();
             $subject = $is_reply ? 'RE: ' . '你有一条新的询盘消息!' : '你有一条新的询盘消息!';
-            $email_obj->send(User::find($to_user_id)->email,$subject,['messages'=>$message],$email_obj::TEMPLATE_MESSAGE);
+            $email_obj->send(User::find($to_user_id)->email,$subject,compact('what_message','inquiry_url','logo_url','message_form_name','message_to_name','message_to_company'),$email_obj::TEMPLATE_MESSAGE);
         }
     }
 
@@ -340,7 +346,15 @@ class MessagesController extends Controller
             ]);
             UtilsService::WriteLog('user','inquiry','create',$user_id,$message->id);
             DB::commit();
-            $this->sendMailNotification($to_user_id,$subject);
+
+            $form_userEx = User::find($user_id)->usersExtends;
+            $message_info['message_form_name'] = $form_userEx->sex.$form_userEx->contact_full_name;
+            $to_userEx = User::find($to_user_id)->usersExtends;
+            $message_info['message_to_name'] =  $to_userEx->sex.$to_userEx->contact_full_name;
+            $message_info['message_to_company'] = User::find($to_user_id)->company->company_name;
+
+
+            $this->sendMailNotification($to_user_id,$subject,$message_info);
         }catch (Exception $e){
             DB::rollback();
             return $this->echoErrorJson('Publishing message failed!',[$e->getMessage()]);
@@ -447,7 +461,14 @@ class MessagesController extends Controller
             ]);
             UtilsService::WriteLog('user','inquiry','create',$user_id,$message->id);
             DB::commit();
-            $this->sendMailNotification($to_user_id,$subject,true);
+            $message_info = [];
+            $form_userEx = User::find($user_id)->usersExtends;
+            $message_info['message_form_name'] = $form_userEx->sex.$form_userEx->contact_full_name;
+            $to_userEx = User::find($to_user_id)->usersExtends;
+            $message_info['message_to_name'] =  $to_userEx->sex.$to_userEx->contact_full_name;
+            $message_info['message_to_company'] = User::find($to_user_id)->company->company_name;
+
+            $this->sendMailNotification($to_user_id,$subject,$message_info,true);
         }catch (Exception $e){
             DB::rollback();
             return $this->echoErrorJson('Respond to failure!',[$e->getMessage()]);

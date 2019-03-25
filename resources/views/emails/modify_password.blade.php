@@ -54,31 +54,11 @@
             margin: 10px 0px;
             font-size: 16px;
             color: #666666;
-            line-height: 1.5;
+            line-height: 1.4;
         }
 
         .box > p > span {
             color: #f0883a;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        .btn {
-            width: 144px;
-            height: auto;
-            padding: 5px 15px;
-            background-color: #f0883a;
-            border: none;
-            color: #ffffff;
-            font-size: 14px;
-            line-height: 1.2;
-            color: #ffffff;
-            cursor: pointer;
-            display: block;
-            margin: 20px auto;
-            text-align: center;
         }
         
         .footer {
@@ -95,14 +75,9 @@
                 <img src="{{ $message->embed($logo_url) }}" alt="">
             </div>
             <div class="box">
-                <h1 class="title">Business Message</h1>
-                <p>Notification: Business Message from <span>{{ $message_form_name }}</span></p>
-                <p>TO: <span> {{ $message_to_company }}</span></p>
-                <p>Dear: <span>{{ $message_form_name }}</span></p>
-                <p>Afriby.com would like to let you know that you have just received a new business message which is saved in the Inquiry Inbox.</p>
-                <a href="{{ $inquiry_url }}" class="btn">
-                        Reply Now <br>Go to Afriby.com
-                </a>
+                <h1 class="title">Your Password Changed</h1>
+                <p>Dear <span>{{ $user_full_name }}</span></p>
+                <p>This email is sent by system automatically, please don't reply to it. For any questions, If this not your own actions , Please feel free to <span>Contact Us</span>.</p>
                 <div class="footer">
                     Best regards
                     <br>

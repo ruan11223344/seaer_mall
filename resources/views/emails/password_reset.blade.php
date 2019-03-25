@@ -5,87 +5,118 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title></title>
+
     <style>
         * {
-            margin: 0px;
             padding: 0px;
+            margin: 0px;
+            letter-spacing: 0px;
+            text-decoration: none;
+            line-height: 1;
+            font-family: ArialMT;
             font-weight: normal;
             font-stretch: normal;
-            font-family: ArialMT;
-            line-height: 1;
         }
-        .main {
-            width: 100%;
-            height: 100vh;
-            background-color: #f5f5f9;
-            display: flex;
-        }
-        .block {
-            margin: 50px auto;
-        }
-        .header {
+        .header-logo {
             width: 181px;
-	        height: 53px;
-        }
-        .header > img {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-        .box {
-            width: 765px;
-            height: auto;
-            background-color: #ffffff;
-            border: solid 1px #dddddd;
-            margin-top: 15px;
-            padding: 0px 40px;
-            padding-bottom: 45px;
-            box-sizing: border-box;
-        }
-        .title {
-            font-size: 16px;
-            color: #333333;
-            font-size: 16px;
-            margin-top: 47px;
-            margin-bottom: 26px;
-            text-align: center;
-        }
-        .box > p {
-            margin: 10px 0px;
-            font-size: 16px;
-            color: #666666;
-            line-height: 1.4;
+            height: 53px;
+            background-color: azure;
         }
 
-        .box > p > span {
-            color: #f0883a;
+        #main {
+            width: 765px;
+            height: 447px;
+            background-color: #ffffff;
+            border: solid 1px #dddddd;
+            margin-top: 14px;
         }
-        
-        .footer {
-            margin-top: 25px;
+        .main-hgroup {
+            margin-top: 42px;
+            margin-left: 55px;
+        }
+        .main-title {
+            font-size: 16px;
+            line-height: 18.5px;
+            letter-spacing: 0px;
+            color: #333333;
+        }
+        .main-title + h3 {
+            font-size: 16px;
+            color: #999999;
+            margin-top: 5px;
+        }
+        .main-article {
+            margin: 31px 18px 0px 48px;
+        }
+        .main-article > p:first-child {
+            font-size: 14px;
+            color: #666666;
+            text-indent: 2em;
+            line-height: 2;
+        }
+        .main-article > a:nth-child(2) {
+            font-size: 14px;
+            line-height: 2;
+            color: #f0883a;
+            word-break:break-all;
+            text-indent: 2em;
+        }
+        .main-article > p:last-child {
+            font-size: 14px;
+            color: #666666;
+            margin-top: 10px;
+            margin-bottom: 50px;
+        }
+        .main-btn {
+            width: 110px;
+            height: 40px;
+            background-color: #f0883a;
+            font-family: ArialMT;
+            font-size: 18px;
+            color: #ffffff;
+            cursor: pointer;
+            border: none;
+            margin: 0px auto;
+            display: block;
+            margin-top: 40px;
+        }
+
+        footer {
+            padding-left: 45px;
+        }
+        footer > div {
             font-size: 14px;
             color: #999999;
+            line-height: 1.5;
         }
     </style>
+
 </head>
 <body>
-    <div class="main">
-        <div class="block">
-            <div class="header">
-                <img src="./logo.png" alt="">
-            </div>
-            <div class="box">
-                <h1 class="title">Password Changed</h1>
-                <p>Dear <span>Wangjun</span></p>
-                <p>This email is sent by system automatically, please don't reply to it. For any questions, please feel free to <span>Contact Us</span>.</p>
-                <div class="footer">
-                    Best regards
-                    <br>
-                    <br>
-                    Afriby.com
-                </div>
-            </div>
-        </div>
+<header>
+    <div class="header-logo">
+        <img src="{{ $message->embed($logo_url) }}" alt="">
     </div>
+</header>
+<section id="main">
+    <hgroup class="main-hgroup">
+        <h1 class="main-title">Please continue to modify your password</h1>
+        <h3>(Valid for 24 hours)</h3>
+    </hgroup>
+    <a href="{{ $reset_password_url }}">
+        <button type="button" class="main-btn">
+            Complete
+        </button>
+    </a>
+    <article class="main-article">
+        <p class="">You can click the button above or click the link below to complete the registration or copy the following linkin to the address bar of your browser to complete the registration.</p>
+        <a href="{{ $reset_password_url }}">{{ $reset_password_url }}</a>
+        <p>This is system email,please don't reply to it.</p>
+    </article>
+    <footer>
+        <div>Best regards</div>
+        <div>Afriby.com</div>
+    </footer>
+</section>
 </body>
 </html>

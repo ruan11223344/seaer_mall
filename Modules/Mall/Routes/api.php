@@ -29,7 +29,7 @@ Route::group(['domain' => env('MALL_DOMAIN'), 'middleware' => 'cors'], function 
         Route::post('login', 'Auth\LoginController@login');
 
         Route::post('reset_password', 'Auth\PasswordController@resetPassword')->name('password.reset');
-        Route::get('get_reset_password', 'Auth\PasswordController@getResetPasswordUrl')->name('password.reset.url');
+//        Route::get('get_reset_password', 'Auth\PasswordController@getResetPasswordUrl')->name('password.reset.url');
         Route::get('get_reset_password_member_id', 'Auth\PasswordController@getResetPasswordMemberId')->name('password.reset.member_id');
         Route::post('send_reset_password_email', 'Auth\PasswordController@sendResetPasswordEmail')->name('password.reset.email');
 
