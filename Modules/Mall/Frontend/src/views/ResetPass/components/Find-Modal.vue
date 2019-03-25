@@ -8,10 +8,11 @@
             </div>
             <div class="resetPass-modal-text">Follow the instructions in the email to reset your passwod.</div>
             <p class="resetPass-modal-content">
-                  The email may take up to a few minutes to arrive.If you don't receive,
-please check your spam folder or <router-link to="" class="resetPass-modal-content-mark">request another email.</router-link>
+                  The email may take up to a few minutes to arrive.If you don't receive,please check your spam folder or <a :href="link" target="_blank" class="resetPass-modal-content-mark">request another email.</a>
             </p>
-            <button type="button" class="resetPass-modal-btn">Sign In Now</button>
+            <a :href="link" target="_blank">
+                <button type="button" class="resetPass-modal-btn">Sign In Now</button>
+            </a>
         </div>
     </div>
 </template>
@@ -20,7 +21,7 @@ please check your spam folder or <router-link to="" class="resetPass-modal-conte
     import Img from '@/components/Img'
 
     export default {
-        props: ['email'],
+        props: ['email', 'link'],
         components: {
             'v-img': Img
         }

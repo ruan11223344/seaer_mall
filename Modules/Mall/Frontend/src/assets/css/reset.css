@@ -108,7 +108,9 @@ hr {
     padding:0;
 }
 
-
+input {
+  background-color: #FFFFFF;
+}
 button,
 input,
 select,

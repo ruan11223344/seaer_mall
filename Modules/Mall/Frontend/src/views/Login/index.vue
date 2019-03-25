@@ -28,12 +28,12 @@
                 <section class="box-useId box-code" style="marginTop: 40px;" v-show="num">
                     <input type="text" v-model="rulesFrom.code" placeholder="Please enter verification code." @focus="boolCode = false">
                     <div class="box-useId-prompt" v-show="bool || boolCode">Incorrect captcha.please enter the text in the image.</div>
-                    <div class="box-code-rex" @click="getCodes">
-                        <div>
+                    <div class="box-code-rex" @click="getCodes" v-loading="loading">
+                        <!-- <div> -->
                             <!-- 验证码图片 -->
                             <img :src="imgCode" alt="">
-                        </div>
-                        <Icon type="md-refresh" size="30"/>
+                        <!-- </div> -->
+                        <!-- <Icon type="md-refresh" size="30"/> -->
                     </div>
                 </section>
                 <div class="box-btn" @click="onSubmit" id="Login-btn">Sign In</div>
@@ -63,7 +63,8 @@
                 num: false,
                 bool: false,
                 boolCode: false,
-                login: true
+                login: true,
+                loading: false
             }
         },
         verify: {
@@ -85,12 +86,16 @@
             setSessionStorage: Cookies.setSessionStorage,
             getCodes() {
                 const getCode = this.getCode()
+                this.loading = true
                 getCode.then(({ code, data }) => {
                     if(code == 200) {
                         this.imgCode = data.img
                         this.$set(this.rulesFrom, 'key', data.key)
+                        this.loading = false
                     }
-                }).catch(err => err)
+                }).catch(err => {
+                    this.loading = false
+                })
             },
             onSubmit() { // 提交
                 if(this.num > 2) {
@@ -241,15 +246,20 @@
                         .width(172px, 60px);
                         .flex(space-between, center);
                         .bg-color(whiteLight);
-                        padding: 0px 15px;
+                        // padding: 0px 15px;
                         position: absolute;
                         top: 0px;
                         right: 0px;
 
-                        & > div:first-child {
-                            .width(172px, 60px);
-                            .flex(center, center);
+                        & > img {
+                            width: 100%;
+                            height: 100%;
+                            display: block;
                         }
+                        // & > div:first-child {
+                        //     .width(172px, 60px);
+                        //     .flex(center, center);
+                        // }
                     }
                 }
 

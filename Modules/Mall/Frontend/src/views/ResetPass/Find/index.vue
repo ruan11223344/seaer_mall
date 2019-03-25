@@ -13,19 +13,18 @@
                         </dd>
                         <dd class="resetFind-block-item-list">
                             <div>Verification Code</div>
-                            <input type="text" placeholder="Please input verification code." v-model="rulesFrom.code" v-verify="rulesFrom.code" />
-                            <div class="resetFind-block-item-list-code">
-                                <Icon type="md-sync" size="28" @click="onCode"/>
-                                <img :src="path" alt="">
+                            <input type="text" placeholder="Please input verification code." v-model="rulesFrom.code" />
+                            <div class="resetFind-block-item-list-code" v-loading="loading">
+                                <img :src="path" style="width: 100%; height: 100%; display: block;" @click="onCode" alt="">
                             </div>
-                            <div class="resetFind-block-item-list-title" v-remind="rulesFrom.username">Please enter the validation code</div>
+                            <!-- <div class="resetFind-block-item-list-title" v-remind="rulesFrom.code">Please enter the validation code</div> -->
                         </dd>
                     </dl>
                     <button type="button" class="resetFind-block-btn" @click="onSubmit">Continue</button>
                 </section>
             </div>
         </main>
-        <v-Modal :email="rulesFrom.username" v-show="bool"></v-Modal>
+        <v-Modal :email="rulesFrom.username" :link="link" v-show="bool"></v-Modal>
     </div>
 </template>
 
@@ -43,7 +42,9 @@
                     code: ''
                 },
                 path: '',
-                bool: false
+                bool: false,
+                link: '',
+                loading: false
             }
         },
         verify: {
@@ -58,18 +59,29 @@
             getCode: getData.getCode,
             onSendReset: upData.onSendReset,
             onCode() {
+                this.loading = true
                 this.getCode().then(res => {
                     this.$set(this.rulesFrom, 'key', res.data.key)
                     this.path = res.data.img
+                    this.loading = false
+                }).catch(err => {
+                    this.loading = false
                 })
             },
             onSubmit() {
                 if(this.$verify.check()) {
+                    this.$Spin.show()
                     const rulesFrom = this.rulesFrom
                     this.onSendReset({ member_id_or_email: rulesFrom.username, key: rulesFrom.key, captcha: rulesFrom.code })
                         .then(res => {
                             this.bool = true
+                            this.link = res.redirect_to
                             window.open(res.redirect_to)
+                            this.$Spin.hide()
+                        })
+                        .catch(err => {
+                            this.$Message.error(err)
+                            this.$Spin.hide()
                         })
                     this.onCode()
                 }
@@ -88,9 +100,10 @@
     @import url('../../../assets/css/index.less');
     
     .resetPass {
-        .flex(center,center);
+        // .flex(center,center);
         height: e("calc(100vh - 188px)");
         background-color: #f0f1f5;
+        padding-top: e("calc((100vh - 188px - 603px) / 2)");
     }
 
     .resetFind {
@@ -156,13 +169,14 @@
                     }
 
                     &-code {
-                        .flex(space-between, center);
+                        // .flex(space-between, center);
                         .width(172px, 60px);
                         .bg-color(whiteLight);
                         position: absolute;
+                        top: 0px;
                         right: 0px;
                         cursor: pointer;
-                        padding: 0px 15px;
+                        // padding: 0px 15px;
                     }
 
                     &-title {
