@@ -72,12 +72,12 @@
     <div class="main">
         <div class="block">
             <div class="header">
-                <img src="./logo.png" alt="">
+                <img src="{{ $message->embed($logo_url) }}" alt="">
             </div>
             <div class="box">
-                <h1 class="title">Password Changed</h1>
-                <p>Dear <span>Wangjun</span></p>
-                <p>This email is sent by system automatically, please don't reply to it. For any questions, please feel free to <span>Contact Us</span>.</p>
+                <h1 class="title">Your Password Changed</h1>
+                <p>Dear <span>{{ $user_full_name }}</span></p>
+                <p>This email is sent by system automatically, please don't reply to it. For any questions, If this not your own actions , Please feel free to <span>Contact Us</span>.</p>
                 <div class="footer">
                     Best regards
                     <br>

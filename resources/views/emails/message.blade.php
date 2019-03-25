@@ -92,15 +92,15 @@
     <div class="main">
         <div class="block">
             <div class="header">
-                <img src="./logo.png" alt="">
+                <img src="{{ $message->embed($logo_url) }}" alt="">
             </div>
             <div class="box">
-                <h1 class="title">Email Changed</h1>
-                <p>Notification: Business Message from <span>Miss.Nancy</span></p>
-                <p>TO: <span> WuHan Sier International CO,.LTD.</span></p>
-                <p>Dear: <span>Mr. Wangjun</span></p>
+                <h1 class="title">Business Message</h1>
+                <p>Notification: Business Message from <span>{{ $message_form_name }}</span></p>
+                <p>TO: <span> {{ $message_to_company }}</span></p>
+                <p>Dear: <span>{{ $message_form_name }}</span></p>
                 <p>Afriby.com would like to let you know that you have just received a new business message which is saved in the Inquiry Inbox.</p>
-                <a href="" class="btn">
+                <a href="{{ $inquiry_url }}" class="btn">
                         Reply Now <br>Go to Afriby.com
                 </a>
                 <div class="footer">
